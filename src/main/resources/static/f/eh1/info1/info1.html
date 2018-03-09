@@ -1,7 +1,7 @@
 <div ng-controller="ControllerApp1">
 	<div class="w3-row">
 		<div class="w3-col l10 m10 s10">
-			<a href="/">🡡</a> Інформаційна сторінка
+			<a href="/"><i class="fa fa-arrow-up"></i></a> Інформаційна сторінка
 		</div>
 		<div class="w3-col l2 m2 s2 w3-right-align">
 			<span ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
@@ -27,7 +27,9 @@
 		    </div>
 			<div ng-repeat="(k,site) in serverWebSites"
 				class="w3-row w3-border-bottom">
-				<a href="/v/{{k}}">{{site.alias}} - <span class="w3-tiny">({{k}})</span>
+				<a href="/v/{{k}}">
+				<span ng-bind-html="site.alias"></span>
+				 - <span class="w3-tiny">({{k}})</span>
 				</a>
 			</div>
 		</div>

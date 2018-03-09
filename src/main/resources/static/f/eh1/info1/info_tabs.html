@@ -15,7 +15,7 @@
 	,'w3-border-top w3-border-left w3-border-right':page.selectedTab($index, k)
 	,'w3-blue':page.selectedTab($index, k)&&page.head.tabs_key==k
 	}">
-			&nbsp <a href="/v/{{tab}}"> {{app_config.pages[tab].alias}} </a>
+			&nbsp <a href="/v/{{tab}}" ng-bind-html="app_config.pages[tab].alias"> </a>
 			&nbsp
 		</span><span class="w3-border-bottom">&nbsp&nbsp</span>
 	</div>

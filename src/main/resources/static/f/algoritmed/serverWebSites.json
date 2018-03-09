@@ -30,7 +30,7 @@
 	,"script":"/f/eh1/employee1/employee1.js"
 	,"shortName":"Інформація"
 	,"parent":"home"
-	,"alias":"🗂 Картки кадрів"
+	,"alias":"<i class='fa fa-folder-open' aria-hidden='true'></i> Картки кадрів"
 }
 ,"employee":{
 	"th_template":"eh1_index1"

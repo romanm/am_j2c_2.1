@@ -1,12 +1,14 @@
 
 <div class="w3-row 11-padding">
 	<div class="w3-col {{page.head.headClass}} w3-border-bottom">
-		<h4 style="margin-top: 3px; margin-bottom: 2px;">
-			<a class="w3-hover-light-gray" title="Ð´Ð¾Ð³Ð¾Ñ€Ð¸" href="/v/info">↥</a> <a
-				class="w3-hover-light-gray" title="Ñ�Ñ‚Ð°Ñ€Ñ‚" href="/">âŒ‚</a> ://
-			{{page.head.pageName}}
-		</h4>
-
+		<div style="margin-top: 12px; margin-bottom: 0px;">
+			<a class="w3-hover-light-gray" title="" href="/v/info"><i class="fa fa-arrow-up"></i></a> 
+			<a
+				class="w3-hover-light-gray" title="" href="/">
+				<i class="fa fa-home"></i></a> 
+				:// 
+				<span ng-bind-html="page.head.pageName"></span>
+		</div>
 	</div>
 	<div class="w3-col {{page.head.headClass2}}  w3-small">
 		<div class="w3-row">
@@ -25,20 +27,23 @@
 		'w3-border-bottom':k!=page.pageKey()
 		,'w3-border-top w3-border-left w3-border-right':k==page.pageKey()
 		}">
-				&nbsp <a href="/v/{{k}}"> {{tab_page.alias}} </a> &nbsp
+				&nbsp <a href="/v/{{k}}"
+				ng-bind-html="tab_page.alias"
+				>  </a> &nbsp
 			</span>
 			<span class="w3-border-bottom">&nbsp&nbsp</span>
 			<span class="w3-right">
 				<div class="w3-dropdown-hover w3-light-gray w3-hover-gray">
 					<span class="w3-large1"
 					ng-mouseover="page.initHeadMenu()"
-					>&nbsp; â˜° &nbsp;</span>
+					>&nbsp; <i class="fa fa-bars" aria-hidden="true"></i>
+ &nbsp;</span>
 					<div class="w3-dropdown-content w3-card" id="page_head_icone"
 						ng-attr-style="right: -1px; width: {{page.pageHeadMenuWidth}}px;">
 						<div
 						style="font-weight: bold; margin-top: 3px; "
 						 class="w3-light-gray w3-topbar">
-						Ð—Ð°Ð³Ð°Ð»ÑŒÐ½Ðµ Ð¼ÐµÐ½ÑŽ
+						Загальне меню
 						</div>
 						<div ng-include="'/f/eh1/info1/info_tabs.html'"></div>
 						<br/>

@@ -1,6 +1,8 @@
 <span class="w3-blue w3-border w3-round"> 
 <a href="/v/login1?pageKey={{page.pageKey()}}" ng-if="!principal.user">
-		Вхід: 🗝⯅ </a> 
+		Вхід: <i class="fa fa-key" aria-hidden="true"></i><i class="fa fa-caret-up" aria-hidden="true"></i>
+ </a> 
 <a href="/v/login1?pageKey={{page.pageKey()}}"
-	ng-if="principal.user"> {{principal.user.username}} ⯆ </a>
+	ng-if="principal.user"> {{principal.user.username}} <i class="fa fa-caret-down" aria-hidden="true"></i>
+</a>
 </span>

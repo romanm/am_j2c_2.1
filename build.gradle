@@ -18,7 +18,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.algoritmed.am_j2c_2'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
@@ -35,6 +35,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	runtime('com.h2database:h2')
 	compile 'org.webjars:font-awesome:5.0.6'
+	compile 'org.webjars:font-awesome:4.7.0'
 	compile 'org.webjars:angularjs:1.6.9'
 	compile 'org.webjars.npm:angular2:2.0.0-beta.21'
 	compile 'org.webjars:jspdf:1.3.5'
