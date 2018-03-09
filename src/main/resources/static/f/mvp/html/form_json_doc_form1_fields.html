@@ -1,0 +1,31 @@
+<div>
+	<div class="w3-tiny w3-center">
+		{{eh_dictionaries.amPathValue(oToEdit.kp)}}
+		</div>
+	<div ng-repeat="(k,v) in oToEdit.o">
+		<b ng-if="k*1==k">{{k+1}} з {{k0}}</b>
+		<div ng-if="!v.isObject()">
+			<b class="w3-tiny"> {{eh_dictionaries.amMapValue(k)}} </b>
+			<div ng-if="eh_dictionaries.ehMap[k.toUpperCase()]">
+				<select ng-model="oToEdit.o[k]" style="width: 100%;"
+					class="w3-border">
+					<option value="{{k1}}"
+						ng-repeat="(k1,v1) in eh_dictionaries.ehMap[k.toUpperCase()].values">
+						{{v1}}</option>
+				</select>
+			</div>
+			<div ng-if="!eh_dictionaries.ehMap[k.toUpperCase()]">
+				<input style="width: 100%;"
+					ng-change="oToEdit.changeCalc=oToEdit.changeCalc+1"
+					ng-if="!v.isObject()" ng-model="oToEdit.o[k]" class="w3-border">
+			</div>
+		</div>
+		<div ng-if="v.isObject()">
+			<b> {{k}} </b>
+			<div ng-if="in">
+				<div ng-include="'/f/mvp/html/form_json_doc_form1_fields.html'"
+					ng-init="o=v;k0=k;in=false"></div>
+			</div>
+		</div>
+	</div>
+</div>

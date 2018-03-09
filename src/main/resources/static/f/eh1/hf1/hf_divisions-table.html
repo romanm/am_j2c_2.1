@@ -1,0 +1,18 @@
+<div am-obj="scopeObj" ng-repeat="o_list in [scopeObj]">
+	<table>
+		<tr ng-repeat="o in o_list.list">
+			<td am-link="link_to_edit">
+			<b class="w3-tiny">
+			{{o.docbody.type}}:
+			</b>
+			<br/>
+				{{o.docbody.name}}</td>
+			<td><div ng-repeat="address in o.docbody.addresses">
+					{{address.settlement_type=='CITY'?'м.'
+					:(address.settlement_type=='VILLAGE'?'с.':'')}}{{address.settlement}}
+					{{address.street_type=='STREET'?'вул.':''}}{{address.street}} дім
+					{{address.building}} , {{address.area}} обл., {{address.region}}
+					р-н.</div></td>
+		</tr>
+	</table>
+</div>

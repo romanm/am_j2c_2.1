@@ -1,0 +1,29 @@
+<div am-obj="scopeObj" ng-repeat="employee in [scopeObj.docbody]">
+	<div class="w3-row">
+		<div class="w3-half">
+			<div ng-include="'/f/algoritmed/form/form_unified1_left.html'"
+				ng-repeat="o in [form_json_doc]" ng-init="vo=employee"></div>
+			<!-- 
+		<div ng-include="'/f/eh1/employee1/test1_text.html'"
+				ng-init="o=employee"></div>
+				 -->
+		</div>
+		<div class="w3-half w3-container w3-border-top">
+
+			<div ng-include="'/f/mvp/html/form_json_doc_form1_fields.html'"
+				ng-init="o=employee;in=false;"></div>
+
+		</div>
+	</div>
+	<!-- 
+	<div class="w3-row">
+		<div class="w3-half">
+			<div ng-include="'/f/mvp/html/form_json_doc_doc1_text.html'"
+				ng-init="o=employee"></div>
+		</div>
+		<div class="w3-half w3-container w3-border-top"></div>
+	</div>
+	<div class="w3-container">test1.html</div>
+	a1 {{employee.party}}
+	 -->
+</div>

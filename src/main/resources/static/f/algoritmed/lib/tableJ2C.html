@@ -1,0 +1,10 @@
+<table am-obj="scopeObj" ng-repeat="o in [objFromAmObj]">
+	<tr class="w3-tiny w3-gray">
+		<th ng-repeat="(ck,cv) in o.col_keys">{{cv}}</th>
+	</tr>
+	<tr ng-repeat="tr in o.list">
+		<td ng-repeat="(ck,cv) in o.col_keys"
+			class="w3-border w3-border-white w3-hover-border-gray">
+			{{tr[ck]}}</td>
+	</tr>
+</table>

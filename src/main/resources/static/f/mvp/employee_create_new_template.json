@@ -1,0 +1,22 @@
+{
+  "party_id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "no_tax_id": true,
+  "legal_entity_id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "division_id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "employee_type": "DOCTOR",
+  "position": "P1",
+  "start_date": "2017",
+  "end_date": "2017",
+  "status": "NEW",
+  "speciality": {
+    "speciality": "THERAPIST",
+    "speciality_officio": true,
+    "level": "FIRST",
+    "qualification_type": "AWARDING",
+    "attestation_name": "Академія Богомольця",
+    "attestation_date": "2017",
+    "valid_to_date": "2020",
+    "certificate_number": "AB/21331"
+  },
+  "status_reason": "new_employee"
+}

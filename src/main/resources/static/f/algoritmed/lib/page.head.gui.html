@@ -1,0 +1,9 @@
+<div class="w3-blue-gray" ng-if="programRun[page.pageKey()].gui.tabs">
+	 | <span
+		ng-repeat="(tab,v) in programRun[page.pageKey()].gui.tabs"> <a
+		class="w3-hover-light-gray"
+		ng-class="{'w3-bottombar':tab==page.request.parameters.tab}"
+		href="?employee_id={{page.request.parameters.employee_id}}&tab={{tab}}">{{v.name}}</a>
+		|
+	</span> : <span class="am-b"> {{employee.docbody.employee_info}} </span>
+</div>

@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "code": 201,
+    "url": "http://example.com/resource",
+    "type": "object",
+    "request_id": "req-adasdoijasdojsda"
+  },
+  "data": {
+    "id": "d290f1ee",
+    "edrpou": "5432345432",
+    "name": "Клініка Ноунейм",
+    "inserted_at": "1991-08-19T00:00:00.000Z",
+    "inserted_by": "userid",
+    "updated_at": "1991-08-19T00:00:00.000Z",
+    "updated_by": "userid"
+  }
+}

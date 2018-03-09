@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<meta charset="utf-8" />
+<head>
+<script src="/webjars/angularjs/1.6.6/angular.js"></script>
+<script src="/f/algoritmed/compile-algoritmed2.js"></script>
+<link rel="stylesheet" href="/f/css/w3.css">
+</head>
+
+<body>
+	<div ng-controller="ControllerDB" class="w3-container"
+			style="max-width: 950px; margin-left: 10px;">
+		<script src="/f/algoritmed/ProgramGUI.js"></script>
+		<script src="/f/angular-edu/am-js-hello-world-db2-ControllerDB.js"></script>
+		<div class="w3-row-padding w3-border-bottom">
+			<div class="w3-col l5 m6 s8">
+				<h1>
+					<a href="/">/</a> Hello World! with DB
+				</h1>
+			</div>
+			<div class="w3-rest">
+				<p class="w3-small">
+					Note:: <a href="/f/algoritmed/compile-algoritmed2.js">compile-algoritmed2.js</a>
+				</p>
+			</div>
+		</div>
+
+		<div class="w3-row w3-border-bottom">
+			<div class="w3-third">
+				<div class="w3-border">
+					<header class="w3-tiny w3-light-gray"> Директорії програм:
+					</header>
+					<div class="w3-hover-gray" ng-click="program_folder.click(pf)"
+						ng-repeat="pf in program_folder.list">{{pf.value}}</div>
+				</div>
+			</div>
+			<div class="w3-twothird">
+				<div class="w3-row-padding w3-border-bottom"
+					ng-repeat="amdRun in program_files.list">
+					<div class="w3-half">
+						<header class="w3-tiny w3-light-gray"> Файл програми:
+							f_{{amdRun.docbody_id}}.{{amdRun.doc_type}} </header>
+						<textarea ng-model="amdRun.docbody" style="width: 100%"></textarea>
+					</div>
+					<div class="w3-half ">
+						<header class="w3-tiny w3-light-gray"> Виконання програми: 
+						f_{{amdRun.docbody_id}}.{{amdRun.doc_type}}
+						</header>
+							<div amd-run="amdRun"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

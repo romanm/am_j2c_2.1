@@ -1,0 +1,46 @@
+<div ng-controller="ControllerApp1">
+	<a href="/v/info">🡡</a> 
+	🔐
+	login1 
+	<span class="w3-right"> <span
+		ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
+	</span>
+	<form action="/login" method="post" class="ng-pristine ng-valid">
+		<input ng-if="page.request.parameters.pageKey" type="hidden"
+			name="pageKey" value="{{page.request.parameters.pageKey}}">
+		<div>
+			<div class="w3-row">
+				<div class="w3-col m3 l3 s3 w3-small">Ім’я користувача</div>
+				<div class="w3-col m9 l9 s9">
+					<input class="w3-border am-width-100pr" name="username"
+						placeholder="Логін ім'я" type="text">
+				</div>
+			</div>
+			<div class="w3-row">
+				<div class="w3-col m3 l3 s3 ">Пароль:</div>
+				<div class="w3-col m9 l9 s9">
+					<input name="password" placeholder="Пароль"
+						class="w3-border am-width-100pr" type="password">
+				</div>
+			</div>
+		</div>
+		<!-- 
+	<div>
+		<label> Ім’я користувача : <input type="text" name="username" />
+		</label>
+	</div>
+	<div>
+		<label> Пароль: <input type="password" name="password" />
+		</label>
+	</div>
+ -->
+		<br />
+		<div>
+			<input class="w3-btn w3-border w3-round" value="Увійти" type="submit">
+			<a 
+			ng-if="principal.user"
+			class="w3-btn w3-border w3-round" href="/logout"> Вийти з
+				логін </a>
+		</div>
+	</form>
+</div>

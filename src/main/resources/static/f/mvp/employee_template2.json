@@ -1,0 +1,84 @@
+{
+	"employee_request": {
+		"division_id": "",
+		"legal_entity_id": "",
+		"position": "",
+		"start_date": "",
+		"end_date": "",
+		"status": "",
+		"employee_type": "",
+		"party": {
+			"first_name": "",
+			"last_name": "",
+			"second_name": "",
+			"birth_date": "",
+			"gender": "",
+			"no_tax_id": false,
+			"tax_id": "",
+			"email": "",
+			"documents": [
+				{
+					"type": "",
+					"number": "",
+					"issued_by": "",
+					"issued_at": ""
+				}
+			],
+			"phones": [
+				{
+					"type": "",
+					"number": ""
+				}
+			]
+		},
+		"doctor": {
+			"educations": [
+				{
+					"country": "",
+					"city": "",
+					"institution_name": "",
+					"issued_date": "",
+					"diploma_number": "",
+					"degree": "",
+					"speciality": ""
+				}
+			],
+			"qualifications": [
+				{
+					"type": "",
+					"institution_name": "",
+					"speciality": "",
+					"issued_date": "",
+					"certificate_number": "",
+					"valid_to": "",
+					"additional_info": ""
+				}
+			],
+			"specialities": [
+				{
+					"speciality": "",
+					"speciality_officio": true,
+					"level": "",
+					"qualification_type": "",
+					"attestation_name": "",
+					"attestation_date": "",
+					"valid_to_date": "",
+					"certificate_number": ""
+				}
+			],
+			"science_degree": {
+				"country": "",
+				"city": "",
+				"degree": "",
+				"institution_name": "",
+				"diploma_number": "",
+				"speciality": "",
+				"issued_date": ""
+			}
+		},
+		"properties": {
+			"declaration_amount": 1567,
+			"declaration_limit": 2000
+		}
+	}
+}

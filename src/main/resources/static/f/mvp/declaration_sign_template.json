@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "code": 200,
+    "url": "http://example.com/resource",
+    "type": "object",
+    "request_id": "req-adasdoijasdojsda"
+  },
+  "data": {
+    "id": "b075f148-7f93-4fc2-b2ec-2d81b19a9b7b",
+    "start_date": "2017-03-02",
+    "end_date": "2017-03-02",
+    "signed_at": "2017-03-02T00:00:00.000Z",
+    "status": "active",
+    "scope": "family doctor",
+    "declaration_request_id": "74a6fae6-4207-4e03-a136-f2e70c6b0c02",
+    "person_id": "5fb57a5d-1457-430e-9678-c81cec72779f",
+    "legal_entity_id": "b075f148-7f93-4fc2-b2ec-2d81b19a9b7b",
+    "employee_id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+    "division_id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+    "inserted_at": "2017-07-06T16:54:05.161571Z",
+    "updated_at": "2017-03-02T10:45:16.000Z"
+  }
+}

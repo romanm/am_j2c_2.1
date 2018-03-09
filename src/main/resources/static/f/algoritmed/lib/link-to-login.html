@@ -1,0 +1,6 @@
+<span class="w3-blue w3-border w3-round"> 
+<a href="/v/login1?pageKey={{page.pageKey()}}" ng-if="!principal.user">
+		Вхід: 🗝⯅ </a> 
+<a href="/v/login1?pageKey={{page.pageKey()}}"
+	ng-if="principal.user"> {{principal.user.username}} ⯆ </a>
+</span>

@@ -1,0 +1,50 @@
+<div ng-controller="ControllerApp1">
+	<div class="w3-row">
+		<div class="w3-col l10 m10 s10">
+			<a href="/">🡡</a> Інформаційна сторінка
+		</div>
+		<div class="w3-col l2 m2 s2 w3-right-align">
+			<span ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
+		</div>
+	</div>
+	<div ng-include="'/f/eh1/info1/processes.html'" ></div>
+	 
+	<h4>Карта сайту <span class="w3-tiny">(/v/)</span> </h4>
+	<div class="w3-row-padding w3-border-bottom w3-border-top">
+		<div class="w3-twothird ">
+		<div class="w3-blue-gray">
+			<b class="w3-small w13-border-bottom  w13-light-gray"> 
+			Групи
+				сторінок</b>
+		</div>
+			<div ng-include="'/f/eh1/info1/info_tabs.html'"></div>
+		</div>
+
+		<div class="w3-third">
+		    <div class="w3-blue-gray">
+			<b class="w3-small w13-border-bottom w13-light-gray"> Список
+				сторінок </b>
+		    </div>
+			<div ng-repeat="(k,site) in serverWebSites"
+				class="w3-row w3-border-bottom">
+				<a href="/v/{{k}}">{{site.alias}} - <span class="w3-tiny">({{k}})</span>
+				</a>
+			</div>
+		</div>
+
+	</div>
+	  <div ng-include="'/f/eh1/info1/developer.html'" ></div>
+	
+	
+	<div>
+		<a href="https://startehealthatlast.slack.com/messages/C5KMY92F5/">
+			<b>slack:</b> капітація/реімбурсація
+		</a> | <a href="https://uaehealthapi.docs.apiary.io/#reference/internal.-master-patients-index/persons/get-patient-by-id">
+			<b>eHealth API:</b> Get Patient by ID
+		</a> | <a href="/f/mvp/html/form_json_doc.html"> <b>MVP eHealth:</b>
+			develop document
+		</a>
+	</div>
+	<div>
+	</div>
+</div>

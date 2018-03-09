@@ -1,0 +1,31 @@
+<div ng-controller="ControllerApp1">
+	<div style="margin-bottom: 0px;" ng-include="page.head.headFilePath"></div>
+	<div ng-include="'/f/algoritmed/lib/page.head.gui.html'"></div>
+	<div>{{page.request.parameters.tab}}</div>
+	<!-- 
+		<div amd-run="programRun.declaration_data"></div>
+	<div ng-if="declaration_data">
+	 -->
+	 <div ng-if="'declaration_data'==page.request.parameters.tab">
+		<div ng-repeat="o in [declaration_data]">
+			<div class="w3-row">
+				<div class="w3-half">
+					<div ng-include="'/f/mvp/html/form_json_doc_doc1_text.html'"
+						ng-init=""></div>
+				</div>
+				<div class="w3-half w3-container w3-border-top">
+					<div ng-include="'/f/mvp/html/form_json_doc_form1_fields.html'"
+						ng-init="in=false;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-if="'print'==page.request.parameters.tab">TODO: печатна
+	</div>
+	<div ng-if="'declaration_form'==page.request.parameters.tab">
+		сторінка
+		<h2>to copy from:</h2>
+		<div
+			ng-include="'/f/eh1/physician1/copy-from/moz-declaration-edit.html'"></div>
+		</div>
+</div>

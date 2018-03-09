@@ -1,0 +1,124 @@
+<div>&nbsp;</div>
+<div class="w3-container">
+	<div class="w3-card">
+		<header class="w3-light-gray w3-small"> Стан реєестрації в
+			центральному реєстрі </header>
+		<div class="w3-row">
+			<div class="w3-threequarter">
+				<b>Лікувальний заклад:</b> {{api__legal_entities.name}}
+				<div class="w3-row">
+					<div class="w3-quarter">
+						<div class="w3-right">Верифікація: &nbsp;</div>
+					</div>
+					<div class="w3-threequarter">
+						<div class="w3-border-bottom w3-border-top">
+							<div class="w3-container">
+								<div ng-if="api__legal_entities.mis_verified=='NOT_VERIFIED'"
+									class="w3-border w3-border-red w3-container">Верифікація
+									МІСом відсутня</div>
+								<div ng-if="api__legal_entities.mis_verified=='VERIFIED'"
+									class="w3-border w3-border-red w3-container">
+									Верифікований МІСом</div>
+							</div>
+							<label class="w3-btn"> <input type="checkbox"
+								ng-click="api__legal_entities.mis_verified_verify
+								= api__legal_entities.mis_verified_verify=='VERIFIED'?'NOT_VERIFIED':'VERIFIED'">
+								Верифікувати провайдера медичних послуг МІСом
+							</label>
+							<button
+								ng-if="api__legal_entities.mis_verified_verify=='VERIFIED'"
+								ng-click="config_msp.mis_verified_verify()"
+								class="w3-btn w3-blue">
+								Відправка "веріфіковано МІСом" в <img
+									src="/f/img/ehealth_ukraine_logo.svg"
+									style="margin-bottom: 0; margin-top: -14px;" alt="#eHealth"
+									title="#eHealth" height="20">
+							</button>
+						</div>
+						<div class="w3-container">
+							<div ng-if="!api__legal_entities.nhs_verified"
+								class="w3-border w3-border-red w3-container">Верифікація
+								НСЗ відсутня</div>
+							<div ng-if="api__legal_entities.nhs_verified"
+								class="w3-border w3-border-green w3-container">Верифіковано
+								НСЗ: підтверджена</div>
+							<br />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="w3-quarter ">
+				<div ng-if="api__legal_entities.id"
+					title="{{api__legal_entities.id}}">
+					<!--  style="height: 30px;" -->
+					<div class="w3-display-container">
+						<div class="w3-display-topright w3-tiny">
+							<a
+								href="https://medic.algoritmed.com{{security_prefix}}/eh1cc/api/legal_entities/{{api__legal_entities.id}}">j</a>
+						</div>
+						Зареєстрований <img
+							src="/f/img/ehealth_ukraine_logo.svg" height="20"
+							style="margin-bottom: 0; margin-top: -14px;" alt="#eHealth"
+							title="#eHealth">
+						<div ng-if="api__legal_entities.read_legal_entities_id==false">
+							<div class="w3-red w3-small">Зареєстований ЛЗ не
+								читається</div>
+						</div>
+					</div>
+					<div class="w3-small w3-bottombar w3-topbar w3-border-blue
+					w3-hover-gray
+					" title="{{principal.uri.uri_oauth2_sign_in}}">
+					<!-- 
+					class="w3-hover-gray"
+					&scope=apps:create
+					&redirect_uri=https://medic.algoritmed.com{{principal.uri.security_prefix}}/to_oauth_tokens"
+					href="http://auth.demo.ehealth.world/sign-in
+					href="http://auth.demo.ehealth.world/sign-in
+					 -->
+					<a
+					href="{{principal.uri.uri_oauth2_sign_in}}
+					?client_id={{api__legal_entities.id}}
+					&response_type=code
+					&email=roman.mishchenko@gmail.com
+					&redirect_uri
+					=https://medic.algoritmed.com{{principal.uri.security_prefix}}/to_oauth_tokens"
+					>
+					{{api__legal_entities.doc_id}}
+					Активуйте ваш eHealth логін для реєстрації підрозділів
+					{{api__legal_entities.id}}
+					</a></div>
+				</div>
+				<div ng-if="!api__legal_entities.id">Реєстрація триває</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div>&nbsp;</div>
+<div class="w3-container">
+	<div class="w3-card">
+		<div class="w3-row">
+			<div class="w3-threequarter">
+		<header class="w3-light-gray w3-small w3-border-right"> Накладання ЕЦП і
+			реєстрація лікувального закладу в центральному реєстрі </header>
+				<div
+				class="w3-border-right"
+					ng-include="'/f/mvp1/medic/msp2/msp_registry_data_digitalsign.html'"></div>
+			</div>
+			<div class="w3-quarter ">
+				<header class="w3-light-gray w3-small">Відповідь на
+					останній запит реєстрації</header>
+				<div ng-repeat="invalid in last_registry_error.error.invalid"
+					ng-init="invalid_path = invalid.entry.split('.')">
+					<div ng-if="invalid_path[1]">
+					{{config_msp.getFieldName(invalid_path[1])}}
+					<!-- 
+					{{invalid_path[1]}}
+					.
+					 -->
+					{{invalid_path[2]}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

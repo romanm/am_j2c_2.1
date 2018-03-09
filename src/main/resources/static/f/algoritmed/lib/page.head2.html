@@ -1,0 +1,51 @@
+
+<div class="w3-row 11-padding">
+	<div class="w3-col {{page.head.headClass}} w3-border-bottom">
+		<h4 style="margin-top: 3px; margin-bottom: 2px;">
+			<a class="w3-hover-light-gray" title="догори" href="/v/info">🡡</a> <a
+				class="w3-hover-light-gray" title="старт" href="/">⌂</a> ://
+			{{page.head.pageName}}
+		</h4>
+
+	</div>
+	<div class="w3-col {{page.head.headClass2}}  w3-small">
+		<div class="w3-row">
+				<div class="w3-col l10 m10 s10 w3-center w3-tiny"><b>{{page.head.tabs_name}}</b></div>
+				<div class="w3-col l2 m2 s2 w3-right-align">
+					<span ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
+				</div>
+		</div>
+		
+		<div>
+			<span class="w3-border-bottom">&nbsp</span>
+			<span
+				ng-repeat="(k,tab_page) in page.head.tabs"
+				class="w3-hover-light-gray"
+				ng-class="{
+		'w3-border-bottom':k!=page.pageKey()
+		,'w3-border-top w3-border-left w3-border-right':k==page.pageKey()
+		}">
+				&nbsp <a href="/v/{{k}}"> {{tab_page.alias}} </a> &nbsp
+			</span>
+			<span class="w3-border-bottom">&nbsp&nbsp</span>
+			<span class="w3-right">
+				<div class="w3-dropdown-hover w3-light-gray w3-hover-gray">
+					<span class="w3-large1"
+					ng-mouseover="page.initHeadMenu()"
+					>&nbsp; ☰ &nbsp;</span>
+					<div class="w3-dropdown-content w3-card" id="page_head_icone"
+						ng-attr-style="right: -1px; width: {{page.pageHeadMenuWidth}}px;">
+						<div
+						style="font-weight: bold; margin-top: 3px; "
+						 class="w3-light-gray w3-topbar">
+						Загальне меню
+						</div>
+						<div ng-include="'/f/eh1/info1/info_tabs.html'"></div>
+						<br/>
+					</div>
+				</div>
+			</span>
+		</div>
+	</div>
+	
+</div>

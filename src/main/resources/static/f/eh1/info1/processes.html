@@ -1,0 +1,32 @@
+<div class="w13-border-bottom">
+	<div class="w3-row">
+		<div class="w3-col l3 m3 s3 ">
+			<span class=" w3-blue-gray ">Процес  &nbsp</span>
+		</div>
+		<div class="w3-col l9 m9 s9 ">
+			<div class="w13-small">
+				<span class="w3-hover-light-gray w3-small"
+					ng-class="{
+    'w3-border-bottom':k!=programRun.info_page.k_clickProcess
+    ,'w3-border-top w3-border-left w3-border-right':k==programRun.info_page.k_clickProcess
+    }"
+					ng-repeat="(k,v) in info_page.processes"
+					ng-click="programRun.info_page.clickProcess(k)"> &nbsp
+					<a href="#process={{k}}"> {{v.name}}</a> &nbsp
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="w3-border">
+		<span class="am-b"> {{info_page.processes[programRun.info_page
+			.k_clickProcess].name}}.</span> <span
+			ng-bind-html="info_page.processes[programRun.info_page
+    .k_clickProcess].title_text">
+		</span>
+		<div
+			ng-include="'/f/eh1/info1/process_'+programRun.info_page
+      .k_clickProcess+'.html'">
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,32 @@
+<div class="w3-border-right " 
+	ng-class="{
+	'w3-hover-light-gray':k*1==k||o==form_json_doc||v.isObjectNotArray(),
+	'w3-border-right':o!=oToEdit.o,
+	'w3-border-top w3-border-bottom w3-border-left':o==oToEdit.o
+	}"
+	ng-click="openObjectToEdit(o,kp)"
+>
+	<span ng-repeat="(k,v) in o"> 
+		<b ng-if="k*1==k">{{k+1}} з
+			{{eh_dictionaries.amMapValue(kp)}} </b> 
+		<span ng-if="!v.isObject()">
+			<b class="w3-tiny"> {{eh_dictionaries.amMapValue(k)}} </b>
+			{{eh_dictionaries.ehMap[k.toUpperCase()]?
+			eh_dictionaries.ehMap[k.toUpperCase()].values[v]:(v?v:'___')}}
+		</span>
+	</span>
+</div>
+<div ng-repeat="(k,v) in o" ng-if="v.isObject()"
+ng-init="kp=kp+'.'+k"
+>
+	<div class="w3-border-right"
+	ng-click="openObjectToEdit(v,kp)"
+	>
+		<b ng-if="k*1!=k"> 
+			{{eh_dictionaries.amMapValue(k)}}
+		</b>
+	</div>
+	<div c1lass="w3-border-left" class="w3-leftbar"
+		ng-include="'/f/mvp/html/form_json_doc_doc1_text.html'"
+		ng-init="o=v;"></div>
+</div>

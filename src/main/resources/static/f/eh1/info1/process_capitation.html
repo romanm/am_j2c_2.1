@@ -1,0 +1,54 @@
+<div class="w3-blue-gray ">
+	| <span ng-repeat="(k,v) in capitation_eHealth.actors"> <a
+		ng-class="{'w3-bottombar'
+    :k==programRun.capitation_eHealth
+      .k_clickCapitationMenu}"
+		ng-click="programRun.capitation_eHealth
+      .clickCapitationMenu(k)"
+		href2="?process=capitation&tab={{k}}" href="#tab={{k}}"
+		class="w3-hover-light-gray">{{v.name}}</a> |
+	</span> <a href="/v/info" class="w3-hover-light-gray"
+		ng-click="programRun.capitation_eHealth
+      .clickCapitationMenu(0)">🗕</a>
+</div>
+<div class="w3-border">
+    <div
+    class="am-b"
+      ng-repeat=" k in [programRun.capitation_eHealth
+      .k_clickCapitationMenu]"
+      ng-init="v=capitation_eHealth.actors[k]">&nbsp; {{v.name}}</div>
+    <div class="w3-row-padding" style="margin-top: 5px;">
+      <div class="w3-half ">
+        <div class="w3-light-gray">
+          Послідовність дій. <span class="w3-tiny w3-leftbar ">Мілким
+            шрифтом рекомендації від eHealth</span>
+        </div>
+      </div>
+      <div class="w3-half">
+        <div class="w3-light-gray">Необхідні документи</div>
+      </div>
+    </div>
+    <div
+      ng-show="programRun.capitation_eHealth
+      .k_clickCapitationMenu"
+      ng-repeat=" k in [programRun.capitation_eHealth
+      .k_clickCapitationMenu]"
+      ng-init="v=capitation_eHealth.actors[k]">
+      <div class="w3-row">
+        <div class="w3-half">
+          <ol>
+            <li ng-repeat="(ki,vi) in v.ehealth_info"><span class=""
+              ng-bind-html="v.algoritmed_info[ki]"> </span>
+              <div class="w3-tiny w3-leftbar w13-border-right"
+                ng-bind-html="vi"></div></li>
+          </ol>
+        </div>
+        <div class="w3-half">
+          <ul>
+            <li ng-repeat="(kd,vd) in v.docs" ng-bind-html="vd.name"></li>
+          </ul>
+        </div>
+      </div>
+      {{v_xx }}
+    </div>
+  </div>

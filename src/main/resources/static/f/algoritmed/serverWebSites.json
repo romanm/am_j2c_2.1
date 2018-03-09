@@ -1,0 +1,134 @@
+{
+
+"info":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/info1/info1.html'"
+	,"script":"/f/eh1/info1/info1.js"
+	,"shortName":"Інформація"
+	,"alias":"Інформація"
+	,"parent":"home"
+}
+,"login1":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/am-dev/1c-db-tables/login1.html'"
+	,"script":"/f/am-dev/1c-db-tables/create_tables.js"
+	,"shortName":"Інформація"
+	,"alias":"Логін"
+	,"parent":"home"
+}
+,"create_tables":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/am-dev/1c-db-tables/1c-db-tables.html'"
+	,"script":"/f/am-dev/1c-db-tables/create_tables.js"
+	,"shortName":"Інформація"
+	,"alias":"Таблиці1C"
+	,"parent":"home"
+}
+,"employees_cards":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/hrm1/employees-cards1.html'"
+	,"script":"/f/eh1/employee1/employee1.js"
+	,"shortName":"Інформація"
+	,"parent":"home"
+	,"alias":"🗂 Картки кадрів"
+}
+,"employee":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/employee1/employee2.html'"
+	,"script":"/f/eh1/employee1/employee1.js"
+	,"shortName":"Інформація"
+	,"parent":"home"
+	,"alias":"Картка співробітника"
+}
+,"new_employee":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/employee1/new_employee2.html'"
+	,"script":"/f/eh1/employee1/employee1.js"
+	,"shortName":"Інформація"
+	,"parent":"home"
+	,"alias":"Новий співробітник"
+}
+
+,"hf_data":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/hf1/hf_data.html'"
+	,"script":"/f/eh1/hf1/hf_admin.js"
+	,"shortName":"Інформація"
+	,"parent":"home"
+	,"alias":"данні ЛЗ"
+}
+,"hf_registry":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/hf1/hf_registry.html'"
+	,"script":"/f/eh1/hf1/hf_admin.js"
+	,"shortName":"Інформація"
+	,"parent":"home"
+	,"alias":"реєстрація ЛЗ"
+}
+,"hf_divisions":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/hf1/hf_divisions.html'"
+	,"script":"/f/eh1/hf1/hf_admin.js"
+	,"alias":"підрозділи"
+}
+,"hf_division":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/hf1/hf_division.html'"
+	,"script":"/f/eh1/hf1/hf_admin.js"
+	,"alias":"підрозділ"
+}
+,"hf_capitatio_data":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/hf1/hf_capitatio_data.html'"
+	,"script":"/f/eh1/hf1/hf_admin.js"
+	,"shortName":"Інформація"
+	,"parent":"home"
+	,"alias":"капітація"
+}
+,"hf_declaration":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/hf1/hf_declaration.html'"
+	,"script":"/f/eh1/hf1/hf_admin.js"
+	,"shortName":"Інформація"
+	,"parent":"home"
+	,"alias":"декларації"
+}
+
+,"ph_seek":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/physician1/ph_seek.html'"
+	,"script":"/f/eh1/physician1/physician.js"
+	,"parent":"home"
+	,"alias":"пошук пацієнта"
+}
+,"ph_calendar":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/physician1/ph_calendar.html'"
+	,"script":"/f/eh1/physician1/physician.js"
+	,"parent":"home"
+	,"alias":"календар"
+}
+,"ph_ambulatory_card":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/physician1/ph_ambulatory_card.html'"
+	,"script":"/f/eh1/physician1/physician.js"
+	,"parent":"home"
+	,"alias":"амбул-на картка"
+	,"alias2":"амбулаторна картка"
+}
+,"ph_patient_driving":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/physician1/ph_patient_driving.html'"
+	,"script":"/f/eh1/physician1/physician.js"
+	,"parent":"home"
+	,"alias":"ведення пацієнта"
+}
+,"ph_declaration":{
+	"th_template":"eh1_index1"
+	,"ng_template":"'/f/eh1/physician1/ph_declaration.html'"
+	,"script":"/f/eh1/physician1/physician.js"
+	,"parent":"home"
+	,"alias":"декларація"
+}
+
+}

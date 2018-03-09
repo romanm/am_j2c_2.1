@@ -1,0 +1,9 @@
+{
+	"html_form": {
+		"a": 2,
+		"b": 3,
+		"add_fn":["fn_sum"]
+		,"source_path":"/f/angular-edu/form_sum.html"
+	}
+	,"source_path":"/f/algoritmed/sample001/helloworld_sum_dialog.json"
+}

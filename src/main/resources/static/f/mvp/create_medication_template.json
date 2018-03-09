@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "code": 201,
+    "url": "http://example.com/resource",
+    "type": "object",
+    "request_id": "req-adasdoijasdojsda"
+  },
+  "data": {
+    "id": "09b2bffb-699a-43c0-bc9a-5066d9b9b5a8",
+    "name": "Амідарон",
+    "manufacturer": {
+      "name": "ПАТ \"Київський вітамінний завод\"",
+      "country": "UA"
+    },
+    "code_atc": "C01BD01",
+    "form": "PILL",
+    "container": {
+      "numerator_unit": "PILL",
+      "numerator_value": 1,
+      "denumerator_unit": "PILL",
+      "denumerator_value": 1
+    },
+    "package_qty": 30,
+    "package_min_qty": 10,
+    "certificate": "UA/4514/01/01",
+    "certificate_expired_at": "2021-02-09",
+    "ingredients": [
+      {
+        "id": "1349a693-4db1-4a3f-9ac6-8c2f9e541982",
+        "name": "Амідарон",
+        "dosage": {
+          "numerator_unit": "MG",
+          "numerator_value": 200,
+          "denumerator_unit": "PILL",
+          "denumerator_value": 1
+        },
+        "is_primary": true
+      }
+    ],
+    "is_active": true,
+    "inserted_at": "2017-04-20T19:14:13Z",
+    "inserted_by": "e1453f4c-1077-4e85-8c98-c13ffca0063e",
+    "updated_at": "2017-04-20T19:14:13Z",
+    "updated_by": "2922a240-63db-404e-b730-09222bfeb2dd"
+  }
+}

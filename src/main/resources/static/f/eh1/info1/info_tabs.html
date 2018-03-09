@@ -1,0 +1,22 @@
+<div ng-repeat="(k,page_tab) in app_config.page_head_tabs"
+	class="w3-row w3-border-bottom">
+	<span class="w3-tiny"> 
+	<b ng-class="{'w3-blue':page.head.tabs_key==k}">
+			{{page_tab.name}} </b> ({{k}})
+	</span>
+	<div class="w3-tiny">
+		<!-- 
+						ng-repeat="tab in page_tab.links"
+				 -->
+		<span class="w3-border-bottom">&nbsp</span><span
+			ng-repeat="tab in page_tab.links" class="w3-hover-light-gray"
+			ng-class="{
+	'w3-border-bottom':!page.selectedTab($index, k)
+	,'w3-border-top w3-border-left w3-border-right':page.selectedTab($index, k)
+	,'w3-blue':page.selectedTab($index, k)&&page.head.tabs_key==k
+	}">
+			&nbsp <a href="/v/{{tab}}"> {{app_config.pages[tab].alias}} </a>
+			&nbsp
+		</span><span class="w3-border-bottom">&nbsp&nbsp</span>
+	</div>
+</div>
