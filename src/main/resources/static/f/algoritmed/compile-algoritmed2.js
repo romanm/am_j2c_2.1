@@ -299,10 +299,36 @@ fn_lib.mergeObjectParameters = function(fromO, toO){
 	}
 }
 
-fn_lib.addProgram = function(programRun, programList){
-	console.log('----299--------------------');
-	angular.forEach(programList, function(v, k){
-		programRun[v] = app_config.programRun[v];
+fn_lib.dbDesign = function($http){
+	this.db_update = function(param){
+		$http.post('/r/update2_sql_with_param', param).then(function(response){
+			console.log(response.data);
+		});
+	}
+	this.init = fn_lib.dbDesign.init;
+};
+
+fn_lib.dbDesign.init = function(dbDesign){
+	var thisObj = this;
+	angular.forEach(dbDesign, function(v, k){
+		if(k.indexOf('folder')==0){
+			console.log(v);
+			if(!v.folder_id){
+				console.log(v.folder_id);
+				var sql = 'sql.folders.insert';
+				var param = {
+					sql:sql, 
+					folder_name:v.folder_name,
+				}
+				if(!v.reference){
+					if(!param.replace_param)
+						param.replace_param = {}
+					param.replace_param.reference	= 'nextDbId1';
+					param.replace_param.value		= 'folder_name';
+				}
+				thisObj.db_update(param);
+			}
+		};
 	});
 }
 
@@ -364,6 +390,13 @@ this.j2c_tables = {
 		if(response.data.list[0].docbody)
 			scope[param.commonArgs.scopeObj].docbody = JSON.parse(response.data.list[0].docbody);
 	};
+}
+
+fn_lib.addProgram = function(programRun, programList){
+	console.log('----299--------------------');
+	angular.forEach(programList, function(v, k){
+		programRun[v] = app_config.programRun[v];
+	});
 }
 
 // url_read_sql_with_param -- is rewritable in Controller file by demand 

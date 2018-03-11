@@ -8,6 +8,8 @@
 <script src="/f/algoritmed/app_config2.js"></script>
 <script th:attr="src=${script}"></script>
 <link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet"
+	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body class="w3-container">
@@ -15,5 +17,8 @@
 	<div>
 		<a href="/v/info"> Інформаційна сторінка </a>
 	</div>
+	<p>
+		Login <span ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
+	</p>
 </body>
 </html>

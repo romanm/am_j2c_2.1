@@ -1,4 +1,3 @@
-
 init_am_directive.init_onload.create_tables=function($scope, $http){
 	console.log('-------init_am_directive.init_onload.create_tables--------');
 	init_am_directive.tablesJ2C_init = function(response, param){
@@ -8,6 +7,16 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 		else if(response.data.col_keys)
 			$scope[param.commonArgs.scopeObj].col_keys = response.data.col_keys;
 	};
+	
+	$http.get('/f/am-dev/1c-db-tables/db_design.js').then(function(response) {
+		var load_amProgram = response.data; 
+		console.log(load_amProgram)
+		eval(load_amProgram);
+		$scope.db_design = amProgram.db_design;
+		console.log($scope.db_design.fn1())
+		var dbDesign = new fn_lib.dbDesign($http);
+		dbDesign.init($scope.db_design);
+	});
 	
 	$scope.programRun = {
 		create_tables:{
@@ -38,7 +47,21 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 				TablesJ2C:{param:{sql:'table'}},
 				html_tableJ2C:{}
 			}
-		}
+		},
+		folders:{
+			programFile:{
+				commonArgs:{scopeObj:'folders'},
+				TablesJ2C:{param:{sql:'folders'},col_keys:{
+					folder_name:'Папки',
+					folder_id:'ІН',
+				}},
+				html_tableJ2C:{}
+			}
+		},
+
 	};
+	
+	
+	
 }
 
