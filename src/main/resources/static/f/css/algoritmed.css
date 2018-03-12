@@ -1,3 +1,7 @@
+pre {
+  tab-size: 2; /* Set tab size to 2 spaces */
+  -moz-tab-size:2;
+}
 .am-b{
 	font-weight:bold;
 }

@@ -8,11 +8,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import com.algoritmed.nosql.ExecuteSqlBlock;
+
 @PropertySource("classpath:sql.properties")
 public class DbCommon extends DbCommonSql{
 	protected static final Logger logger = LoggerFactory.getLogger(DbCommon.class);
-
-	protected @Autowired @Qualifier("db1JdbcTemplate") JdbcTemplate db1JdbcTemplate;
-	protected @Autowired  @Qualifier("db1ParamJdbcTemplate") NamedParameterJdbcTemplate db1ParamJdbcTemplate;
-	
+	protected @Autowired @Qualifier("db1JdbcTemplate")		JdbcTemplate				db1JdbcTemplate;
+	protected @Autowired @Qualifier("db1ParamJdbcTemplate")	NamedParameterJdbcTemplate	db1ParamJdbcTemplate;
+	protected @Autowired @Qualifier("db1ExecuteSqlBlock")	ExecuteSqlBlock				executeSqlBlock;
 }

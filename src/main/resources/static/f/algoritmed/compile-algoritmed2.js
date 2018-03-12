@@ -5,6 +5,69 @@ var fn_lib = {};
 var init_am_directive = {ele_v:{},init_app:{},init_onload:{}};
 var request = {}
 
+fn_lib.dbDesign = function($http){
+	this.db_update = function(param){
+		$http.post('/r/update_sql_with_param', param).then(function(response){
+			console.log(response.data);
+		});
+	}
+	this.init = fn_lib.dbDesign.init;
+};
+
+fn_lib.dbDesign.init = function(dbDesign){
+//	console.log(dbDesign)
+	var thisObj = this;
+	angular.forEach(dbDesign, function(instruction, k){
+		var instructions = ['folder','table']
+		for (var i = 0; i < instructions.length; i++) {
+			if(fn_lib.dbDesign.init.isInstruction(k, instructions[i])){
+				instruction.parent=dbDesign;
+				fn_lib.dbDesign.init.instruction[instructions[i]](instruction, thisObj);
+				if(typeof instruction === 'object'){
+					thisObj.init(instruction);
+				}
+			};
+		}
+	});
+}
+
+fn_lib.dbDesign.init.instruction={};
+fn_lib.dbDesign.init.instruction.table=function(instruction, thisObj){
+	console.log('----38------------')
+	console.log(instruction)
+}
+
+fn_lib.dbDesign.init.instruction.folder=function(instruction, thisObj){
+	if(!instruction.folder_id){
+		var sql = 'sql.folders.insert';
+		var param = {
+			sql:sql,
+			folder_name:instruction.folder_name,
+		}
+		if(!instruction.reference){
+			if(!param.replace_param)
+				param.replace_param = {}
+			param.replace_param.reference	= 'nextDbId1';
+			param.replace_param.value		= 'folder_name';
+		}
+		thisObj.db_update(param);
+	}
+};
+
+fn_lib.dbDesign.init.isInstruction = function(k,k_instruction){
+	if(typeof k === 'string'){
+		if(k===k_instruction){
+			return true;
+		}else{
+			var restk = k.replace(k_instruction+'_','');
+			if(parseInt(restk)){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 app.controller('ControllerApp1', function($scope, $http) {
 //	console.log('-------ControllerApp1--------');
 	console.log($scope)
@@ -203,7 +266,7 @@ function read_am_html_source(scope, ele, v, k, $compile, $http){
 //			ele.html(pr);
 //			ele.append(pr);
 			eleAdd.html(pr);
-			console.log(eleAdd);
+//			console.log(eleAdd);
 //			var id2 = ele[0].id+'__'+k1;
 //			scope.algoritmed.inits[id2]=v;
 			if(v.init)
@@ -299,38 +362,9 @@ fn_lib.mergeObjectParameters = function(fromO, toO){
 	}
 }
 
-fn_lib.dbDesign = function($http){
-	this.db_update = function(param){
-		$http.post('/r/update2_sql_with_param', param).then(function(response){
-			console.log(response.data);
-		});
-	}
-	this.init = fn_lib.dbDesign.init;
-};
 
-fn_lib.dbDesign.init = function(dbDesign){
-	var thisObj = this;
-	angular.forEach(dbDesign, function(v, k){
-		if(k.indexOf('folder')==0){
-			console.log(v);
-			if(!v.folder_id){
-				console.log(v.folder_id);
-				var sql = 'sql.folders.insert';
-				var param = {
-					sql:sql, 
-					folder_name:v.folder_name,
-				}
-				if(!v.reference){
-					if(!param.replace_param)
-						param.replace_param = {}
-					param.replace_param.reference	= 'nextDbId1';
-					param.replace_param.value		= 'folder_name';
-				}
-				thisObj.db_update(param);
-			}
-		};
-	});
-}
+
+
 
 fn_lib.TablesJ2C = function (scope, $http, programFile){
 //console.log('-------TablesJ2C--------');

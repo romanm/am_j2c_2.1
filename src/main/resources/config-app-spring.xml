@@ -23,7 +23,18 @@
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 	</bean>
-	<bean id="db1ParamJdbcTemplate"
+	<bean id="db1ExecuteSqlBlock"
+		class="com.algoritmed.nosql.ExecuteSqlBlock">
+		<constructor-arg ref="db1JdbcTemplate" />
+		<constructor-arg ref="db1ParamJdbcTemplate" />
+	</bean>
+	<bean id="db2ExecuteSqlBlock"
+  	class="com.algoritmed.nosql.ExecuteSqlBlock">
+    <constructor-arg ref="db2JdbcTemplate" />
+    <constructor-arg ref="db2ParamJdbcTemplate" />
+  </bean>
+
+  <bean id="db1ParamJdbcTemplate"
 		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-arg ref="dataSourceDb1" />
 	</bean>
