@@ -3,7 +3,7 @@ amProgram =
 	db_design:{
 		folder:{
 			folder_name:'test_01',
-			folder_id:53,
+			f1older_id:53,
 			table_01:{
 				table_name:'table_test_01',
 			}

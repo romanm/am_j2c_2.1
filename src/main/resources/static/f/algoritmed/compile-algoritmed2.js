@@ -5,10 +5,24 @@ var fn_lib = {};
 var init_am_directive = {ele_v:{},init_app:{},init_onload:{}};
 var request = {}
 
-fn_lib.dbDesign = function($http){
+fn_lib.dbDesign = function($scope, $http){
+	this.k_instructions = ['folder','table']
+	this.scope = $scope;
 	this.db_update = function(param){
+		var thisObj = this;
 		$http.post('/r/update_sql_with_param', param).then(function(response){
-			console.log(response.data);
+			console.log(response.data.nextDbId1);
+			console.log(param);
+			for (var i = 0; i < thisObj.k_instructions.length; i++) {
+				var ki = thisObj.k_instructions[i];
+				if(param.sql.indexOf(ki)>0){
+					console.log('----19-------------');
+					param[ki+'_id']=response.data.nextDbId1;
+					var p = eval('$scope.'+param.path0)
+					console.log(p)
+					p[param.path1]=response.data.nextDbId1;
+				}
+			}
 		});
 	}
 	this.init = fn_lib.dbDesign.init;
@@ -18,23 +32,59 @@ fn_lib.dbDesign.init = function(dbDesign){
 //	console.log(dbDesign)
 	var thisObj = this;
 	angular.forEach(dbDesign, function(instruction, k){
-		var instructions = ['folder','table']
-		for (var i = 0; i < instructions.length; i++) {
-			if(fn_lib.dbDesign.init.isInstruction(k, instructions[i])){
-				instruction.parent=dbDesign;
-				fn_lib.dbDesign.init.instruction[instructions[i]](instruction, thisObj);
-				if(typeof instruction === 'object'){
-					thisObj.init(instruction);
+		for (var i = 0; i < thisObj.k_instructions.length; i++) {
+			var ki = thisObj.k_instructions[i];
+			if(fn_lib.dbDesign.init.isInstruction(k, ki)){
+				instruction.$parent={o:dbDesign,k:k,ki:ki};
+				if(dbDesign.$parent){
+					console.log('---26----------------')
+					console.log(instruction)
+					var path0 = 'db_design.'+dbDesign.$parent.k;
+					var path1 = dbDesign.$parent.k+'_id';
+					console.log(path0+'.'+path1)
+					instruction.$parent.path0=path0;
+					instruction.$parent.path1=path1;
+					thisObj.scope.$watch(path0+'.'+path1, function handleChange(newValue, oldValue ) {
+						console.log('---31---------------')
+						console.log(oldValue)
+						console.log(newValue)
+						if(newValue){
+							console.log('---40---------------')
+							runInit(ki, instruction);
+						}
+					});
+				}else{
+					runInit(ki, instruction);
 				}
 			};
 		}
 	});
+	function runInit(ki, instruction){
+		fn_lib.dbDesign.init.instruction[ki](instruction, thisObj);
+		if(typeof instruction === 'object'){
+			thisObj.init(instruction);
+		}
+	}
 }
 
 fn_lib.dbDesign.init.instruction={};
 fn_lib.dbDesign.init.instruction.table=function(instruction, thisObj){
 	console.log('----38------------')
 	console.log(instruction)
+	var sql = 'sql.table.insert';
+	var param = {
+		sql:sql,
+		path0:instruction.$parent.path0,
+		path1:instruction.$parent.path1,
+		value:instruction.table_name,
+		doctype:1,
+	}
+	if(!instruction.$parent){
+		console.log(instruction.$parent)
+		console.log(instruction.$parent.o.folder_id)
+		param.reference=instruction.$parent.o.folder_id;
+	}
+//	thisObj.db_update(param);
 }
 
 fn_lib.dbDesign.init.instruction.folder=function(instruction, thisObj){
@@ -42,13 +92,16 @@ fn_lib.dbDesign.init.instruction.folder=function(instruction, thisObj){
 		var sql = 'sql.folders.insert';
 		var param = {
 			sql:sql,
-			folder_name:instruction.folder_name,
+			path0:instruction.$parent.path0,
+			path1:instruction.$parent.path1,
+			value:instruction.folder_name,
+			doctype:14,
 		}
-		if(!instruction.reference){
-			if(!param.replace_param)
-				param.replace_param = {}
-			param.replace_param.reference	= 'nextDbId1';
-			param.replace_param.value		= 'folder_name';
+		if(!param.replace_param)
+			param.replace_param = {}
+		console.log(instruction.parent)
+		if(!instruction.parent){
+			param.replace_param.parent	= 'nextDbId1';
 		}
 		thisObj.db_update(param);
 	}

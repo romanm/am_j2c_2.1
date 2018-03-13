@@ -14,10 +14,10 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 		$scope.db_design_src = load_amProgram;
 		eval(load_amProgram);
 		$scope.db_design = amProgram.db_design;
-		var dbDesign = new fn_lib.dbDesign($http);
+		var dbDesign = new fn_lib.dbDesign($scope, $http);
 		dbDesign.init($scope.db_design);
 	});
-	
+
 	$scope.programRun = {
 		create_tables:{
 			programFile:{
