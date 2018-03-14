@@ -5,72 +5,71 @@ var fn_lib = {};
 var init_am_directive = {ele_v:{},init_app:{},init_onload:{}};
 var request = {}
 
-fn_lib.dbDesign = function($scope, $http){
+fn_lib.DbDesign = function($scope, $http, maxInsert){
 	this.k_instructions = ['folder','table']
 	this.scope = $scope;
+	this.maxInsert = maxInsert?maxInsert:5;
+	this.cntInsert = 0;
 	this.db_update = function(param){
 		var thisObj = this;
 		$http.post('/r/update_sql_with_param', param).then(function(response){
-			console.log(response.data.nextDbId1);
-			console.log(param);
 			for (var i = 0; i < thisObj.k_instructions.length; i++) {
 				var ki = thisObj.k_instructions[i];
 				if(param.sql.indexOf(ki)>0){
-					console.log('----19-------------');
 					param[ki+'_id']=response.data.nextDbId1;
 					var p = eval('$scope.'+param.path0)
-					console.log(p)
+					//signal to start child init
 					p[param.path1]=response.data.nextDbId1;
 				}
 			}
 		});
 	}
-	this.init = fn_lib.dbDesign.init;
+	this.init = fn_lib.DbDesign.init;
 };
 
-fn_lib.dbDesign.init = function(dbDesign){
-//	console.log(dbDesign)
+fn_lib.DbDesign.init = function(dbDesign){
+	if(this.cntInsert++>=this.maxInsert) return;
+	console.log('--32----------------')
+	console.log(dbDesign)
+	if(dbDesign.isMade) return;
+	dbDesign.isMade=true;
 	var thisObj = this;
 	angular.forEach(dbDesign, function(instruction, k){
 		for (var i = 0; i < thisObj.k_instructions.length; i++) {
 			var ki = thisObj.k_instructions[i];
-			if(fn_lib.dbDesign.init.isInstruction(k, ki)){
+			if(fn_lib.DbDesign.init.isInstruction(k, ki)){
 				instruction.$parent={o:dbDesign,k:k,ki:ki};
 				if(dbDesign.$parent){
-					console.log('---26----------------')
-					console.log(instruction)
 					var path0 = 'db_design.'+dbDesign.$parent.k;
 					var path1 = dbDesign.$parent.k+'_id';
-					console.log(path0+'.'+path1)
 					instruction.$parent.path0=path0;
 					instruction.$parent.path1=path1;
 					thisObj.scope.$watch(path0+'.'+path1, function handleChange(newValue, oldValue ) {
-						console.log('---31---------------')
-						console.log(oldValue)
-						console.log(newValue)
 						if(newValue){
-							console.log('---40---------------')
 							runInit(ki, instruction);
 						}
 					});
 				}else{
+					var path0 = 'db_design.'+k;
+					var path1 = ki+'_id';
+					instruction.$parent.path0=path0;
+					instruction.$parent.path1=path1;
+
 					runInit(ki, instruction);
 				}
 			};
 		}
 	});
 	function runInit(ki, instruction){
-		fn_lib.dbDesign.init.instruction[ki](instruction, thisObj);
+		fn_lib.DbDesign.init.instruction[ki](instruction, thisObj);
 		if(typeof instruction === 'object'){
 			thisObj.init(instruction);
 		}
 	}
 }
 
-fn_lib.dbDesign.init.instruction={};
-fn_lib.dbDesign.init.instruction.table=function(instruction, thisObj){
-	console.log('----38------------')
-	console.log(instruction)
+fn_lib.DbDesign.init.instruction={};
+fn_lib.DbDesign.init.instruction.table=function(instruction, thisObj){
 	var sql = 'sql.table.insert';
 	var param = {
 		sql:sql,
@@ -79,15 +78,11 @@ fn_lib.dbDesign.init.instruction.table=function(instruction, thisObj){
 		value:instruction.table_name,
 		doctype:1,
 	}
-	if(!instruction.$parent){
-		console.log(instruction.$parent)
-		console.log(instruction.$parent.o.folder_id)
-		param.reference=instruction.$parent.o.folder_id;
-	}
-//	thisObj.db_update(param);
+	param.parent=instruction.$parent.o.folder_id;
+	thisObj.db_update(param);
 }
 
-fn_lib.dbDesign.init.instruction.folder=function(instruction, thisObj){
+fn_lib.DbDesign.init.instruction.folder=function(instruction, thisObj){
 	if(!instruction.folder_id){
 		var sql = 'sql.folders.insert';
 		var param = {
@@ -99,7 +94,6 @@ fn_lib.dbDesign.init.instruction.folder=function(instruction, thisObj){
 		}
 		if(!param.replace_param)
 			param.replace_param = {}
-		console.log(instruction.parent)
 		if(!instruction.parent){
 			param.replace_param.parent	= 'nextDbId1';
 		}
@@ -107,7 +101,7 @@ fn_lib.dbDesign.init.instruction.folder=function(instruction, thisObj){
 	}
 };
 
-fn_lib.dbDesign.init.isInstruction = function(k,k_instruction){
+fn_lib.DbDesign.init.isInstruction = function(k, k_instruction){
 	if(typeof k === 'string'){
 		if(k===k_instruction){
 			return true;

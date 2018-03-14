@@ -20,9 +20,6 @@ public class ExecuteSqlBlock {
 	private JdbcTemplate dbJdbcTemplate;
 
 	ExecuteSqlBlock(JdbcTemplate dbJdbcTemplate, NamedParameterJdbcTemplate dbParamJdbcTemplate){
-		System.err.println("---------19---------------------------");
-		System.err.println(dbJdbcTemplate);
-		System.err.println(dbParamJdbcTemplate);
 		this.dbParamJdbcTemplate = dbParamJdbcTemplate;
 		this.dbJdbcTemplate = dbJdbcTemplate;
 	}
@@ -61,25 +58,29 @@ public class ExecuteSqlBlock {
 				HashMap<Integer, Integer> nextDbMap = new HashMap<>();
 				for (int i = 1; i < split_nextDbId.length; i++) {
 					String s1 = split_nextDbId[i];
-					System.err.println(s1);
 					String s2 = s1.split(" ")[0];
-					System.err.println(s2);
 					s2=s2
 						.replaceAll(",", "")
 						.replaceAll("\\)", "")
 						.replaceAll(";", "")
 						;
-					System.err.println(s2);
 
 					int nextDbKey = Integer.parseInt(s2);
-					System.err.println(nextDbKey);
 					nextDbMap.put(nextDbKey, nextDbKey);
 				}
 				System.err.println(nextDbMap.keySet());
 				System.err.println(nextDbMap.keySet().size());
 
-				for (Integer key : nextDbMap.keySet())
-					data.put("nextDbId"+key, nextDbId());
+				System.err.println("----81------------");
+
+				for (Integer key : nextDbMap.keySet()){
+					int nextDbId = nextDbId();
+					System.err.println(nextDbId);
+
+					if(nextDbId>110)
+						return;
+					data.put("nextDbId"+key, nextDbId);
+				}
 				System.err.println(data);
 			}
 			if(data.containsKey("replace_param")) {
