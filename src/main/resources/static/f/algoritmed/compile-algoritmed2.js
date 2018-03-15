@@ -1,4 +1,4 @@
-//the code for compiler
+//the code of AlgoritmedJS compiler v.0.0.2
 var app = angular.module('app', ['ngSanitize']);
 var app_config = {fn:{}};
 var fn_lib = {};
@@ -17,7 +17,7 @@ fn_lib.DbDesign = function($scope, $http, maxInsert){
 				var ki = thisObj.k_instructions[i];
 				if(param.sql.indexOf(ki)>0){
 					param[ki+'_id']=response.data.nextDbId1;
-					var p = eval('$scope.'+param.path0)
+					var p = eval('$scope.'+param.path0);
 					//signal to start child init
 					p[param.path1]=response.data.nextDbId1;
 				}
@@ -41,11 +41,13 @@ fn_lib.DbDesign.init = function(dbDesign){
 				instruction.$parent={o:dbDesign,k:k,ki:ki};
 				if(dbDesign.$parent){
 					var path0 = 'db_design.'+dbDesign.$parent.k;
-					var path1 = dbDesign.$parent.k+'_id';
+					var path1 = dbDesign.$parent.ki+'_id';
 					instruction.$parent.path0=path0;
 					instruction.$parent.path1=path1;
+					var parentIdListener = //почикати результат
 					thisObj.scope.$watch(path0+'.'+path1, function handleChange(newValue, oldValue ) {
 						if(newValue){
+							parentIdListener(); // результат є, чекати більше не треба
 							runInit(ki, instruction);
 						}
 					});
@@ -70,16 +72,18 @@ fn_lib.DbDesign.init = function(dbDesign){
 
 fn_lib.DbDesign.init.instruction={};
 fn_lib.DbDesign.init.instruction.table=function(instruction, thisObj){
-	var sql = 'sql.table.insert';
-	var param = {
-		sql:sql,
-		path0:instruction.$parent.path0,
-		path1:instruction.$parent.path1,
-		value:instruction.table_name,
-		doctype:1,
+	if(!instruction.table_id){
+		var sql = 'sql.table.insert';
+		var param = {
+			sql:sql,
+			path0:instruction.$parent.path0,
+			path1:instruction.$parent.path1,
+			value:instruction.table_name,
+			doctype:1,
+		}
+		param.parent=instruction.$parent.o.folder_id;
+		thisObj.db_update(param);
 	}
-	param.parent=instruction.$parent.o.folder_id;
-	thisObj.db_update(param);
 }
 
 fn_lib.DbDesign.init.instruction.folder=function(instruction, thisObj){

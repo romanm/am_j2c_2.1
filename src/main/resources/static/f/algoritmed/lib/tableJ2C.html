@@ -1,10 +1,14 @@
 <table am-obj="scopeObj" ng-repeat="o in [objFromAmObj]">
 	<tr class="w3-tiny w3-gray">
-		<th ng-repeat="(ck,cv) in o.col_keys">{{cv}}</th>
+		<th ng-repeat="(ck,cv) in o.col_keys">{{cv}}
+		</th>
 	</tr>
 	<tr ng-repeat="tr in o.list">
-		<td ng-repeat="(ck,cv) in o.col_keys"
+		<td ng-repeat="(ck,cv) in o.col_keys" ng-init="cl=o.col_links[ck]"
 			class="w3-border w3-border-white w3-hover-border-gray">
-			{{tr[ck]}}</td>
+			<span ng-if="!cl"> {{tr[ck]}} </span> 
+			<a href="?{{ck}}={{tr[ck]}}"
+			ng-if="cl"> {{tr[ck]}} </a>
+		</td>
 	</tr>
 </table>

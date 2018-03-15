@@ -40,8 +40,7 @@ public class EhCommonRest  extends Db2Common{
 			,HttpServletRequest request
 			,Principal principal
 		) {
-		logger.info("\n-------29-----\n"
-				+ "/r/update2_sql_with_param \n"
+		logger.info("\n\n-- 29 -- /r/update2_sql_with_param \n"
 				+ sql
 				+ "\n"
 				+ data

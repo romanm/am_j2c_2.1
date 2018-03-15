@@ -1,11 +1,14 @@
 init_am_directive.init_onload.create_tables=function($scope, $http){
 	console.log('-------init_am_directive.init_onload.create_tables--------');
 	init_am_directive.tablesJ2C_init = function(response, param){
-		$scope[param.commonArgs.scopeObj].list = response.data.list;
+		var scopeData = $scope[param.commonArgs.scopeObj]; 
+		scopeData.list = response.data.list;
+		if(param.col_links)
+			scopeData.col_links = param.col_links;
 		if(param.col_keys)
-			$scope[param.commonArgs.scopeObj].col_keys = param.col_keys;
+			scopeData.col_keys = param.col_keys;
 		else if(response.data.col_keys)
-			$scope[param.commonArgs.scopeObj].col_keys = response.data.col_keys;
+			scopeData.col_keys = response.data.col_keys;
 	};
 	
 	$http.get('/f/am-dev/1c-db-tables/db_design.js').then(function(response) {
@@ -34,8 +37,12 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 		},
 		tables:{
 			programFile:{
+				fn_init_param:function(){
+					$scope.programRun.tables.programFile.TablesJ2C.param.folder_id
+						= $scope.page.request.parameters.folder_id;
+				},
 				commonArgs:{scopeObj:'tables'},
-				TablesJ2C:{param:{sql:'tables'},col_keys:{
+				TablesJ2C:{param:{sql:'tables',folder_id:45},col_keys:{
 					col_tablename:'Ім´я таблиці'
 				}},
 				html_tableJ2C:{}
@@ -51,10 +58,16 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 		folders:{
 			programFile:{
 				commonArgs:{scopeObj:'folders'},
-				TablesJ2C:{param:{sql:'folders'},col_keys:{
-					folder_name:'Папки',
-					folder_id:'ІН',
-				}},
+				TablesJ2C:{param:{sql:'folders'},
+					col_keys:{
+						folder_name:'Папки',
+						folder_id:'ІН',
+					},
+					col_links:{
+						folder_id:'?folder_id={{tr[ck]}}',
+					},
+
+				},
 				html_tableJ2C:{}
 			}
 		},

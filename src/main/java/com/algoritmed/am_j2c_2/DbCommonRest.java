@@ -22,7 +22,8 @@ public class DbCommonRest extends DbCommon {
 			,HttpServletRequest request
 			) {
 		Map<String, Object> map = sqlParamToMap(sql, request);
-		logger.info("\n------43------/read_sql_with_param"
+		logger.info("\n\n-- 25 -- /read_sql_with_param"
+				+ "\n" + sql
 				+ "\n" + map
 				);
 		read_select(map, env.getProperty(sql), db1ParamJdbcTemplate);
@@ -36,11 +37,13 @@ public class DbCommonRest extends DbCommon {
 			,HttpServletRequest request
 			,Principal principal
 		) {
-		logger.info("\n-------29-----\n"
-				+ "/r/update_sql_with_param\n"
+		String sql = (String) data.get("sql");
+		logger.info("\n\n-- 39 -- /r/update_sql_with_param"
+				+ "\n"
+				+ sql
+				+ "\n"
 				+ data
 				);
-		String sql = (String) data.get("sql");
 		System.err.println(sql);
 		executeSqlBlock.update_sql_script(data, sql,env);
 		return data;

@@ -1,34 +1,30 @@
 <div ng-controller="ControllerApp1">
 	<div ng-include="'/f/algoritmed/lib/page.head.html'"></div>
 	<div class="w3-row-padding w3-border-bottom">
-      <div class="w3-third w3-card">
-      Папки
-      folders
-      <!-- 
-       -->
-        <div amd-run="programRun.folders"></div>
-      </div>
-      <div class="w3-third">
-        <div class="w3-card">
-        <div amd-run="programRun.tables"></div>
-        </div>
-      </div>
-      <div class="w3-third w3-card">
-          <div amd-run="programRun.create_tables"></div>
-      </div>
-    </div>
-	<div class="w3-row-padding w3-border-bottom">
-			<div class="w3-half w3-card">
-				<div amd-run="programRun.table"></div>
+		<div class="w3-third w3-card">
+			Папки folders
+			<div amd-run="programRun.folders"></div>
+		</div>
+		<div class="w3-third">
+			<div class="w3-card">
+				<div amd-run="programRun.tables"></div>
 			</div>
+		</div>
+		<div class="w3-third w3-card">
+			<div amd-run="programRun.create_tables"></div>
+		</div>
+	</div>
+	<div class="w3-row-padding w3-border-bottom">
+		<div class="w3-half w3-card">
+			<div amd-run="programRun.table"></div>
+		</div>
 		<div class="w3-half">
 			<div class="w3-padding-small">
-				<div class="w3-card w3-small">comment
-			       {{db_design.fn1()}}
-				</div>
+				<div class="w3-card w3-small">comment {{db_design.fn1()}}</div>
 			</div>
 			<div class="w3-card w3-small">
-				<pre class=""><code>{{db_design_src}}</code>
+				<pre class="">
+					<code>{{db_design_src}}</code>
 			</pre>
 			</div>
 		</div>
@@ -37,5 +33,5 @@
 			       -:)-
 			</div>
 		 -->
-		</div>
+	</div>
 </div>

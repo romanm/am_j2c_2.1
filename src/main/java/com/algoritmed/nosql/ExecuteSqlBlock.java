@@ -39,9 +39,9 @@ public class ExecuteSqlBlock {
 		this.env =env;
 //		String sql = (String) data.get("sql"); 
 		String sql_from_env = env.getProperty(sql);
-		logger.info("\n-----62------update_sql_script-- \n"
-				+ "\n" + data
+		logger.info("\n\n-- 62 -- update_sql_script-- "
 				+ "\n" + sql_from_env
+				+ "\n" + data
 				);
 //		data.put(sql, sql_from_env);
 		if(sql_from_env.contains(";")) {
@@ -73,38 +73,21 @@ public class ExecuteSqlBlock {
 
 				System.err.println("----81------------");
 
-				for (Integer key : nextDbMap.keySet()){
-					int nextDbId = nextDbId();
-					System.err.println(nextDbId);
-
-					if(nextDbId>110)
-						return;
-					data.put("nextDbId"+key, nextDbId);
-				}
+				for (Integer key : nextDbMap.keySet())
+					data.put("nextDbId"+key, nextDbId());
 				System.err.println(data);
 			}
 			if(data.containsKey("replace_param")) {
 				Map<String,String> replace_param = (Map<String, String>) data.get("replace_param");
 				for (String key : replace_param.keySet()) {
-					System.err.println(key);
-					System.err.println(replace_param.get(key));
+//					System.err.println(key);
+//					System.err.println(replace_param.get(key));
 					sql_from_env=sql_from_env.replaceAll(":"+key, ":"+replace_param.get(key));
 				}
 			}
 			System.err.println("-------98--------------");
 			System.err.println(sql_from_env);
 			
-
-			if(false&&data.containsKey("lotOfNewIds")) {
-				int lotOfNewIds = (int) data.get("lotOfNewIds");
-				for (int i = 1; i <= lotOfNewIds; i++) {
-					Integer nextDbId = nextDbId();
-					data.put("nextDbId"+i, nextDbId);
-					System.err.println("nextDbId"+i+"="+nextDbId);
-				}
-			}
-			if(false)
-				return;
 			String[] sqls_from_env = sql_from_env.split(";");
 			for (int i = 0; i < sqls_from_env.length; i++) {
 				String sql_command = sqls_from_env[i].trim();
