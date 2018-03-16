@@ -8,8 +8,8 @@ amProgram =
 				table_name:'drug_list_01',
 				table_id:122,
 				columns:[
-					{name:'in_name',fieldname:'препарат',fieldtype:'varchar'},
-					{name:'trade_name',fieldname:'медикамент',fieldtype:'varchar'},
+					{name:'in_name',fieldname:'препарат',fieldtype:'varchar',column_id:124},
+					{name:'trade_name',fieldname:'медикамент',fieldtype:'varchar',column_id:123},
 				],
 			},
 			table_01:{

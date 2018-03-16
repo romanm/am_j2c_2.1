@@ -8,9 +8,13 @@ var request = {}
 fn_lib.DbDesign = function($scope, $http){
 	this.k_instructions = ['folder','table']
 	this.scope = $scope;
-	this.db_update = function(param){
+	this.$http = $http;
+	this.db_update = function(param, instruction){
 		var thisObj = this;
 		$http.post('/r/update_sql_with_param', param).then(function(response){
+			console.log('--14----------------')
+			console.log(instruction)
+
 			for (var i = 0; i < thisObj.k_instructions.length; i++) {
 				var ki = thisObj.k_instructions[i];
 				if(param.sql.indexOf(ki)>0){
@@ -28,15 +32,17 @@ fn_lib.DbDesign = function($scope, $http){
 fn_lib.DbDesign.init = function(dbDesign){
 	console.log('--32----------------')
 	console.log(dbDesign)
-	if(dbDesign.isMade) return;
-	dbDesign.isMade=true;
 	var thisObj = this;
 	angular.forEach(dbDesign, function(instruction, k){
 		if('columns'==k){
-			angular.forEach(instruction, function(v, k){
-				v.table_id = dbDesign.table_id;
-				fn_lib.DbDesign.init.instruction.columns(v, thisObj);
-			})
+			if(dbDesign.table_id){
+				angular.forEach(instruction, function(v, k){
+					console.log('--41----------------')
+					if(!v.column_id)
+						thisObj.init.instruction.columns(v, dbDesign, thisObj);
+//					fn_lib.DbDesign.init.instruction.columns(v, dbDesign);
+				});
+			}
 		}else
 		for (var i = 0; i < thisObj.k_instructions.length; i++) {
 			var ki = thisObj.k_instructions[i];
@@ -77,10 +83,6 @@ fn_lib.DbDesign.init = function(dbDesign){
 }
 
 fn_lib.DbDesign.init.instruction={};
-fn_lib.DbDesign.init.instruction.columns=function(instruction, thisObj){
-	console.log('----75-----------------------')
-	console.log(instruction)
-}
 fn_lib.DbDesign.init.instruction.table=function(instruction, thisObj){
 	if(!instruction.table_id){
 		var sql = 'sql.table.insert';
@@ -92,8 +94,21 @@ fn_lib.DbDesign.init.instruction.table=function(instruction, thisObj){
 			doctype:1,
 		}
 		param.parent=instruction.$parent.o.folder_id;
-		thisObj.db_update(param);
+		thisObj.db_update(param, instruction);
 	}
+}
+
+fn_lib.DbDesign.init.instruction.columns=function(instruction, dbDesign, thisObj){
+	instruction.sql = 'sql.columns.insert';
+	instruction.parent = dbDesign.table_id;
+	instruction.doctype = 8;
+	instruction.replace_param = {value:'fieldname'};
+	console.log('----75-----------------------')
+	console.log(instruction)
+	thisObj.$http.post('/r/update_sql_with_param', instruction).then(function(response){
+		console.log('----107-----------------------')
+		console.log(response.data)
+	});
 }
 
 fn_lib.DbDesign.init.instruction.folder=function(instruction, thisObj){
@@ -111,7 +126,7 @@ fn_lib.DbDesign.init.instruction.folder=function(instruction, thisObj){
 		if(!instruction.parent){
 			param.replace_param.parent	= 'nextDbId1';
 		}
-		thisObj.db_update(param);
+		thisObj.db_update(param, instruction);
 	}
 };
 
