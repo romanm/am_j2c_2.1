@@ -5,11 +5,9 @@ var fn_lib = {};
 var init_am_directive = {ele_v:{},init_app:{},init_onload:{}};
 var request = {}
 
-fn_lib.DbDesign = function($scope, $http, maxInsert){
+fn_lib.DbDesign = function($scope, $http){
 	this.k_instructions = ['folder','table']
 	this.scope = $scope;
-	this.maxInsert = maxInsert?maxInsert:5;
-	this.cntInsert = 0;
 	this.db_update = function(param){
 		var thisObj = this;
 		$http.post('/r/update_sql_with_param', param).then(function(response){
@@ -28,16 +26,24 @@ fn_lib.DbDesign = function($scope, $http, maxInsert){
 };
 
 fn_lib.DbDesign.init = function(dbDesign){
-	if(this.cntInsert++>=this.maxInsert) return;
 	console.log('--32----------------')
 	console.log(dbDesign)
 	if(dbDesign.isMade) return;
 	dbDesign.isMade=true;
 	var thisObj = this;
 	angular.forEach(dbDesign, function(instruction, k){
+		if('columns'==k){
+			angular.forEach(instruction, function(v, k){
+				v.table_id = dbDesign.table_id;
+				fn_lib.DbDesign.init.instruction.columns(v, thisObj);
+			})
+		}else
 		for (var i = 0; i < thisObj.k_instructions.length; i++) {
 			var ki = thisObj.k_instructions[i];
 			if(fn_lib.DbDesign.init.isInstruction(k, ki)){
+				console.log(k+'/'+ki)
+				console.log(instruction)
+
 				instruction.$parent={o:dbDesign,k:k,ki:ki};
 				if(dbDesign.$parent){
 					var path0 = 'db_design.'+dbDesign.$parent.k;
@@ -71,6 +77,10 @@ fn_lib.DbDesign.init = function(dbDesign){
 }
 
 fn_lib.DbDesign.init.instruction={};
+fn_lib.DbDesign.init.instruction.columns=function(instruction, thisObj){
+	console.log('----75-----------------------')
+	console.log(instruction)
+}
 fn_lib.DbDesign.init.instruction.table=function(instruction, thisObj){
 	if(!instruction.table_id){
 		var sql = 'sql.table.insert';

@@ -6,9 +6,10 @@
 	<tr ng-repeat="tr in o.list">
 		<td ng-repeat="(ck,cv) in o.col_keys" ng-init="cl=o.col_links[ck]"
 			class="w3-border w3-border-white w3-hover-border-gray">
-			<span ng-if="!cl"> {{tr[ck]}} </span> 
-			<a href="?{{ck}}={{tr[ck]}}"
-			ng-if="cl"> {{tr[ck]}} </a>
-		</td>
+			<span
+			ng-if="!cl"> {{tr[ck]}} </span> 
+			<a href="?{{cl.k}}={{tr[cl.vk]}}"
+			ng-if="cl"> {{tr[ck]}} </a></td>
+		<td title="{{tr}}">a1</td>
 	</tr>
 </table>

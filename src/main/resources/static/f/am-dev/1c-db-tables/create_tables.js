@@ -38,13 +38,23 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 		tables:{
 			programFile:{
 				fn_init_param:function(){
-					$scope.programRun.tables.programFile.TablesJ2C.param.folder_id
-						= $scope.page.request.parameters.folder_id;
+					if($scope.page.request.parameters.folder_id){
+						$scope.programRun.tables.programFile.TablesJ2C.param.folder_id
+							= $scope.page.request.parameters.folder_id;
+						$scope.programRun.tables.programFile.TablesJ2C.param.sql
+							= 'sql.tables.folder.select'
+					}
 				},
 				commonArgs:{scopeObj:'tables'},
-				TablesJ2C:{param:{sql:'tables',folder_id:45},col_keys:{
-					col_tablename:'Ім´я таблиці'
-				}},
+				TablesJ2C:{param:{sql:'tables',folder_id:45},
+					col_keys:{
+						col_tablename:'Ім´я таблиці',
+						row_id:'ІН',
+					},
+					col_links:{
+						row_id:{k:'table_id',vk:'row_id'},
+					},
+				},
 				html_tableJ2C:{}
 			}
 		},
@@ -64,7 +74,7 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 						folder_id:'ІН',
 					},
 					col_links:{
-						folder_id:'?folder_id={{tr[ck]}}',
+						folder_id:{k:'folder_id',vk:'folder_id'},
 					},
 
 				},

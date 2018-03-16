@@ -1,5 +1,6 @@
 <div ng-controller="ControllerApp1">
 	<div ng-include="'/f/algoritmed/lib/page.head.html'"></div>
+	<!-- 
 	<div class="w3-row-padding w3-border-bottom">
 		<div class="w3-third w3-card">
 			Папки folders
@@ -7,6 +8,8 @@
 		</div>
 		<div class="w3-third">
 			<div class="w3-card">
+				<div ng-repeat="f in folders.list" class="w3-tiny"
+					ng-if="f.folder_id==page.request.parameters.folder_id">//{{f.folder_name}}</div>
 				<div amd-run="programRun.tables"></div>
 			</div>
 		</div>
@@ -14,10 +17,13 @@
 			<div amd-run="programRun.create_tables"></div>
 		</div>
 	</div>
+	 -->
 	<div class="w3-row-padding w3-border-bottom">
+	<!-- 
 		<div class="w3-half w3-card">
 			<div amd-run="programRun.table"></div>
 		</div>
+	 -->
 		<div class="w3-half">
 			<div class="w3-padding-small">
 				<div class="w3-card w3-small">comment {{db_design.fn1()}}</div>
