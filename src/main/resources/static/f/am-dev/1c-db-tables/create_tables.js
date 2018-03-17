@@ -24,6 +24,15 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 	$scope.programRun = {
 		create_tables:{
 			programFile:{
+				fn_init_param:function(){
+					console.log($scope.page.request.parameters.table_id)
+					if($scope.page.request.parameters.table_id){
+						$scope.programRun.create_tables.programFile.TablesJ2C.param.table_id
+							= $scope.page.request.parameters.table_id;
+						$scope.programRun.create_tables.programFile.TablesJ2C.param.sql
+							= 'sql.create_table.select';
+					}
+				},
 				commonArgs:{scopeObj:'create_tables'},
 				TablesJ2C:{param:{sql:'create_tables'}, after:'tables',
 					col_keys:{
