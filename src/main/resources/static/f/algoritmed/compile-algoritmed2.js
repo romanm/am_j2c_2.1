@@ -7,7 +7,7 @@ var request = {}
 
 fn_lib.DbDesign = function($scope, $http){
 	this.k_instructions = ['folder','table']
-	this.scope = $scope;
+	this.$scope = $scope;
 	this.$http = $http;
 	this.db_update = function(param, instruction){
 		var thisObj = this;
@@ -57,7 +57,7 @@ fn_lib.DbDesign.init = function(dbDesign){
 					instruction.$parent.path0=path0;
 					instruction.$parent.path1=path1;
 					var parentIdListener = //почикати результат
-					thisObj.scope.$watch(path0+'.'+path1, function handleChange(newValue, oldValue ) {
+					thisObj.$scope.$watch(path0+'.'+path1, function handleChange(newValue, oldValue ) {
 						if(newValue){
 							parentIdListener(); // результат є, чекати більше не треба
 							runInit(ki, instruction);
@@ -444,7 +444,7 @@ fn_lib.mergeObjectParameters = function(fromO, toO){
 
 fn_lib.TablesJ2C = function (scope, $http, programFile){
 //console.log('-------TablesJ2C--------');
-this.scope = scope;
+this.$scope = scope;
 this.j2c_tables = {
 	http_get : function(param){
 		console.log(param.param.url?param.param.url:url_read_sql_with_param);
@@ -470,17 +470,17 @@ this.j2c_tables = {
 		var scopeObj = param.commonArgs.scopeObj;
 //		console.log(scopeObj)
 		var tablesJ2C = this.tablesJ2C;
-		if(!tablesJ2C.scope[scopeObj])
-			tablesJ2C.scope[scopeObj] = {};
+		if(!tablesJ2C.$scope[scopeObj])
+			tablesJ2C.$scope[scopeObj] = {};
 		if(response.data.list){
-			tablesJ2C.scope[scopeObj].list = [];
+			tablesJ2C.$scope[scopeObj].list = [];
 			angular.forEach(response.data.list, function(v, k){
 				if(v.docbody)
-					tablesJ2C.scope[scopeObj].list.push({docbody:JSON.parse(v.docbody)});
+					tablesJ2C.$scope[scopeObj].list.push({docbody:JSON.parse(v.docbody)});
 			})					
 		}else
 		if(response.data.isObject()){
-			tablesJ2C.scope[scopeObj] = response.data;
+			tablesJ2C.$scope[scopeObj] = response.data;
 		}
 		if(init_am_directive[scopeObj] && init_am_directive[scopeObj].tablesJ2C_init){
 			init_am_directive[scopeObj].tablesJ2C_init(response, param);
@@ -491,7 +491,7 @@ this.j2c_tables = {
 		if(param.init){
 			param.init(scope,response)
 		}
-//			console.log(tablesJ2C.scope[scopeObj]);
+//			console.log(tablesJ2C.$scope[scopeObj]);
 	}
 	,tablesJ2C:this
 	}
