@@ -6,13 +6,17 @@
 <script src="/webjars/angularjs/1.6.9/angular-sanitize.min.js"></script>
 <script src="/f/algoritmed/compile-algoritmed2.js"></script>
 <script src="/f/algoritmed/app_config2.js"></script>
+<script src="/f/algoritmed/index.js"></script>
+
 <script th:attr="src=${script}"></script>
 <link rel="stylesheet" href="/f/css/w3.css">
 <link rel="stylesheet"
 	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body class="w3-container">
+<body class="w3-container"
+ng-controller="ControllerApp1"
+>
 	<h1>Медична інформаційна система ALGORITMED</h1>
 	<div>
 		<a href="/v/info"> Інформаційна сторінка </a>

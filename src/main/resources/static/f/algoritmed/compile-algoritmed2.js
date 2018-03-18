@@ -194,7 +194,7 @@ fn_lib.DbDesign.init.isInstruction = function(k, k_instruction){
 }
 
 app.controller('ControllerApp1', function($scope, $http) {
-//	console.log('-------ControllerApp1--------');
+	console.log('-------ControllerApp1--------');
 	console.log($scope)
 //	console.log(request)
 	init_am_directive.init_programRuns($scope, $http);
@@ -216,6 +216,11 @@ if(!request.viewKey){
 		var x = splitHtml[0].split('/')
 		request.viewKey = x[x.length-1];
 	}
+	if(!request.viewKey){
+		console.log("index")
+		request.viewKey='index';
+	}
+
 }
 var hash = window.location.hash.split('#')[1];
 if(!hash||'!'==hash){
@@ -229,7 +234,7 @@ angular.forEach(hash.split("&"), function(value, index){
 }
 
 init_am_directive.init_onload=function($scope, $http){
-//	console.log('-------init_am_directive.init_onload--------');
+	console.log('-------init_am_directive.init_onload--------');
 	$scope.app_config = {};
 	if(!$scope.page) 
 		$scope.page={request:request};
@@ -242,6 +247,9 @@ init_am_directive.init_onload=function($scope, $http){
 			$scope.page.head.tabs_name=v.name;
 		}
 	});
+	console.log($scope.page.head.tabs_key);
+	console.log(request.viewKey);
+
 
 	//init $scope.programRun
 	if(init_am_directive.init_onload[$scope.page.head.tabs_key])
@@ -293,6 +301,8 @@ init_am_directive.init_programRuns=function($scope, $http){
 		$scope.principal = response.data;
 //		console.log($scope.principal);
 	});
+	console.log(app_config.fn.pages($scope));
+
 	if(app_config.fn.pages)
 		new app_config.fn.pages($scope).head();
 	angular.forEach($scope.programRun, function(v, key_programName){
