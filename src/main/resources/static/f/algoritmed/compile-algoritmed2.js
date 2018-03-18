@@ -31,13 +31,62 @@ fn_lib.DbDesign = function($scope, $http){
 
 fn_lib.DbDesign.init = function(dbDesign){
 	console.log('--32----------------')
-	console.log(dbDesign)
+//	console.log(dbDesign)
 	var thisObj = this;
 	angular.forEach(dbDesign, function(instruction, k){
+		if('rows'==k){
+			if(dbDesign.table_id){
+				angular.forEach(instruction, function(row, k){
+					console.log('--40---------------- '+k)
+					var insertRowCells = function(row){
+						console.log('--42---------------- '+k)
+						angular.forEach(row, function(valueCell, kc){
+							console.log('--64--------------- '+kc)
+							if(dbDesign.columns[kc]){
+								if(!row[kc+'_id']){
+									var column = dbDesign.columns[kc];		
+									if(column.column_id){
+										console.log(column)
+										thisObj.$http.post('/r/update_sql_with_param', {
+											sql:'sql.table_cell.insert',
+											value:valueCell,
+											row_id:row.row_id,
+											column_id:column.column_id,
+											valueTableName:column.valueTableName,
+										}).then(function(response){
+											console.log('----46-----------------------')
+											console.log(response.data)
+										});
+									}
+								}
+							}
+						});
+					}
+					if(!row.row_id){//make new table_row
+						console.log(row)
+						thisObj.$http.post('/r/update_sql_with_param', {
+							sql:'sql.table_row.insert',
+							table_id:dbDesign.table_id,
+						}).then(function(response){
+							console.log('----55-----------------------')
+							console.log(response.data)
+							row.row_id = response.data.nextDbId1;
+							console.log(row)
+
+							/*
+							insertRowCells(row);
+							 * */
+						});
+					}else{
+						insertRowCells(row);
+					}
+				});
+			}
+		}else
 		if('columns'==k){
 			if(dbDesign.table_id){
 				angular.forEach(instruction, function(v, k){
-					console.log('--41----------------')
+//					console.log('--41---------------- '+k)
 					if(!v.column_id)
 						thisObj.init.instruction.columns(v, dbDesign, thisObj);
 //					fn_lib.DbDesign.init.instruction.columns(v, dbDesign);
@@ -48,7 +97,7 @@ fn_lib.DbDesign.init = function(dbDesign){
 			var ki = thisObj.k_instructions[i];
 			if(fn_lib.DbDesign.init.isInstruction(k, ki)){
 				console.log(k+'/'+ki)
-				console.log(instruction)
+//				console.log(instruction)
 
 				instruction.$parent={o:dbDesign,k:k,ki:ki};
 				if(dbDesign.$parent){

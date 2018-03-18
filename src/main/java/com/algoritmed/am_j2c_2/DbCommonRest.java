@@ -21,11 +21,10 @@ public class DbCommonRest extends DbCommon {
 			@RequestParam(value = "sql", required = true) String sql
 			,HttpServletRequest request
 			) {
-		Map<String, Object> map = sqlParamToMap(sql, request);
 		logger.info("\n\n-- 25 -- /read_sql_with_param"
 				+ "\n" + sql
-				+ "\n" + map
 				);
+		Map<String, Object> map = sqlParamToMap(sql, request);
 		read_select(map, env.getProperty(sql), db1ParamJdbcTemplate);
 //		List<Map<String, Object>> list = db1ParamJdbcTemplate.queryForList(env.getProperty(sql_command), map);
 //		map.put("list", list);

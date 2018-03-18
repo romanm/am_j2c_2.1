@@ -37,54 +37,16 @@ public class ExecuteSqlBlock {
 	}
 	public void update_sql_script(Map<String, Object> data, String sql, Environment env) {
 		this.env =env;
-//		String sql = (String) data.get("sql"); 
+//	String sql = (String) data.get("sql"); 
 		String sql_from_env = env.getProperty(sql);
 		logger.info("\n\n-- 62 -- update_sql_script-- "
 				+ "\n" + sql_from_env
 				+ "\n" + data
 				);
 //		data.put(sql, sql_from_env);
+		System.err.println("-------47-------");
+		sql_from_env=prepareSql(sql_from_env, data);
 		if(sql_from_env.contains(";")) {
-			if(data.containsKey("docbodyMap")) {
-				Map<String,Object> docbodyMap = (Map<String, Object>) data.get("docbodyMap");
-//				String docbody = objectToString(docbodyMap);
-//				data.put("docbody", docbody);
-				data.put("docbodyMap", docbodyMap);
-			}
-			
-			String[] split_nextDbId = sql_from_env.split("nextDbId");
-			System.err.println("nextDbId cnt="+split_nextDbId.length);
-			if(split_nextDbId.length > 0) {
-				HashMap<Integer, Integer> nextDbMap = new HashMap<>();
-				for (int i = 1; i < split_nextDbId.length; i++) {
-					String s1 = split_nextDbId[i];
-					String s2 = s1.split(" ")[0];
-					s2=s2
-						.replaceAll(",", "")
-						.replaceAll("\\)", "")
-						.replaceAll(";", "")
-						;
-
-					int nextDbKey = Integer.parseInt(s2);
-					nextDbMap.put(nextDbKey, nextDbKey);
-				}
-				System.err.println(nextDbMap.keySet());
-				System.err.println(nextDbMap.keySet().size());
-
-				System.err.println("----81------------");
-
-				for (Integer key : nextDbMap.keySet())
-					data.put("nextDbId"+key, nextDbId());
-				System.err.println(data);
-			}
-			if(data.containsKey("replace_param")) {
-				Map<String,String> replace_param = (Map<String, String>) data.get("replace_param");
-				for (String key : replace_param.keySet()) {
-//					System.err.println(key);
-//					System.err.println(replace_param.get(key));
-					sql_from_env=sql_from_env.replaceAll(":"+key, ":"+replace_param.get(key));
-				}
-			}
 			System.err.println("-------98--------------");
 			System.err.println(sql_from_env);
 			
@@ -124,6 +86,57 @@ public class ExecuteSqlBlock {
 		}
 	}
 	
+	private String prepareSql(String sql_from_env, Map<String, Object> data) {
+		System.err.println("-------89--------");
+		System.err.println(sql_from_env);
+		if(sql_from_env.contains(":valueTableName")) {
+			String valueTableName = (String) data.get("valueTableName");
+			sql_from_env =
+				sql_from_env.replaceAll(":valueTableName", valueTableName);
+			System.err.println("--------95--------");
+			System.err.println(sql_from_env);
+		}
+		if(data.containsKey("docbodyMap")) {
+			Map<String,Object> docbodyMap = (Map<String, Object>) data.get("docbodyMap");
+//			String docbody = objectToString(docbodyMap);
+//			data.put("docbody", docbody);
+			data.put("docbodyMap", docbodyMap);
+		}
+		if(data.containsKey("replace_param")) {
+			Map<String,String> replace_param = (Map<String, String>) data.get("replace_param");
+			for (String key : replace_param.keySet()) {
+//				System.err.println(key);
+//				System.err.println(replace_param.get(key));
+				sql_from_env=sql_from_env.replaceAll(":"+key, ":"+replace_param.get(key));
+			}
+		}
+		String[] split_nextDbId = sql_from_env.split("nextDbId");
+		System.err.println("nextDbId cnt="+split_nextDbId.length);
+		if(split_nextDbId.length > 0) {
+			HashMap<Integer, Integer> nextDbMap = new HashMap<>();
+			for (int i = 1; i < split_nextDbId.length; i++) {
+				String s1 = split_nextDbId[i];
+				String s2 = s1.split(" ")[0];
+				s2=s2
+					.replaceAll(",", "")
+					.replaceAll("\\)", "")
+					.replaceAll(";", "")
+					;
+
+				int nextDbKey = Integer.parseInt(s2);
+				nextDbMap.put(nextDbKey, nextDbKey);
+			}
+			System.err.println(nextDbMap.keySet());
+			System.err.println(nextDbMap.keySet().size());
+
+			System.err.println("----81------------");
+
+			for (Integer key : nextDbMap.keySet())
+				data.put("nextDbId"+key, nextDbId());
+			System.err.println(data);
+		}
+		return sql_from_env;
+	}
 	protected void read_select(Map<String, Object> data, String sql_command, Integer i) {
 		String nr = null==i?"":(""+i);
 //		System.err.println(sql_command);

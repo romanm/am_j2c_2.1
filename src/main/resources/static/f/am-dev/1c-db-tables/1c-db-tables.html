@@ -3,28 +3,30 @@
 	<!-- 
 	 -->
 	<div class="w3-row-padding w3-border-bottom">
-		<div class="w3-third w3-card">
+		<div class="w3-col m2 l2 s2 w3-card">
+		<div class="w3-tiny">
 			<a href="/v/create_tables"
 			class=""
 			title="folders"
 			><i class="fa fa-folder-open"></i> Папки</a>: 
+		</div>
 			<div amd-run="programRun.folders"></div>
 		</div>
-		<div class="w3-third">
+		<div class="w3-col m4 l4 s4">
 			<div class="w3-card">
 				<div ng-repeat="f in folders.list" class="w3-tiny"
 					ng-if="f.folder_id==page.request.parameters.folder_id">//{{f.folder_name}}</div>
 				<div amd-run="programRun.tables"></div>
 			</div>
 		</div>
-		<div class="w3-third w3-card">
+		<div class="w3-col m6 l6 s6 w3-card">
 			<div amd-run="programRun.create_tables"></div>
 		</div>
 	</div>
 	<div class="w3-row-padding w3-border-bottom">
 	<!-- 
 	 -->
-		<div class="w3-half w3-card">
+	  <div class="w3-half w3-card">
 			<div amd-run="programRun.table"></div>
 		</div>
 		<div class="w3-half">

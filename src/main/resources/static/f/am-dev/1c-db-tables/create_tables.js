@@ -70,7 +70,7 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 		table:{
 			programFile:{
 				commonArgs:{scopeObj:'table'},
-				TablesJ2C:{param:{sql:'table'}},
+				TablesJ2C:{param:{sql:'table',table_id:48}},
 				html_tableJ2C:{}
 			}
 		},

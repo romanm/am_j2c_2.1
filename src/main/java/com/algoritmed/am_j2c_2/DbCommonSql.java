@@ -31,7 +31,6 @@ public class DbCommonSql {
 				if(sql.contains("add_joins")) {
 					mapSqlJoins(data, list);
 				}
-				System.err.println(list);
 			}
 			data.put("list", data.get("list_"+i));
 			data.remove("list_"+i);
@@ -53,7 +52,6 @@ public class DbCommonSql {
 		}
 	}
 	protected void mapSqlJoins(Map<String, Object> map, List<Map<String, Object>> listColumns) {
-		System.err.println(listColumns);
 //			addListWithName("joinColumnsSelect", sqlJoinColumnsSelect, map);
 		String joins = "", columns = "";
 		Map<Integer, Object> col_aliasMap	= (Map<Integer, Object>) map.get("col_alias");
@@ -94,8 +92,6 @@ public class DbCommonSql {
 	}
 	protected Map<String, Object> sqlParamToMap(String sql, HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		String sql_from_env = env.getProperty(sql);
-		map.put(sql, sql_from_env);
 		Map<String, String[]> parameterMap = request.getParameterMap();
 		map.put("parameterMap", parameterMap);
 		for (String key : parameterMap.keySet()) {
@@ -103,6 +99,9 @@ public class DbCommonSql {
 			String val = v[0];
 			map.put(key, val);
 		}
+		System.err.println(map);
+		String sql_from_env = env.getProperty(sql);
+		map.put(sql, sql_from_env);
 		return map;
 	}
 }
