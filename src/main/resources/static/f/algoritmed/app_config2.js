@@ -35,8 +35,9 @@ app_config.programRun = {
 	}
 }
 
+
 app_config.fn.pages = function($scope){
-	console.log('--------56--------')
+	console.log('--------app_config.fn.pages--------')
 	this.head=function(){
 		init_am_directive.init_app.init_page_head($scope);
 		if(!$scope.page.pageHeadMenuWidth){
@@ -81,6 +82,84 @@ app_config.fn.pages = function($scope){
 			})
 		}
 	};
+
+
+app_config.principal={
+	db_role:{ }
+	,dbRoles:null
+	,dbRolesMap:{}
+	,fn_readDbRoles:function(){
+		if(!this.dbRoles){
+			var thisObj = this;
+			$scope.commonDbRest.read_sql_with_param(
+			{sql:'sql.roles.select'
+			},function(response) {
+				thisObj.dbRoles = response.data.list;
+				angular.forEach(thisObj.dbRoles, function(v, i){
+					thisObj.dbRolesMap[v.role_id] = v;
+				});
+				console.log(thisObj.dbRoles);
+			});
+		}
+	}
+	,myMaxRole:null
+	,fn_myMaxRole:function(){
+		if(!this.myMaxRole){
+//				console.log(this.dbRolesMap);
+			if(this.dbRolesMap){
+				var thisObj = this;
+//					console.log(this.dbRolesMap);
+				this.myMaxRole = 0;
+				angular.forEach($scope.principal.principal.authorities, function(v, i){
+					var role_id = v.authority;
+//						console.log(v.authority);
+//						console.log(thisObj.dbRolesMap[v.authority]);
+					var role_sort = thisObj.dbRolesMap[v.authority].role_sort;
+//						console.log(role_sort);
+					if(thisObj.myMaxRole<role_sort)
+						thisObj.myMaxRole=role_sort;
+				});
+			}else{
+				this.fn_readDbRoles();
+			}
+		}
+		return this.myMaxRole;
+	}
+	,hasAdminMSPRole:function(){//доступ до створення MSP
+		var hasHumanResourcesRole
+		= this.hasRole('ROLE_HEAD_MSP')
+		|| this.hasRole('ROLE_ADMIN_MSP')
+		|| this.hasRole('ROLE_ADMIN_APP');
+		return hasHumanResourcesRole;
+	}
+	,hasHumanResourcesRole:function(){//доступ до картотеки
+		var hasHumanResourcesRole
+		= this.hasRole('ROLE_HEAD_HUMAN_RESOURCES')
+		|| this.hasRole('ROLE_HEAD_MSP')
+		|| this.hasRole('ROLE_ADMIN_MSP')
+		|| this.hasRole('ROLE_ADMIN_APP');
+		return hasHumanResourcesRole;
+	}
+	,hasRole:function(r){
+//			console.log(r);
+		var hasRole = false;
+		if($scope.principal && $scope.principal.principal){
+			hasRole = this.hasLoginRole(r, $scope.principal.principal.authorities, 'authority');
+			
+		}
+		return hasRole;
+	}
+	,hasLoginRole:function(r,r_o,r_a){
+		if(!r_a) r_a='role_id';
+		var hasRole = false;
+		angular.forEach(r_o, function(value, index){
+			if(value[r_a]==r){
+				hasRole = true;
+			}
+		});
+		return hasRole;
+	}
+}
 
 }
 

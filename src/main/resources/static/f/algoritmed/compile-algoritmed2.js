@@ -217,7 +217,6 @@ if(!request.viewKey){
 		request.viewKey = x[x.length-1];
 	}
 	if(!request.viewKey){
-		console.log("index")
 		request.viewKey='index';
 	}
 
@@ -234,7 +233,7 @@ angular.forEach(hash.split("&"), function(value, index){
 }
 
 init_am_directive.init_onload=function($scope, $http){
-	console.log('-------init_am_directive.init_onload--------');
+//	console.log('-------init_am_directive.init_onload--------');
 	$scope.app_config = {};
 	if(!$scope.page) 
 		$scope.page={request:request};
@@ -247,9 +246,6 @@ init_am_directive.init_onload=function($scope, $http){
 			$scope.page.head.tabs_name=v.name;
 		}
 	});
-	console.log($scope.page.head.tabs_key);
-	console.log(request.viewKey);
-
 
 	//init $scope.programRun
 	if(init_am_directive.init_onload[$scope.page.head.tabs_key])
@@ -299,9 +295,13 @@ init_am_directive.init_programRuns=function($scope, $http){
 	init_am_directive.init_app.init_serverWebSites($scope, $http);
 	$http.get('/r/principal').then(function(response) {
 		$scope.principal = response.data;
-//		console.log($scope.principal);
+		console.log($scope.principal);
+		console.log(app_config.principal);
+		console.log(app_config.principal.hasRole('ROLE_REGISTRY_NURSE'));
+		console.log(app_config.principal.hasRole('ROLE_HEAD_MSP'));
+
+
 	});
-	console.log(app_config.fn.pages($scope));
 
 	if(app_config.fn.pages)
 		new app_config.fn.pages($scope).head();

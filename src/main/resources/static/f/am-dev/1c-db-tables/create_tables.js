@@ -1,5 +1,5 @@
 init_am_directive.init_onload.create_tables=function($scope, $http){
-	console.log('-------init_am_directive.init_onload.create_tables--------');
+//	console.log('-------init_am_directive.init_onload.create_tables--------');
 	init_am_directive.tablesJ2C_init = function(response, param){
 		var scopeData = $scope[param.commonArgs.scopeObj]; 
 		scopeData.list = response.data.list;
