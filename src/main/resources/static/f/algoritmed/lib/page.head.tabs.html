@@ -1,0 +1,25 @@
+<div>
+	<span class="w3-border-bottom">&nbsp</span> <span
+		ng-repeat="(k,tab_page) in page.head.tabs" class="w3-hover-light-gray"
+		ng-class="{
+    'w3-border-bottom':k!=page.pageKey()
+    ,'w3-border-top w3-border-left w3-border-right':k==page.pageKey()
+    }">
+		&nbsp <a href="/v/{{k}}" ng-bind-html="tab_page.alias"> </a>
+		&nbsp
+	</span> <span class="w3-border-bottom">&nbsp&nbsp</span> <span
+		class="w3-right">
+		<div class="w3-dropdown-hover w3-light-gray w3-hover-gray">
+			<span class="w3-large1" ng-mouseover="page.initHeadMenu()">&nbsp;
+				<i class="fa fa-bars" aria-hidden="true"></i> &nbsp;
+			</span>
+			<div class="w3-dropdown-content w3-card" id="page_head_icone"
+				ng-attr-style="right: -1px; width: {{page.pageHeadMenuWidth}}px;">
+				<div style="font-weight: bold; margin-top: 3px;"
+					class="w3-light-gray w3-topbar">Загальне меню</div>
+				<div ng-include="'/f/eh1/info1/info_tabs.html'"></div>
+				<br />
+			</div>
+		</div>
+	</span>
+</div>

@@ -10,10 +10,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class CommonRest {
 	private static final Logger logger = LoggerFactory.getLogger(CommonRest.class);
+	
+    @GetMapping("/v/index")
+    public RedirectView redirectIndex(RedirectAttributes attributes) {
+        return new RedirectView("/");
+    }
+	
 	@GetMapping("/v/{page1}")
 	public String viewPage1(@PathVariable String page1, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();

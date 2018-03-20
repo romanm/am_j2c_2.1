@@ -1,0 +1,36 @@
+<div class="w13-small">
+<div class="w3-row">
+  <div class="w3-col l8 m8 s8">
+    <table class="w3-table w3-table-all">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>
+            <div class="w3-right">Функції:</div>
+            <div>Логін ролі</div>
+          </th>
+          <th ng-repeat="(k,v) in page.getConfigPrincipal('fns')">{{k}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(kr,vr) in page.getConfigPrincipal('role')">
+          <td>{{1+$index}}</td>
+          <td>{{vr.name}}</td>
+          <td ng-repeat="(k,v) in page.getConfigPrincipal('fns')">
+            {{vr.fns.indexOf(k)>=0?'*':''}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="w3-col l4 m4 s4">
+    <table class="w3-table w3-table-all">
+      <tbody>
+        <tr ng-repeat="(k,v) in page.getConfigPrincipal('fns')">
+          <th>{{k}}</th>
+          <td>{{v.name}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>

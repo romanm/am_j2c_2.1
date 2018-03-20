@@ -284,22 +284,47 @@ init_am_directive.init_app.init_serverWebSites=function($scope, $http){
 				$scope.page.head.pageName = app_config.serverWebSites[pageKey].alias;
 			if($scope.page.head.tabs_key)
 				$scope.page.head.tabs={};
-			if($scope.page.head.tabs_key)
-				angular.forEach(app_config.page_head_tabs[$scope.page.head.tabs_key].links, function(k, v){
-					$scope.page.head.tabs[k]=app_config.serverWebSites[k];
-				});
+			if($scope.page.head.tabs_key){
+				var tabs_key = $scope.page.head.tabs_key;
+				init_am_directive.init_page_head_tabs($scope, tabs_key);
+			}
 		});
+}
+
+init_am_directive.init_page_head_tabs=function($scope, tabs_key){
+	if(!$scope.page.head.tabs)
+		$scope.page.head.tabs={};
+
+	if(app_config.page_head_tabs){
+		console.log(app_config.page_head_tabs[tabs_key].links)
+		angular.forEach(app_config.page_head_tabs[tabs_key].links, function(k, v){
+			$scope.page.head.tabs[k]=app_config.serverWebSites[k];
+		});
+	}
 }
 
 init_am_directive.init_programRuns=function($scope, $http){
 	init_am_directive.init_app.init_serverWebSites($scope, $http);
 	$http.get('/r/principal').then(function(response) {
 		$scope.principal = response.data;
-		console.log($scope.principal);
-		console.log(app_config.principal);
-		console.log(app_config.principal.hasRole('ROLE_REGISTRY_NURSE'));
-		console.log(app_config.principal.hasRole('ROLE_HEAD_MSP'));
+		$scope.page.getConfigPrincipal=function(key){
+			return app_config.principal[key];
+		}
 
+		$scope.page.getPrincipalRole = function(){
+			if($scope.principal.principal){
+				var authority = $scope.principal.principal.authorities[0].authority;
+				return app_config.principal.role[authority];
+			}
+		}
+
+		if('index'==$scope.page.pageKey()){
+			var principalRole = $scope.page.getPrincipalRole();
+			if(principalRole){
+				var tabs_key = principalRole.page_head_tabs;
+				init_am_directive.init_page_head_tabs($scope, tabs_key);
+			}
+		}
 
 	});
 

@@ -83,83 +83,103 @@ app_config.fn.pages = function($scope){
 		}
 	};
 
-
-app_config.principal={
-	db_role:{ }
-	,dbRoles:null
-	,dbRolesMap:{}
-	,fn_readDbRoles:function(){
-		if(!this.dbRoles){
-			var thisObj = this;
-			$scope.commonDbRest.read_sql_with_param(
-			{sql:'sql.roles.select'
-			},function(response) {
-				thisObj.dbRoles = response.data.list;
-				angular.forEach(thisObj.dbRoles, function(v, i){
-					thisObj.dbRolesMap[v.role_id] = v;
-				});
-				console.log(thisObj.dbRoles);
-			});
-		}
-	}
-	,myMaxRole:null
-	,fn_myMaxRole:function(){
-		if(!this.myMaxRole){
-//				console.log(this.dbRolesMap);
-			if(this.dbRolesMap){
+	app_config.principal = {
+		db_role:{ },
+		dbRoles:null,
+		dbRolesMap:{},
+		fn_readDbRoles:function(){
+			if(!this.dbRoles){
 				var thisObj = this;
-//					console.log(this.dbRolesMap);
-				this.myMaxRole = 0;
-				angular.forEach($scope.principal.principal.authorities, function(v, i){
-					var role_id = v.authority;
-//						console.log(v.authority);
-//						console.log(thisObj.dbRolesMap[v.authority]);
-					var role_sort = thisObj.dbRolesMap[v.authority].role_sort;
-//						console.log(role_sort);
-					if(thisObj.myMaxRole<role_sort)
-						thisObj.myMaxRole=role_sort;
+				$scope.commonDbRest.read_sql_with_param(
+				{sql:'sql.roles.select'
+				},function(response) {
+					thisObj.dbRoles = response.data.list;
+					angular.forEach(thisObj.dbRoles, function(v, i){
+						thisObj.dbRolesMap[v.role_id] = v;
+					});
+					console.log(thisObj.dbRoles);
 				});
-			}else{
-				this.fn_readDbRoles();
 			}
-		}
-		return this.myMaxRole;
-	}
-	,hasAdminMSPRole:function(){//доступ до створення MSP
-		var hasHumanResourcesRole
-		= this.hasRole('ROLE_HEAD_MSP')
-		|| this.hasRole('ROLE_ADMIN_MSP')
-		|| this.hasRole('ROLE_ADMIN_APP');
-		return hasHumanResourcesRole;
-	}
-	,hasHumanResourcesRole:function(){//доступ до картотеки
-		var hasHumanResourcesRole
-		= this.hasRole('ROLE_HEAD_HUMAN_RESOURCES')
-		|| this.hasRole('ROLE_HEAD_MSP')
-		|| this.hasRole('ROLE_ADMIN_MSP')
-		|| this.hasRole('ROLE_ADMIN_APP');
-		return hasHumanResourcesRole;
-	}
-	,hasRole:function(r){
-//			console.log(r);
-		var hasRole = false;
-		if($scope.principal && $scope.principal.principal){
-			hasRole = this.hasLoginRole(r, $scope.principal.principal.authorities, 'authority');
-			
-		}
-		return hasRole;
-	}
-	,hasLoginRole:function(r,r_o,r_a){
-		if(!r_a) r_a='role_id';
-		var hasRole = false;
-		angular.forEach(r_o, function(value, index){
-			if(value[r_a]==r){
-				hasRole = true;
+		},
+		role:{
+			ROLE_USER:{name:'Лікар',fns:['A','E','B','H']}
+			,ROLE_REGISTRY_NURSE:{name:'м/с Реєстратури',fns:['A','H']}
+			,ROLE_HEAD_HUMAN_RESOURCES:{name:'Зав.Кадрами',fns:['C','B','D']}
+			,ROLE_ADMIN_MSP:{name:'Адмін. Лікарні',fns:['A','B','C','D','E','H']}
+			,ROLE_HEAD_MSP:{name:'Гол.Лікар',fns:['C','B','D','I'],page_head_tabs:'hf_admin'}
+			,ROLE_ADMIN_REGION:{name:'Адмін. Регіону',fns:['F']}
+			,ROLE_ADMIN_APP:{name:'Адмін.програми',fns:['A','B','C','D','E','F','H','I']}
+			,ROLE_WAITING_FOR_CONFIRMATION:{name:'Заявка на користування програмою: medic.algoritmed.com',fns:['J']}
+		},
+		fns:{
+			A:{name:'Заведеня хворого'}
+			,B:{name:'Підписання декларації - eHealth'}
+			,C:{name:'Реєстрація лікаря - eHealth'}
+			,D:{name:'Реєстрація лікувального закладу - eHealth'}
+			,E:{name:'Вести хворого'}
+			,F:{name:'Підтвердження існування лікувального закладу'}
+			,H:{name:'Запис пацієнта до лікаря'}
+			,I:{name:'Звільненя лікаря'}
+			,J:{name:'Очікування підтвердження доступу'}
+		},
+		myMaxRole:null,
+		fn_myMaxRole:function(){
+			if(!this.myMaxRole){
+	//				console.log(this.dbRolesMap);
+				if(this.dbRolesMap){
+					var thisObj = this;
+	//					console.log(this.dbRolesMap);
+					this.myMaxRole = 0;
+					angular.forEach($scope.principal.principal.authorities, function(v, i){
+						var role_id = v.authority;
+	//						console.log(v.authority);
+	//						console.log(thisObj.dbRolesMap[v.authority]);
+						var role_sort = thisObj.dbRolesMap[v.authority].role_sort;
+	//						console.log(role_sort);
+						if(thisObj.myMaxRole<role_sort)
+							thisObj.myMaxRole=role_sort;
+					});
+				}else{
+					this.fn_readDbRoles();
+				}
 			}
-		});
-		return hasRole;
+			return this.myMaxRole;
+		}
+		,hasAdminMSPRole:function(){//доступ до створення MSP
+			var hasHumanResourcesRole
+			= this.hasRole('ROLE_HEAD_MSP')
+			|| this.hasRole('ROLE_ADMIN_MSP')
+			|| this.hasRole('ROLE_ADMIN_APP');
+			return hasHumanResourcesRole;
+		}
+		,hasHumanResourcesRole:function(){//доступ до картотеки
+			var hasHumanResourcesRole
+			= this.hasRole('ROLE_HEAD_HUMAN_RESOURCES')
+			|| this.hasRole('ROLE_HEAD_MSP')
+			|| this.hasRole('ROLE_ADMIN_MSP')
+			|| this.hasRole('ROLE_ADMIN_APP');
+			return hasHumanResourcesRole;
+		}
+		,hasRole:function(r){
+	//			console.log(r);
+			var hasRole = false;
+			if($scope.principal && $scope.principal.principal){
+				hasRole = this.hasLoginRole(r, $scope.principal.principal.authorities, 'authority');
+				
+			}
+			return hasRole;
+		}
+		,hasLoginRole:function(r,r_o,r_a){
+			if(!r_a) r_a='role_id';
+			var hasRole = false;
+			angular.forEach(r_o, function(value, index){
+				if(value[r_a]==r){
+					hasRole = true;
+				}
+			});
+			return hasRole;
+		}
 	}
-}
 
 }
 
