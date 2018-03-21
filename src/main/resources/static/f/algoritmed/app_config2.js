@@ -102,9 +102,9 @@ app_config.fn.pages = function($scope){
 			}
 		},
 		role:{
-			ROLE_USER:{name:'Лікар',fns:['A','E','B','H']}
+			ROLE_USER:{name:'Лікар',fns:['A','E','B','H'],page_head_tabs:'physician'}
 			,ROLE_REGISTRY_NURSE:{name:'м/с Реєстратури',fns:['A','H']}
-			,ROLE_HEAD_HUMAN_RESOURCES:{name:'Зав.Кадрами',fns:['C','B','D']}
+			,ROLE_HEAD_HUMAN_RESOURCES:{name:'Зав.Кадрами',fns:['C','B','D'],page_head_tabs:'hrm'}
 			,ROLE_ADMIN_MSP:{name:'Адмін. Лікарні',fns:['A','B','C','D','E','H']}
 			,ROLE_HEAD_MSP:{name:'Гол.Лікар',fns:['C','B','D','I'],page_head_tabs:'hf_admin'}
 			,ROLE_ADMIN_REGION:{name:'Адмін. Регіону',fns:['F']}

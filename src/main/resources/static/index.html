@@ -27,7 +27,11 @@ ng-controller="ControllerApp1"
 	<p>
 		Login <span ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
 	</p>
-	{{page.getPrincipalRole().name}}
+	{{page.getPrincipalRole().name}}:
+	<b>
+	 {{principal.user.family_name}} 
+        {{principal.user.first_name.substr(0,1)}}.{{principal.user.second_name.substr(0,1)}}. 
+	</b>
 	<div 
 	ng-if="page.getPrincipalRole()"
 	ng-include="'/f/algoritmed/lib/page.head.tabs.html'"></div>
