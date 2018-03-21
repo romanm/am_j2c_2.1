@@ -1,6 +1,8 @@
 <div am-obj="scopeObj" ng-repeat="o_list in [scopeObj]">
 	<table>
-		<tr ng-repeat="o in o_list.list">
+		<tr ng-repeat="o in o_list.list"
+		class="w3-hover-shadow"
+		>
 			<td am-link="link_to_edit">
 			<b class="w3-tiny">
 			{{o.docbody.type}}:
