@@ -102,25 +102,25 @@ app_config.fn.pages = function($scope){
 			}
 		},
 		role:{
-			ROLE_USER:{name:'Лікар',fns:['A','E','B','H'],page_head_tabs:'physician'}
-			,ROLE_REGISTRY_NURSE:{name:'м/с Реєстратури',fns:['A','H']}
-			,ROLE_HEAD_HUMAN_RESOURCES:{name:'Зав.Кадрами',fns:['C','B','D'],page_head_tabs:'hrm'}
-			,ROLE_ADMIN_MSP:{name:'Адмін. Лікарні',fns:['A','B','C','D','E','H']}
-			,ROLE_HEAD_MSP:{name:'Гол.Лікар',fns:['C','B','D','I'],page_head_tabs:'hf_admin'}
-			,ROLE_ADMIN_REGION:{name:'Адмін. Регіону',fns:['F']}
-			,ROLE_ADMIN_APP:{name:'Адмін.програми',fns:['A','B','C','D','E','F','H','I']}
-			,ROLE_WAITING_FOR_CONFIRMATION:{name:'Заявка на користування програмою: medic.algoritmed.com',fns:['J']}
+			ROLE_USER:{name:'Лікар',fns:['A','E','B','H'],page_head_tabs:'physician'},
+			ROLE_REGISTRY_NURSE:{name:'м/с Реєстратури',fns:['A','H']},
+			ROLE_HEAD_HUMAN_RESOURCES:{name:'Зав.Кадрами',fns:['C','B','D'],page_head_tabs:'hrm'},
+			ROLE_ADMIN_MSP:{name:'Адмін. Лікарні',fns:['A','B','C','D','E','H']},
+			ROLE_HEAD_MSP:{name:'Гол.Лікар',fns:['C','B','D','I'],page_head_tabs:'hf_admin'},
+			ROLE_ADMIN_REGION:{name:'Адмін. Регіону',fns:['F']},
+			ROLE_ADMIN_APP:{name:'Адмін.програми',fns:['A','B','C','D','E','F','H','I']},
+			ROLE_WAITING_FOR_CONFIRMATION:{name:'Заявка на користування програмою: medic.algoritmed.com',fns:['J']},
 		},
 		fns:{
-			A:{name:'Заведеня хворого'}
-			,B:{name:'Підписання декларації - eHealth'}
-			,C:{name:'Реєстрація лікаря - eHealth'}
-			,D:{name:'Реєстрація лікувального закладу - eHealth'}
-			,E:{name:'Вести хворого'}
-			,F:{name:'Підтвердження існування лікувального закладу'}
-			,H:{name:'Запис пацієнта до лікаря'}
-			,I:{name:'Звільненя лікаря'}
-			,J:{name:'Очікування підтвердження доступу'}
+			A:{name:'Заведеня хворого'},
+			B:{name:'Підписання декларації - eHealth'},
+			C:{name:'Реєстрація лікаря - eHealth'},
+			D:{name:'Реєстрація лікувального закладу - eHealth'},
+			E:{name:'Вести хворого'},
+			F:{name:'Підтвердження існування лікувального закладу'},
+			H:{name:'Запис пацієнта до лікаря'},
+			I:{name:'Звільненя лікаря'},
+			J:{name:'Очікування підтвердження доступу'},
 		},
 		myMaxRole:null,
 		fn_myMaxRole:function(){
@@ -147,9 +147,9 @@ app_config.fn.pages = function($scope){
 		}
 		,hasAdminMSPRole:function(){//доступ до створення MSP
 			var hasHumanResourcesRole
-			= this.hasRole('ROLE_HEAD_MSP')
-			|| this.hasRole('ROLE_ADMIN_MSP')
-			|| this.hasRole('ROLE_ADMIN_APP');
+			= app_config.principal.hasRole('ROLE_HEAD_MSP')
+			|| app_config.principal.hasRole('ROLE_ADMIN_MSP')
+			|| app_config.principal.hasRole('ROLE_ADMIN_APP');
 			return hasHumanResourcesRole;
 		}
 		,hasHumanResourcesRole:function(){//доступ до картотеки

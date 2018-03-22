@@ -522,10 +522,6 @@ fn_lib.mergeObjectParameters = function(fromO, toO){
 	}
 }
 
-
-
-
-
 fn_lib.TablesJ2C = function (scope, $http, programFile){
 //console.log('-------TablesJ2C--------');
 this.$scope = scope;

@@ -32,11 +32,28 @@ init_am_directive.init_onload.hf_division=function($scope, $http){
 	}
 }
 
+init_am_directive.init_onload.hf_data=function($scope, $http){
+	console.log('-------init_am_directive.init_onload.hf_data--------');
+	$scope.programRun = {
+		hf_data:{
+			programFile:{
+				TablesJ2C:{param:{sql:'docbody_byId', doc_id:723}},
+				html_form_type01:{
+					source_path:'/f/eh1/hf1/hf_data_form.html',
+					init:function(ele, v){
+						console.log('----25------html_form_type01------');
+				}},
+			}
+		}
+	}
+//	run_am_program($scope.programRun.hf_data, $scope, $http);
+}
+
 init_am_directive.init_onload.hf_divisions=function($scope, $http){
 	console.log('-------init_am_directive.init_onload.hf_divisions--------');
 	$scope.programRun = {
-		hf_divisions:{
-			programFile:{
+			hf_divisions:{
+				programFile:{
 				fn_init_param:function(){
 					if($scope.page.request.parameters.employee_id)
 						$scope.programRun.employee.programFile.TablesJ2C.param.doc_id
