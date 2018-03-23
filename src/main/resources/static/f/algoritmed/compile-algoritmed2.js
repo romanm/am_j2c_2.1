@@ -395,6 +395,7 @@ function run_am_program(program_init, scope, $http, ele, $compile){
 			tablesJ2C.j2c_tables.http_get(v);
 		}else
 		if(k.includes("html_")){
+		console.log('--398-- '+k)
 			read_am_html_source(scope, ele, v, k, $compile, $http);
 		}
 	});
@@ -412,14 +413,14 @@ function read_am_json_source(scope, ele, amProgramPath, $compile, $http){
 function read_am_html_source(scope, ele, v, k, $compile, $http){
 	if(k.includes("html_")){
 		var k1 = k.replace('html_','');
-//		console.log('------189---------------------')
-//		console.log(k1)
+		console.log('------189---------------------')
+		console.log(k1)
 		var amdRun_pr_uri = v.source_path;
 		if(!v.source_path)
 			amdRun_pr_uri = '/f/algoritmed/lib/'+k1+'.html';
 		ele.append('<div>'+amdRun_pr_uri+'</div>');
 		var eleAdd = angular.element(ele[0].children[-1+ele[0].childElementCount]);
-
+		console.log(amdRun_pr_uri);
 		//read a program 2 - from library level 1 in run program
 		$http.get(amdRun_pr_uri).then(function(response) {
 			var pr = response.data;
@@ -429,14 +430,22 @@ function read_am_html_source(scope, ele, v, k, $compile, $http){
 //			console.log(eleAdd);
 //			var id2 = ele[0].id+'__'+k1;
 //			scope.algoritmed.inits[id2]=v;
-			if(v.init)
+			// activate amd-*attributes before compile
+			if(v.init){
+				console.log(v);
 				v.init(eleAdd,v);
-			else // for html_tableJ2C
-			if(init_am_directive.ele_v[k1])
-				init_am_directive.ele_v[k1](eleAdd, v);
-			else 
-			if(init_am_directive[k1])
+			} else // for html_tableJ2C
+				if(init_am_directive.ele_v[k]){
+					init_am_directive.ele_v[k](eleAdd, v);
+			} else // for html_tableJ2C
+				if(init_am_directive.ele_v[k1]){
+					console.log(1);
+					init_am_directive.ele_v[k1](eleAdd, v);
+			}else 
+			if(init_am_directive[k1]){
+				console.log(1);
 				init_am_directive[k1](scope, eleAdd, id2);
+			}
 			/*
 			var pr3 = ele[0].children[1-ele[0].children.length];
 			pr3.setAttribute('amd-'+k1,'"'+id2+'"');
@@ -492,9 +501,21 @@ init_am_directive.translate_am_att = function(ele, v){
 init_am_directive.ele_v.html_form_type01 = function(ele, v){
 	var lastChildEle = ele[0].children[1-ele[0].children.length];
 	init_am_directive.translate_am_att(lastChildEle, v);
-	var scopeObj = v.commonArgs[lastChildEle.getAttribute('am-obj')];
-	var ngRepeat = lastChildEle.getAttribute('ng-repeat');
-	ngRepeat = ngRepeat.replace('scopeObj',scopeObj);
+	console.log(v);
+	var amObj = lastChildEle.getAttribute('am-obj');
+	console.log(amObj);
+	var ngRepeat;
+	if('ngRepeat'==amObj){
+		ngRepeat = v.commonArgs[amObj];
+	}else{
+		var scopeObj = v.commonArgs[amObj];
+		console.log(scopeObj);
+		ngRepeat = lastChildEle.getAttribute('ng-repeat');
+		
+		console.log(ngRepeat);
+		ngRepeat = ngRepeat.replace('scopeObj',scopeObj);
+		console.log(ngRepeat);
+	}
 	lastChildEle.setAttribute('ng-repeat',ngRepeat);
 }
 
@@ -548,7 +569,7 @@ this.j2c_tables = {
 	,init : function(response, param){
 //		console.log(response.data)
 		var scopeObj = param.commonArgs.scopeObj;
-//		console.log(scopeObj)
+		console.log(scopeObj);
 		var tablesJ2C = this.tablesJ2C;
 		if(!tablesJ2C.$scope[scopeObj])
 			tablesJ2C.$scope[scopeObj] = {};

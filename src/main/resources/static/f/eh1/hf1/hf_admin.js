@@ -38,11 +38,10 @@ init_am_directive.init_onload.hf_data=function($scope, $http){
 		hf_data:{
 			programFile:{
 				TablesJ2C:{param:{sql:'docbody_byId', doc_id:723}},
+				commonArgs:{ngRepeat:'legalEntity in [hf_data.list[0].docbody]',},
 				html_form_type01:{
 					source_path:'/f/eh1/hf1/hf_data_form.html',
-					init:function(ele, v){
-						console.log('----25------html_form_type01------');
-				}},
+				},
 			}
 		}
 	}

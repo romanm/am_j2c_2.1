@@ -1,10 +1,12 @@
-<div am-obj="scopeObj" ng-repeat="employee in [scopeObj.docbody]">
+<div am-obj="ngRepeat">
 	<div class="w3-row">
 		<div class="w3-half">
-		a1
+			<div ng-include="'/f/algoritmed/form/form_unified1_left.html'"
+				ng-repeat="o in [legalEntity]" ng-init="vo=legalEntity"></div>
 		</div>
 		<div class="w3-half">
-		a2
+			<div ng-include="'/f/mvp/html/form_json_doc_form1_fields.html'"
+				ng-init="o=legalEntity;in=false;"></div>
 		</div>
 	</div>
 </div>
