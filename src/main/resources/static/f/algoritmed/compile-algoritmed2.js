@@ -395,7 +395,7 @@ function run_am_program(program_init, scope, $http, ele, $compile){
 			tablesJ2C.j2c_tables.http_get(v);
 		}else
 		if(k.includes("html_")){
-		console.log('--398-- '+k)
+		//console.log('--398-- '+k)
 			read_am_html_source(scope, ele, v, k, $compile, $http);
 		}
 	});
@@ -413,14 +413,14 @@ function read_am_json_source(scope, ele, amProgramPath, $compile, $http){
 function read_am_html_source(scope, ele, v, k, $compile, $http){
 	if(k.includes("html_")){
 		var k1 = k.replace('html_','');
-		console.log('------189---------------------')
-		console.log(k1)
+		//console.log('------189---------------------')
+		//console.log(k1)
 		var amdRun_pr_uri = v.source_path;
 		if(!v.source_path)
 			amdRun_pr_uri = '/f/algoritmed/lib/'+k1+'.html';
 		ele.append('<div>'+amdRun_pr_uri+'</div>');
 		var eleAdd = angular.element(ele[0].children[-1+ele[0].childElementCount]);
-		console.log(amdRun_pr_uri);
+		//console.log(amdRun_pr_uri);
 		//read a program 2 - from library level 1 in run program
 		$http.get(amdRun_pr_uri).then(function(response) {
 			var pr = response.data;

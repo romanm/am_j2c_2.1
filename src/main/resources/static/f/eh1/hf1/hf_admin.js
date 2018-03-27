@@ -45,6 +45,8 @@ init_am_directive.init_onload.hf_data=function($scope, $http){
 			}
 		}
 	}
+	fn_lib.addProgram($scope.programRun, ['eh_dictionaries']);
+	run_am_program($scope.programRun.eh_dictionaries, $scope, $http);
 //	run_am_program($scope.programRun.hf_data, $scope, $http);
 }
 

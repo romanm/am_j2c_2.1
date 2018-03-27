@@ -15,31 +15,30 @@ init_am_directive.init_onload.new_employee=function($scope){
 init_am_directive.init_onload.employees_cards=function($scope, $http){
 	console.log('-------init_am_directive.init_onload.employees_cards--------');
 	$scope.programRun = {
-			employees_cards:{
-				programFile:{
-					TablesJ2C:{
-						param:{sql:'msp_employee',msp_id:723}
-					},		
-					html_form_type01:{
-						source_path:'/f/eh1/hrm1/employees-cards-table.html',
-						init:function(ele, v){
-							console.log('----25------html_form_type01------');
-							init_am_directive.ele_v.html_form_type01(ele, v);
-					}},
-					links:{
-						link_to_employee:'/v/employee?employee_id={{employee_id}}'
-					}
+		employees_cards:{
+			programFile:{
+				TablesJ2C:{
+					param:{sql:'msp_employee',msp_id:723}
+				},	
+				html_form_type01:{
+					source_path:'/f/eh1/hrm1/employees-cards-table.html',
+					init:function(ele, v){
+						console.log('----25------html_form_type01------');
+						init_am_directive.ele_v.html_form_type01(ele, v);
+				}},
+				links:{
+					link_to_employee:'/v/employee?employee_id={{employee_id}}'
 				}
 			}
-		};
-		
-		init_am_directive.employees_cards = {};
-		init_am_directive.employees_cards.tablesJ2C_init=function(response, param){
-			init_am_directive.list2map(response.data.list_0,$scope.employees_cards,'person_id','employees');
-			init_am_directive.list2map(response.data.list,$scope.employees_cards,'user_id','user');
-			console.log($scope.employees_cards)
-		};
-
+		}
+	};
+	
+	init_am_directive.employees_cards = {};
+	init_am_directive.employees_cards.tablesJ2C_init=function(response, param){
+		init_am_directive.list2map(response.data.list_0,$scope.employees_cards,'person_id','employees');
+		init_am_directive.list2map(response.data.list,$scope.employees_cards,'user_id','user');
+		console.log($scope.employees_cards)
+	};
 }
 
 init_am_directive.init_onload.employee=function($scope, $http){
@@ -98,7 +97,8 @@ init_am_directive.init_onload.employee=function($scope, $http){
 	run_am_program($scope.programRun.form_json_doc, $scope, $http);
 	fn_lib.addProgram($scope.programRun, ['eh_dictionaries']);
 	run_am_program($scope.programRun.eh_dictionaries, $scope, $http);
-		
+
+	/*
 	init_am_directive.eh_dictionaries = {
 		tablesJ2C_init:function(response, param){
 			console.log('----70-------------');
@@ -115,6 +115,8 @@ init_am_directive.init_onload.employee=function($scope, $http){
 			console.log($scope.eh_dictionaries);
 		}
 	};
+	 * */
+
 	// :OLD_SPACE for -- init_am_directive.tablesJ2C_init = function(response, param){
 		// 1c-tables not work
 	init_am_directive.tablesJ2C_init = function(response, param){

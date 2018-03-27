@@ -26,6 +26,7 @@ init_am_directive.init_onload.form_json_doc=function($scope, $http){
 				vars:{
 					doc_types:[
 						'legalEntity_template',
+						'legalEntity_new_template',
 						'division_template',
 
 						'person_template',

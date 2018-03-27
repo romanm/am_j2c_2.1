@@ -1,0 +1,68 @@
+{
+  "data": {
+    "id": "",
+    "name": "",
+    "short_name": "",
+    "public_name": "",
+    "type": "",
+    "edrpou": "",
+    "addresses": [
+      {
+        "type": "",
+        "country": "",
+        "area": "",
+        "region": "",
+        "settlement": "",
+        "settlement_type": "",
+        "settlement_id": "",
+        "street_type": "",
+        "street": "",
+        "building": "",
+        "apartment": "",
+        "zip": ""
+      }
+    ],
+    "phones": [
+      {
+        "type": "",
+        "number": ""
+      }
+    ],
+    "email": [
+      {}
+    ],
+    "is_active": false,
+    
+    "kveds": [
+      ""
+    ],
+    "status": "",
+    "owner_property_type": "",
+    "legal_form": "",
+    "medical_service_provider": {
+      "licenses": [
+        {
+          "license_number": "",
+          "issued_by": "",
+          "issued_date": "",
+          "expiry_date": "",
+          "active_from_date": "",
+          "what_licensed": "",
+          "order_no": ""
+        }
+      ],
+      "accreditation": {
+        "category": "",
+        "issued_date": "",
+        "expiry_date": "",
+        "order_no": "",
+        "order_date": ""
+      }
+    },
+    "created_via_mis_id": "",
+    "inserted_at": "",
+    "inserted_by": "",
+    "updated_at": "",
+    "updated_by": ""
+  }
+}
