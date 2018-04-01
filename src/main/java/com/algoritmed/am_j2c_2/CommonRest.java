@@ -24,13 +24,14 @@ public class CommonRest {
 	
 	@GetMapping("/v/{page1}")
 	public String viewPage1(@PathVariable String page1, Model model) {
+		logger.info(" \n\n--27-- --viewPage1-- /v/{page1} "+page1+"\n th_template = "+"\n ");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page1", page1);
 		setModelAtribute(model, page1, "ng_template");
 		setModelAtribute(model, page1, "script");
 		String th_template = (String) 
 				setModelAtribute(model, page1, "th_template");
-		logger.info(" \n\n--30-- --viewPage1-- /v/{page1} "+page1+" "+map);
+		logger.info(" \n\n--34-- --viewPage1-- /v/{page1} "+page1+"\n th_template = "+th_template+"\n "+map);
 		
 		return th_template;
 	}
@@ -43,9 +44,17 @@ public class CommonRest {
 
 	private Object getModelAttribute(String page1, String attribute) {
 		Map<String, Object> configWebSite = readJsonFromFile.readConfigWebSite();
+		System.err.println("--46--");
+		System.err.println(configWebSite);
+		System.err.println(configWebSite.keySet());
 		Map<String, Object> pageConfig = (Map<String, Object>) configWebSite.get(page1);
+		System.err.println("--49--");
+		System.err.println(pageConfig);
+		System.err.println(attribute);
 		Object ngController = null;
 		if(pageConfig != null){
+			System.err.println(pageConfig.keySet());
+			System.err.println(pageConfig.containsKey(attribute));
 			if(pageConfig.containsKey(attribute))
 				ngController = pageConfig.get(attribute);
 			else
