@@ -16,25 +16,29 @@
 	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body class="w3-container"
-style="max-width: 950px; margin-left: 10px;"
-ng-controller="ControllerApp1"
->
+<body class="w3-container" style="max-width: 950px; margin-left: 10px;"
+	ng-controller="ControllerApp1">
 	<h1>Медична інформаційна система ALGORITMED</h1>
-	<div>
-		<a href="/v/info"> Інформаційна сторінка </a>
+	<div class="w3-row-padding">
+		<div class="w3-half ">
+			<div>
+				<a href="/v/info"> Інформаційна сторінка </a>
+			</div>
+			<p>
+				Login <span ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
+			</p>
+			{{page.getPrincipalRole().name}}: <b>
+				{{principal.user.family_name}}
+				{{principal.user.first_name.substr(0,1)}}.{{principal.user.second_name.substr(0,1)}}.
+			</b>
+			<div ng-if="page.getPrincipalRole()"
+				ng-include="'/f/algoritmed/lib/page.head.tabs.html'"></div>
+		</div>
+		<div class="w3-half w13-border-left w13-border-right">
+			<div ng-include="'/f/ehealth-declaration/mis-list.html'"></div>
+		</div>
 	</div>
-	<p>
-		Login <span ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
-	</p>
-	{{page.getPrincipalRole().name}}:
-	<b>
-	 {{principal.user.family_name}} 
-        {{principal.user.first_name.substr(0,1)}}.{{principal.user.second_name.substr(0,1)}}. 
-	</b>
-	<div 
-	ng-if="page.getPrincipalRole()"
-	ng-include="'/f/algoritmed/lib/page.head.tabs.html'"></div>
+
 
 </body>
 </html>

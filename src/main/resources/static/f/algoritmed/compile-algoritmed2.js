@@ -37,16 +37,12 @@ fn_lib.DbDesign.init = function(dbDesign){
 		if('rows'==k){
 			if(dbDesign.table_id){
 				angular.forEach(instruction, function(row, k){
-					console.log('--40---------------- '+k)
 					var insertRowCells = function(row){
-						console.log('--42---------------- '+k)
 						angular.forEach(row, function(valueCell, kc){
-							console.log('--64--------------- '+kc)
 							if(dbDesign.columns[kc]){
 								if(!row[kc+'_id']){
 									var column = dbDesign.columns[kc];		
 									if(column.column_id){
-										console.log(column)
 										thisObj.$http.post('/r/update_sql_with_param', {
 											sql:'sql.table_cell.insert',
 											value:valueCell,
@@ -96,7 +92,7 @@ fn_lib.DbDesign.init = function(dbDesign){
 		for (var i = 0; i < thisObj.k_instructions.length; i++) {
 			var ki = thisObj.k_instructions[i];
 			if(fn_lib.DbDesign.init.isInstruction(k, ki)){
-				console.log(k+'/'+ki)
+//				console.log(k+'/'+ki)
 //				console.log(instruction)
 
 				instruction.$parent={o:dbDesign,k:k,ki:ki};
@@ -209,6 +205,7 @@ if(window.location.search.split('?')[1]){
 		request.parameters[par[0]] = par[1];
 	});
 }
+console.log(request);
 request.viewKey = window.location.pathname.split('/v/')[1];
 if(!request.viewKey){
 	var splitHtml = window.location.pathname.split('.')
@@ -360,7 +357,7 @@ app.directive('amdRun', function ($compile, $http) {
 		scope: false,
 		link: function (scope, ele, attrs) {
 			scope.$watch(attrs['amdRun'], function(program_init) {
-				console.log(program_init);
+				//console.log(program_init);
 				if(program_init.amProgramPath){
 					//read a program 1 - to run program
 					read_am_json_source(scope, ele, program_init.amProgramPath, $compile, $http);
@@ -439,7 +436,7 @@ function read_am_html_source(scope, ele, v, k, $compile, $http){
 					init_am_directive.ele_v[k](eleAdd, v);
 			} else // for html_tableJ2C
 				if(init_am_directive.ele_v[k1]){
-					console.log(1);
+//					console.log(1);
 					init_am_directive.ele_v[k1](eleAdd, v);
 			}else 
 			if(init_am_directive[k1]){
@@ -548,7 +545,7 @@ fn_lib.TablesJ2C = function (scope, $http, programFile){
 this.$scope = scope;
 this.j2c_tables = {
 	http_get : function(param){
-		console.log(param.param.url?param.param.url:url_read_sql_with_param);
+		//console.log(param.param.url?param.param.url:url_read_sql_with_param);
 		if(param.param.sql){
 			if(param.param.sql.indexOf('.select')<0)
 				param.param.sql = 'sql.'+param.param.sql+'.select';
@@ -569,7 +566,7 @@ this.j2c_tables = {
 	,init : function(response, param){
 //		console.log(response.data)
 		var scopeObj = param.commonArgs.scopeObj;
-		console.log(scopeObj);
+//		console.log(scopeObj);
 		var tablesJ2C = this.tablesJ2C;
 		if(!tablesJ2C.$scope[scopeObj])
 			tablesJ2C.$scope[scopeObj] = {};
@@ -613,6 +610,8 @@ fn_lib.addProgram = function(programRun, programList){
 // url_read_sql_with_param -- is rewritable in Controller file by demand 
 var url_read_sql_with_param = '/r/read_sql_with_param';
 var read_sql_with_param = function($http, params,fn, fn_error){
+	console.log(url_read_sql_with_param)
+	console.log(params)
 	var url = params.url?params.url:url_read_sql_with_param;
 	if(!fn_error)
 		$http.get(url, {params:params}).then(fn);

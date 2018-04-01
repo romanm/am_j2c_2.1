@@ -44,17 +44,9 @@ public class CommonRest {
 
 	private Object getModelAttribute(String page1, String attribute) {
 		Map<String, Object> configWebSite = readJsonFromFile.readConfigWebSite();
-		System.err.println("--46--");
-		System.err.println(configWebSite);
-		System.err.println(configWebSite.keySet());
 		Map<String, Object> pageConfig = (Map<String, Object>) configWebSite.get(page1);
-		System.err.println("--49--");
-		System.err.println(pageConfig);
-		System.err.println(attribute);
 		Object ngController = null;
 		if(pageConfig != null){
-			System.err.println(pageConfig.keySet());
-			System.err.println(pageConfig.containsKey(attribute));
 			if(pageConfig.containsKey(attribute))
 				ngController = pageConfig.get(attribute);
 			else
