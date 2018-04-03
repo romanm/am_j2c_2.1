@@ -122,17 +122,17 @@
 	,"parent":"home"
 	,"alias":"декларація"
 },
-"appy_admin":{
+"app_admin":{
   "th_template":"eh1_index1",
-  "ng_template":"'/f/eh1/info1/test1/appy_admin.html'",
-  "script":"/f/eh1/info1/test1/appy_admin.js",
+  "ng_template":"'/f/eh1/info1/test1/app_admin.html'",
+  "script":"/f/eh1/info1/test1/app_admin.js",
   "alias":"Адмін застосунка",
   "parent":"info"
 },
 "icpc2_test":{
   "th_template":"eh1_index1",
   "ng_template":"'/f/eh1/info1/test1/icpc2-test1.html'",
-  "script":"/f/eh1/info1/test1/appy_admin.js",
+  "script":"/f/eh1/info1/test1/app_admin.js",
   "alias":"ICPC2 тестова сторінка",
   "parent":"info"
 }
