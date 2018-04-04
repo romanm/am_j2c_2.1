@@ -192,6 +192,8 @@ fn_lib.DbDesign.init.isInstruction = function(k, k_instruction){
 app.controller('ControllerApp1', function($scope, $http) {
 	console.log('-------ControllerApp1--------');
 	console.log($scope)
+	console.log($scope.folders)
+
 //	console.log(request)
 	init_am_directive.init_programRuns($scope, $http);
 	$scope.algoritmed = {programs:{} ,htmls:{} ,dbs:{} ,inits:{} };
@@ -252,9 +254,10 @@ init_am_directive.init_onload=function($scope, $http){
 	//init GUI from $scope.programRun
 	console.log('--62-- '+request.viewKey+'/'+$scope.page.head.tabs_key)
 	if($scope.programRun)
-		if($scope.programRun[request.viewKey].gui)
-			if($scope.programRun[request.viewKey].gui.init)
-				$scope.programRun[request.viewKey].gui.init();
+		if($scope.programRun[request.viewKey])
+			if($scope.programRun[request.viewKey].gui)
+				if($scope.programRun[request.viewKey].gui.init)
+					$scope.programRun[request.viewKey].gui.init();
 }
 
 init_am_directive.init_app.init_page_head=function($scope){
@@ -357,7 +360,7 @@ app.directive('amdRun', function ($compile, $http) {
 		scope: false,
 		link: function (scope, ele, attrs) {
 			scope.$watch(attrs['amdRun'], function(program_init) {
-				//console.log(program_init);
+				console.log(program_init);
 				if(program_init.amProgramPath){
 					//read a program 1 - to run program
 					read_am_json_source(scope, ele, program_init.amProgramPath, $compile, $http);
@@ -410,17 +413,20 @@ function read_am_json_source(scope, ele, amProgramPath, $compile, $http){
 function read_am_html_source(scope, ele, v, k, $compile, $http){
 	if(k.includes("html_")){
 		var k1 = k.replace('html_','');
-		//console.log('------189---------------------')
-		//console.log(k1)
+//		console.log('------189---------------------')
+//		console.log(k1)
 		var amdRun_pr_uri = v.source_path;
 		if(!v.source_path)
 			amdRun_pr_uri = '/f/algoritmed/lib/'+k1+'.html';
 		ele.append('<div>'+amdRun_pr_uri+'</div>');
+		console.log(amdRun_pr_uri)
 		var eleAdd = angular.element(ele[0].children[-1+ele[0].childElementCount]);
 		//console.log(amdRun_pr_uri);
 		//read a program 2 - from library level 1 in run program
 		$http.get(amdRun_pr_uri).then(function(response) {
 			var pr = response.data;
+//			console.log(pr)
+
 //			ele.html(pr);
 //			ele.append(pr);
 			eleAdd.html(pr);
@@ -564,26 +570,45 @@ this.j2c_tables = {
 			});
 	}
 	,init : function(response, param){
-//		console.log(response.data)
+//		console.log(response.data);
 		var scopeObj = param.commonArgs.scopeObj;
-//		console.log(scopeObj);
+		console.log(scopeObj);
 		var tablesJ2C = this.tablesJ2C;
-		if(!tablesJ2C.$scope[scopeObj])
+		if(!tablesJ2C.$scope[scopeObj]){
 			tablesJ2C.$scope[scopeObj] = {};
+			console.log(tablesJ2C.$scope)
+		}
 		if(response.data.list){
-			tablesJ2C.$scope[scopeObj].list = [];
-			angular.forEach(response.data.list, function(v, k){
-				if(v.docbody)
-					tablesJ2C.$scope[scopeObj].list.push({docbody:JSON.parse(v.docbody)});
-			})					
+			console.log(2)
+			if(response.data.list[0].docbody){
+				tablesJ2C.$scope[scopeObj].list = [];
+				angular.forEach(response.data.list, function(v, k){
+					tablesJ2C.$scope[scopeObj].list.push(
+						{docbody:JSON.parse(v.docbody)});
+				})					
+			}else{
+	// :NEW_SPACE for -- init_am_directive.tablesJ2C_init
+				var scopeData = tablesJ2C.$scope[scopeObj];
+				scopeData.list = response.data.list;
+				if(param.col_links)
+					scopeData.col_links = param.col_links;
+				if(param.col_keys)
+					scopeData.col_keys = param.col_keys;
+				else if(response.data.col_keys)
+					scopeData.col_keys = response.data.col_keys;
+			}
+			console.log(tablesJ2C.$scope[scopeObj])
 		}else
 		if(response.data.isObject()){
+			console.log(3)
 			tablesJ2C.$scope[scopeObj] = response.data;
 		}
 		if(init_am_directive[scopeObj] && init_am_directive[scopeObj].tablesJ2C_init){
+			console.log(4)
 			init_am_directive[scopeObj].tablesJ2C_init(response, param);
 		}else
 		if(init_am_directive.tablesJ2C_init){
+			console.log(5)
 			init_am_directive.tablesJ2C_init(response, param);
 		}
 		if(param.init){
