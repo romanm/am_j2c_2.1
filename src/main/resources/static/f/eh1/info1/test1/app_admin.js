@@ -6,13 +6,44 @@ init_am_directive.init_onload.app_admin=function($scope, $http){
 		folders:{
 			programFile:{
 				commonArgs:{scopeObj:'folders'},
-				TablesJ2C:{param:{sql:'sql2.folders.select'},
+				TablesJ2C:{param:{sql:'sql2.stringDocType.select',doctype:56},
 					col_keys:{
-						folder_name:'Папки',
-						folder_id:'ІН',
+						name:'Папки',
+						doc_id:'ІН',
 					},
 					col_links:{
-						folder_id:{k:'folder_id',vk:'folder_id'},
+						doc_id:{k:'doc_id',vk:'doc_id'},
+					},
+				},
+				html_tableJ2C:{}
+			}
+		},
+		datadictionary:{
+			programFile:{
+				commonArgs:{scopeObj:'datadictionary'},
+				TablesJ2C:{param:{sql:'sql2.stringDocType.select',doctype:6},
+					col_keys:{
+						name:'Словник',
+						doc_id:'ІН',
+					},
+					col_links:{
+						doc_id:{k:'dd_id',vk:'doc_id'},
+					},
+				},
+				html_tableJ2C:{}
+			}
+		},
+		icpc2:{
+			programFile:{
+				commonArgs:{scopeObj:'icpc2'},
+				TablesJ2C:{param:{sql:'sql2.icpc2.select',doctype:6},
+					col_keys:{
+						code:'Код',
+						value:'Назва',
+						doc_id:'ІН',
+					},
+					col_links:{
+						doc_id:{k:'dd_id',vk:'doc_id'},
 					},
 				},
 				html_tableJ2C:{}
