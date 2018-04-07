@@ -41,9 +41,27 @@ init_am_directive.init_onload.app_admin=function($scope, $http){
 						code:'Код',
 						value:'Назва',
 						doc_id:'ІН',
+						part:'Група',
+						doctype:'zГрупа',
 					},
 					col_links:{
 						doc_id:{k:'dd_id',vk:'doc_id'},
+					},
+				},
+				html_tableJ2C:{}
+			}
+		},
+		icd10:{
+			programFile:{
+				commonArgs:{scopeObj:'icd10'},
+				TablesJ2C:{param:{sql:'sql2.icd10.select',doctype:6},
+					col_keys:{
+						icd_code:'Код',
+						icd_name:'Діагноз',
+						doc_id:'ІН',
+					},
+					col_links:{
+						doc_id:{k:'dz_id',vk:'doc_id'},
 					},
 				},
 				html_tableJ2C:{}
