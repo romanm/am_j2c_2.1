@@ -360,7 +360,7 @@ app.directive('amdRun', function ($compile, $http) {
 		scope: false,
 		link: function (scope, ele, attrs) {
 			scope.$watch(attrs['amdRun'], function(program_init) {
-				console.log(program_init);
+				//console.log(program_init);
 				if(program_init.amProgramPath){
 					//read a program 1 - to run program
 					read_am_json_source(scope, ele, program_init.amProgramPath, $compile, $http);
@@ -551,12 +551,13 @@ fn_lib.TablesJ2C = function (scope, $http, programFile){
 this.$scope = scope;
 this.j2c_tables = {
 	http_get : function(param){
-		//console.log(param.param.url?param.param.url:url_read_sql_with_param);
+		console.log(param.param.url?param.param.url:url_read_sql_with_param);
 		if(param.param.sql){
 			if(param.param.sql.indexOf('.select')<0)
 				param.param.sql = 'sql.'+param.param.sql+'.select';
 		}
 		var j2c_tables = this;
+		console.log(param.param);
 		var read_http_get = function(){
 			read_sql_with_param($http, param.param, function(response){
 				j2c_tables.init(response, param);
@@ -572,14 +573,13 @@ this.j2c_tables = {
 	,init : function(response, param){
 //		console.log(response.data);
 		var scopeObj = param.commonArgs.scopeObj;
-		console.log(scopeObj);
+		//console.log(scopeObj);
 		var tablesJ2C = this.tablesJ2C;
 		if(!tablesJ2C.$scope[scopeObj]){
 			tablesJ2C.$scope[scopeObj] = {};
-			console.log(tablesJ2C.$scope)
+			//console.log(tablesJ2C.$scope)
 		}
 		if(response.data.list){
-			console.log(2)
 			if(response.data.list[0].docbody){
 				tablesJ2C.$scope[scopeObj].list = [];
 				angular.forEach(response.data.list, function(v, k){
@@ -597,18 +597,15 @@ this.j2c_tables = {
 				else if(response.data.col_keys)
 					scopeData.col_keys = response.data.col_keys;
 			}
-			console.log(tablesJ2C.$scope[scopeObj])
+			//console.log(tablesJ2C.$scope[scopeObj])
 		}else
 		if(response.data.isObject()){
-			console.log(3)
 			tablesJ2C.$scope[scopeObj] = response.data;
 		}
 		if(init_am_directive[scopeObj] && init_am_directive[scopeObj].tablesJ2C_init){
-			console.log(4)
 			init_am_directive[scopeObj].tablesJ2C_init(response, param);
 		}else
 		if(init_am_directive.tablesJ2C_init){
-			console.log(5)
 			init_am_directive.tablesJ2C_init(response, param);
 		}
 		if(param.init){
@@ -635,8 +632,8 @@ fn_lib.addProgram = function(programRun, programList){
 // url_read_sql_with_param -- is rewritable in Controller file by demand 
 var url_read_sql_with_param = '/r/read_sql_with_param';
 var read_sql_with_param = function($http, params,fn, fn_error){
-	console.log(url_read_sql_with_param)
-	console.log(params)
+	//console.log(url_read_sql_with_param)
+	//console.log(params)
 	var url = params.url?params.url:url_read_sql_with_param;
 	if(!fn_error)
 		$http.get(url, {params:params}).then(fn);

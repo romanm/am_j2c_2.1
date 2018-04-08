@@ -1,6 +1,16 @@
 var url_read_sql_with_param = '/r/read2_sql_with_param';
 init_am_directive.init_onload.app_admin=function($scope, $http){
 	console.log('--------init_am_directive.init_onload.app_admin---------------')
+	console.log($scope)
+
+	$scope.$watch('seekIcd10', function(newValue){if(newValue){
+		console.log(newValue)
+		read_sql_with_param($http, {sql:'sql2.icd10.seek',seek:'%'+newValue+'%'}, function(response){
+			$scope.icd10.list=response.data.list;
+			console.log(response.data)
+
+		});
+	}});
 
 	$scope.programRun = {
 		folders:{
