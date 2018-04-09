@@ -5,7 +5,7 @@ init_am_directive.init_onload.app_admin=function($scope, $http){
 
 	$scope.$watch('seekIcd10', function(newValue){if(newValue){
 		console.log(newValue)
-		read_sql_with_param($http, {sql:'sql2.icd10.seek',seek:'%'+newValue+'%'}, function(response){
+		read_sql_with_param($http, {sql:'sql2.icd10.seek',doctype:89,seek:'%'+newValue+'%'}, function(response){
 			$scope.icd10.list=response.data.list;
 			console.log(response.data)
 
@@ -64,7 +64,7 @@ init_am_directive.init_onload.app_admin=function($scope, $http){
 		icd10:{
 			programFile:{
 				commonArgs:{scopeObj:'icd10'},
-				TablesJ2C:{param:{sql:'sql2.icd10.select',doctype:6},
+				TablesJ2C:{param:{sql:'sql2.icd10.select',doctype:89},
 					col_keys:{
 						icd_code:'Код',
 						icd_name:'Діагноз',
@@ -74,7 +74,18 @@ init_am_directive.init_onload.app_admin=function($scope, $http){
 						doc_id:{k:'dz_id',vk:'doc_id'},
 					},
 				},
-				html_tableJ2C:{}
+				html_form_type01:{
+					source_path:'/f/eh1/info1/test1/icd10-table.html',
+					init:function(ele, v){
+						console.log('----22------html_form_type01------');
+						init_am_directive.ele_v.html_form_type01(ele, v);
+					}
+				},
+				h1tml_tableJ2C:{}
+			},
+			click_icd10Value:function(icd10){
+				console.log(icd10)
+				console.log(icd10.doc_id)
 			}
 		},
 	}

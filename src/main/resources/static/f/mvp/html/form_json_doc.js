@@ -16,13 +16,15 @@ init_am_directive.init_onload.form_json_doc=function($scope, $http){
 					}
 				},
 				TablesJ2C:{
-					param:{url:'/f/mvp/person_template.json'}},
+					param:{url:'/f/mvp/person_template.json'}
+				},
 				html_form_type01:{
 					source_path:'/f/mvp/html/form_json_doc_form1.html',
 					init:function(ele, v){
 						console.log('----22------html_form_type01------');
 						init_am_directive.ele_v.html_form_type01(ele, v);
-				}},
+					}
+				},
 				vars:{
 					doc_types:[
 						'legalEntity_template',
