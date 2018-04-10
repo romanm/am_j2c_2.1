@@ -1,3 +1,20 @@
+
+init_am_directive.init_onload.icpc2_test=function($scope, $http){
+	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
+	console.log($scope)
+	
+	$scope.programRun = {
+		table:{
+			programFile:{
+				commonArgs:{scopeObj:'table'},
+				TablesJ2C:{param:{sql:'table',table_id:48,url:'/r/read_sql_with_param'}},
+				html_tableJ2C:{}
+			}
+		},
+	}
+	
+}
+
 var url_read_sql_with_param = '/r/read2_sql_with_param';
 init_am_directive.init_onload.app_admin=function($scope, $http){
 	console.log('--------init_am_directive.init_onload.app_admin---------------')
@@ -100,10 +117,4 @@ init_am_directive.init_onload.app_admin=function($scope, $http){
 		},
 	}
 
-}
-
-init_am_directive.init_onload.icpc2_test=function($scope, $http){
-	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
-
-	
 }

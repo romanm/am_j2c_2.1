@@ -1,5 +1,7 @@
 <div am-obj="scopeObj" ng-repeat="o in [scopeObj]">
-	<table class="w13-table w3-hoverable">
+	<table class="w13-table w3-hoverable"
+	style="width: 100%"
+	>
 		<thead>
 			<tr class="w3-tiny w3-gray">
 				<th
@@ -8,9 +10,11 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="icd10 in o.list">
-				<td ng-click="tCLick(icd10)">{{icd10.icd_code}}</td>
-				<td style="position: relative;">
+			<tr style="position: relative;" ng-repeat="icd10 in o.list">
+				<td
+					ng-class="{'w3-border-top':o.values.parent.doc_id==icd10.doc_id}">{{icd10.icd_code}}</td>
+				<td
+					ng-class="{'w3-border-top':o.values.parent.doc_id==icd10.doc_id}">
 					<div ng-click="programRun.icd10.click_icd10Value(icd10)">
 						{{icd10.icd_name}}</div>
 					<div ng-if="o.values.parent.doc_id==icd10.doc_id"
