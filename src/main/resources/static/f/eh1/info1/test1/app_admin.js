@@ -8,7 +8,6 @@ init_am_directive.init_onload.app_admin=function($scope, $http){
 		read_sql_with_param($http, {sql:'sql2.icd10.seek',doctype:89,seek:'%'+newValue+'%'}, function(response){
 			$scope.icd10.list=response.data.list;
 			console.log(response.data)
-
 		});
 	}});
 
@@ -86,6 +85,17 @@ init_am_directive.init_onload.app_admin=function($scope, $http){
 			click_icd10Value:function(icd10){
 				console.log(icd10)
 				console.log(icd10.doc_id)
+				if($scope.icd10.values &&
+					$scope.icd10.values.parent.doc_id==icd10.doc_id
+				){
+					delete $scope.icd10.values;
+				}else{
+					read_sql_with_param($http, {sql:'sql2.icd10value.seek',doctype:91,parent_id:icd10.doc_id}, function(response){
+						$scope.icd10.values={parent:icd10};
+						$scope.icd10.values.list=response.data.list;
+						console.log($scope.icd10)
+					});
+				}
 			}
 		},
 	}

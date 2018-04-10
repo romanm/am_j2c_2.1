@@ -1,9 +1,7 @@
 <div am-obj="scopeObj" ng-repeat="o in [scopeObj]">
 	<table class="w13-table w3-hoverable">
 		<thead>
-			<tr
-			class="w3-tiny w3-gray"
-			>
+			<tr class="w3-tiny w3-gray">
 				<th
 					ng-repeat="(k,v) in programRun.icd10.programFile.TablesJ2C.col_keys">
 					{{k}}</th>
@@ -12,20 +10,19 @@
 		<tbody>
 			<tr ng-repeat="icd10 in o.list">
 				<td ng-click="tCLick(icd10)">{{icd10.icd_code}}</td>
-				<td ng-click="programRun.icd10.click_icd10Value(icd10)">{{icd10.icd_name}}</td>
+				<td style="position: relative;">
+					<div ng-click="programRun.icd10.click_icd10Value(icd10)">
+						{{icd10.icd_name}}</div>
+					<div ng-if="o.values.parent.doc_id==icd10.doc_id"
+						style="position: absolute; top: 8px; left: 25%; background-color: white; z-index: 1;"
+						class="w3-border w3-white">
+						<ul>
+							<li class="w3-hover-light-gray" ng-repeat="v in o.values.list">{{v.icd_code}}:
+								{{v.icd_name}}</li>
+						</ul>
+					</div>
+				</td>
 				<td>{{icd10.doc_id}}</td>
-				<!-- 
-				<td
-					ng-repeat="(k,v) in programRun.icd10.programFile.TablesJ2C.col_keys">
-					{{icd10[k]}}</td>
-				<td>{{icd10}}</td>
-			<td am-link="link_to_employee">{{employee_id}}</td>
-			<td>{{employees_cards.map_employees[employee_id].family_name}},
-				{{employees_cards.map_employees[employee_id].first_name}}
-				{{employees_cards.map_employees[employee_id].second_name}}</td>
-			<td>{{employees_cards.map_user[employee_id].role_sort}}-
-				{{employees_cards.map_user[employee_id].role_note}}</td>
- -->
 			</tr>
 		</tbody>
 	</table>
