@@ -11,8 +11,14 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				html_tableJ2C:{}
 			}
 		},
+		table2:{
+			programFile:{
+				commonArgs:{scopeObj:'table2'},
+				TablesJ2C:{param:{sql:'sql2.table.select',table_id:9765,url:'/r/read2_sql_with_param'}},
+				html_tableJ2C:{}
+			}
+		},
 	}
-	
 }
 
 var url_read_sql_with_param = '/r/read2_sql_with_param';
@@ -47,7 +53,8 @@ init_am_directive.init_onload.app_admin=function($scope, $http){
 		datadictionary:{
 			programFile:{
 				commonArgs:{scopeObj:'datadictionary'},
-				TablesJ2C:{param:{sql:'sql2.stringDocType.select',doctype:6},
+//				TablesJ2C:{param:{sql:'sql2.stringDocType.select',doctype:6},
+				TablesJ2C:{param:{sql:'sql2.ddtable.select',doctype:6},
 					col_keys:{
 						name:'Словник',
 						doc_id:'ІН',

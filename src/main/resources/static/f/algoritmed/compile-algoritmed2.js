@@ -580,7 +580,7 @@ this.j2c_tables = {
 			//console.log(tablesJ2C.$scope)
 		}
 		if(response.data.list){
-			if(response.data.list[0].docbody){
+			if(response.data.list[0] && response.data.list[0].docbody){
 				tablesJ2C.$scope[scopeObj].list = [];
 				angular.forEach(response.data.list, function(v, k){
 					tablesJ2C.$scope[scopeObj].list.push(
