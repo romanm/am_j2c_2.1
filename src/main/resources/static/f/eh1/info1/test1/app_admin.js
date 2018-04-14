@@ -18,6 +18,67 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				html_tableJ2C:{}
 			}
 		},
+		icpc2_nakaz74:{
+			programFile:{
+				commonArgs:{scopeObj:'icpc2_nakaz74'},
+				TablesJ2C:{param:{sql:'sql2.table.select',table_id:9774,url:'/r/read2_sql_with_param'}
+				},
+				html_form_type01:{
+					source_path:'/f/eh1/info1/test1/icpc2_nakaz74-table.html',
+					init:function(ele, v){
+						console.log('----22------html_form_type01------');
+						init_am_directive.ele_v.html_form_type01(ele, v);
+					}
+				},
+			},
+			edit:function(icpc2){
+				console.log(icpc2)
+				console.log(this)
+				this.editObj = icpc2;
+			},
+			colValues:function(k, icpc2){
+				var vK = this.colValuesKey[k];
+				if(vK){
+					var values = this[vK].values;
+					return values;
+				}
+
+			},
+			colValue:function(k, icpc2){
+				var vK = $scope.programRun.icpc2_nakaz74.colValuesKey[k];
+				if(vK){
+					var values = $scope.programRun.icpc2_nakaz74[vK].values;
+					var icpc2_k = icpc2[k];
+					return values[icpc2_k];
+				}
+			},
+			colValuesKey:{
+				col_9775:'episode',
+				col_9776:'consultare_type',
+				col_9777:'exemption_type',
+			},
+			exemption_type:{
+				values:{
+					1:'чорнобелець',
+					2:'ветеран',
+					3:'мати-героїня',
+				}
+			},
+			consultare_type:{
+				values:{
+					1:'амбулаторно',
+					2:'вдома',
+					3:'по телефону',
+				}
+			},
+			episode:{
+				values:{
+					1:'первинне',
+					2:'повторне',
+					3:'зевершення епізоду',
+				}
+			}
+		},
 	}
 }
 
