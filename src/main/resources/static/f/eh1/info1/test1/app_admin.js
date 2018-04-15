@@ -19,21 +19,33 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				html_tableJ2C:{}
 			},
 			blur:function(k){
+				var editObj = this.editObj;
 				console.log(k)
-				if(this.editObj[k+'_id']){
-					console.log(this.editObj[k])
-					console.log(this.editObj)
-					console.log($scope.icpc2_patient.col_alias)
-					var cln = $scope.icpc2_patient.col_alias[k.split('_')[1]];
-					console.log(cln.cln_id)
-					var data = { 
-						sql:'sql2.'+cln.col_table_name+'.updateById',
-						data_id:this.editObj[k+'_id'],
-						value:this.editObj[k],
-					};
+				console.log(editObj[k])
+				console.log(editObj)
+				var cln = $scope.icpc2_patient.col_alias[k.split('_')[1]];
+				console.log(cln)
+				console.log($scope.icpc2_patient.col_alias)
+				var data={
+					value:editObj[k],
+				}
+				if(editObj[k+'_id']){
+					data.sql='sql2.'+cln.col_table_name+'.updateById';
+					data.data_id=editObj[k+'_id'];
 					console.log(data);
 					$http.post('/r/update2_sql_with_param', data).then(function(response) {
 						console.log(response.data);
+					});
+				}else{
+					data.sql='sql2.'+cln.col_table_name+'.insertRowId';
+					data.row_id=editObj.row_id;
+					data.cln_id=cln.cln_id;
+					console.log(data);
+					$http.post('/r/update2_sql_with_param', data).then(function(response) {
+						console.log(response.data);
+						console.log(response.data.nextDbId1);
+						editObj[k+'_id'] = response.data.nextDbId1;
+						console.log(editObj)
 					});
 				}
 			},
