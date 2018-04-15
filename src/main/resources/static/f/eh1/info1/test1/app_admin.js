@@ -18,11 +18,33 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				},
 				html_tableJ2C:{}
 			},
+			minus_patient:function(){
+				var editObj = this.editObj;
+				console.log($scope.icpc2_patient)
+				console.log(editObj)
+				var data={
+					sql:'sql2.j2c.deleteRowId',
+					row_id:editObj.row_id,
+				}
+				console.log(data);
+				$http.post('/r/update2_sql_with_param', data).then(function(response) {
+					console.log(response.data);
+				});
+			},
+			add_patient:function(){
+				var o1 = $scope.icpc2_patient.list[0];
+				var data={
+						sql:'sql2.j2c.insertRow',
+						tbl_id:o1.tbl_id,
+				}
+				console.log(data);
+				$http.post('/r/update2_sql_with_param', data).then(function(response) {
+					console.log(response.data);
+				});
+
+			},
 			blur:function(k){
 				var editObj = this.editObj;
-				console.log(k)
-				console.log(editObj[k])
-				console.log(editObj)
 				var cln = $scope.icpc2_patient.col_alias[k.split('_')[1]];
 				console.log(cln)
 				console.log($scope.icpc2_patient.col_alias)

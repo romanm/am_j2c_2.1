@@ -17,6 +17,7 @@
 		</table>
 	</div>
 	<div ng-if="programRun.icpc2_patient.editObj" class="w3-card">
+	 <span class="w3-btn w3-border" ng-click="programRun.icpc2_patient.minus_patient()">-</span>
 		<div ng-repeat="(k,v) in icpc2_patient.col_keys">
 			<b class="w3-small"> {{v}}:</b> <input
 				ng-blur="programRun.icpc2_patient.blur(k)"
