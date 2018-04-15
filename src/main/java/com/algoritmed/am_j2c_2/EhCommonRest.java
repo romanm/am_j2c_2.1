@@ -35,11 +35,12 @@ public class EhCommonRest  extends Db2Common{
 	
 	@PostMapping("/r/update2_sql_with_param")
 	public @ResponseBody Map<String, Object> update_sql_with_param(
-			@RequestParam(value = "sql", required = true) String sql,
+//			@RequestParam(value = "sql", required = true) String sql,
 			@RequestBody Map<String, Object> data
 			,HttpServletRequest request
 			,Principal principal
 		) {
+		String sql = (String) data.get("sql");
 		logger.info("\n\n-- 29 -- /r/update2_sql_with_param \n"
 				+ sql
 				+ "\n"

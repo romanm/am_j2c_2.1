@@ -596,6 +596,7 @@ this.j2c_tables = {
 					scopeData.col_keys = param.col_keys;
 				else if(response.data.col_keys)
 					scopeData.col_keys = response.data.col_keys;
+				scopeData.col_alias = response.data.col_alias;
 			}
 			//console.log(tablesJ2C.$scope[scopeObj])
 		}else
