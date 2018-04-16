@@ -2,7 +2,36 @@
 init_am_directive.init_onload.icpc2_test=function($scope, $http){
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
 	console.log($scope)
-	
+
+	var j2c_persist = function(editObj, k, cln){
+		console.log('j2c_persist');
+		console.log(editObj);
+		console.log(k);
+		console.log(cln)
+		var data={
+			value:editObj[k],
+		}
+		if(editObj[k+'_id']){
+			data.sql='sql2.'+cln.col_table_name+'.updateById';
+			data.data_id=editObj[k+'_id'];
+			console.log(data);
+			$http.post('/r/update2_sql_with_param', data).then(function(response) {
+				console.log(response.data);
+			});
+		}else{
+			data.sql='sql2.'+cln.col_table_name+'.insertRowId';
+			data.row_id=editObj.row_id;
+			data.cln_id=cln.cln_id;
+			console.log(data);
+			$http.post('/r/update2_sql_with_param', data).then(function(response) {
+				console.log(response.data);
+				console.log(response.data.nextDbId1);
+				editObj[k+'_id'] = response.data.nextDbId1;
+				console.log(editObj)
+			});
+		}
+	}
+
 	$scope.programRun = {
 		table:{
 			programFile:{
@@ -44,32 +73,10 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 
 			},
 			blur:function(k){
-				var editObj = this.editObj;
-				var cln = $scope.icpc2_patient.col_alias[k.split('_')[1]];
-				console.log(cln)
 				console.log($scope.icpc2_patient.col_alias)
-				var data={
-					value:editObj[k],
-				}
-				if(editObj[k+'_id']){
-					data.sql='sql2.'+cln.col_table_name+'.updateById';
-					data.data_id=editObj[k+'_id'];
-					console.log(data);
-					$http.post('/r/update2_sql_with_param', data).then(function(response) {
-						console.log(response.data);
-					});
-				}else{
-					data.sql='sql2.'+cln.col_table_name+'.insertRowId';
-					data.row_id=editObj.row_id;
-					data.cln_id=cln.cln_id;
-					console.log(data);
-					$http.post('/r/update2_sql_with_param', data).then(function(response) {
-						console.log(response.data);
-						console.log(response.data.nextDbId1);
-						editObj[k+'_id'] = response.data.nextDbId1;
-						console.log(editObj)
-					});
-				}
+				var cln = $scope.icpc2_patient.col_alias[k.split('_')[1]];
+				var editObj = this.editObj;
+				j2c_persist(this.editObj, k, cln);
 			},
 			edit:function(patient){
 				if(this.editObj == patient){
@@ -93,6 +100,11 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 						init_am_directive.ele_v.html_form_type01(ele, v);
 					}
 				},
+			},
+			click:function(k){
+				console.log(k);
+				var cln = $scope.icpc2_nakaz74.col_alias[k.split('_')[1]];
+				j2c_persist(this.editObj, k, cln);
 			},
 			edit:function(icpc2){
 				if(this.editObj == icpc2){
