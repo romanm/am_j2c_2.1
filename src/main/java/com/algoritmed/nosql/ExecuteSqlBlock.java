@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,6 +36,7 @@ public class ExecuteSqlBlock {
 		Integer nextDbId = dbJdbcTemplate.queryForObject(sql_nextDbId, Integer.class);
 		return nextDbId;
 	}
+	@Transactional(transactionManager="transactionManager2")
 	public void update_sql_script(Map<String, Object> data, String sql, Environment env) {
 		this.env =env;
 //	String sql = (String) data.get("sql"); 

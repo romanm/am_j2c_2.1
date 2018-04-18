@@ -1,36 +1,69 @@
+var j2c_minus_row = function(editObj){
+	console.log($scope.icpc2_patient)
+	console.log(editObj)
+	var data={
+		sql:'sql2.j2c.deleteRowId',
+		row_id:editObj.row_id,
+	}
+	console.log(data);
+	$http.post('/r/update2_sql_with_param', data).then(function(response) {
+		console.log(response.data);
+	});
+}
+
+var j2c_add_row = function(tbl_id){
+	var data={
+			sql:'sql2.j2c.insertRow',
+			tbl_id:tbl_id,
+	}
+	console.log(data);
+	$http.post('/r/update2_sql_with_param', data).then(function(response) {
+		console.log(response.data);
+	});
+}
+
+var j2c_persist = function(editObj, k, cln, $http){
+	console.log('j2c_persist');
+	console.log(editObj);
+	console.log(k);
+	console.log(cln)
+	var data={
+		value:editObj[k],
+	}
+	if(editObj[k+'_id']){
+		data.sql='sql2.'+cln.col_table_name+'.updateById';
+		data.data_id=editObj[k+'_id'];
+		console.log(data);
+		$http.post('/r/update2_sql_with_param', data).then(function(response) {
+			console.log(response.data);
+		});
+	}else{
+		data.sql='sql2.'+cln.col_table_name+'.insertRowId';
+		data.row_id=editObj.row_id;
+		data.cln_id=cln.cln_id;
+		console.log(data);
+		$http.post('/r/update2_sql_with_param', data).then(function(response) {
+			console.log(response.data);
+			console.log(response.data.nextDbId1);
+			editObj[k+'_id'] = response.data.nextDbId1;
+			console.log(editObj)
+		});
+	}
+}
 
 init_am_directive.init_onload.icpc2_test=function($scope, $http){
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
 	console.log($scope)
-
-	var j2c_persist = function(editObj, k, cln){
-		console.log('j2c_persist');
-		console.log(editObj);
-		console.log(k);
-		console.log(cln)
-		var data={
-			value:editObj[k],
-		}
-		if(editObj[k+'_id']){
-			data.sql='sql2.'+cln.col_table_name+'.updateById';
-			data.data_id=editObj[k+'_id'];
-			console.log(data);
-			$http.post('/r/update2_sql_with_param', data).then(function(response) {
-				console.log(response.data);
-			});
-		}else{
-			data.sql='sql2.'+cln.col_table_name+'.insertRowId';
-			data.row_id=editObj.row_id;
-			data.cln_id=cln.cln_id;
-			console.log(data);
-			$http.post('/r/update2_sql_with_param', data).then(function(response) {
-				console.log(response.data);
-				console.log(response.data.nextDbId1);
-				editObj[k+'_id'] = response.data.nextDbId1;
-				console.log(editObj)
-			});
-		}
-	}
+	
+	$scope.$watch('seekIcpc2', function(newValue){if(newValue){
+		console.log(newValue)
+		read_sql_with_param($http, {sql:'sql2.icpc2.seek',seek:'%'+newValue+'%'}, function(response){
+			$scope.icpc2_list.list=response.data.list;
+			console.log(response.data)
+		});
+		/*
+		 * */
+	}});
 
 	$scope.programRun = {
 		table:{
@@ -45,38 +78,27 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				commonArgs:{scopeObj:'icpc2_patient'},
 				TablesJ2C:{param:{sql:'sql2.table.select',table_id:9765,url:'/r/read2_sql_with_param'}
 				},
-				html_tableJ2C:{}
+				html_form_type01:{
+					source_path:'/f/eh1/info1/test1/icpc2_patient-table.html',
+					init:function(ele, v){
+						console.log('----22------html_form_type01------');
+						init_am_directive.ele_v.html_form_type01(ele, v);
+					}
+				},
+				ht1ml_tableJ2C:{}
 			},
 			minus_patient:function(){
-				var editObj = this.editObj;
-				console.log($scope.icpc2_patient)
-				console.log(editObj)
-				var data={
-					sql:'sql2.j2c.deleteRowId',
-					row_id:editObj.row_id,
-				}
-				console.log(data);
-				$http.post('/r/update2_sql_with_param', data).then(function(response) {
-					console.log(response.data);
-				});
+				j2c_minus_row(this.editObj)
 			},
 			add_patient:function(){
-				var o1 = $scope.icpc2_patient.list[0];
-				var data={
-						sql:'sql2.j2c.insertRow',
-						tbl_id:o1.tbl_id,
-				}
-				console.log(data);
-				$http.post('/r/update2_sql_with_param', data).then(function(response) {
-					console.log(response.data);
-				});
-
+				var tbl_id = $scope.icpc2_patient.list[0].tbl_id;
+				j2c_add_row(tbl_id)
 			},
 			blur:function(k){
 				console.log($scope.icpc2_patient.col_alias)
 				var cln = $scope.icpc2_patient.col_alias[k.split('_')[1]];
 				var editObj = this.editObj;
-				j2c_persist(this.editObj, k, cln);
+				j2c_persist(this.editObj, k, cln, $http);
 			},
 			edit:function(patient){
 				if(this.editObj == patient){
@@ -87,6 +109,31 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 					this.editObj = patient;
 				}
 			},
+		},
+		icpc2_list:{
+			programFile:{
+				commonArgs:{scopeObj:'icpc2_list'},
+				TablesJ2C:{param:{sql:'sql2.icpc2.select',url:'/r/read2_sql_with_param'},
+					col_keys:{
+						code:'Код',
+						value:'Назва',
+						doc_id:'ІН',
+						part:'Група',
+						doctype:'zГрупа',
+					},
+				},
+				html_form_type01:{
+					source_path:'/f/eh1/info1/test1/icpc2_list-table.html',
+					init:function(ele, v){
+						console.log('----22------html_form_type01------');
+						init_am_directive.ele_v.html_form_type01(ele, v);
+					}
+				},
+			},
+			click:function(icpc2){
+				console.log(icpc2);
+			}
+
 		},
 		icpc2_nakaz74:{
 			programFile:{
@@ -101,10 +148,17 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 					}
 				},
 			},
+			minus_row:function(){
+				j2c_minus_row(this.editObj)
+			},
+			add_row:function(){
+				var tbl_id = $scope.icpc2_nakaz74.list[0].tbl_id;
+				j2c_add_row(tbl_id)
+			},
 			click:function(k){
 				console.log(k);
 				var cln = $scope.icpc2_nakaz74.col_alias[k.split('_')[1]];
-				j2c_persist(this.editObj, k, cln);
+				j2c_persist(this.editObj, k, cln, $http);
 			},
 			edit:function(icpc2){
 				if(this.editObj == icpc2){

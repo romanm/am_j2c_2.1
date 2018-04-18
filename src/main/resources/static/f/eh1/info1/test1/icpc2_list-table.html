@@ -1,0 +1,19 @@
+<div am-obj="scopeObj" ng-repeat="o in [scopeObj]">
+  <div class="w3-card">
+    <table class="w13-table w3-hoverable" style="w1idth: 100%">
+      <thead>
+        <tr class="w3-tiny w3-gray">
+          <th title="{{k}}" ng-repeat="(k,v) in icpc2_list.col_keys">
+            {{v}}</th>
+        </tr>
+      </thead>
+      <tbody>
+				<tr style="position: relative;" ng-repeat="icpc2 in o.list"
+					ng-click="programRun.icpc2_list.click(icpc2)">
+					<td title="{{k}}" ng-repeat="(k,v) in icpc2_list.col_keys"
+						ng-init="k1=1">{{icpc2[k]}}</td>
+				</tr>
+			</tbody>
+    </table>
+  </div>
+</div>
