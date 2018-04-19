@@ -11,7 +11,7 @@ var j2c_minus_row = function(editObj){
 	});
 }
 
-var j2c_add_row = function(tbl_id){
+var j2c_add_row = function(tbl_id, $http){
 	var data={
 			sql:'sql2.j2c.insertRow',
 			tbl_id:tbl_id,
@@ -61,18 +61,9 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 			$scope.icpc2_list.list=response.data.list;
 			console.log(response.data)
 		});
-		/*
-		 * */
 	}});
 
 	$scope.programRun = {
-		table:{
-			programFile:{
-				commonArgs:{scopeObj:'table'},
-				TablesJ2C:{param:{sql:'table',table_id:48,url:'/r/read_sql_with_param'}},
-				html_tableJ2C:{}
-			}
-		},
 		icpc2_patient:{
 			programFile:{
 				commonArgs:{scopeObj:'icpc2_patient'},
@@ -92,7 +83,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 			},
 			add_patient:function(){
 				var tbl_id = $scope.icpc2_patient.list[0].tbl_id;
-				j2c_add_row(tbl_id)
+				j2c_add_row(tbl_id, $http)
 			},
 			blur:function(k){
 				console.log($scope.icpc2_patient.col_alias)
@@ -153,7 +144,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 			},
 			add_row:function(){
 				var tbl_id = $scope.icpc2_nakaz74.list[0].tbl_id;
-				j2c_add_row(tbl_id)
+				j2c_add_row(tbl_id, $http)
 			},
 			click:function(k){
 				console.log(k);
