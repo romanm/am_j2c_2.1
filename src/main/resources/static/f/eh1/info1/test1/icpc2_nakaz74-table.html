@@ -10,6 +10,7 @@
 			<tbody>
 				<tr style="position: relative;" ng-repeat="icpc2 in o.list"
 					ng-click="programRun.icpc2_nakaz74.edit(icpc2)"
+					ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj==icpc2}"
 					>
 					<td title="{{k}}" ng-repeat="(k,v) in icpc2_nakaz74.col_keys"
 						ng-init="k1=1">{{icpc2[k]}}:

@@ -192,7 +192,6 @@ fn_lib.DbDesign.init.isInstruction = function(k, k_instruction){
 app.controller('ControllerApp1', function($scope, $http) {
 	console.log('-------ControllerApp1--------');
 	console.log($scope)
-	console.log($scope.folders)
 
 //	console.log(request)
 	init_am_directive.init_programRuns($scope, $http);
@@ -200,14 +199,14 @@ app.controller('ControllerApp1', function($scope, $http) {
 });
 
 request.parameters={};
-console.log(window.location);
+//console.log(window.location);
 if(window.location.search.split('?')[1]){
 	angular.forEach(window.location.search.split('?')[1].split('&'), function(value, index){
 		var par = value.split("=");
 		request.parameters[par[0]] = par[1];
 	});
 }
-console.log(request);
+//console.log(request);
 request.viewKey = window.location.pathname.split('/v/')[1];
 if(!request.viewKey){
 	var splitHtml = window.location.pathname.split('.')
@@ -252,7 +251,7 @@ init_am_directive.init_onload=function($scope, $http){
 	if(init_am_directive.init_onload[request.viewKey])
 		init_am_directive.init_onload[request.viewKey]($scope, $http);
 	//init GUI from $scope.programRun
-	console.log('--62-- '+request.viewKey+'/'+$scope.page.head.tabs_key)
+//	console.log('--62-- '+request.viewKey+'/'+$scope.page.head.tabs_key)
 	if($scope.programRun)
 		if($scope.programRun[request.viewKey])
 			if($scope.programRun[request.viewKey].gui)
@@ -419,7 +418,7 @@ function read_am_html_source(scope, ele, v, k, $compile, $http){
 		if(!v.source_path)
 			amdRun_pr_uri = '/f/algoritmed/lib/'+k1+'.html';
 		ele.append('<div>'+amdRun_pr_uri+'</div>');
-		console.log(amdRun_pr_uri)
+//		console.log(amdRun_pr_uri)
 		var eleAdd = angular.element(ele[0].children[-1+ele[0].childElementCount]);
 		//console.log(amdRun_pr_uri);
 		//read a program 2 - from library level 1 in run program
@@ -506,18 +505,14 @@ init_am_directive.ele_v.html_form_type01 = function(ele, v){
 	init_am_directive.translate_am_att(lastChildEle, v);
 	console.log(v);
 	var amObj = lastChildEle.getAttribute('am-obj');
-	console.log(amObj);
+//	console.log(amObj);
 	var ngRepeat;
 	if('ngRepeat'==amObj){
 		ngRepeat = v.commonArgs[amObj];
 	}else{
 		var scopeObj = v.commonArgs[amObj];
-		console.log(scopeObj);
 		ngRepeat = lastChildEle.getAttribute('ng-repeat');
-		
-		console.log(ngRepeat);
 		ngRepeat = ngRepeat.replace('scopeObj',scopeObj);
-		console.log(ngRepeat);
 	}
 	lastChildEle.setAttribute('ng-repeat',ngRepeat);
 }
@@ -551,7 +546,7 @@ fn_lib.TablesJ2C = function (scope, $http, programFile){
 this.$scope = scope;
 this.j2c_tables = {
 	http_get : function(param){
-		console.log(param.param.url?param.param.url:url_read_sql_with_param);
+//		console.log(param.param.url?param.param.url:url_read_sql_with_param);
 		if(param.param.sql){
 			if(param.param.sql.indexOf('.select')<0)
 				param.param.sql = 'sql.'+param.param.sql+'.select';

@@ -53,7 +53,6 @@ var j2c_persist = function(editObj, k, cln, $http){
 
 init_am_directive.init_onload.icpc2_test=function($scope, $http){
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
-	console.log($scope)
 	
 	$scope.$watch('seekIcpc2', function(newValue){if(newValue){
 		console.log(newValue)
@@ -72,7 +71,6 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				html_form_type01:{
 					source_path:'/f/eh1/info1/test1/icpc2_patient-table.html',
 					init:function(ele, v){
-						console.log('----22------html_form_type01------');
 						init_am_directive.ele_v.html_form_type01(ele, v);
 					}
 				},
@@ -90,6 +88,28 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				var cln = $scope.icpc2_patient.col_alias[k.split('_')[1]];
 				var editObj = this.editObj;
 				j2c_persist(this.editObj, k, cln, $http);
+			},
+			addICPC2:function(patient){
+				console.log(patient)
+				console.log($scope.icpc2_nakaz74)
+				console.log($scope.programRun.icpc2_nakaz74.editObj)
+				if($scope.programRun.icpc2_nakaz74.editObj.col_10766_id){
+					var data={
+						sql:'sql2.j2c.updateConstraint',
+						cell_id:patient.row_id,
+						reference2:$scope.programRun.icpc2_nakaz74.editObj.col_10766_id,
+
+					}
+					console.log(data);
+					/*
+					$http.post('/r/update2_sql_with_param', data).then(function(response) {
+						console.log(response.data);
+					});
+					 * */
+				}else{
+
+				}
+
 			},
 			edit:function(patient){
 				if(this.editObj == patient){
@@ -116,7 +136,6 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				html_form_type01:{
 					source_path:'/f/eh1/info1/test1/icpc2_list-table.html',
 					init:function(ele, v){
-						console.log('----22------html_form_type01------');
 						init_am_directive.ele_v.html_form_type01(ele, v);
 					}
 				},
@@ -134,7 +153,6 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				html_form_type01:{
 					source_path:'/f/eh1/info1/test1/icpc2_nakaz74-table.html',
 					init:function(ele, v){
-						console.log('----22------html_form_type01------');
 						init_am_directive.ele_v.html_form_type01(ele, v);
 					}
 				},
