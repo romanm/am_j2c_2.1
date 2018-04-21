@@ -95,20 +95,26 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				console.log($scope.programRun.icpc2_nakaz74.editObj)
 				if($scope.programRun.icpc2_nakaz74.editObj.col_10766_id){
 					var data={
-						sql:'sql2.j2c.updateConstraint',
+						sql:'sql2.j2c.updateCellWithConstraint',
 						reference2:patient.row_id,
 						doc_id:$scope.programRun.icpc2_nakaz74.editObj.col_10766_id,
 					}
 					console.log(data);
-					/*
-					 * */
 					$http.post('/r/update2_sql_with_param', data).then(function(response) {
 						console.log(response.data);
 					});
 				}else{
-
+					var data={
+						sql:'sql2.j2c.insertCellWithConstraint',
+						parent_id:$scope.programRun.icpc2_nakaz74.editObj.row_id,
+						reference2:patient.row_id,
+						reference:10766,
+					}
+					console.log(data);
+					$http.post('/r/update2_sql_with_param', data).then(function(response) {
+						console.log(response.data);
+					});
 				}
-
 			},
 			edit:function(patient){
 				if(this.editObj == patient){
