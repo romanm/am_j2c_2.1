@@ -147,6 +147,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 			},
 			click:function(icpc2){
 				console.log(icpc2);
+				console.log($scope.programRun.icpc2_nakaz74.editObj)
 			}
 
 		},
