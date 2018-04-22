@@ -11,6 +11,31 @@ var j2c_minus_row = function(editObj){
 	});
 }
 
+var j2c_cell_constraint_update = function(cell_id,constraint,col_id,row_id, $http){
+	if(cell_id){
+		var data={
+			sql:'sql2.j2c.updateCellWithConstraint',
+			reference2:constraint,
+			doc_id:cell_id,
+		}
+		console.log(data);
+		$http.post('/r/update2_sql_with_param', data).then(function(response) {
+			console.log(response.data);
+		});
+	}else{
+		var data={
+			sql:'sql2.j2c.insertCellWithConstraint',
+			parent_id:row_id,
+			reference:col_id,
+			reference2:constraint,
+		}
+		console.log(data);
+		$http.post('/r/update2_sql_with_param', data).then(function(response) {
+			console.log(response.data);
+		});
+	}
+}
+
 var j2c_add_row = function(tbl_id, $http){
 	var data={
 			sql:'sql2.j2c.insertRow',
@@ -90,31 +115,16 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				j2c_persist(this.editObj, k, cln, $http);
 			},
 			addICPC2:function(patient){
+				j2c_cell_constraint_update(
+					$scope.programRun.icpc2_nakaz74.editObj.col_10766_id, 
+					patient.row_id,
+					10766,
+					$scope.programRun.icpc2_nakaz74.editObj.row_id,
+					$http
+				);
 				console.log(patient)
 				console.log($scope.icpc2_nakaz74)
 				console.log($scope.programRun.icpc2_nakaz74.editObj)
-				if($scope.programRun.icpc2_nakaz74.editObj.col_10766_id){
-					var data={
-						sql:'sql2.j2c.updateCellWithConstraint',
-						reference2:patient.row_id,
-						doc_id:$scope.programRun.icpc2_nakaz74.editObj.col_10766_id,
-					}
-					console.log(data);
-					$http.post('/r/update2_sql_with_param', data).then(function(response) {
-						console.log(response.data);
-					});
-				}else{
-					var data={
-						sql:'sql2.j2c.insertCellWithConstraint',
-						parent_id:$scope.programRun.icpc2_nakaz74.editObj.row_id,
-						reference2:patient.row_id,
-						reference:10766,
-					}
-					console.log(data);
-					$http.post('/r/update2_sql_with_param', data).then(function(response) {
-						console.log(response.data);
-					});
-				}
 			},
 			edit:function(patient){
 				if(this.editObj == patient){
@@ -146,8 +156,19 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				},
 			},
 			click:function(icpc2){
-				console.log(icpc2);
-				console.log($scope.programRun.icpc2_nakaz74.editObj)
+				console.log($scope.programRun.icpc2_nakaz74.editObj.col_10771_id);
+				console.log(icpc2.doc_id);
+				console.log(10771);
+				console.log($scope.programRun.icpc2_nakaz74.editObj.row_id)
+				/*
+				 * */
+				j2c_cell_constraint_update(
+						$scope.programRun.icpc2_nakaz74.editObj.col_10771_id, 
+						icpc2.doc_id,
+						10771,
+						$scope.programRun.icpc2_nakaz74.editObj.row_id,
+						$http
+				);
 			}
 
 		},
