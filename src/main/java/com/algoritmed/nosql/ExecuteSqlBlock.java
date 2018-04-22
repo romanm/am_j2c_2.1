@@ -36,7 +36,8 @@ public class ExecuteSqlBlock {
 		Integer nextDbId = dbJdbcTemplate.queryForObject(sql_nextDbId, Integer.class);
 		return nextDbId;
 	}
-	@Transactional(transactionManager="transactionManager2")
+//	(transactionManager="transactionManager2")
+	@Transactional
 	public void update_sql_script(Map<String, Object> data, String sql, Environment env) {
 		this.env =env;
 //	String sql = (String) data.get("sql"); 

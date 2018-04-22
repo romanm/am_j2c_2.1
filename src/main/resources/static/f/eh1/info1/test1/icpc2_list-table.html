@@ -9,7 +9,7 @@
       </thead>
       <tbody>
 				<tr style="position: relative;" ng-repeat="icpc2 in o.list"
-					ng-click="programRun.icpc2_list.click(icpc2)">
+					ng-click="programRun.icpc2_list.save_icpc2(icpc2)">
 					<td title="{{k}}" ng-repeat="(k,v) in icpc2_list.col_keys"
 						ng-init="k1=1">{{icpc2[k]}}</td>
 				</tr>

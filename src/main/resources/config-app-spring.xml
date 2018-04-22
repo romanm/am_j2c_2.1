@@ -5,8 +5,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
+
 <!-- 
+<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"/>
 	<bean id ="passwordEncoder" class = "org.springframework.security.crypto.NoOpPasswordEncoder" factory-method = "getInstance" />
+		<property name="transactionIsolation" value="true"></property>
  -->
 	<!-- БД основна -->
 	<bean id="dataSourceDb2" class="com.zaxxer.hikari.HikariDataSource"
@@ -16,11 +19,13 @@
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 	</bean>
+	<!-- 
 	 <bean id="transactionManager2"
         class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSourceDb2" />
         <property name="rollbackOnCommitFailure" value="true" />
     </bean>
+	 -->
 	<bean id="dataSourceDb1" class="com.zaxxer.hikari.HikariDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="org.h2.Driver" />

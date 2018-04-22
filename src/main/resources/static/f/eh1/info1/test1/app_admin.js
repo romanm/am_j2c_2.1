@@ -87,6 +87,14 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 		});
 	}});
 
+	$scope.$watch('seekIcd10', function(newValue){if(newValue){
+		console.log(newValue)
+		read_sql_with_param($http, {sql:'sql2.icd10.seek',doctype:89,seek:'%'+newValue+'%'}, function(response){
+			$scope.icd10.list=response.data.list;
+			console.log(response.data)
+		});
+	}});
+
 	$scope.programRun = {
 		icpc2_patient:{
 			programFile:{
@@ -155,13 +163,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 					}
 				},
 			},
-			click:function(icpc2){
-				console.log($scope.programRun.icpc2_nakaz74.editObj.col_10771_id);
-				console.log(icpc2.doc_id);
-				console.log(10771);
-				console.log($scope.programRun.icpc2_nakaz74.editObj.row_id)
-				/*
-				 * */
+			save_icpc2:function(icpc2){
 				j2c_cell_constraint_update(
 						$scope.programRun.icpc2_nakaz74.editObj.col_10771_id, 
 						icpc2.doc_id,
@@ -170,7 +172,51 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 						$http
 				);
 			}
-
+		},
+		icd10:{
+			programFile:{
+				commonArgs:{scopeObj:'icd10'},
+				TablesJ2C:{param:{sql:'sql2.icd10.select',doctype:89},
+					col_keys:{
+						icd_code:'Код',
+						icd_name:'Діагноз',
+						doc_id:'ІН',
+					},
+					col_links:{
+						doc_id:{k:'dz_id',vk:'doc_id'},
+					},
+				},
+				html_form_type01:{
+					source_path:'/f/eh1/info1/test1/icd10n74-table.html',
+					init:function(ele, v){
+						console.log('----22------html_form_type01------');
+						init_am_directive.ele_v.html_form_type01(ele, v);
+					}
+				},
+			},
+			save_icd10Value:function(icd10){
+				j2c_cell_constraint_update(
+					$scope.programRun.icpc2_nakaz74.editObj.col_10777_id, 
+					icd10.doc_id,
+					10777,
+					$scope.programRun.icpc2_nakaz74.editObj.row_id,
+					$http
+				);
+			},
+			click_icd10Value:function(icd10){
+				this.save_icd10Value(icd10)
+				if($scope.icd10.values &&
+					$scope.icd10.values.parent.doc_id==icd10.doc_id
+				){
+					delete $scope.icd10.values;
+				}else{
+					read_sql_with_param($http, {sql:'sql2.icd10value.seek',doctype:91,parent_id:icd10.doc_id}, function(response){
+						$scope.icd10.values={parent:icd10};
+						$scope.icd10.values.list=response.data.list;
+						console.log($scope.icd10)
+					});
+				}
+			}
 		},
 		icpc2_nakaz74:{
 			programFile:{

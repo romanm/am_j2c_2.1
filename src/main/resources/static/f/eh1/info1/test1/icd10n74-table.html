@@ -1,0 +1,34 @@
+<div am-obj="scopeObj" ng-repeat="o in [scopeObj]">
+	<table class="w13-table w3-hoverable"
+	style="width: 100%"
+	>
+		<thead>
+			<tr class="w3-tiny w3-gray">
+				<th
+					ng-repeat="(k,v) in programRun.icd10.programFile.TablesJ2C.col_keys">
+					{{k}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr style="position: relative;" ng-repeat="icd10 in o.list">
+				<td
+					ng-class="{'w3-border-top':o.values.parent.doc_id==icd10.doc_id}">{{icd10.icd_code}}</td>
+				<td
+					ng-class="{'w3-border-top':o.values.parent.doc_id==icd10.doc_id}">
+					<div ng-click="programRun.icd10.click_icd10Value(icd10)">
+						{{icd10.icd_name}}</div>
+					<div ng-if="o.values.parent.doc_id==icd10.doc_id"
+						style="position: absolute; top: 8px; left: 25%; background-color: white; z-index: 1;"
+						class="w3-border w3-white">
+						<ul>
+							<li class="w3-hover-light-gray" ng-repeat="v in o.values.list"
+ ng-click="programRun.icd10.click_icd10Value(v)" >{{v.icd_code}}:
+								{{v.icd_name}}</li>
+						</ul>
+					</div>
+				</td>
+				<td>{{icd10.doc_id}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
