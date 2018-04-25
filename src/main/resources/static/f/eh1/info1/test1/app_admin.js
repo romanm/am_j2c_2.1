@@ -81,7 +81,13 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 	
 	$scope.$watch('seekIcpc2', function(newValue){if(newValue){
 		console.log(newValue)
-		read_sql_with_param($http, {sql:'sql2.icpc2.seek',seek:'%'+newValue+'%'}, function(response){
+		var sql = 'sql2.icpc2.seek';
+		console.log($scope.programRun.icpc2_list.seekInIcpc2Part)
+		if($scope.programRun.icpc2_list.seekInIcpc2Part){
+			sql +='_'+$scope.programRun.icpc2_list.seekInIcpc2Part; 
+		}
+		console.log(sql)
+		read_sql_with_param($http, {sql:sql,seek:'%'+newValue+'%'}, function(response){
 			$scope.icpc2_list.list=response.data.list;
 			console.log(response.data)
 		});
@@ -163,13 +169,17 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 					}
 				},
 			},
+			setSeek_icpc2:function(seekInIcpc2Part){
+				this.seekInIcpc2Part=seekInIcpc2Part;
+				console.log(seekInIcpc2Part)
+			},
 			save_icpc2:function(icpc2){
 				j2c_cell_constraint_update(
-						$scope.programRun.icpc2_nakaz74.editObj.col_10771_id, 
-						icpc2.doc_id,
-						10771,
-						$scope.programRun.icpc2_nakaz74.editObj.row_id,
-						$http
+					$scope.programRun.icpc2_nakaz74.editObj.col_10771_id, 
+					icpc2.doc_id,
+					10771,
+					$scope.programRun.icpc2_nakaz74.editObj.row_id,
+					$http
 				);
 			}
 		},
@@ -221,7 +231,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 		icpc2_nakaz74:{
 			programFile:{
 				commonArgs:{scopeObj:'icpc2_nakaz74'},
-				TablesJ2C:{param:{sql:'sql2.table.select',table_id:9774,url:'/r/read2_sql_with_param'}
+				TablesJ2C:{param:{sql:'sql2.table2.select',table_id:9774,url:'/r/read2_sql_with_param'}
 				},
 				html_form_type01:{
 					source_path:'/f/eh1/info1/test1/icpc2_nakaz74-table.html',
@@ -358,7 +368,10 @@ init_am_directive.init_onload.app_admin=function($scope, $http){
 					},
 				},
 				html_tableJ2C:{}
-			}
+			},
+			click_icd10Value:function(icd10){
+
+			},
 		},
 		icd10:{
 			programFile:{
@@ -380,7 +393,6 @@ init_am_directive.init_onload.app_admin=function($scope, $http){
 						init_am_directive.ele_v.html_form_type01(ele, v);
 					}
 				},
-				h1tml_tableJ2C:{}
 			},
 			click_icd10Value:function(icd10){
 				console.log(icd10)

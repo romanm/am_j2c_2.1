@@ -21,7 +21,15 @@
 
 	<div>
 		ICPC2 пошук <input ng-model="seekIcpc2" placeholder="знайти ICPC2"
-			class="w3-border am-width-100pr" />
+			class="w3-border am-width-100pr" /> 
+			<a href="#"
+			ng-class="{'w3-gray':programRun.icpc2_list.seekInIcpc2Part=='code'}"
+			ng-click="programRun.icpc2_list.setSeek_icpc2('code')"> код </a> 
+			| 
+			<a
+			ng-class="{'w3-gray':programRun.icpc2_list.seekInIcpc2Part=='process'}"
+			href="#" ng-click="programRun.icpc2_list.setSeek_icpc2('process')">
+			процес </a>
 	</div>
 	<div class="w3-card"
 	style="height: 100px; overflow: auto;"
