@@ -136,9 +136,6 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 					$scope.programRun.icpc2_nakaz74.editObj.row_id,
 					$http
 				);
-				console.log(patient)
-				console.log($scope.icpc2_nakaz74)
-				console.log($scope.programRun.icpc2_nakaz74.editObj)
 			},
 			edit:function(patient){
 				if(this.editObj == patient){
