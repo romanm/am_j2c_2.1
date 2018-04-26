@@ -21,9 +21,8 @@ var j2c_cell_constraint_update = function(cell_id,constraint,col_id,row_id, $htt
 		console.log(data);
 		$http.post('/r/update2_sql_with_param', data).then(function(response) {
 			console.log(response.data);
-			if(fn_after_update){
+			if(fn_after_update)
 				fn_after_update();
-			}
 		});
 	}else{
 		var data={
@@ -35,9 +34,8 @@ var j2c_cell_constraint_update = function(cell_id,constraint,col_id,row_id, $htt
 		console.log(data);
 		$http.post('/r/update2_sql_with_param', data).then(function(response) {
 			console.log(response.data);
-			if(fn_after_update){
+			if(fn_after_update)
 				fn_after_update();
-			}
 		});
 	}
 }
@@ -53,7 +51,7 @@ var j2c_add_row = function(tbl_id, $http){
 	});
 }
 
-var j2c_persist = function(editObj, k, cln, $http){
+var j2c_persist = function(editObj, k, cln, $http, fn_after_update){
 	console.log('j2c_persist');
 	console.log(editObj);
 	console.log(k);
@@ -67,6 +65,8 @@ var j2c_persist = function(editObj, k, cln, $http){
 		console.log(data);
 		$http.post('/r/update2_sql_with_param', data).then(function(response) {
 			console.log(response.data);
+			if(fn_after_update)
+				fn_after_update();
 		});
 	}else{
 		data.sql='sql2.'+cln.col_table_name+'.insertRowId';
@@ -78,13 +78,22 @@ var j2c_persist = function(editObj, k, cln, $http){
 			console.log(response.data.nextDbId1);
 			editObj[k+'_id'] = response.data.nextDbId1;
 			console.log(editObj)
+			if(fn_after_update)
+				fn_after_update();
 		});
 	}
 }
 
 init_am_directive.init_onload.icpc2_test=function($scope, $http){
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
-	
+
+	var reread_nakaz74 = function(){
+		var param = $scope.programRun.icpc2_nakaz74.programFile.TablesJ2C.param;
+		read_sql_with_param($http, param, function(response){
+			$scope.icpc2_nakaz74.list=response.data.list
+		});
+	}
+
 	$scope.$watch('seekIcpc2', function(newValue){if(newValue){
 		console.log(newValue)
 		var sql = 'sql2.icpc2.seek';
@@ -140,7 +149,8 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 					patient.row_id,
 					10766,
 					$scope.programRun.icpc2_nakaz74.editObj.row_id,
-					$http
+					$http,
+					reread_nakaz74
 				);
 			},
 			edit:function(patient){
@@ -177,13 +187,27 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				console.log(seekInIcpc2Part)
 			},
 			save_icpc2:function(icpc2){
-				j2c_cell_constraint_update(
-					$scope.programRun.icpc2_nakaz74.editObj.col_10771_id, 
-					icpc2.doc_id,
-					10771,
-					$scope.programRun.icpc2_nakaz74.editObj.row_id,
-					$http
-				);
+				console.log(icpc2);
+				console.log(10807);
+				if(icpc2.parent_id==857){
+					j2c_cell_constraint_update(
+						$scope.programRun.icpc2_nakaz74.editObj.col_10807_id, 
+						icpc2.doc_id,
+						10807,
+						$scope.programRun.icpc2_nakaz74.editObj.row_id,
+						$http,
+						reread_nakaz74
+					);
+				}else{
+					j2c_cell_constraint_update(
+						$scope.programRun.icpc2_nakaz74.editObj.col_10771_id, 
+						icpc2.doc_id,
+						10771,
+						$scope.programRun.icpc2_nakaz74.editObj.row_id,
+						$http,
+						reread_nakaz74
+					);
+				}
 			}
 		},
 		icd10:{
@@ -215,12 +239,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 						10777,
 						$scope.programRun.icpc2_nakaz74.editObj.row_id,
 						$http,
-						function(){
-							var param = $scope.programRun.icpc2_nakaz74.programFile.TablesJ2C.param;
-							read_sql_with_param($http, param, function(response){
-								$scope.icpc2_nakaz74.list=response.data.list
-							});
-						}
+						reread_nakaz74
 					);
 				}else{
 					console.log('оберіть стрічку запису в таблиці наказ 74')
