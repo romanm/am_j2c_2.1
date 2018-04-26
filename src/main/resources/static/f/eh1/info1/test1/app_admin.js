@@ -11,7 +11,7 @@ var j2c_minus_row = function(editObj){
 	});
 }
 
-var j2c_cell_constraint_update = function(cell_id,constraint,col_id,row_id, $http){
+var j2c_cell_constraint_update = function(cell_id,constraint,col_id,row_id, $http, fn_after_update){
 	if(cell_id){
 		var data={
 			sql:'sql2.j2c.updateCellWithConstraint',
@@ -21,6 +21,9 @@ var j2c_cell_constraint_update = function(cell_id,constraint,col_id,row_id, $htt
 		console.log(data);
 		$http.post('/r/update2_sql_with_param', data).then(function(response) {
 			console.log(response.data);
+			if(fn_after_update){
+				fn_after_update();
+			}
 		});
 	}else{
 		var data={
@@ -32,6 +35,9 @@ var j2c_cell_constraint_update = function(cell_id,constraint,col_id,row_id, $htt
 		console.log(data);
 		$http.post('/r/update2_sql_with_param', data).then(function(response) {
 			console.log(response.data);
+			if(fn_after_update){
+				fn_after_update();
+			}
 		});
 	}
 }
@@ -202,13 +208,23 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				},
 			},
 			save_icd10Value:function(icd10){
-				j2c_cell_constraint_update(
-					$scope.programRun.icpc2_nakaz74.editObj.col_10777_id, 
-					icd10.doc_id,
-					10777,
-					$scope.programRun.icpc2_nakaz74.editObj.row_id,
-					$http
-				);
+				if($scope.programRun.icpc2_nakaz74.editObj){
+					j2c_cell_constraint_update(
+						$scope.programRun.icpc2_nakaz74.editObj.col_10777_id, 
+						icd10.doc_id,
+						10777,
+						$scope.programRun.icpc2_nakaz74.editObj.row_id,
+						$http,
+						function(){
+							var param = $scope.programRun.icpc2_nakaz74.programFile.TablesJ2C.param;
+							read_sql_with_param($http, param, function(response){
+								$scope.icpc2_nakaz74.list=response.data.list
+							});
+						}
+					);
+				}else{
+					console.log('оберіть стрічку запису в таблиці наказ 74')
+				}
 			},
 			click_icd10Value:function(icd10){
 				this.save_icd10Value(icd10)
