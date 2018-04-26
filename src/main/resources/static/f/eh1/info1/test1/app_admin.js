@@ -295,6 +295,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 					console.log(icpc2)
 					console.log(this)
 					this.editObj = icpc2;
+					this.editObj_id = icpc2.row_id;
 				}
 			},
 			colValues:function(k, icpc2){

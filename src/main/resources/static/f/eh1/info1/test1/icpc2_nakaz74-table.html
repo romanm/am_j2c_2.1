@@ -7,21 +7,16 @@
 					<th title="{{k}}" ng-repeat="(k,v) in icpc2_nakaz74.col_keys">
 						{{v}}</th>
 				</tr>
-				<tr
-				class="w3-tiny w3-center"
-				>
-					<td
-					class="w3-border"
-					ng-repeat="n in ['2','3','4','12','5,6,7,8','10','9','11']"
-					>
-					{{n}}
-					</td>
+				<tr class="w3-tiny w3-center">
+					<td class="w3-border"
+						ng-repeat="n in ['2','3','4','12','5,6,7,8','10','9','11']">
+						{{n}}</td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr style="position: relative;" ng-repeat="icpc2 in o.list"
 					ng-click="programRun.icpc2_nakaz74.edit(icpc2)"
-					ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj==icpc2}">
+					ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj_id==icpc2.row_id}">
 					<td><span
 						title="{{icpc2.created | date : 'longDate'}}/{{icpc2.updated | date : 'short'}}">
 							{{icpc2.created | date : "dd.MM"}} </span> <span class="w3-tiny"
@@ -43,14 +38,13 @@
 	>
 	<span class="w3-btn w3-border"
       ng-click="programRun.icpc2_nakaz74.minus_row()">-</span>
-
+Дата запису:
+{{programRun.icpc2_nakaz74.editObj.created}}
 		<div class="w3-row w3-border">
 			<div class="w3-third w3-container">
 				<div ng-repeat="k in ['col_9775']"
 					ng-init="v=icpc2_nakaz74.col_keys[k];values=programRun.icpc2_nakaz74.colValues(k, icpc2)">
-					<div>
-						<b class="w3-small"> {{v}} </b>
-					</div>
+					<div><b class="w3-small"> {{v}} </b></div>
 					<select size="{{values.objKeys().length+1}}"
 						ng-click="programRun.icpc2_nakaz74.click(k)"
 						ng-model="programRun.icpc2_nakaz74.editObj[k]">
