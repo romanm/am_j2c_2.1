@@ -1,13 +1,14 @@
-var j2c_minus_row = function(editObj){
-	console.log($scope.icpc2_patient)
+var j2c_minus_row = function(editObj, $http, fn_after_update){
 	console.log(editObj)
 	var data={
-		sql:'sql2.j2c.deleteRowId',
+		sql:'sql2.j2c.deleteRowId2',
 		row_id:editObj.row_id,
 	}
 	console.log(data);
 	$http.post('/r/update2_sql_with_param', data).then(function(response) {
 		console.log(response.data);
+		if(fn_after_update)
+			fn_after_update();
 	});
 }
 
@@ -40,14 +41,17 @@ var j2c_cell_constraint_update = function(cell_id,constraint,col_id,row_id, $htt
 	}
 }
 
-var j2c_add_row = function(tbl_id, $http){
+var j2c_add_row = function(tbl_id, $http, fn_after_update){
 	var data={
-			sql:'sql2.j2c.insertRow',
-			tbl_id:tbl_id,
+		sql:'sql2.j2c.insertRow2',
+		tbl_id:tbl_id,
+		reference2:183,
 	}
 	console.log(data);
 	$http.post('/r/update2_sql_with_param', data).then(function(response) {
 		console.log(response.data);
+			if(fn_after_update)
+				fn_after_update();
 	});
 }
 
@@ -131,7 +135,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				ht1ml_tableJ2C:{}
 			},
 			minus_patient:function(){
-				j2c_minus_row(this.editObj)
+				j2c_minus_row(this.editObj, $http)
 			},
 			add_patient:function(){
 				var tbl_id = $scope.icpc2_patient.list[0].tbl_id;
@@ -273,11 +277,11 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				},
 			},
 			minus_row:function(){
-				j2c_minus_row(this.editObj)
+				j2c_minus_row(this.editObj, $http, reread_nakaz74)
 			},
 			add_row:function(){
 				var tbl_id = $scope.icpc2_nakaz74.list[0].tbl_id;
-				j2c_add_row(tbl_id, $http)
+				j2c_add_row(tbl_id, $http, reread_nakaz74)
 			},
 			click:function(k){
 				console.log(k);
