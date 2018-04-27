@@ -288,6 +288,24 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				var cln = $scope.icpc2_nakaz74.col_alias[k.split('_')[1]];
 				j2c_persist(this.editObj, k, cln, $http);
 			},
+			changeCreateDate:function(){
+				var d = new Date(this.editObj.created);
+				d.setDate(this.editObj.createdDate.d)
+				d.setMonth(-1+this.editObj.createdDate.m);
+				d.setFullYear(this.editObj.createdDate.y)
+				this.editObj.created = d;
+				created = this.editObj.created.toISOString().replace('T',' ').replace('Z','');
+				var data={
+					sql:'sql2.j2c.updateCreatedDate',
+					doctimestamp_id:this.editObj.row_id,
+					created:created,
+				}
+				console.log(data);
+				$http.post('/r/update2_sql_with_param', data).then(function(response) {
+					console.log(response.data);
+					reread_nakaz74();
+				});
+			},
 			edit:function(icpc2){
 				if(this.editObj == icpc2){
 					this.editObj = null;
@@ -296,7 +314,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 					this.editObj = icpc2;
 					this.editObj_id = icpc2.row_id;
 					var d = new Date(icpc2.created);
-					icpc2.createdDate={d:d.getDate(),m:d.getMonth(),y:d.getFullYear()}
+					icpc2.createdDate={d:d.getDate(),m:1+d.getMonth(),y:d.getFullYear()}
 					console.log(icpc2)
 				}
 			},
