@@ -39,7 +39,10 @@
 	<span class="w3-btn w3-border"
       ng-click="programRun.icpc2_nakaz74.minus_row()">-</span>
 Дата запису:
-{{programRun.icpc2_nakaz74.editObj.created}}
+<input ng-model="programRun.icpc2_nakaz74.editObj.createdDate.d" type="number" style="width: 60px">
+<input ng-model="programRun.icpc2_nakaz74.editObj.createdDate.m" type="number" style="width: 60px">
+<input ng-model="programRun.icpc2_nakaz74.editObj.createdDate.y" type="number" style="width: 120px">
+{{programRun.icpc2_nakaz74.editObj.created|date:'fullDate'}}
 		<div class="w3-row w3-border">
 			<div class="w3-third w3-container">
 				<div ng-repeat="k in ['col_9775']"
