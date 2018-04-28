@@ -10,13 +10,10 @@
 			<tbody>
 				<tr ng-repeat="patient in icpc2_patient.list">
 					<td ng-repeat="(k,v) in icpc2_patient.col_keys"
-						ng-click="programRun.icpc2_patient.edit(patient)">
-						<span
-						ng-if="'col_10823'==k"> 
-						{{patient[k]|date:'mediumDate'}} </span>
-<span
-            ng-if="'col_10823'!=k"> {{patient[k]}} </span>
-					</td>
+						ng-click="programRun.icpc2_patient.edit(patient)"><span
+						ng-if="'col_10823'==k"> {{patient[k]|date:'mediumDate'}} </span> <span
+						ng-if="'col_10822'==k"> {{patient[k]==1?'Ч':(patient[k]==0?'Ж':'-')}} </span> <span
+						ng-if="'col_10823'!=k&&'col_10822'!=k"> {{patient[k]}} </span></td>
 					<td ng-if="programRun.icpc2_patient.editObj==patient"><span
 						class="w3-btn"
 						title="Записати пацієнта в таблицю ICPC2 наказ 74"
@@ -30,22 +27,27 @@
 		<span class="w3-btn w3-border"
 			ng-click="programRun.icpc2_patient.minus_patient()">-</span>
 		<div ng-repeat="(k,v) in icpc2_patient.col_keys">
-			<b class="w3-small"> {{v}}:</b> 
-			<span ng-if="'col_10823'==k">
+			<b class="w3-small"> {{v}}:</b> <span ng-if="'col_10823'==k">
 				<input ng-model="programRun.icpc2_patient.editObj.col_10823Date.d"
 				type="number" style="width: 55px" min=1 max=31
-				ng-change="programRun.icpc2_patient.blurDate(k)"
-				>-<input
+				ng-change="programRun.icpc2_patient.blurDate(k)">-<input
 				ng-model="programRun.icpc2_patient.editObj.col_10823Date.m"
 				type="number" style="width: 55px" min=1 max=12
-				ng-change="programRun.icpc2_patient.blurDate(k)"
->-<input
+				ng-change="programRun.icpc2_patient.blurDate(k)">-<input
 				ng-model="programRun.icpc2_patient.editObj.col_10823Date.y"
 				type="number" style="width: 75px" min=1900
-				ng-change="programRun.icpc2_patient.blurDate(k)"
->
+				ng-change="programRun.icpc2_patient.blurDate(k)">
 				{{programRun.icpc2_patient.editObj.col_10823|date:'fullDate'}}
-			</span> <span ng-if="'col_10823'!=k"> <input
+			</span> <span ng-if="'col_10822'==k"> <label> <input
+					ng-change="programRun.icpc2_patient.blur(k)" type="radio"
+					ng-model="programRun.icpc2_patient.editObj[k]" value=1 checked>
+					Ч
+			</label> <label> <input type="radio"
+					ng-change="programRun.icpc2_patient.blur(k)"
+					ng-model="programRun.icpc2_patient.editObj[k]" value=0 checked>
+					Ж
+			</label>
+			</span> <span ng-if="'col_10823'!=k&&'col_10822'!=k"> <input
 				ng-blur="programRun.icpc2_patient.blur(k)"
 				ng-model="programRun.icpc2_patient.editObj[k]" />
 			</span>
