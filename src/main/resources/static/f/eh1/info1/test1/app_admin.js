@@ -69,14 +69,8 @@ var j2c_add_row = function(tbl_id, $http, fn_after_update){
 	});
 }
 
-var j2c_persist = function(editObj, k, cln, $http, fn_after_update){
-	console.log('j2c_persist');
-	console.log(editObj);
-	console.log(k);
-	console.log(cln)
-	var data={
-		value:editObj[k],
-	}
+var j2c_persist2 = function(editObj, k, value, cln, $http, fn_after_update){
+	var data={ value:value }
 	if(editObj[k+'_id']){
 		data.sql='sql2.'+cln.col_table_name+'.updateCellById';
 		data.data_id=editObj[k+'_id'];
@@ -100,6 +94,9 @@ var j2c_persist = function(editObj, k, cln, $http, fn_after_update){
 				fn_after_update();
 		});
 	}
+}
+var j2c_persist = function(editObj, k, cln, $http, fn_after_update){
+	j2c_persist2 (editObj, k, editObj[k], cln, $http, fn_after_update);
 }
 
 init_am_directive.init_onload.icpc2_test=function($scope, $http){
@@ -156,11 +153,14 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				j2c_add_row(tbl_id, $http)
 			},
 			blurDate:function(k){
+				console.log(this.editObj)
 				console.log(k)
-
 				console.log($scope.icpc2_patient.col_alias)
 				var cln = $scope.icpc2_patient.col_alias[k.split('_')[1]];
 				console.log(cln)
+				var dateToSave = editData_init_obj(this.editObj,k);
+				console.log(dateToSave)
+				j2c_persist2(this.editObj, k, dateToSave, cln, $http);
 			},
 			blur:function(k){
 				console.log($scope.icpc2_patient.col_alias)
