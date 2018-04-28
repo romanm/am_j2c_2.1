@@ -25,9 +25,25 @@
 		<span class="w3-btn w3-border"
 			ng-click="programRun.icpc2_patient.minus_patient()">-</span>
 		<div ng-repeat="(k,v) in icpc2_patient.col_keys">
-			<b class="w3-small"> {{v}}:</b> <input
+			<b class="w3-small"> {{v}}:</b> 
+			<span ng-if="'col_10823'==k">
+				<input ng-model="programRun.icpc2_patient.editObj.col_10823Date.d"
+				type="number" style="width: 55px" min=1 max=31
+				ng-blur="programRun.icpc2_patient.blurDate(k)"
+				>-<input
+				ng-model="programRun.icpc2_patient.editObj.col_10823Date.m"
+				type="number" style="width: 55px" min=1 max=12
+				ng-blur="programRun.icpc2_patient.blurDate(k)"
+>-<input
+				ng-model="programRun.icpc2_patient.editObj.col_10823Date.y"
+				type="number" style="width: 75px" min=1900
+				ng-blur="programRun.icpc2_patient.blurDate(k)"
+>
+				{{programRun.icpc2_patient.editObj.col_10823|date:'fullDate'}}
+			</span> {{k}} <span ng-if="'col_10823'!=k"> <input
 				ng-blur="programRun.icpc2_patient.blur(k)"
 				ng-model="programRun.icpc2_patient.editObj[k]" />
+			</span>
 		</div>
 	</div>
 </div>

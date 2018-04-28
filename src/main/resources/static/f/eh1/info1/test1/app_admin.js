@@ -1,3 +1,17 @@
+var editData_init_obj = function(o,k){
+	var d = new Date(o[k]);
+	d.setDate(o[k+'Date'].d)
+	d.setMonth(-1+o[k+'Date'].m);
+	d.setFullYear(o[k+'Date'].y)
+	o[k] = d;
+	return o[k].toISOString().replace('T',' ').replace('Z','')
+}
+
+var init_editData_obj = function(o,k){
+	var d = new Date(o[k]);
+	o[k+'Date'] = {d:d.getDate(),m:1+d.getMonth(),y:d.getFullYear()}
+}
+
 var j2c_minus_row = function(editObj, $http, fn_after_update){
 	console.log(editObj)
 	var data={
@@ -64,7 +78,7 @@ var j2c_persist = function(editObj, k, cln, $http, fn_after_update){
 		value:editObj[k],
 	}
 	if(editObj[k+'_id']){
-		data.sql='sql2.'+cln.col_table_name+'.updateById';
+		data.sql='sql2.'+cln.col_table_name+'.updateCellById';
 		data.data_id=editObj[k+'_id'];
 		console.log(data);
 		$http.post('/r/update2_sql_with_param', data).then(function(response) {
@@ -73,7 +87,7 @@ var j2c_persist = function(editObj, k, cln, $http, fn_after_update){
 				fn_after_update();
 		});
 	}else{
-		data.sql='sql2.'+cln.col_table_name+'.insertRowId';
+		data.sql='sql2.'+cln.col_table_name+'.insertCellId';
 		data.row_id=editObj.row_id;
 		data.cln_id=cln.cln_id;
 		console.log(data);
@@ -141,10 +155,17 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				var tbl_id = $scope.icpc2_patient.list[0].tbl_id;
 				j2c_add_row(tbl_id, $http)
 			},
+			blurDate:function(k){
+				console.log(k)
+
+				console.log($scope.icpc2_patient.col_alias)
+				var cln = $scope.icpc2_patient.col_alias[k.split('_')[1]];
+				console.log(cln)
+			},
 			blur:function(k){
 				console.log($scope.icpc2_patient.col_alias)
 				var cln = $scope.icpc2_patient.col_alias[k.split('_')[1]];
-				var editObj = this.editObj;
+				//var editObj = this.editObj;
 				j2c_persist(this.editObj, k, cln, $http);
 			},
 			addICPC2:function(patient){
@@ -161,9 +182,9 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				if(this.editObj == patient){
 					this.editObj = null;
 				}else{
-					console.log(patient)
-					console.log(this)
 					this.editObj = patient;
+					init_editData_obj(this.editObj, 'col_10823');
+					console.log(this.editObj)
 				}
 			},
 		},
@@ -289,12 +310,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				j2c_persist(this.editObj, k, cln, $http);
 			},
 			changeCreateDate:function(){
-				var d = new Date(this.editObj.created);
-				d.setDate(this.editObj.createdDate.d)
-				d.setMonth(-1+this.editObj.createdDate.m);
-				d.setFullYear(this.editObj.createdDate.y)
-				this.editObj.created = d;
-				created = this.editObj.created.toISOString().replace('T',' ').replace('Z','');
+				created = editData_init_obj(this.editObj,'created');
 				var data={
 					sql:'sql2.j2c.updateCreatedDate',
 					doctimestamp_id:this.editObj.row_id,
@@ -313,9 +329,8 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 					console.log(this)
 					this.editObj = icpc2;
 					this.editObj_id = icpc2.row_id;
-					var d = new Date(icpc2.created);
-					icpc2.createdDate={d:d.getDate(),m:1+d.getMonth(),y:d.getFullYear()}
-					console.log(icpc2)
+					init_editData_obj(this.editObj, 'created');
+					console.log(this.editObj)
 				}
 			},
 			colValues:function(k, icpc2){
