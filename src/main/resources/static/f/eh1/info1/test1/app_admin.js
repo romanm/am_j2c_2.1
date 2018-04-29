@@ -7,20 +7,30 @@ var editData_init_obj = function(o,k){
 	return o[k].toISOString().replace('T',' ').replace('Z','')
 }
 
+var setRowEditObj = function(parentObj,obj){
+	parentObj.editObj = obj;
+	parentObj.editObj_id = obj.row_id;
+}
+
 var init_editData_obj = function(o,k){
 	var d = new Date(o[k]);
 	o[k+'Date'] = {d:d.getDate(),m:1+d.getMonth(),y:d.getFullYear()}
 }
 
-var j2c_minus_row = function(editObj, $http, fn_after_update){
-	console.log(editObj)
+var j2c_minus_row = function(parentO, $http, fn_after_update){
+	console.log(parentO)
+
+	console.log(parentO.editObj)
 	var data={
 		sql:'sql2.j2c.deleteRowId2',
-		row_id:editObj.row_id,
+		row_id:parentO.editObj.row_id,
 	}
 	console.log(data);
 	$http.post('/r/update2_sql_with_param', data).then(function(response) {
 		console.log(response.data);
+		parentO.editObj = null;
+		parentO.editObj_id = null;
+		console.log(parentO)
 		if(fn_after_update)
 			fn_after_update();
 	});
@@ -68,8 +78,9 @@ var j2c_add_row = function(tbl_id, $http, fn_after_update){
 	console.log(data);
 	$http.post('/r/update2_sql_with_param', data).then(function(response) {
 		console.log(response.data);
+			var nextDbId1 = response.data.nextDbId1;
 			if(fn_after_update)
-				fn_after_update();
+				fn_after_update(nextDbId1);
 	});
 }
 
@@ -99,6 +110,7 @@ var j2c_persist2 = function(editObj, k, value, cln, $http, fn_after_update){
 		});
 	}
 }
+
 var j2c_persist = function(editObj, k, cln, $http, fn_after_update){
 	j2c_persist2 (editObj, k, editObj[k], cln, $http, fn_after_update);
 }
@@ -106,10 +118,15 @@ var j2c_persist = function(editObj, k, cln, $http, fn_after_update){
 init_am_directive.init_onload.icpc2_test=function($scope, $http){
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
 
-	var reread_nakaz74 = function(){
+	var reread_nakaz74 = function(editObj_id){
 		var param = $scope.programRun.icpc2_nakaz74.programFile.TablesJ2C.param;
 		read_sql_with_param($http, param, function(response){
-			$scope.icpc2_nakaz74.list=response.data.list
+			$scope.icpc2_nakaz74.list = response.data.list;
+			for(i in $scope.icpc2_nakaz74.list)
+				if($scope.icpc2_nakaz74.list[i].row_id==editObj_id){
+					setRowEditObj($scope.programRun.icpc2_nakaz74,$scope.icpc2_nakaz74.list[i]);
+					break;
+				}
 		});
 	}
 
@@ -150,7 +167,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				ht1ml_tableJ2C:{}
 			},
 			minus_patient:function(){
-				j2c_minus_row(this.editObj, $http)
+				j2c_minus_row(this, $http)
 			},
 			add_patient:function(){
 				var tbl_id = $scope.icpc2_patient.list[0].tbl_id;
@@ -182,11 +199,11 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 					reread_nakaz74
 				);
 			},
-			edit:function(patient){
-				if(this.editObj == patient){
+			edit:function(editObj){
+				if(this.editObj == editObj){
 					this.editObj = null;
 				}else{
-					this.editObj = patient;
+					setRowEditObj(this,editObj);
 					init_editData_obj(this.editObj, 'col_10823');
 					console.log(this.editObj)
 				}
@@ -302,7 +319,8 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				},
 			},
 			minus_row:function(){
-				j2c_minus_row(this.editObj, $http, reread_nakaz74)
+console.log(1)
+				j2c_minus_row(this, $http, reread_nakaz74)
 			},
 			add_row:function(){
 				var tbl_id = $scope.icpc2_nakaz74.list[0].tbl_id;
@@ -330,9 +348,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				if(this.editObj == icpc2){
 					this.editObj = null;
 				}else{
-					console.log(this)
-					this.editObj = icpc2;
-					this.editObj_id = icpc2.row_id;
+					setRowEditObj(this,icpc2);
 					init_editData_obj(this.editObj, 'created');
 					console.log(this.editObj)
 				}
