@@ -7,13 +7,11 @@
 		ICPC2 наказ Nr 74 <span class="w3-btn w3-border"
 			ng-click="programRun.icpc2_nakaz74.add_row()">+</span>
 	</div>
-	<div amd-run="programRun.icpc2_nakaz74"
-	></div>
+	<div amd-run="programRun.icpc2_nakaz74"></div>
 	<div>
-		Пацієнти 
-		<input ng-model="seekIcpc2Patient" placeholder="знайти пацієнта"
-      class="w3-border am-width-100pr" />
-		<span class="w3-btn w3-border"
+		Пацієнти <input ng-model="seekIcpc2Patient"
+			placeholder="знайти пацієнта" class="w3-border am-width-100pr" /> <span
+			class="w3-btn w3-border"
 			ng-click="programRun.icpc2_patient.add_patient()">+</span>
 	</div>
 	<div class="w3-card">
@@ -22,19 +20,14 @@
 
 	<div>
 		ICPC2 пошук <input ng-model="seekIcpc2" placeholder="знайти ICPC2"
-			class="w3-border am-width-100pr" /> 
-			<a href="#"
+			class="w3-border am-width-100pr" /> <a href="#"
 			ng-class="{'w3-gray':programRun.icpc2_list.seekInIcpc2Part=='code'}"
-			ng-click="programRun.icpc2_list.setSeek_icpc2('code')"> код </a> 
-			| 
-			<a
+			ng-click="programRun.icpc2_list.setSeek_icpc2('code')"> код </a> | <a
 			ng-class="{'w3-gray':programRun.icpc2_list.seekInIcpc2Part=='process'}"
 			href="#" ng-click="programRun.icpc2_list.setSeek_icpc2('process')">
 			процес </a>
 	</div>
-	<div class="w3-card"
-	style="height: 100px; overflow: auto;"
-	>
+	<div class="w3-card" style="height: 100px; overflow: auto;">
 		<div amd-run="programRun.icpc2_list"></div>
 	</div>
 
