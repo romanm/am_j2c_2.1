@@ -288,7 +288,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 		icpc2_nakaz74:{
 			programFile:{
 				commonArgs:{scopeObj:'icpc2_nakaz74'},
-				TablesJ2C:{param:{sql:'sql2.table2.select',table_id:9774,url:'/r/read2_sql_with_param'}
+				TablesJ2C:{param:{sql:'sql2.j2c_table.selectByIdDesc',table_id:9774,url:'/r/read2_sql_with_param'}
 				},
 				html_form_type01:{
 					source_path:'/f/eh1/info1/test1/icpc2_nakaz74-table.html',
