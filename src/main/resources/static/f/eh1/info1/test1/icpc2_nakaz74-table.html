@@ -2,7 +2,7 @@
 	<div class="w3-card"
 	style="height: 250px; overflow: auto;margin-bottom: 10px;"
 	>
-		<table class="w13-table w3-hoverable" style="w1idth: 100%">
+		<table class="w13-table w3-hoverable  am-table-va " style="w1idth: 100%">
 			<thead>
 				<tr class="w3-tiny w3-gray">
 					<th><i class="fa fa-calendar-o" aria-hidden="true"></i></th>
@@ -31,7 +31,12 @@
 							icpc2.second_name.substring(0,1)}} </span></td>
 					<td title="{{k}}" ng-repeat="(k,v) in icpc2_nakaz74.col_keys"
 						ng-init="k1=1">{{icpc2[k]}}:
-						{{programRun.icpc2_nakaz74.colValue(k, icpc2)}}</td>
+						<span
+						ng-class="{'w3-tiny':$index<=2}"
+						>
+						{{programRun.icpc2_nakaz74.colValue(k, icpc2)}}
+						</span>
+						</td>
 				</tr>
 			</tbody>
 		</table>
@@ -44,62 +49,89 @@
 Дата запису:
 <input ng-model="programRun.icpc2_nakaz74.editObj.createdDate.d" type="number" style="width: 55px"
 min=1 max=31
-ng-change="programRun.icpc2_nakaz74.changeCreateDate()"
 >-<input ng-model="programRun.icpc2_nakaz74.editObj.createdDate.m" type="number" style="width: 55px"
 min=1 max=12
-ng-change="programRun.icpc2_nakaz74.changeCreateDate()"
 >-<input ng-model="programRun.icpc2_nakaz74.editObj.createdDate.y" type="number" style="width: 75px"
 min=2014 
-ng-change="programRun.icpc2_nakaz74.changeCreateDate()"
 >
+<span class="w3-btn w3-border"
+ng-click="programRun.icpc2_nakaz74.changeCreateDate()"
+>запис дати</span>
 {{programRun.icpc2_nakaz74.editObj.created|date:'fullDate'}}
+		<table
+		class="w3-border-top"
+		>
+			<tr class="w3-small">
+				<th>{{icpc2_nakaz74.col_keys.col_9775}}</th>
+				<th>{{icpc2_nakaz74.col_keys.col_9776}}</th>
+				<th>{{icpc2_nakaz74.col_keys.col_9777}}</th>
+			</tr>
+			<tr>
+				<td ng-repeat="k in ['col_9775','col_9776','col_9777']"
+				style="vertical-align: top"
+					ng-init="values=programRun.icpc2_nakaz74.colValues(k, icpc2)">
+					<select size="{{'col_9777'==k?5:values.objKeys().length+1}}"
+					ng-click="programRun.icpc2_nakaz74.click(k)"
+					ng-model="programRun.icpc2_nakaz74.editObj[k]">
+						<option
+							ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj[k]==k1}"
+							ng-repeat="(k1,v1) in programRun.icpc2_nakaz74.colValues(k, icpc2)"
+							value="{{k1}}">{{k1}}:{{v1}}</option>
+				</select>
+				</td>
+			</tr>
+		</table>
+		<!-- 
+		
 		<div class="w3-row w3-border">
-			<div class="w3-third w3-container">
-				<div ng-repeat="k in ['col_9775']"
-					ng-init="v=icpc2_nakaz74.col_keys[k];values=programRun.icpc2_nakaz74.colValues(k, icpc2)">
-					<div><b class="w3-small"> {{v}} </b></div>
-					<select size="{{values.objKeys().length+1}}"
-						ng-click="programRun.icpc2_nakaz74.click(k)"
-						ng-model="programRun.icpc2_nakaz74.editObj[k]">
-						<option
-							ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj[k]==k1}"
-							ng-repeat="(k1,v1) in programRun.icpc2_nakaz74.colValues(k, icpc2)"
-							value="{{k1}}">{{v1}}</option>
-					</select>
-				</div>
-			</div>
-			<div class="w3-third w3-container">
-				<div ng-repeat="k in ['col_9776']"
-					ng-init="v=icpc2_nakaz74.col_keys[k];values=programRun.icpc2_nakaz74.colValues(k, icpc2)">
-					<div>
-						<b class="w3-small"> {{v}} </b>
-					</div>
-					<select size="{{values.objKeys().length+1}}"
-						ng-click="programRun.icpc2_nakaz74.click(k)"
-						ng-model="programRun.icpc2_nakaz74.editObj[k]">
-						<option
-							ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj[k]==k1}"
-							ng-repeat="(k1,v1) in programRun.icpc2_nakaz74.colValues(k, icpc2)"
-							value="{{k1}}">{{v1}}</option>
-					</select>
-				</div>
-			</div>
-			<div class="w3-third w3-container">
-				<div ng-repeat="k in ['col_9777']"
-					ng-init="v=icpc2_nakaz74.col_keys[k];values=programRun.icpc2_nakaz74.colValues(k, icpc2)">
-					<div>
-						<b class="w3-small"> {{v}} </b>
-					</div>
-					<select size="{{values.objKeys().length+1}}"
-						ng-click="programRun.icpc2_nakaz74.click(k)"
-						ng-model="programRun.icpc2_nakaz74.editObj[k]">
-						<option
-							ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj[k]==k1}"
-							ng-repeat="(k1,v1) in programRun.icpc2_nakaz74.colValues(k, icpc2)"
-							value="{{k1}}">{{v1}}</option>
-					</select>
-				</div>
-			</div>
-		</div>
+      <div class="w3-third w3-container">
+        <div ng-repeat="k in ['col_9775']"
+          ng-init="v=icpc2_nakaz74.col_keys[k];values=programRun.icpc2_nakaz74.colValues(k, icpc2)">
+          <div><b class="w3-small"> {{v}} </b></div>
+          <select size="{{values.objKeys().length+1}}"
+            ng-click="programRun.icpc2_nakaz74.click(k)"
+            ng-model="programRun.icpc2_nakaz74.editObj[k]">
+            <option
+              ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj[k]==k1}"
+              ng-repeat="(k1,v1) in programRun.icpc2_nakaz74.colValues(k, icpc2)"
+              value="{{k1}}">{{v1}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="w3-third w3-container">
+        <div ng-repeat="k in ['col_9776']"
+          ng-init="v=icpc2_nakaz74.col_keys[k];values=programRun.icpc2_nakaz74.colValues(k, icpc2)">
+          <div>
+            <b class="w3-small"> {{v}} </b>
+          </div>
+          <select size="{{values.objKeys().length+1}}"
+            ng-click="programRun.icpc2_nakaz74.click(k)"
+            ng-model="programRun.icpc2_nakaz74.editObj[k]">
+            <option
+              ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj[k]==k1}"
+              ng-repeat="(k1,v1) in programRun.icpc2_nakaz74.colValues(k, icpc2)"
+              value="{{k1}}">{{v1}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="w3-third w3-container">
+        <div ng-repeat="k in ['col_9777']"
+          ng-init="v=icpc2_nakaz74.col_keys[k];values=programRun.icpc2_nakaz74.colValues(k, icpc2)">
+          <div>
+            <b class="w3-small"> {{v}} </b>
+          </div>
+          <select size="{{values.objKeys().length+1}}"
+            ng-click="programRun.icpc2_nakaz74.click(k)"
+            ng-model="programRun.icpc2_nakaz74.editObj[k]">
+            <option
+              ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj[k]==k1}"
+              ng-repeat="(k1,v1) in programRun.icpc2_nakaz74.colValues(k, icpc2)"
+              value="{{k1}}">{{v1}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+		 -->
+		
 	</div>
 </div>

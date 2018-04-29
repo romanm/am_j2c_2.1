@@ -338,7 +338,6 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				},
 			},
 			minus_row:function(){
-console.log(1)
 				j2c_minus_row(this, $http, reread_nakaz74)
 			},
 			add_row:function(){
@@ -360,7 +359,7 @@ console.log(1)
 				console.log(data);
 				$http.post('/r/update2_sql_with_param', data).then(function(response) {
 					console.log(response.data);
-					reread_nakaz74();
+					reread_nakaz74(data.doctimestamp_id);
 				});
 			},
 			edit:function(icpc2){
@@ -395,9 +394,17 @@ console.log(1)
 			},
 			exemption_type:{
 				values:{
-					1:'чорнобелець',
-					2:'ветеран',
-					3:'мати-героїня',
+					1:'інвалід війни',
+					2:'учасник війни',
+					3:'учасник бойових дій',
+					4:'пільги - ветеранів війни',
+					5:'інвалід',
+					6:'чорнобилець',
+					7:'евакуйований зони відчуженя',
+					8:'житель зони радіоекологічного контролю',
+					9:'діти батьків 6-8 категорії',
+					10:'інша пільгова категорія',
+
 				}
 			},
 			consultare_type:{

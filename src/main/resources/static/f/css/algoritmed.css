@@ -2,6 +2,12 @@ pre {
   tab-size: 2; /* Set tab size to 2 spaces */
   -moz-tab-size:2;
 }
+table.am-table-va th{
+  vertical-align: bottom;	
+}
+table.am-table-va td{
+  vertical-align: top;
+}
 .am-b{
 	font-weight:bold;
 }
