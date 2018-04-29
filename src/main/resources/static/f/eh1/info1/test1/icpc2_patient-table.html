@@ -8,22 +8,24 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="patient in icpc2_patient.list">
+				<tr ng-repeat="patient in icpc2_patient.list"
+				ng-class="{'w3-light-gray':programRun.icpc2_patient.editObj_id==patient.row_id}"
+				>
 					<td ng-repeat="(k,v) in icpc2_patient.col_keys"
-						ng-click="programRun.icpc2_patient.edit(patient)"><span
+						ng-click="programRun.icpc2_patient.addPatientToICPC2(patient)"><span
 						ng-if="'col_10823'==k"> {{patient[k]|date:'mediumDate'}} </span> <span
 						ng-if="'col_10822'==k"> {{patient[k]==1?'Ч':(patient[k]==0?'Ж':'-')}} </span> <span
 						ng-if="'col_10823'!=k&&'col_10822'!=k"> {{patient[k]}} </span></td>
 					<td ng-if="programRun.icpc2_patient.editObj==patient"><span
 						class="w3-btn"
-						title="Записати пацієнта в таблицю ICPC2 наказ 74"
-						ng-click="programRun.icpc2_patient.addICPC2(patient)"> +
+						title="виправити помилку в даних пацієнта"
+						ng-click="programRun.icpc2_patient.correctPatientData(patient)">ред. 
 					</span></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<div ng-if="programRun.icpc2_patient.editObj" class="w3-card">
+	<div ng-if="programRun.icpc2_patient.patientDataToCorrect" class="w3-card">
 		<span class="w3-btn w3-border"
 			ng-click="programRun.icpc2_patient.minus_patient()">-</span>
 		<div ng-repeat="(k,v) in icpc2_patient.col_keys">

@@ -18,7 +18,8 @@
 			<tbody>
 				<tr style="position: relative;" ng-repeat="icpc2 in o.list"
 					ng-click="programRun.icpc2_nakaz74.edit(icpc2)"
-					ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj_id==icpc2.row_id}">
+					ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj_id==icpc2.row_id}"
+					>
 					<td><span
 						title="{{icpc2.created | date : 'longDate'}}/{{icpc2.updated | date : 'short'}}">
 							{{icpc2.created | date : "dd.MM"}} </span> <span class="w3-tiny"

@@ -4,7 +4,8 @@
 		class="fa fa-home"></i></a> icpc2-test1.html
 
 	<div>
-		ICPC2 наказ Nr 74 <span class="w3-btn w3-border"
+{{programRun.icpc2_nakaz74.messages.tableName}}
+		 <span class="w3-btn w3-border"
 			ng-click="programRun.icpc2_nakaz74.add_row()">+</span>
 	</div>
 	<div amd-run="programRun.icpc2_nakaz74"></div>
@@ -13,6 +14,12 @@
 			placeholder="знайти пацієнта" class="w3-border am-width-100pr" /> <span
 			class="w3-btn w3-border"
 			ng-click="programRun.icpc2_patient.add_patient()">+</span>
+			<span
+			class="w3-tiny w3-red"
+ng-if="programRun.icpc2_nakaz74.error"
+			>
+{{programRun.icpc2_nakaz74.error}}
+			</span>
 	</div>
 	<div class="w3-card">
 		<div amd-run="programRun.icpc2_patient"></div>

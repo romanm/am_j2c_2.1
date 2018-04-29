@@ -36,23 +36,33 @@ var j2c_minus_row = function(parentO, $http, fn_after_update){
 	});
 }
 
-var j2c_cell_constraint_update = function(rowObj,cell_id,constraint,col_id, $http, fn_after_update){
-	if(rowObj[cell_id]){
+var j2c_cell_constraint_update = function(programRunObj,cell_id,constraint,col_id, $http, fn_after_update){
+	console.log(programRunObj)
+	if(!programRunObj.editObj){
+		programRunObj.error = 'для внесення даних пацієнта оберіть стрічку в таблиці '
+			+programRunObj.messages.tableName;
+		console.log(programRunObj.error)
+		return;
+	}else{
+		delete programRunObj.error;
+	}
+
+	if(programRunObj.editObj[cell_id]){
 		var data={
 			sql:'sql2.j2c.updateCellWithConstraint',
 			reference2:constraint,
-			doc_id:rowObj[cell_id],
+			doc_id:programRunObj.editObj[cell_id],
 		}
 		console.log(data);
 		$http.post('/r/update2_sql_with_param', data).then(function(response) {
 			console.log(response.data);
 			if(fn_after_update)
-				fn_after_update();
+				fn_after_update(programRunObj.editObj.row_id);
 		});
 	}else{
 		var data={
 			sql:'sql2.j2c.insertCellWithConstraint',
-			parent_id:rowObj.row_id,
+			parent_id:programRunObj.editObj.row_id,
 			reference:col_id,
 			reference2:constraint,
 		}
@@ -61,10 +71,10 @@ var j2c_cell_constraint_update = function(rowObj,cell_id,constraint,col_id, $htt
 			console.log(response.data);
 			var nextDbId1 = response.data.nextDbId1;
 			console.log(nextDbId1);
-			rowObj[cell_id] = nextDbId1;
-			console.log(rowObj[cell_id]);
+			programRunObj.editObj[cell_id] = nextDbId1;
+			console.log(programRunObj.editObj[cell_id]);
 			if(fn_after_update)
-				fn_after_update();
+				fn_after_update(programRunObj.editObj.row_id);
 		});
 	}
 }
@@ -189,15 +199,24 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				//var editObj = this.editObj;
 				j2c_persist(this.editObj, k, cln, $http);
 			},
-			addICPC2:function(patient){
+			addPatientToICPC2:function(patient){
 				j2c_cell_constraint_update(
-					$scope.programRun.icpc2_nakaz74.editObj, 
+					$scope.programRun.icpc2_nakaz74, 
 					'col_10766_id', 
 					patient.row_id,
 					10766,
 					$http,
 					reread_nakaz74
 				);
+				this.edit(patient);
+			},
+			correctPatientData:function(editObj){
+				if(this.patientDataToCorrect == editObj){
+					delete this.patientDataToCorrect;
+				}else{
+					this.patientDataToCorrect = editObj;
+				}
+
 			},
 			edit:function(editObj){
 				if(this.editObj == editObj){
@@ -237,7 +256,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 				console.log(10807);
 				if(icpc2.parent_id==857){
 					j2c_cell_constraint_update(
-						$scope.programRun.icpc2_nakaz74.editObj, 
+						$scope.programRun.icpc2_nakaz74, 
 						'col_10807_id', 
 						icpc2.doc_id,
 						10807,
@@ -246,7 +265,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 					);
 				}else{
 					j2c_cell_constraint_update(
-						$scope.programRun.icpc2_nakaz74.editObj, 
+						$scope.programRun.icpc2_nakaz74, 
 						'col_10771_id', 
 						icpc2.doc_id,
 						10771,
@@ -280,7 +299,7 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 			save_icd10Value:function(icd10){
 				if($scope.programRun.icpc2_nakaz74.editObj){
 					j2c_cell_constraint_update(
-						$scope.programRun.icpc2_nakaz74.editObj, 
+						$scope.programRun.icpc2_nakaz74, 
 						'col_10777_id', 
 						icd10.doc_id,
 						10777,
@@ -394,6 +413,9 @@ console.log(1)
 					2:'повторне',
 					3:'зевершення епізоду',
 				}
+			},
+			messages:{
+				tableName:'ICPC2 наказ Nr 74',
 			}
 		},
 	}
