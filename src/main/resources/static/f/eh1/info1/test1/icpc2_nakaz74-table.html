@@ -76,7 +76,7 @@ ng-click="programRun.icpc2_nakaz74.changeCreateDate()"
 					ng-click="programRun.icpc2_nakaz74.click(k)"
 					ng-model="programRun.icpc2_nakaz74.editObj[k]">
 						<option
-							ng-class="{'w3-light-gray':programRun.icpc2_nakaz74.editObj[k]==k1}"
+							ng-class="{'w3-light-green':programRun.icpc2_nakaz74.editObj[k]==k1}"
 							ng-repeat="(k1,v1) in programRun.icpc2_nakaz74.colValues(k, icpc2)"
 							value="{{k1}}">{{k1}}:{{v1}}</option>
 				</select>

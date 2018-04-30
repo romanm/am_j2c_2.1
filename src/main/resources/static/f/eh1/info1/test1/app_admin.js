@@ -160,6 +160,22 @@ var init_icpc2_test = function($scope, $http){
 		});
 	}
 
+	$scope.$watch('seekIcpc2Patient', function(newValue){
+//		if(newValue){
+			var sql = 'sql2.table.select';
+			if(newValue)
+				sql +='_seekPatient'
+			var seekPatient = '%'+newValue+'%';
+			console.log(seekPatient+' -*- '+sql);
+
+			read_sql_with_param($http, {sql:sql, table_id:9765, seekPatient:seekPatient}, function(response){
+				if(!$scope.icpc2_patient)
+					$scope.icpc2_patient={};
+				$scope.icpc2_patient.list=response.data.list;
+			});
+//		}
+	});
+
 	$scope.$watch('seekIcpc2', function(newValue){if(newValue){
 		console.log(newValue)
 		var sql = 'sql2.icpc2.seek';
