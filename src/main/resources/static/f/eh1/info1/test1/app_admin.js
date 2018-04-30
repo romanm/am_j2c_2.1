@@ -144,7 +144,8 @@ init_am_directive.init_onload.icpc2_test_report=function($scope, $http){
 	}
 }
 
-init_am_directive.init_onload.icpc2_test=function($scope, $http){
+var init_icpc2_test = function($scope, $http){
+
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
 
 	var reread_nakaz74 = function(editObj_id){
@@ -444,6 +445,17 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 			}
 		},
 	}
+
+
+}
+
+init_am_directive.init_onload.icpc2_test2=function($scope, $http){
+	init_icpc2_test($scope, $http);
+}
+
+
+init_am_directive.init_onload.icpc2_test=function($scope, $http){
+	init_icpc2_test($scope, $http);
 }
 
 var url_read_sql_with_param = '/r/read2_sql_with_param';
