@@ -129,6 +129,13 @@
   "alias":"Адмін застосунка",
   "parent":"info"
 },
+"icpc2_test_report":{
+  "th_template":"eh1_index1",
+  "ng_template":"'/f/eh1/info1/test1/icpc2_test_report.html'",
+  "script":"/f/eh1/info1/test1/app_admin.js",
+  "alias":"ICPC2 тест звітів",
+  "parent":"info"
+},
 "icpc2_test":{
   "th_template":"eh1_index1",
   "ng_template":"'/f/eh1/info1/test1/icpc2-test1.html'",

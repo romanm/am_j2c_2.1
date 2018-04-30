@@ -125,6 +125,25 @@ var j2c_persist = function(editObj, k, cln, $http, fn_after_update){
 	j2c_persist2 (editObj, k, editObj[k], cln, $http, fn_after_update);
 }
 
+init_am_directive.init_onload.icpc2_test_report=function($scope, $http){
+	console.log('--------init_am_directive.init_onload.icpc2_test_report---------------')
+		$scope.programRun = {
+		f74_day_count:{
+			programFile:{
+				commonArgs:{scopeObj:'f74_day_count'},
+				TablesJ2C:{param:{sql:'sql2.f74_day_count.select',table_id:9765,url:'/r/read2_sql_with_param'}
+				},
+				html_form_type01:{
+					source_path:'/f/eh1/info1/test1/f74_day_count.html',
+					init:function(ele, v){
+						init_am_directive.ele_v.html_form_type01(ele, v);
+					}
+				},
+			},
+		}
+	}
+}
+
 init_am_directive.init_onload.icpc2_test=function($scope, $http){
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
 
@@ -174,7 +193,6 @@ init_am_directive.init_onload.icpc2_test=function($scope, $http){
 						init_am_directive.ele_v.html_form_type01(ele, v);
 					}
 				},
-				ht1ml_tableJ2C:{}
 			},
 			minus_patient:function(){
 				j2c_minus_row(this, $http)
