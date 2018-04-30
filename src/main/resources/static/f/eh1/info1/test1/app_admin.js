@@ -409,7 +409,14 @@ var init_icpc2_test = function($scope, $http){
 			colValuesKey:{
 				col_9775:'episode',
 				col_9776:'consultare_type',
+				col_10900:'town_village',
 				col_9777:'exemption_type',
+			},
+			town_village:{
+				values:{
+					1:'місто',
+					2:'село',
+				}
 			},
 			exemption_type:{
 				values:{
@@ -423,7 +430,7 @@ var init_icpc2_test = function($scope, $http){
 					8:'житель зони радіоекологічного контролю',
 					9:'діти батьків 6-8 категорії',
 					10:'інша пільгова категорія',
-
+					0:'-',
 				}
 			},
 			consultare_type:{
@@ -445,15 +452,11 @@ var init_icpc2_test = function($scope, $http){
 			}
 		},
 	}
-
-
 }
 
 init_am_directive.init_onload.icpc2_test2=function($scope, $http){
 	init_icpc2_test($scope, $http);
 }
-
-
 init_am_directive.init_onload.icpc2_test=function($scope, $http){
 	init_icpc2_test($scope, $http);
 }
