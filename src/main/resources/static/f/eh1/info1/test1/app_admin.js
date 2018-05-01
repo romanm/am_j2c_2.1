@@ -131,7 +131,7 @@ init_am_directive.init_onload.icpc2_test_report=function($scope, $http){
 		f74_day_count:{
 			programFile:{
 				commonArgs:{scopeObj:'f74_day_count'},
-				TablesJ2C:{param:{sql:'sql2.f74_day_count.select',table_id:9765,url:'/r/read2_sql_with_param'}
+				TablesJ2C:{param:{sql:'sql2.f74_day_report.select',table_id:9765,url:'/r/read2_sql_with_param'}
 				},
 				html_form_type01:{
 					source_path:'/f/eh1/info1/test1/f74_day_count.html',

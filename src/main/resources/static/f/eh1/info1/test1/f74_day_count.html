@@ -4,12 +4,14 @@
 			<tr class="w3-small w3-gray  w3-center">
 				<th>день</th>
 				<th>кількість</th>
+				<th>сільских</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="countObject in f74_day_count.list">
-				<td class="w3-border-bottom">{{countObject.createdDay|date:'mediumDate'}}</td>
+				<td class="w3-border-bottom" title="{{countObject.year_day}}">{{countObject.createdDay|date:'mediumDate'}}</td>
 				<td class=" w3-center w3-border-bottom">{{countObject.cnt}}</td>
+				<td class=" w3-center w3-border-bottom">{{countObject.village_10900}}</td>
 			</tr>
 		</tbody>
 	</table>
