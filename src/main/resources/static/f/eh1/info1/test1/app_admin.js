@@ -79,21 +79,6 @@ var j2c_cell_constraint_update = function(programRunObj,cell_id,constraint,col_i
 	}
 }
 
-var j2c_add_row = function(tbl_id, $http, fn_after_update){
-	var data={
-		sql:'sql2.j2c.insertRow2',
-		tbl_id:tbl_id,
-		reference2:183,
-	}
-	console.log(data);
-	$http.post('/r/update2_sql_with_param', data).then(function(response) {
-		console.log(response.data);
-			var nextDbId1 = response.data.nextDbId1;
-			if(fn_after_update)
-				fn_after_update(nextDbId1);
-	});
-}
-
 var j2c_persist2 = function(editObj, k, value, cln, $http, fn_after_update){
 	var data={ value:value }
 	if(editObj[k+'_id']){
@@ -149,7 +134,7 @@ var init_icpc2_test = function($scope, $http){
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
 
 	read_sql_with_param($http, {sql:'sql.msp_employee.list',msp_id:188}, function(response){
-		$scope.f74_physician_id=183;
+		$scope.f74_physician_id = 183;
 		console.log(response.data)
 		$scope.msp_employee={};
 		angular.forEach(response.data.list, function(v, k){
@@ -157,6 +142,21 @@ var init_icpc2_test = function($scope, $http){
 		});
 		console.log($scope.msp_employee)
 	});
+
+	var j2c_add_row = function(tbl_id, $http, fn_after_update){
+		var data={
+			sql:'sql2.j2c.insertRow2',
+			tbl_id:tbl_id,
+			reference2:$scope.f74_physician_id,
+		}
+		console.log(data);
+		$http.post('/r/update2_sql_with_param', data).then(function(response) {
+			console.log(response.data);
+			var nextDbId1 = response.data.nextDbId1;
+			if(fn_after_update)
+				fn_after_update(nextDbId1);
+		});
+	}
 
 	var reread_nakaz74 = function(editObj_id){
 		var param = $scope.programRun.icpc2_nakaz74.programFile.TablesJ2C.param;
