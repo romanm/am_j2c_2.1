@@ -10,9 +10,14 @@
   </span>
 
 	<div>
-{{programRun.icpc2_nakaz74.messages.tableName}}
-		 <span class="w3-btn w3-border"
-			ng-click="programRun.icpc2_nakaz74.add_row()">+</span>
+		{{programRun.icpc2_nakaz74.messages.tableName}} <span
+			class="w3-btn w3-border"
+			ng-click="programRun.icpc2_nakaz74.add_row()">+</span> доктор: <select
+			ng-model="f74_physician_id">
+			<option ng-repeat="(k,v) in msp_employee" value="{{k}}">
+				{{v.family_name}}</option>
+		</select> <span title="{{f74_physician_id}}">
+			{{msp_employee[f74_physician_id].family_name}} </span>
 	</div>
 	<div amd-run="programRun.icpc2_nakaz74"></div>
 	<div>

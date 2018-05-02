@@ -148,6 +148,16 @@ var init_icpc2_test = function($scope, $http){
 
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
 
+	read_sql_with_param($http, {sql:'sql.msp_employee.list',msp_id:188}, function(response){
+		$scope.f74_physician_id=183;
+		console.log(response.data)
+		$scope.msp_employee={};
+		angular.forEach(response.data.list, function(v, k){
+			$scope.msp_employee[v.person_id]=v;
+		});
+		console.log($scope.msp_employee)
+	});
+
 	var reread_nakaz74 = function(editObj_id){
 		var param = $scope.programRun.icpc2_nakaz74.programFile.TablesJ2C.param;
 		read_sql_with_param($http, param, function(response){
