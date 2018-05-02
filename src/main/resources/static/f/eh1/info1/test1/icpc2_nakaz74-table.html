@@ -44,9 +44,11 @@
 	<div ng-if="programRun.icpc2_nakaz74.editObj_id"
 	 class="w3-card"
 	>
-	<span class="w3-btn w3-border"
-	title="стерти обраний запис  з форми 74"
-      ng-click="programRun.icpc2_nakaz74.minus_row()">-</span>
+	
+      <span class="w3-btn w3-border"
+  title="стерти обраний запис з форми 74 з підтвердженням"
+  onclick="document.getElementById('id01').style.display='block'"
+      >-</span>
 Дата запису:
 <input ng-model="programRun.icpc2_nakaz74.editObj.createdDate.d" type="number" style="width: 55px"
 min=1 max=31
@@ -59,9 +61,29 @@ min=2014
 ng-click="programRun.icpc2_nakaz74.changeCreateDate()"
 >запис дати</span>
 {{programRun.icpc2_nakaz74.editObj.created|date:'fullDate'}}
-		<table
-		class="w3-border-top"
-		>
+
+<div id="id01" class="w3-modal">
+			<div class="w3-modal-content">
+				<div class="w3-container">
+					<span
+						onclick="document.getElementById('id01').style.display='none'"
+						class="w3-button w3-display-topright">&times;</span>
+					<p>&nbsp;</p>
+					<p>Підтвердіть видаленя</p>
+					<p>&nbsp;</p>
+					<span class="w3-btn w3-border w3-red"
+  title="стерти обраний запис  з форми 74"
+      ng-click="programRun.icpc2_nakaz74.minus_row()">видалити</span>
+					<span
+						onclick="document.getElementById('id01').style.display='none'"
+						class="w3-display-bottomright"> 
+						<span class="w3-button w3-border">не видаляти</span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<table class="w3-border-top">
 			<tr class="w3-small">
 				<th>{{icpc2_nakaz74.col_keys.col_9775}}</th>
 				<th>{{icpc2_nakaz74.col_keys.col_9776}}</th>
@@ -70,7 +92,7 @@ ng-click="programRun.icpc2_nakaz74.changeCreateDate()"
 			</tr>
 			<tr>
 				<td ng-repeat="k in ['col_9775','col_9776', 'col_10900','col_9777']"
-				style="vertical-align: top"
+					style="vertical-align: top"
 					ng-init="values=programRun.icpc2_nakaz74.colValues(k, icpc2)">
 					<select size="{{'col_9777'==k?5:values.objKeys().length+1}}"
 					ng-click="programRun.icpc2_nakaz74.click(k)"
@@ -83,6 +105,7 @@ ng-click="programRun.icpc2_nakaz74.changeCreateDate()"
 				</td>
 			</tr>
 		</table>
-		
+ 
+</div>
 	</div>
 </div>
