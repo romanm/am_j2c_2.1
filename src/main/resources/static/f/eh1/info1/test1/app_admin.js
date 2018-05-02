@@ -132,16 +132,25 @@ init_am_directive.init_onload.icpc2_test_report=function($scope, $http){
 var init_icpc2_test = function($scope, $http){
 
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
-
-	read_sql_with_param($http, {sql:'sql.msp_employee.list',msp_id:188}, function(response){
-		$scope.f74_physician_id = 183;
-		console.log(response.data)
-		$scope.msp_employee={};
-		angular.forEach(response.data.list, function(v, k){
-			$scope.msp_employee[v.person_id]=v;
+	
+		$scope.$watch('principal',function(){
+			console.log('----------39------')
+			var msp_id = 188;
+			if($scope.principal && $scope.principal.msp_id){
+				var msp_id = $scope.principal.msp_id;
+			}
+			console.log(msp_id);
+			read_sql_with_param($http, {sql:'sql.msp_employee.list',msp_id:msp_id}, function(response){
+				$scope.f74_physician_id = 183;
+				console.log(response.data)
+				$scope.msp_employee={};
+				angular.forEach(response.data.list, function(v, k){
+					$scope.msp_employee[v.person_id]=v;
+				});
+				console.log($scope.msp_employee)
+			});
 		});
-		console.log($scope.msp_employee)
-	});
+
 
 	var j2c_add_row = function(tbl_id, $http, fn_after_update){
 		var data={

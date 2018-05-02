@@ -55,8 +55,12 @@ app_config.fn.pages = function($scope){
 		}
 		if(!$scope.page.pageKey){
 			$scope.page.pageKey=function(){
-				if($scope.programRun)
+				if(request.viewKey){
+					return request.viewKey;
+				}else
+				if($scope.programRun){
 					return $scope.programRun.objKeys()[0];
+				}
 				else
 					return request.viewKey;
 			}

@@ -306,6 +306,8 @@ init_am_directive.init_programRuns=function($scope, $http){
 	init_am_directive.init_app.init_serverWebSites($scope, $http);
 	$http.get('/r/principal').then(function(response) {
 		$scope.principal = response.data;
+		console.log($scope.principal)
+
 		$scope.page.getConfigPrincipal=function(key){
 			return app_config.principal[key];
 		}

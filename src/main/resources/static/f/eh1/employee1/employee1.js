@@ -5,20 +5,22 @@ console.log('-employee1.js-');
 init_am_directive.init_onload.new_employee=function($scope){
 	console.log('-------init_am_directive.init_onload.new_employee--------');
 	$scope.programRun = {
-			new_employee:{
-				programFile:{
-				}
+		new_employee:{
+			programFile:{
 			}
+		}
 	};
 };
 
 init_am_directive.init_onload.employees_cards=function($scope, $http){
 	console.log('-------init_am_directive.init_onload.employees_cards--------');
+	var msp_id = 723;
+	console.log($scope.principal)
 	$scope.programRun = {
 		employees_cards:{
 			programFile:{
 				TablesJ2C:{
-					param:{sql:'msp_employee',msp_id:723}
+					param:{sql:'msp_employee', msp_id:msp_id}
 				},	
 				html_form_type01:{
 					source_path:'/f/eh1/hrm1/employees-cards-table.html',
@@ -32,6 +34,28 @@ init_am_directive.init_onload.employees_cards=function($scope, $http){
 			}
 		}
 	};
+	
+	$scope.$watch('p-1-rincipal',function(){
+		console.log('----------39------')
+		if($scope.principal){
+			var msp_id = $scope.principal.msp_id;
+			console.log(msp_id);
+			read_sql_with_param($http, {sql:'sql.msp_employee.list',msp_id:msp_id}, function(response){
+				$scope.f74_physician_id = 183;
+				console.log(response.data)
+				$scope.msp_employee={};
+				$scope.employees_cards={list_employees:[],map_employees:{}};
+				angular.forEach(response.data.list, function(v, k){
+					$scope.msp_employee[v.person_id]=v;
+					$scope.employees_cards.map_employees[v.person_id]=v;
+					$scope.employees_cards.list_employees.push(v.person_id);
+				});
+				console.log($scope.msp_employee)
+			});
+		}
+	});
+
+
 	
 	init_am_directive.employees_cards = {};
 	init_am_directive.employees_cards.tablesJ2C_init=function(response, param){
