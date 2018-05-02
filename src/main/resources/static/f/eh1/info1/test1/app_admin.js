@@ -112,7 +112,9 @@ var j2c_persist = function(editObj, k, cln, $http, fn_after_update){
 
 init_am_directive.init_onload.icpc2_test_report=function($scope, $http){
 	console.log('--------init_am_directive.init_onload.icpc2_test_report---------------')
-		$scope.programRun = {
+	console.log($scope.page)
+
+	$scope.programRun = {
 		f74_day_count:{
 			programFile:{
 				commonArgs:{scopeObj:'f74_day_count'},
