@@ -306,7 +306,7 @@ init_am_directive.init_programRuns=function($scope, $http){
 	init_am_directive.init_app.init_serverWebSites($scope, $http);
 	$http.get('/r/principal').then(function(response) {
 		$scope.principal = response.data;
-		console.log($scope.principal)
+//		console.log($scope.principal)
 
 		$scope.page.getConfigPrincipal=function(key){
 			return app_config.principal[key];
@@ -436,7 +436,7 @@ function read_am_html_source(scope, ele, v, k, $compile, $http){
 //			scope.algoritmed.inits[id2]=v;
 			// activate amd-*attributes before compile
 			if(v.init){
-				console.log(v);
+//				console.log(v);
 				v.init(eleAdd,v);
 			} else // for html_tableJ2C
 				if(init_am_directive.ele_v[k]){
@@ -505,7 +505,7 @@ init_am_directive.translate_am_att = function(ele, v){
 init_am_directive.ele_v.html_form_type01 = function(ele, v){
 	var lastChildEle = ele[0].children[1-ele[0].children.length];
 	init_am_directive.translate_am_att(lastChildEle, v);
-	console.log(v);
+//	console.log(v);
 	var amObj = lastChildEle.getAttribute('am-obj');
 //	console.log(amObj);
 	var ngRepeat;
@@ -554,7 +554,7 @@ this.j2c_tables = {
 				param.param.sql = 'sql.'+param.param.sql+'.select';
 		}
 		var j2c_tables = this;
-		console.log(param.param);
+//		console.log(param.param);
 		var read_http_get = function(){
 			read_sql_with_param($http, param.param, function(response){
 				j2c_tables.init(response, param);

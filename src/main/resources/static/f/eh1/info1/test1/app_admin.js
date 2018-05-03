@@ -140,15 +140,14 @@ var init_icpc2_test = function($scope, $http){
 			if($scope.principal && $scope.principal.msp_id){
 				var msp_id = $scope.principal.msp_id;
 			}
-			console.log(msp_id);
+//			console.log(msp_id);
 			return msp_id;
 		}
 
 		$scope.$watch('principal',function(){
-			console.log('----------39------')
+			console.log('----$scope.$watch(principal,function()------39------')
 			var param = $scope.programRun.icpc2_nakaz74.programFile.TablesJ2C.param;
 			param.msp_id = getMsp_id();
-			console.log(param)
 			read_sql_with_param($http, param, function(response){
 				if(!$scope.icpc2_nakaz74)
 					$scope.icpc2_nakaz74={};
@@ -161,7 +160,7 @@ var init_icpc2_test = function($scope, $http){
 				angular.forEach(response.data.list, function(v, k){
 					$scope.msp_employee[v.person_id]=v;
 				});
-				console.log($scope.msp_employee)
+//				console.log($scope.msp_employee)
 			});
 		});
 
@@ -436,7 +435,7 @@ var init_icpc2_test = function($scope, $http){
 				}else{
 					setRowEditObj(this,icpc2);
 					init_editData_obj(this.editObj, 'created');
-					console.log(this.editObj)
+//					console.log(this.editObj)
 				}
 			},
 			colValues:function(k, icpc2){
