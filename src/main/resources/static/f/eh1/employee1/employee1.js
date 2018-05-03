@@ -35,7 +35,7 @@ init_am_directive.init_onload.employees_cards=function($scope, $http){
 		}
 	};
 	
-	$scope.$watch('p-1-rincipal',function(){
+	$scope.$watch('principal',function(){
 		console.log('----------39------')
 		if($scope.principal){
 			var msp_id = $scope.principal.msp_id;
