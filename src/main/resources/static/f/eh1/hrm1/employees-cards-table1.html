@@ -1,0 +1,11 @@
+<table>
+	<tr ng-repeat="employee_id in employees_cards.list_employees"
+		class="w3-hover-shadow">
+		<td am-link="link_to_employee">{{employee_id}}</td>
+		<td>{{employees_cards.map_employees[employee_id].family_name}},
+			{{employees_cards.map_employees[employee_id].first_name}}
+			{{employees_cards.map_employees[employee_id].second_name}}</td>
+		<td>{{employees_cards.map_user[employee_id].role_sort}}-
+			{{employees_cards.map_user[employee_id].role_note}}</td>
+	</tr>
+</table>

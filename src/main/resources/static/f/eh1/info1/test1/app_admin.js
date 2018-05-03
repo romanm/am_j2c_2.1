@@ -135,14 +135,26 @@ var init_icpc2_test = function($scope, $http){
 
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
 	
-		$scope.$watch('principal',function(){
-			console.log('----------39------')
+		var getMsp_id = function(){
 			var msp_id = 188;
 			if($scope.principal && $scope.principal.msp_id){
 				var msp_id = $scope.principal.msp_id;
 			}
 			console.log(msp_id);
-			read_sql_with_param($http, {sql:'sql.msp_employee.list',msp_id:msp_id}, function(response){
+			return msp_id;
+		}
+
+		$scope.$watch('principal',function(){
+			console.log('----------39------')
+			var param = $scope.programRun.icpc2_nakaz74.programFile.TablesJ2C.param;
+			param.msp_id = getMsp_id();
+			console.log(param)
+			read_sql_with_param($http, param, function(response){
+				if(!$scope.icpc2_nakaz74)
+					$scope.icpc2_nakaz74={};
+				$scope.icpc2_nakaz74.list = response.data.list;
+			});
+			read_sql_with_param($http, {sql:'sql.msp_employee.list',msp_id:getMsp_id()}, function(response){
 				$scope.f74_physician_id = 183;
 				console.log(response.data)
 				$scope.msp_employee={};
@@ -384,7 +396,7 @@ var init_icpc2_test = function($scope, $http){
 		icpc2_nakaz74:{
 			programFile:{
 				commonArgs:{scopeObj:'icpc2_nakaz74'},
-				TablesJ2C:{param:{sql:'sql2.j2c_table.selectByIdDesc',table_id:9774,url:'/r/read2_sql_with_param'}
+				TablesJ2C:{param:{sql:'sql2.j2c_table.selectByIdDesc',msp_id:188,table_id:9774,url:'/r/read2_sql_with_param'}
 				},
 				html_form_type01:{
 					source_path:'/f/eh1/info1/test1/icpc2_nakaz74-table.html',
