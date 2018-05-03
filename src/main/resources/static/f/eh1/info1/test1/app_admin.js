@@ -112,8 +112,13 @@ var j2c_persist = function(editObj, k, cln, $http, fn_after_update){
 
 init_am_directive.init_onload.icpc2_test_report=function($scope, $http){
 	console.log('--------init_am_directive.init_onload.icpc2_test_report---------------')
+	var app_admin_fn = new App_admin_fn($scope, $http);
 	console.log($scope.page)
-
+	$scope.$watch('principal',function(){
+		console.log('----$scope.$watch(principal,function()------118------');
+		app_admin_fn.read_form74('f74_day_count');
+	});
+		
 	$scope.programRun = {
 		f74_day_count:{
 			programFile:{
@@ -129,40 +134,52 @@ init_am_directive.init_onload.icpc2_test_report=function($scope, $http){
 			},
 		}
 	}
+
+}
+
+var App_admin_fn = function($scope, $http){
+	this.read_form74 = function(key){
+		console.log(this.getMsp_id())
+		var param = $scope.programRun[key].programFile.TablesJ2C.param;
+		param.msp_id = this.getMsp_id();
+		read_sql_with_param($http, param, function(response){
+			if(!$scope[key])
+				$scope[key]={};
+			$scope[key].list = response.data.list;
+		});
+	}
+
+	this.getMsp_id = function(){
+		var msp_id = 188;
+		if($scope.principal && $scope.principal.msp_id){
+			var msp_id = $scope.principal.msp_id;
+		}
+//		console.log(msp_id);
+		return msp_id;
+	}
+	
 }
 
 var init_icpc2_test = function($scope, $http){
 
 	console.log('--------init_am_directive.init_onload.icpc2_test---------------')
+	var app_admin_fn = new App_admin_fn($scope, $http);
 	
-		var getMsp_id = function(){
-			var msp_id = 188;
-			if($scope.principal && $scope.principal.msp_id){
-				var msp_id = $scope.principal.msp_id;
-			}
-//			console.log(msp_id);
-			return msp_id;
-		}
-
-		$scope.$watch('principal',function(){
-			console.log('----$scope.$watch(principal,function()------39------')
-			var param = $scope.programRun.icpc2_nakaz74.programFile.TablesJ2C.param;
-			param.msp_id = getMsp_id();
-			read_sql_with_param($http, param, function(response){
-				if(!$scope.icpc2_nakaz74)
-					$scope.icpc2_nakaz74={};
-				$scope.icpc2_nakaz74.list = response.data.list;
+	$scope.$watch('principal',function(){
+		console.log('----$scope.$watch(principal,function()------39------');
+		app_admin_fn.read_form74('icpc2_nakaz74');
+		
+		read_sql_with_param($http, {sql:'sql.msp_employee.list', msp_id:app_admin_fn.getMsp_id()}, function(response){
+			$scope.f74_physician_id = 183;
+			console.log(response.data)
+			$scope.msp_employee={};
+			angular.forEach(response.data.list, function(v, k){
+				$scope.msp_employee[v.person_id]=v;
 			});
-			read_sql_with_param($http, {sql:'sql.msp_employee.list',msp_id:getMsp_id()}, function(response){
-				$scope.f74_physician_id = 183;
-				console.log(response.data)
-				$scope.msp_employee={};
-				angular.forEach(response.data.list, function(v, k){
-					$scope.msp_employee[v.person_id]=v;
-				});
 //				console.log($scope.msp_employee)
-			});
 		});
+
+	});
 
 
 	var j2c_add_row = function(tbl_id, $http, fn_after_update){
