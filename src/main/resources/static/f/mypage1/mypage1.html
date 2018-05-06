@@ -1,0 +1,15 @@
+<div ng-include="'/f/algoritmed/lib/head1.html'"></div>
+<h1>Персональна сторінка користувача МІС</h1>
+<div>
+	<span ng-repeat="part1 in tabs1"> <span
+		ng-class="{
+    'w3-topbar w3-border-left w3-border-right':part1.f==urlFragment(),
+        'w3-border-bottom':part1.f!=urlFragment()
+    }">&nbsp;
+			<a href="#{{part1.f}}"> <span ng-click="clickPart1(part1.f)">
+					{{part1.t}}</span></a> &nbsp;
+	</span>
+	</span>
+	<div ng-include="'/f/mypage1/page1-fragment-'+page1Fragment+'.html'">
+	</div>
+</div>

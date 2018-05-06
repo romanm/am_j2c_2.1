@@ -295,10 +295,14 @@ init_am_directive.init_page_head_tabs=function($scope, tabs_key){
 		$scope.page.head.tabs={};
 
 	if(app_config.page_head_tabs){
-		console.log(app_config.page_head_tabs[tabs_key].links)
-		angular.forEach(app_config.page_head_tabs[tabs_key].links, function(k, v){
-			$scope.page.head.tabs[k]=app_config.serverWebSites[k];
-		});
+		console.log(tabs_key)
+		console.log(app_config.page_head_tabs[tabs_key])
+		if(app_config.page_head_tabs[tabs_key]){
+			console.log(app_config.page_head_tabs[tabs_key].links)
+			angular.forEach(app_config.page_head_tabs[tabs_key].links, function(k, v){
+				$scope.page.head.tabs[k]=app_config.serverWebSites[k];
+			});
+		}
 	}
 }
 

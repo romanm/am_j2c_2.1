@@ -29,18 +29,28 @@ public class PrincipalRest extends Db2Common{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("principal", principal);
 //		logger.info("-------update---principal-----");
+		System.err.println(null!=principal);
+		System.err.println(principal);
+
 		Map<String, Object> uriMap = new HashMap<String, Object>();
 		if(null!=principal) {
 			String name = principal.getName();
 			map.put("username", name);
 			Map<String, Object> user = db2ParamJdbcTemplate.queryForMap(env.getProperty("sql.db1.users.fromUsername"), map);
+			System.err.println("----40----------");
+			System.err.println(user);
+
 			user.remove("password");
 			map.put("user", user);
 
 			Integer user_id = (Integer) user.get("user_id");
 			
-			read_user_msp(map, user_id);
+			List user_msp = read_user_msp(map, user_id);
+			if(user_msp.size()==0)
+				return map;
 			String msp_id = mapUtil.getString(map, "user_msp[0]","msp_id");
+			System.err.println(msp_id);
+
 			Map<String, Object> paramMap = new HashMap();
 			map.put("msp_id", msp_id);
 			for (Map<String, Object> map2 : db2ParamJdbcTemplate.queryForList(
@@ -74,9 +84,10 @@ public class PrincipalRest extends Db2Common{
 	}
 	
 	//as samples for use throws /read_sql_with_param
-	private void read_user_msp(Map<String, Object> map, Integer user_id) {
+	private List read_user_msp(Map<String, Object> map, Integer user_id) {
 		map.put("user_id", user_id);
 		List l = db2ParamJdbcTemplate.queryForList(env.getProperty("sql.db1.user.msp"), map);
 		map.put("user_msp", l);
+		return l;
 	}
 }

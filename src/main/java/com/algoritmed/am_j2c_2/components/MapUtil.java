@@ -21,13 +21,14 @@ public class MapUtil {
 		return string;
 	}
 	public Map getMap(Map map1, String key1) {
-		Map map;
+		Map map = null;
 		String[] splitKey = key1.split("\\[");
 		if(splitKey.length>1) {
 			String key = splitKey[1].split("]")[0];
 			int k = Integer.parseInt(key);
 			List l = (List) map1.get(splitKey[0]);
-			map = (Map) l.get(k);
+			if(l!=null)
+				map = (Map) l.get(k);
 		}else {
 			map = (Map) map1.get(key1);
 		}

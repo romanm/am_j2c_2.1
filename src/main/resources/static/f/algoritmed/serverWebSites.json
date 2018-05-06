@@ -8,6 +8,27 @@
 	,"alias":"Інформація"
 	,"parent":"home"
 },
+"mypage":{
+    "th_template": "template1",
+    "ng_template": "'/f/mypage1/mypage1.html'",
+    "script": "/f/mypage1/mypage1.js",
+    "title": "Змінити власні дані",
+    "parent": "home"
+},
+"registry1":{
+    "th_template": "template1",
+    "ng_template": "'/f/pis1-am-1/registry1/registry1.html'",
+    "script": "/f/pis1-am-1/registry1/registry1.js",
+    "title": "Регістрація",
+    "parent": "home"
+},
+ "registry2":{
+    "th_template": "template1",
+    "ng_template": "'/f/pis1-am-1/registry1/registry2.html'",
+    "script": "/f/pis1-am-1/registry1/registry1.js",
+    "title": "Активація аккаунта",
+    "parent": "home"
+  },
 "login1":{
 	"th_template":"eh1_index1"
 	,"ng_template":"'/f/am-dev/1c-db-tables/login1.html'"

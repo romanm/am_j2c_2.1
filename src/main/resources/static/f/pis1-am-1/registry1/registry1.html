@@ -1,0 +1,52 @@
+<div ng-include="'/f/algoritmed/lib/head1.html'"></div>
+<h1>Регістрація в системі</h1>
+<form>
+	<div class="w3-row">
+		<div class="w3-col m3 l3 s3 w3-small">Ім’я користувача:</div>
+		<div class="w3-col m9 l9 s9">
+			<input class="w3-border am-width-100pr"
+				ng-blur="registry.checkUserName()" ng-model="registry.data.username"
+				placeholder="Логін ім'я" type="text">
+				<div class="w3-red w3-small" ng-if="registry.error.username">
+        {{registry.error.username}}</div>
+		</div>
+	</div>
+	<div class="w3-row">
+		<div class="w3-col m3 l3 s3 ">Пароль:</div>
+		<div class="w3-col m9 l9 s9">
+			<input ng-model="registry.data.password1" placeholder="Пароль"
+				class="w3-border am-width-100pr" type="password">
+		</div>
+	</div>
+	<div class="w3-row">
+		<div class="w3-col m3 l3 s3 w3-small">Пароль підтвердження:</div>
+		<div class="w3-col m9 l9 s9">
+			<input ng-model="registry.data.password2" placeholder="Пароль"
+			ng-blur="registry.passwordControlle()"
+				class="w3-border am-width-100pr" type="password">
+				<div class="w3-red w3-small">
+        {{registry.error.password}}</div>
+		</div>
+	</div>
+	<div class="w3-row">
+		<div class="w3-col m3 l3 s3 w3-small">Електронна пошта:</div>
+		<div class="w3-col m9 l9 s9">
+			<input ng-model="registry.data.email" placeholder="email"
+				class="w3-border am-width-100pr">
+			<div class="w3-red w3-small" ng-if="registry.error.email">
+				{{registry.error.email}}</div>
+		</div>
+	</div>
+	<hr/>
+	
+	<div ng-include="'/f/pis1-am-1/index1/person_data_form.html'"></div>
+
+	<p>
+		<button class="w3-btn w3-border w3-round"
+			ng-click="registry.saveRegistry()">Запис</button>
+		<a class="w3-btn w3-border w3-round"> <i
+			class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> наступна
+			сторінка
+		</a>
+	</p>
+</form>

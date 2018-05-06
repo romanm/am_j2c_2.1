@@ -1,0 +1,32 @@
+<div class="w3-row">
+	<div class="w3-col m3 l3 s3 ">Фамілія:</div>
+	<div class="w3-col m9 l9 s9">
+		<input ng-model="registry.data.family_name" placeholder="Фамілія"
+			class="w3-border am-width-100pr">
+	</div>
+</div>
+<div class="w3-row">
+	<div class="w3-col m3 l3 s3 ">Імʼя:</div>
+	<div class="w3-col m9 l9 s9">
+		<input ng-model="registry.data.first_name" placeholder="Імʼя"
+			class="w3-border am-width-100pr">
+	</div>
+</div>
+<div class="w3-row">
+	<div class="w3-col m3 l3 s3 ">Побатькові:</div>
+	<div class="w3-col m9 l9 s9">
+		<input ng-model="registry.data.second_name" placeholder="Побатькові"
+			class="w3-border am-width-100pr">
+	</div>
+</div>
+<div class="w3-row">
+	<div class="w3-col m3 l3 s3 ">дата народження:</div>
+	<div class="w3-col m9 l9 s9">
+		<input ng-model="registry.data.birth_date1"
+			ng-blur="registry.dateControlle('birth_date1')"
+			placeholder="дд-мм-рррр дата народженя" class="w3-border">
+		{{registry.data.bd|date:'mediumDate'}}
+		<div class="w3-red w3-small" ng-if="registry.error.birth_date">
+			{{registry.error.birth_date}}</div>
+	</div>
+</div>
