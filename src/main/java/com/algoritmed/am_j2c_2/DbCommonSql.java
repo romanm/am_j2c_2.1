@@ -90,6 +90,17 @@ public class DbCommonSql {
 			map = new HashMap<>();
 		return map;
 	}
+	protected Map<String, Object> sqlParamToMap( HttpServletRequest request) {
+		Map<String, String[]> parameterMap = request.getParameterMap();
+		Map<String, Object> map = new HashMap<String, Object>();
+		for (String key : parameterMap.keySet()) {
+			String[] v = parameterMap.get(key);
+			String val = v[0];
+			map.put(key, val);
+		}
+		map.remove("sql");
+		return map;
+	}
 	protected Map<String, Object> sqlParamToMap(String sql, HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, String[]> parameterMap = request.getParameterMap();
@@ -99,7 +110,7 @@ public class DbCommonSql {
 			String val = v[0];
 			map.put(key, val);
 		}
-		System.err.println(map);
+//		System.err.println(map);
 		String sql_from_env = env.getProperty(sql);
 		map.put(sql, sql_from_env);
 		return map;

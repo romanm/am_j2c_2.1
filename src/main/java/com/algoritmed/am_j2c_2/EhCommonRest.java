@@ -1,6 +1,7 @@
 package com.algoritmed.am_j2c_2;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class EhCommonRest  extends Db2Common{
 	protected static final Logger logger = LoggerFactory.getLogger(EhCommonRest.class);
 
+	@GetMapping("/r/url_sql_read2")
+	public @ResponseBody Map<String, Object> url_sql_read2(
+			@RequestParam(value = "sql", required = true) String sql
+			,HttpServletRequest request
+			) {
+		Map<String, Object> map = sqlParamToMap(request);
+		List<Map<String, Object>> list = db2ParamJdbcTemplate.queryForList(sql, map);
+		map.put("list", list);
+		logger.info("\n\n--24-- --begin-- /url_sql_read2"
+				+ "\n" + sql
+				+ "\n" + map
+				);
+		return map;
+	}
+	
 	@GetMapping("/r/read2_sql_with_param")
 	public @ResponseBody Map<String, Object> read2_sql_with_param(
 			@RequestParam(value = "sql", required = true) String sql

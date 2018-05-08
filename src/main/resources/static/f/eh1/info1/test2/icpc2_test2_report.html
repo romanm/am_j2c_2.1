@@ -1,0 +1,20 @@
+<div ng-include="'/f/eh1/info1/test2/f74-head2.html'"></div>
+<div>
+	вибір року і місяця | вибір ЛЗ або лікар | вибір лікаря | вибір випадки
+	або діагнози
+
+	<div>
+		рік: <select>
+			<option value="{{year}}" ng-repeat="year in [2018,2017]"
+				ng-click="seekParam.setYear(year)"
+				ng-selected="year==seekParam.year">{{year}}</option>
+		</select> місяць:
+		<button class="w3-btn" ng-class="{'w3-gray':month==seekParam.month}"
+			ng-click="seekParam.setMonth(month)"
+			ng-repeat="month in [1,2,3,4,5,6,7,8,9,10,11,12]">{{month}}</button>
+	</div>
+	<a href="{{seekParam.getURL()}}"
+    class="w3-btn w3-border"> Пошук </a>
+	{{seekParam.year}}-{{seekParam.month}} 
+</div>
+a1

@@ -15,6 +15,7 @@ init_am_directive.init_programRuns=function($scope, $http){
 	if(init_am_directive['init_'+request.viewKey])
 		init_am_directive['init_'+request.viewKey]($scope, $http);
 	$http.get('/r/principal').then(function(response) {
+		$scope.principalResponse = true;
 		$scope.principal = response.data.principal;
 		$scope.principalUser = response.data.user;
 
