@@ -10,26 +10,39 @@ var App_fn = function($scope, $http){
 	}
 	this.readTable = function(){
 		console.log($scope.table.init)
-		angular.forEach($scope.table.init, function(read_table_v, read_table_k){
-			if(read_table_k.indexOf('read')==0){
-				read_table_v.data = 'data'+read_table_k.replace('read','')
-				$scope.table.row_indexs[read_table_k]={}
-				read_table_v.rows_select = sql2[$scope.table.init.data.rows]()
-				read_table_v.rows_select = compileGroupSelect(read_table_v.rows_select, read_table_v, $scope)
-				read_table_v.rows_select = spaceClean(read_table_v.rows_select)
-				$http.get(url_sql_read,{params:{msp_id:$scope.params.msp_id,sql:read_table_v.rows_select}}).then(function(response) {
-					$scope.table[read_table_v.data] = response.data.list;
-					$scope.table[read_table_v.data].forEach(function(v,k){
-						$scope.table.row_indexs[read_table_k][v[read_table_v.column_to_group]]=k
+		angular.forEach($scope.table.init, function(report_table, report_table_name){
+			if(report_table_name.indexOf('report')==0){
+				report_table.data = 'data'+report_table_name.replace('report','').replace('_table','')
+				$scope.table.row_indexs[report_table_name]={}
+				report_table.rows_select = sql2[$scope.table.init.data.rows]()
+				report_table.rows_select = compileGroupSelect(report_table.rows_select, report_table, $scope)
+				report_table.rows_select = spaceClean(report_table.rows_select)
+				$http.get(url_sql_read,{params:{msp_id:$scope.params.msp_id,sql:report_table.rows_select}}).then(function(response) {
+					$scope.table[report_table.data] = response.data.list;
+					$scope.table[report_table.data].forEach(function(v,k){
+						$scope.table.row_indexs[report_table_name][v[report_table.column_to_group]]=k
 					})
-					angular.forEach($scope.table.init.data.cells, function(v, k_cell){
-						read_table_v[k_cell] = sql2[v]()
-						read_table_v[k_cell]= compileGroupSelect(read_table_v[k_cell], read_table_v, $scope)
-						read_table_v[k_cell]=spaceClean(read_table_v[k_cell])
-						$http.get(url_sql_read,{params:{msp_id:$scope.params.msp_id, sql:read_table_v[k_cell]}}).then(function(response) {
+					angular.forEach($scope.table.init.data.cells, function(column_v, column_name){
+//						console.log(column_v)
+//						console.log(column_v.value)
+						var column_id = column_name.split('_')[1]*1  
+						console.log(column_id)
+						report_table[column_name] = sql2[column_v.sql]()
+//						console.log(report_table[column_name])
+						report_table[column_name]= compileGroupSelect(report_table[column_name], report_table, $scope)
+//						console.log(report_table[column_name])
+						report_table[column_name]=report_table[column_name]
+						.replace(':column_name', column_name)
+						.replace(':column_id', column_id)
+						.replace(':value_type', column_v.value_type)
+						.replace(':value_type', column_v.value_type)
+						.replace(':value', column_v.value);
+//						console.log(report_table[column_name])
+						report_table[column_name]=spaceClean(report_table[column_name])
+						$http.get(url_sql_read,{params:{msp_id:$scope.params.msp_id, sql:report_table[column_name]}}).then(function(response) {
 							response.data.list.forEach(function(v){
-								var parent_v = $scope.table[read_table_v.data][$scope.table.row_indexs[read_table_k][v[read_table_v.column_to_group]]]
-								parent_v[k_cell]=v
+								var parent_v = $scope.table[report_table.data][$scope.table.row_indexs[report_table_name][v[report_table.column_to_group]]]
+								parent_v[column_name]=v
 							})
 						})
 					})
@@ -77,15 +90,17 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 	structure:{
 		createdDay:{name:'день'},
 		cnt:{name:'кількість'},
-		home_9776:{name:'відвідувань вдома'}
+		home_9776:{name:'відвідувань вдома'},
+		village_10900:{name:'село'},
 	}};
 	$scope.table.init = {
-		read:{select_to_group:'f74_day_rows__select', column_to_group:'year_day'},
-		read2:{select_to_group:'f74_day_rows__select', column_to_group:'year'},
+		report_table:{select_to_group:'f74_day_rows__select', column_to_group:'year_day'},
+		report2_table:{select_to_group:'f74_day_rows__select', column_to_group:'year'},
 		data:{
 			rows:'f74_case_rows__group',
 			cells:{
-				home_9776:'f74_rowColumn_consultare_type__group',
+				home_9776:{sql:'j2c_column_row__group',value:'2',value_type:'integer'},
+				village_10900:{sql:'j2c_column_row__group',value:'2',value_type:'integer'},
 			}
 		},
 	}
@@ -93,21 +108,20 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 }
 
 var sql2= {
-	f74_rowColumn_consultare_type__group:function(){
-		return "SELECT " +
-				":column_to_group, count(:column_to_group) home_9776 " +
+	j2c_column_row__group:function(){
+		return "SELECT :column_to_group, count(:column_to_group) :column_name " +
 				"FROM (\n" +
-				"::f74_rowColumn_consultare_type__select \n" +
-				") x WHERE value=2 " +
+				"::j2c_column_row__select \n" +
+				") x WHERE value=:value " +
 				"GROUP BY :column_to_group"
 	},
-	f74_rowColumn_consultare_type__select:function(){
-		return "SELECT cell.*,row.* FROM (::f74_cell_consultare_type__select )  cell,(\n" +
+	j2c_column_row__select:function(){
+		return "SELECT cell.*,row.* FROM (::j2c_cell_column__select )  cell,(\n" +
 		":select_to_group\n" +
 		") row WHERE row_id=cell.parent_id"
 	},
-	f74_cell_consultare_type__select:function(){
-		return "SELECT i.*, parent_id FROM integer i,doc WHERE integer_id=doc_id  AND reference=9776"
+	j2c_cell_column__select:function(){
+		return "SELECT i.*, parent_id FROM :value_type i,doc WHERE :value_type_id=doc_id  AND reference=:column_id"
 	},
 	f74_case_rows__group:function(){
 		return "SELECT :column_to_group createdDay,  " +
@@ -133,7 +147,7 @@ function compileGroupSelect(sql, v, $scope){
 		select_to_group = 
 		"SELECT * FROM (" +select_to_group +") WHERE month="+$scope.request.parameters.month
 	}
-	console.log(select_to_group)
+//	console.log(select_to_group)
 	sql = sql.replace(':select_to_group',select_to_group);
 	sql = sql.replace(':column_to_group',v.column_to_group);
 	sql = sql.replace(':column_to_group',v.column_to_group);
