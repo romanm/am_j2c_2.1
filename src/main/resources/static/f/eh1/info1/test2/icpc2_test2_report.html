@@ -30,11 +30,17 @@
 			<div class="w3-center" ng-switch-default>{{row[k]}}</div>
 		</td>
 	</tr>
-	<tr ng-repeat="row in table.data2">
+	<tr ng-repeat="row in table.data2"
+	style="font-weight: bold;"
+	>
     <td class="w3-border-bottom" ng-repeat="(k,v) in table.structure"
       ng-switch on="k">
-      <div title="{{row.year_day}}" ng-switch-when="createdDay">Сумма: {{row[k]}} рік</div>
-      <div class="w3-center" ng-switch-when="home_9776">{{row.home_9776.home_9776}}</div>
+      <div title="{{row.year_day}}" ng-switch-when="createdDay">
+				Сумма: <span ng-if="request.parameters.month">
+					{{request.parameters.month}} Місяць </span> <span
+					ng-if="!request.parameters.month"> {{row[k]}} рік </span>
+			</div>
+			<div class="w3-center" ng-switch-when="home_9776">{{row.home_9776.home_9776}}</div>
       <div class="w3-center" ng-switch-default>{{row[k]}}</div>
     </td>
   </tr>
