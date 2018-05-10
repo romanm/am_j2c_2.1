@@ -17,4 +17,26 @@
     class="w3-btn w3-border"> Пошук </a>
 	{{seekParam.year}}-{{seekParam.month}} 
 </div>
-a1
+
+<table>
+	<tr class="w3-small w3-gray">
+		<th ng-repeat="(k,v) in table.structure">{{v.name}}</th>
+	</tr>
+	<tr ng-repeat="row in table.data">
+		<td class="w3-border-bottom" ng-repeat="(k,v) in table.structure"
+			ng-switch on="k">
+			<div title="{{row.year_day}}" ng-switch-when="createdDay">{{dayOfYearDate(2018, row[k])|date:'mediumDate'}}</div>
+			<div class="w3-center" ng-switch-when="home_9776">{{row.home_9776.home_9776}}</div>
+			<div class="w3-center" ng-switch-default>{{row[k]}}</div>
+		</td>
+	</tr>
+	<tr ng-repeat="row in table.data2">
+    <td class="w3-border-bottom" ng-repeat="(k,v) in table.structure"
+      ng-switch on="k">
+      <div title="{{row.year_day}}" ng-switch-when="createdDay">Сумма: {{row[k]}} рік</div>
+      <div class="w3-center" ng-switch-when="home_9776">{{row.home_9776.home_9776}}</div>
+      <div class="w3-center" ng-switch-default>{{row[k]}}</div>
+    </td>
+  </tr>
+</table>
+
