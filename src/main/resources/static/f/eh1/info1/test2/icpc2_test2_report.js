@@ -28,11 +28,13 @@ var App_fn = function($scope, $http){
 							console.log(column_name)
 							console.log(column_v)
 							var select_cells_to_group =  'f74_'+column_name.replace('and_','')+'__select'  
-							console.log(select_cells_to_group)
+//							console.log(select_cells_to_group)
+//							console.log(composeSql(sql2[select_cells_to_group]()))
 //							report_table[column_name] = composeSql(report_table[column_name])
 							report_table[column_name] = compileGroupSelect(report_table[column_name], report_table, $scope)
+
 							report_table[column_name] = report_table[column_name]
-							.replace(':select_cells_to_group', sql2[select_cells_to_group]())
+							.replace(':select_cells_to_group', composeSql(sql2[select_cells_to_group]()))
 						}else{
 							var column_id = column_name.split('_')[1]*1
 							report_table[column_name] = compileGroupSelect(report_table[column_name], report_table, $scope)
@@ -98,6 +100,7 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 		cnt:{name:'кількість',_039o:'1'},
 		village_10900:{name:'село',_039o:'2'},
 		and_age017:{name:'вік 0-17',_039o:'3'},
+		and_age017_village:{name:'вік 0-17 село',_039o:'4'},
 		home_9776:{name:'відвідувань вдома',_039o:'9'},
 
 	}};
@@ -109,8 +112,9 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 			cells:{
 				home_9776:{sql:'j2c_column_row__group',value:'2',value_type:'integer'},
 				village_10900:{sql:'j2c_column_row__group',value:'2',value_type:'integer'},
-				and_age017:{sql:'j2c_column_row__group2'}
-			}
+				and_age017:{sql:'j2c_column_row__group2'},
+				and_age017_village:{sql:'j2c_column_row__group2'},
+			},
 		},
 	}
 	console.log($scope.table)
@@ -152,9 +156,9 @@ var sql2= {
 				") x GROUP BY :column_to_group\n" +
 				"ORDER BY :column_to_group"
 	},
-	f74_age017_home__select:function(){
+	f74_age017_village__select:function(){
 		return "::f74_age017__select " +
-				"AND parent_id IN (SELECT parent_id FROM doc, integer WHERE doc_id=integer_id AND value=2 AND reference=9776)"
+				"AND parent_id IN (SELECT parent_id FROM doc, integer WHERE doc_id=integer_id AND value=2 AND reference=10900)"
 	},
 	f74_age017__select:function(){
 		return "SELECT * FROM ( SELECT datediff('YEAR',value,created) age, age.parent_id  FROM (\n" +
