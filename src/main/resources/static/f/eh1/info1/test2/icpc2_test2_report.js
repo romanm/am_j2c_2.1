@@ -62,6 +62,12 @@ var App_fn = function($scope, $http){
 
 init_am_directive.init_icpc2_test2_report = function($scope, $http){
 	console.log('------init_am_directive.init_init_icpc2_test2_report-----------------');
+	$scope.reportToParam = function(){
+		var table={data:$scope.table.data,data2:$scope.table.data2}
+		var data = JSON.stringify(table); 
+		return encodeURIComponent(data);
+	}
+
 	$scope.seekParam = {
 		year:2018,
 		setYear:function(year){this.year=year;},
