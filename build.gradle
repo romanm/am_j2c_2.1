@@ -46,5 +46,8 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
 	
+	// https://mvnrepository.com/artifact/org.apache.poi/poi
+  compile 'org.apache.poi:poi:3.17'
+  compile 'org.apache.poi:poi-ooxml:3.17'
 	
 }

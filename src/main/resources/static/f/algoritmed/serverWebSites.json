@@ -1,5 +1,4 @@
 {
-
 "info":{
 	"th_template":"eh1_index1"
 	,"ng_template":"'/f/eh1/info1/info1.html'"
@@ -156,6 +155,13 @@
     "script": "/f/eh1/info1/test2/icpc2_test2_report.js",
     "title": "ICPC2 тест2 звітів",
     "parent": "home"
+},
+"test_hzpmsd2_liste":{
+ "th_template":"template1",
+  "ng_template":"'/f/eh1/info1/test_hzpmsd2/test_hzpmsd2_liste.html'",
+  "script":"/f/eh1/info1/test_hzpmsd2/test_hzpmsd2.js",
+  "alias":"Тестовий регламент Хм.ЦПМСД 2 перелік",
+  "parent":"info"
 },
 "icpc2_test_report":{
   "th_template":"eh1_index2",
