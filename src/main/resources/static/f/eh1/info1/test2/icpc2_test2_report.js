@@ -23,21 +23,27 @@ var App_fn = function($scope, $http){
 						$scope.table.row_indexs[report_table_name][v[report_table.column_to_group]]=k
 					})
 					angular.forEach($scope.table.init.data.cells, function(column_v, column_name){
-//						console.log(column_v)
-//						console.log(column_v.value)
-						var column_id = column_name.split('_')[1]*1  
-						console.log(column_id)
 						report_table[column_name] = sql2[column_v.sql]()
-//						console.log(report_table[column_name])
-						report_table[column_name]= compileGroupSelect(report_table[column_name], report_table, $scope)
-//						console.log(report_table[column_name])
-						report_table[column_name]=report_table[column_name]
+						if(column_name.indexOf('and_')==0){
+							console.log(column_name)
+							console.log(column_v)
+							var select_cells_to_group =  'f74_'+column_name.replace('and_','')+'__select'  
+							console.log(select_cells_to_group)
+//							report_table[column_name] = composeSql(report_table[column_name])
+							report_table[column_name] = compileGroupSelect(report_table[column_name], report_table, $scope)
+							report_table[column_name] = report_table[column_name]
+							.replace(':select_cells_to_group', sql2[select_cells_to_group]())
+						}else{
+							var column_id = column_name.split('_')[1]*1
+							report_table[column_name] = compileGroupSelect(report_table[column_name], report_table, $scope)
+							report_table[column_name] = report_table[column_name]
+							.replace(':column_id', column_id)
+						}
+						report_table[column_name] = report_table[column_name]
 						.replace(':column_name', column_name)
-						.replace(':column_id', column_id)
 						.replace(':value_type', column_v.value_type)
 						.replace(':value_type', column_v.value_type)
 						.replace(':value', column_v.value);
-//						console.log(report_table[column_name])
 						report_table[column_name]=spaceClean(report_table[column_name])
 						$http.get(url_sql_read,{params:{msp_id:$scope.params.msp_id, sql:report_table[column_name]}}).then(function(response) {
 							response.data.list.forEach(function(v){
@@ -88,19 +94,22 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 	}
 	$scope.table = {row_indexs:{},
 	structure:{
-		createdDay:{name:'день'},
-		cnt:{name:'кількість'},
-		home_9776:{name:'відвідувань вдома'},
-		village_10900:{name:'село'},
+		createdDay:{name:'день',_039o:'A'},
+		cnt:{name:'кількість',_039o:'1'},
+		village_10900:{name:'село',_039o:'2'},
+		and_age017:{name:'вік 0-17',_039o:'3'},
+		home_9776:{name:'відвідувань вдома',_039o:'9'},
+
 	}};
 	$scope.table.init = {
-		report_table:{select_to_group:'f74_day_rows__select', column_to_group:'year_day'},
-		report2_table:{select_to_group:'f74_day_rows__select', column_to_group:'year'},
+		report_table:{select_rows_to_group:'f74_day_rows__select', column_to_group:'year_day'},
+		report2_table:{select_rows_to_group:'f74_day_rows__select', column_to_group:'year'},
 		data:{
 			rows:'f74_case_rows__group',
 			cells:{
 				home_9776:{sql:'j2c_column_row__group',value:'2',value_type:'integer'},
 				village_10900:{sql:'j2c_column_row__group',value:'2',value_type:'integer'},
+				and_age017:{sql:'j2c_column_row__group2'}
 			}
 		},
 	}
@@ -108,6 +117,18 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 }
 
 var sql2= {
+	j2c_column_row__group2:function(){
+		return "SELECT :column_to_group, count(:column_to_group) :column_name " +
+				"FROM (\n" +
+				"::j2c_column_row__select2 \n" +
+				") x  " +
+				"GROUP BY :column_to_group"
+	},
+	j2c_column_row__select2:function(){
+		return "SELECT cell.*,row.* FROM (:select_cells_to_group)  cell,(\n" +
+		":select_rows_to_group\n" +
+		") row WHERE row_id=cell.parent_id"
+	},
 	j2c_column_row__group:function(){
 		return "SELECT :column_to_group, count(:column_to_group) :column_name " +
 				"FROM (\n" +
@@ -117,7 +138,7 @@ var sql2= {
 	},
 	j2c_column_row__select:function(){
 		return "SELECT cell.*,row.* FROM (::j2c_cell_column__select )  cell,(\n" +
-		":select_to_group\n" +
+		":select_rows_to_group\n" +
 		") row WHERE row_id=cell.parent_id"
 	},
 	j2c_cell_column__select:function(){
@@ -127,9 +148,24 @@ var sql2= {
 		return "SELECT :column_to_group createdDay,  " +
 				":column_to_group, count(:column_to_group) cnt " +
 				"FROM (\n" +
-				":select_to_group" +
+				":select_rows_to_group" +
 				") x GROUP BY :column_to_group\n" +
 				"ORDER BY :column_to_group"
+	},
+	f74_age017_home__select:function(){
+		return "::f74_age017__select " +
+				"AND parent_id IN (SELECT parent_id FROM doc, integer WHERE doc_id=integer_id AND value=2 AND reference=9776)"
+	},
+	f74_age017__select:function(){
+		return "SELECT * FROM ( SELECT datediff('YEAR',value,created) age, age.parent_id  FROM (\n" +
+				"SELECT * FROM (\n" +
+				"SELECT parent_id ,reference2 row_id_in_ref_table, t.* FROM doc, doctimestamp t " +
+				"WHERE parent_id=doctimestamp_id AND  reference=10766" +
+				") cell, (" +
+				"SELECT parent_id row_id, t.* FROM doc, timestamp t WHERE doc_id=timestamp_id AND reference=10823" +
+				") refcell \n" +
+				"WHERE row_id=row_id_in_ref_table" +
+				") age ) age WHERE age<18"
 	},
 	f74_day_rows__select:function(){
 		return "SELECT day_of_year(created) year_day, month(created) month, year(created) year, x.* FROM (\n" +
@@ -142,13 +178,13 @@ var sql2= {
 
 function compileGroupSelect(sql, v, $scope){
 	sql = composeSql(sql)
-	var select_to_group = sql2[v.select_to_group]();
+	var select_rows_to_group = sql2[v.select_rows_to_group]();
 	if($scope.request.parameters.month){
-		select_to_group = 
-		"SELECT * FROM (" +select_to_group +") WHERE month="+$scope.request.parameters.month
+		select_rows_to_group = 
+		"SELECT * FROM (" +select_rows_to_group +") WHERE month="+$scope.request.parameters.month
 	}
-//	console.log(select_to_group)
-	sql = sql.replace(':select_to_group',select_to_group);
+//	console.log(select_rows_to_group)
+	sql = sql.replace(':select_rows_to_group',select_rows_to_group);
 	sql = sql.replace(':column_to_group',v.column_to_group);
 	sql = sql.replace(':column_to_group',v.column_to_group);
 	sql = sql.replace(':column_to_group',v.column_to_group);
@@ -158,7 +194,7 @@ function compileGroupSelect(sql, v, $scope){
 	return sql;
 }
 
-function composeSql(sql){
+function composeSql(sql){// with :: compose make for compile
 	var sqlParam = sql;
 	var sql_split = spaceClean(sql).split('::');
 	sql_split.forEach(function(sql,i){if(i>0){

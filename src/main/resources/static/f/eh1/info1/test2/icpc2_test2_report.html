@@ -22,11 +22,16 @@
 	<tr class="w3-small w3-gray">
 		<th ng-repeat="(k,v) in table.structure">{{v.name}}</th>
 	</tr>
+	<tr class="w3-small w3-tiny">
+    <td
+    class="w3-border w3-center"
+    ng-repeat="(k,v) in table.structure">{{v._039o}}</td>
+  </tr>
 	<tr ng-repeat="row in table.data">
 		<td class="w3-border-bottom" ng-repeat="(k,v) in table.structure"
 			ng-switch on="k">
 			<div title="{{row.year_day}}" ng-switch-when="createdDay">{{dayOfYearDate(2018, row[k])|date:'mediumDate'}}</div>
-			<div class="w3-center" ng-switch-when="home_9776|village_10900"
+			<div class="w3-center" ng-switch-when="home_9776|village_10900|and_age017"
 			 ng-switch-when-separator="|"
 			>{{row[k][k]}}</div>
 			<div class="w3-center" ng-switch-default>{{row[k]}}</div>
@@ -42,7 +47,7 @@
 					{{request.parameters.month}} Місяць </span> <span
 					ng-if="!request.parameters.month"> {{row[k]}} рік </span>
 			</div>
-			<div class="w3-center" ng-switch-when="home_9776|village_10900"
+			<div class="w3-center" ng-switch-when="home_9776|village_10900|and_age017"
 			 ng-switch-when-separator="|"
 			>{{row[k][k]}}</div>
       <div class="w3-center" ng-switch-default>{{row[k]}}</div>
