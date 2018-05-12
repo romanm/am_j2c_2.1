@@ -9,7 +9,6 @@ var App_fn = function($scope, $http){
 		return msp_id;
 	}
 	this.readTable = function(){
-		console.log($scope.table.init)
 		angular.forEach($scope.table.init, function(report_table, report_table_name){
 			if(report_table_name.indexOf('report')==0){
 				report_table.data = 'data'+report_table_name.replace('report','').replace('_table','')
@@ -22,15 +21,11 @@ var App_fn = function($scope, $http){
 					$scope.table[report_table.data].forEach(function(v,k){
 						$scope.table.row_indexs[report_table_name][v[report_table.column_to_group]]=k
 					})
+					
 					angular.forEach($scope.table.init.data.cells, function(column_v, column_name){
 						report_table[column_name] = sql2[column_v.sql]()
 						if(column_name.indexOf('and_')==0){
-							console.log(column_name)
-							console.log(column_v)
 							var select_cells_to_group =  'f74_'+column_name.replace('and_','')+'__select'  
-//							console.log(select_cells_to_group)
-//							console.log(composeSql(sql2[select_cells_to_group]()))
-//							report_table[column_name] = composeSql(report_table[column_name])
 							report_table[column_name] = compileGroupSelect(report_table[column_name], report_table, $scope)
 
 							report_table[column_name] = report_table[column_name]
@@ -51,7 +46,10 @@ var App_fn = function($scope, $http){
 							response.data.list.forEach(function(v){
 								var parent_v = $scope.table[report_table.data][$scope.table.row_indexs[report_table_name][v[report_table.column_to_group]]]
 								parent_v[column_name]=v
+								var cellsNames =Object.keys($scope.table.init.data.cells); 
 							})
+							report_table.read_cell++;
+							console.log(report_table.read_cell)
 						})
 					})
 				});
@@ -62,9 +60,27 @@ var App_fn = function($scope, $http){
 
 init_am_directive.init_icpc2_test2_report = function($scope, $http){
 	console.log('------init_am_directive.init_init_icpc2_test2_report-----------------');
+	
+	$scope.initExcelData = function(){
+		var r1=2;
+		$scope.rcData = {}
+		angular.forEach($scope.table.data,function(r,k){
+			var rowCells= {}
+			angular.forEach(['cnt','village_10900','and_age017','and_age017_village','home_9776'], function(cellName, cellNr){
+				if(r[cellName]){
+					rowCells[cellNr]=r[cellName]
+					if(r[cellName][cellName]){
+						rowCells[cellNr]=r[cellName][cellName]
+					}
+				}
+			})
+			$scope.rcData[r1+k]=rowCells
+		})
+		console.log($scope.rcData)
+	}
+
 	$scope.reportToParam = function(){
-		var table={data:$scope.table.data,data2:$scope.table.data2}
-		var data = JSON.stringify(table); 
+		var data = JSON.stringify($scope.rcData); 
 		return encodeURIComponent(data);
 	}
 
@@ -91,6 +107,13 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 	};
 	$scope.seekParam.initFromRequest();
 	var app_fn = new App_fn($scope, $http);
+	$scope.$watch('table.init.report_table.read_cell',function(newValue){
+		console.log('-------123---------------------')
+		console.log(Object.keys($scope.table.init.data.cells).length+'/'+newValue)
+		if(newValue==Object.keys($scope.table.init.data.cells).length){
+			$scope.initExcelData()
+		}
+	})
 	$scope.$watch('principalResponse',function(newValue){if(newValue){
 		console.log('----$scope.$watch(principal,function()------118------');
 		var msp_id = app_fn.getMsp_id();
@@ -111,7 +134,7 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 
 	}};
 	$scope.table.init = {
-		report_table:{select_rows_to_group:'f74_day_rows__select', column_to_group:'year_day'},
+		report_table:{select_rows_to_group:'f74_day_rows__select', column_to_group:'year_day', read_cell:0},
 		report2_table:{select_rows_to_group:'f74_day_rows__select', column_to_group:'year'},
 		data:{
 			rows:'f74_case_rows__group',

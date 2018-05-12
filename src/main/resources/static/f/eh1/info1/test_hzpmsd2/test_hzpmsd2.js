@@ -5,7 +5,7 @@ init_am_directive.init_test_hzpmsd2_liste = function($scope, $http){
 	$scope.test_hzpmsd2_liste={
 		f039_o_report:{name:'Форма 039/o запит'},
 		f039_o_print:{name:'Форма 039/o друк'},
-		f039_o_excell:{name:'Форма 039/o excell'},
+		f039_o_excell:{name:'Форма 039/o excel'},
 		f074_o_form:{name:'Форма 074/o введення даних'},
 	}
 }
