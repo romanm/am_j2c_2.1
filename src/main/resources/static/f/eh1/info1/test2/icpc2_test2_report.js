@@ -49,7 +49,6 @@ var App_fn = function($scope, $http){
 								var cellsNames =Object.keys($scope.table.init.data.cells); 
 							})
 							report_table.read_cell++;
-							console.log(report_table.read_cell)
 						})
 					})
 				});
@@ -62,19 +61,25 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 	console.log('------init_am_directive.init_init_icpc2_test2_report-----------------');
 	
 	$scope.initExcelData = function(){
-		var r1=2;
+		var r0=3, c0=1;
 		$scope.rcData = {}
-		angular.forEach($scope.table.data,function(r,k){
+		angular.forEach($scope.table.data,function(data_row,k){
 			var rowCells= {}
+			console.log(data_row)
+			var d = $scope.dayOfYearDate(2018,data_row.year_day)
+			console.log(d)
+			rowCells[0]='=DATE(2018,'+d.getMonth()+','+d.getDate()+')';
+			console.log(rowCells[0])
+
 			angular.forEach(['cnt','village_10900','and_age017','and_age017_village','home_9776'], function(cellName, cellNr){
-				if(r[cellName]){
-					rowCells[cellNr]=r[cellName]
-					if(r[cellName][cellName]){
-						rowCells[cellNr]=r[cellName][cellName]
+				if(data_row[cellName]){
+					rowCells[c0+cellNr]=data_row[cellName]
+					if(data_row[cellName][cellName]){
+						rowCells[c0+cellNr]=data_row[cellName][cellName]
 					}
 				}
 			})
-			$scope.rcData[r1+k]=rowCells
+			$scope.rcData[r0+k]=rowCells
 		})
 		console.log($scope.rcData)
 	}
@@ -108,8 +113,6 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 	$scope.seekParam.initFromRequest();
 	var app_fn = new App_fn($scope, $http);
 	$scope.$watch('table.init.report_table.read_cell',function(newValue){
-		console.log('-------123---------------------')
-		console.log(Object.keys($scope.table.init.data.cells).length+'/'+newValue)
 		if(newValue==Object.keys($scope.table.init.data.cells).length){
 			$scope.initExcelData()
 		}

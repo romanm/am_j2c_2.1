@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -50,19 +53,34 @@ public class ExcellRest {
 
 	private Workbook buildReport(Map<String, Object> data) throws IOException, InvalidFormatException {
 		Workbook wb = WorkbookFactory.create(new File(filePath));
+		CellStyle cellDateStyle = wb.createCellStyle();
+		CreationHelper createHelper = wb.getCreationHelper();
+		cellDateStyle.setDataFormat(
+		        createHelper.createDataFormat().getFormat("dd mmm. yyyy"));
 		Sheet sheet = wb.getSheetAt(0);
 		System.err.println(data);
-		for (String key : (Set<String>) data.keySet()) {
-			int r = Integer.parseInt(key);
-			Row row = sheet.createRow(r);
-
-			System.err.println(r);
-			Map<String, Object> cells = (Map<String, Object>)data.get(key);
-			for (String cellNr : cells.keySet()) {
-				System.err.println(cellNr);
-				Cell cell = row.createCell(Integer.parseInt(cellNr));
-				Integer cellValue = (Integer) cells.get(cellNr);
-				cell.setCellValue(cellValue);
+		for (String keyR : (Set<String>) data.keySet()) {
+			int rowNr = Integer.parseInt(keyR);
+			Row row = sheet.createRow(rowNr);
+			Map<String, Object> cells = (Map<String, Object>)data.get(keyR);
+			for (String keyC : cells.keySet()) {
+				int cellNr = Integer.parseInt(keyC);
+				Cell cell = row.createCell(cellNr);
+				Object object = cells.get(keyC);
+				if(object instanceof Integer) {
+					cell.setCellValue((Integer)object);
+				}else {
+					String stringValue = ""+object;
+					if(stringValue.contains("=")) {
+						String stringFormula = stringValue.substring(1).replace(";", ",");
+						if(stringFormula.contains("DATE")) {
+							cell.setCellFormula(stringFormula);
+							cell.setCellStyle(cellDateStyle);
+						}
+					}else {
+						cell.setCellValue(stringValue);
+					}
+				}
 			}
 			System.err.println(cells.keySet());
 		}
