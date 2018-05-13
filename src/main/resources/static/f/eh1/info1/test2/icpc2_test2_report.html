@@ -1,7 +1,31 @@
 <div ng-include="'/f/eh1/info1/test2/f74-head2.html'"></div>
 <div>
-	вибір року і місяця | вибір ЛЗ або лікар | вибір лікаря | вибір випадки
-	або діагнози
+	вибір року і місяця | вибір: 
+	<button class="w3-btn">ЛЗ</button>
+	 |
+	<button ng-click="modal.physicianChoose.display={display:'block'}" class="w3-btn"
+	ng-class="{'w3-light-gray':seekParam.physician}"
+	>
+		лікаря</button>
+	| вибір випадки або діагнози
+	<div class="w3-small w3-border">{{seekParam.physicianData.family_name}}
+		{{seekParam.physicianData.first_name}}
+		{{seekParam.physicianData.second_name}}</div>
+	<div ng-style="modal.physicianChoose.display" class="w3-modal">
+		<div class="w3-modal-content">
+			<div class="w3-container">
+				<span ng-click="modal.physicianChoose.display={}"
+					class="w3-button w3-display-topright">&times;</span>
+				<p class="am-b">Вибір лікаря</p>
+				<div ng-repeat="p in modal.physicianChoose.data.list"
+					class="w3-hover-light-gray">
+					<a href="?physician={{p.person_id}}">
+          {{p.family_name}}
+          {{p.first_name}} {{p.second_name}}
+					</a></div>
+			</div>
+		</div>
+	</div>
 
 	<div>
 		рік: <select>
@@ -20,9 +44,8 @@
 		</a>
 
 	</div>
-	<a href="{{seekParam.getURL()}}"
-    class="w3-btn w3-border"> Пошук </a>
-	{{seekParam.year}}-{{seekParam.month}} 
+	<a href="{{seekParam.getURL()}}" class="w3-btn w3-border"> Пошук </a>
+	{{seekParam.year}}-{{seekParam.month}}
 </div>
 
 <table>

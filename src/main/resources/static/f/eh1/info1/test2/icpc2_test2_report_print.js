@@ -12,4 +12,5 @@ init_am_directive.init_icpc2_test2_report_print = function($scope, $http){
 		4:'and_age017_village',
 		9:'home_9776',
 	}
+	
 }

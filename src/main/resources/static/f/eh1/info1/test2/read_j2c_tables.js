@@ -17,12 +17,14 @@ init_read_j2c_tables = function($scope, $http){
 			},
 			initFromRequest:function(){
 				console.log($scope.request.parameters)
+				if($scope.request.parameters.physician)
+					this.physician=$scope.request.parameters.physician;
 				if($scope.request.parameters.month)
-					$scope.seekParam.setMonth($scope.request.parameters.month)
+					this.setMonth($scope.request.parameters.month)
 			}
 	};
 	$scope.seekParam.initFromRequest();
-	var app_fn = new App_fn($scope, $http);	
+	app_fn = new App_fn($scope, $http);	
 	$scope.$watch('principalResponse',function(newValue){if(newValue){
 		console.log('----$scope.$watch(principal,function()------118------');
 		var msp_id = app_fn.getMsp_id();
@@ -197,18 +199,24 @@ var sql2= {
 		return "SELECT * FROM ( SELECT datediff('YEAR',value,created) age, age.parent_id  FROM (\n" +
 				"SELECT * FROM (\n" +
 				"SELECT parent_id ,reference2 row_id_in_ref_table, t.* FROM doc, doctimestamp t " +
-				"WHERE parent_id=doctimestamp_id AND  reference=10766" +
+				"WHERE parent_id=doctimestamp_id AND reference=10766" +
 				") cell, (" +
 				"SELECT parent_id row_id, t.* FROM doc, timestamp t WHERE doc_id=timestamp_id AND reference=10823" +
 				") refcell \n" +
 				"WHERE row_id=row_id_in_ref_table" +
 				") age ) age WHERE age<18"
 	},
+	f74_physician__select:function(){
+		return "SELECT * FROM person WHERE person_id=:person_id";
+	},
+	f74_msp_physician__select:function(){
+		return "SELECT * FROM doc, person WHERE parent_id=person_id AND reference=:msp_id";
+	},
 	f74_day_rows__select:function(){
 		return "SELECT day_of_year(created) year_day, month(created) month, year(created) year, x.* FROM (\n" +
 				"SELECT doc_id row_id, ds.*, reference2 FROM doc row, doctimestamp ds \n" +
 				"WHERE row.doc_id=doctimestamp_id AND row.parent_id=9774 AND NOT row.removed AND row.doctype=9 \n" +
 				") x WHERE YEAR(created)=2018 \n" +
-				"AND reference2 in (SELECT distinct parent_id FROM doc, person where parent_id=person_id  and reference=:msp_id)"
+				"AND reference2 in (SELECT DISTINCT parent_id FROM doc, person WHERE parent_id=person_id AND reference=:msp_id)"
 	},
 }

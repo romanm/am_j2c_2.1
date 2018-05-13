@@ -40,5 +40,28 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 		}
 	})
 	
+	$scope.modal={
+		physicianChoose:{}
+	}
+	$scope.$watch('seekParam.physician',function(newValue){if(newValue){
+		console.log(newValue)
+		$http.get(url_sql_read,{params:{person_id:newValue, 
+			sql:sql2.f74_physician__select()}}).then(function(response) {
+				console.log(response.data)
+				$scope.seekParam.physicianData = response.data.list[0];
+			})
+	}})
+
+	$scope.$watch('modal.physicianChoose.display',function(newValue){if(newValue){
+		if(newValue.display){
+			console.log(app_fn.getMsp_id())
+			$http.get(url_sql_read,{params:{msp_id:$scope.params.msp_id, 
+				sql:sql2.f74_msp_physician__select()}}).then(function(response) {
+					console.log(response.data)
+					$scope.modal.physicianChoose.data = response.data;
+			})
+
+		}
+	}})
 
 }
