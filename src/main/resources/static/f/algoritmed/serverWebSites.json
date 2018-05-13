@@ -150,9 +150,16 @@
   "parent":"info"
 },
 "icpc2_test2_report":{
-    "th_template": "template1",
+    "th_template": "template2",
     "ng_template": "'/f/eh1/info1/test2/icpc2_test2_report.html'",
     "script": "/f/eh1/info1/test2/icpc2_test2_report.js",
+    "title": "ICPC2 тест2 звітів",
+    "parent": "home"
+},
+"icpc2_test2_report_print":{
+    "th_template": "template2",
+    "ng_template": "'/f/eh1/info1/test2/icpc2_test2_report_print.html'",
+    "script": "/f/eh1/info1/test2/icpc2_test2_report_print.js",
     "title": "ICPC2 тест2 звітів",
     "parent": "home"
 },

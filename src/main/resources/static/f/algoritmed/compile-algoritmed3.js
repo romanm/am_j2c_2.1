@@ -18,8 +18,8 @@ init_am_directive.init_programRuns=function($scope, $http){
 		$scope.principalResponse = true;
 		$scope.principal = response.data.principal;
 		$scope.principalUser = response.data.user;
-
 		console.log($scope.principal)
+
 		if($scope.principal){
 			$scope.principal.authorities.forEach(function(v){
 				if(v.authority=='ROLE_PATIENT'){
@@ -27,6 +27,14 @@ init_am_directive.init_programRuns=function($scope, $http){
 				}
 			})
 		}
+	});
+}
+
+console.log('-----------31----------')
+function import_js_file(fileName, $http){
+	$http.get(fileName).then(function(response) {
+		var load_amProgram = response.data; 
+		eval(load_amProgram);
 	});
 }
 

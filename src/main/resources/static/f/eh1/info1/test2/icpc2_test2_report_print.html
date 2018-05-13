@@ -1,0 +1,57 @@
+<a class="w3-hover-light-gray" href="/v/icpc2_test2_report"><i
+	class="fa fa-arrow-left" aria-hidden="true"></i> </a>
+<table class="1w3-table-all">
+	<caption class="am-b w3-small w3-border">
+		<div>ВІДОМІСТЬ</div>
+		<div>обліку відвідувань у поліклініці (амбулаторії), диспансері,
+			центрі первинної медико-санітарної допомоги, консультації, вдома</div>
+	</caption>
+	<thead class="w3-small">
+		<tr>
+			<th class="w3-border" rowspan="2"><i class="fa fa-calendar-o" aria-hidden="true"></i></th>
+			<th class="w3-border" rowspan="2">кількість</th>
+			<th class="w3-border" rowspan="2">з них сільских жителів</th>
+			<th class="w3-border" colspan="2">діти 0-17 (із графи 1)</th>
+			<th class="w3-border" colspan="4">кількість (із графи 1)</th>
+			<th class="w3-border" rowspan="2">вдома, усього</th>
+			<th class="w3-border" rowspan="2">з них сільских</th>
+			<th class="w3-border" colspan="2">діти 0-17 (із графи 9)</th>
+		</tr>
+		<tr>
+			<th>усього</th>
+			<th>з них сільских жителів</th>
+			<th>дорослі (18 і старше)</th>
+			<th>з них сільских жителів</th>
+			<th>діти віком 0-7 років</th>
+			<th>з них сільских жителів</th>
+			     <th>усього</th>
+      <th>з них сільских жителів</th>
+		</tr>
+		<tr>
+			<td class="w3-border w3-center" ng-repeat="n in columnNumbers">{{n}}</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="row in table.data">
+			<td class="w3-border-bottom" ng-repeat="c in columnNumbers"
+				ng-init="k=columnDataKey[c]" ng-switch on="k">
+				<div title="{{row.year_day}}" ng-switch-when="createdDay">{{dayOfYearDate(2018,
+					row[k])|date:'dd.MM'}}</div>
+				<div class="w3-center"
+					ng-switch-when="home_9776|village_10900|and_age017|and_age017_village"
+					ng-switch-when-separator="|">{{row[k][k]}}</div>
+				<div class="w3-center" ng-switch-default>{{row[k]}}</div>
+			</td>
+		</tr>
+		<tr ng-repeat="row in table.data2" style="font-weight: bold;">
+			<td class="w3-border-bottom" ng-repeat="c in columnNumbers"
+				ng-init="k=columnDataKey[c]" ng-switch on="k">
+				<div title="{{row.year_day}}" ng-switch-when="createdDay">*</div>
+				<div class="w3-center"
+					ng-switch-when="home_9776|village_10900|and_age017|and_age017_village"
+					ng-switch-when-separator="|">{{row[k][k]}}</div>
+				<div class="w3-center" ng-switch-default>{{row[k]}}</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
