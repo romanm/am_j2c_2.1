@@ -7,11 +7,8 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 		$scope.rcData = {}
 		angular.forEach($scope.table.data,function(data_row,k){
 			var rowCells= {}
-			console.log(data_row)
 			var d = $scope.dayOfYearDate(2018,data_row.year_day)
-			console.log(d)
 			rowCells[0]='=DATE(2018,'+d.getMonth()+','+d.getDate()+')';
-			console.log(rowCells[0])
 
 			angular.forEach(['cnt','village_10900','and_age017','and_age017_village','home_9776'], function(cellName, cellNr){
 				if(data_row[cellName]){
@@ -23,7 +20,6 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 			})
 			$scope.rcData[r0+k]=rowCells
 		})
-		console.log($scope.rcData)
 	}
 
 	$scope.reportToParam = function(){
@@ -47,7 +43,6 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 		console.log(newValue)
 		$http.get(url_sql_read,{params:{person_id:newValue, 
 			sql:sql2.f74_physician__select()}}).then(function(response) {
-				console.log(response.data)
 				$scope.seekParam.physicianData = response.data.list[0];
 			})
 	}})

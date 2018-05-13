@@ -13,6 +13,9 @@ init_read_j2c_tables = function($scope, $http){
 				var url = '?year='+this.year 
 				if(this.month)
 					url += '&month='+this.month; 
+				if(this.physician)
+					url += '&physician='+this.physician; 
+
 				return url;
 			},
 			initFromRequest:function(){
@@ -106,11 +109,21 @@ var App_fn = function($scope, $http){
 		angular.forEach($scope.table.init, function(report_table, report_table_name){
 			if(report_table_name.indexOf('report')==0){
 				report_table.data = 'data'+report_table_name.replace('report','').replace('_table','')
+				var params = {msp_id:$scope.params.msp_id}
+				if($scope.seekParam.physician){
+					var sql = report_table.select_rows_to_group.replace('__','_physician__')
+					report_table.select_rows_to_group=sql
+					params.person_id=$scope.seekParam.physician
+					console.log(report_table)
+				}
+				console.log(params)
+
 				$scope.table.row_indexs[report_table_name]={}
 				report_table.rows_select = sql2[$scope.table.init.data.rows]()
 				report_table.rows_select = compileGroupSelect(report_table.rows_select, report_table, $scope)
 				report_table.rows_select = spaceClean(report_table.rows_select)
-				$http.get(url_sql_read,{params:{msp_id:$scope.params.msp_id,sql:report_table.rows_select}}).then(function(response) {
+				params.sql=report_table.rows_select
+				$http.get(url_sql_read,{params:params}).then(function(response) {
 					$scope.table[report_table.data] = response.data.list;
 					$scope.table[report_table.data].forEach(function(v,k){
 						$scope.table.row_indexs[report_table_name][v[report_table.column_to_group]]=k
@@ -136,7 +149,9 @@ var App_fn = function($scope, $http){
 						.replace(':value_type', column_v.value_type)
 						.replace(':value', column_v.value);
 						report_table[column_name]=spaceClean(report_table[column_name])
-						$http.get(url_sql_read,{params:{msp_id:$scope.params.msp_id, sql:report_table[column_name]}}).then(function(response) {
+						params.sql=report_table[column_name]
+//						$http.get(url_sql_read,{params:params}).then(function(response) {
+						$http.get(url_sql_read,{params:{msp_id:$scope.params.msp_id, person_id:$scope.seekParam.physician, sql:report_table[column_name]}}).then(function(response) {
 							response.data.list.forEach(function(v){
 								var parent_v = $scope.table[report_table.data][$scope.table.row_indexs[report_table_name][v[report_table.column_to_group]]]
 								parent_v[column_name]=v
@@ -218,5 +233,12 @@ var sql2= {
 				"WHERE row.doc_id=doctimestamp_id AND row.parent_id=9774 AND NOT row.removed AND row.doctype=9 \n" +
 				") x WHERE YEAR(created)=2018 \n" +
 				"AND reference2 in (SELECT DISTINCT parent_id FROM doc, person WHERE parent_id=person_id AND reference=:msp_id)"
+	},
+	f74_day_rows_physician__select:function(){
+		return "SELECT day_of_year(created) year_day, month(created) month, year(created) year, x.* FROM (\n" +
+				"SELECT doc_id row_id, ds.*, reference2 FROM doc row, doctimestamp ds \n" +
+				"WHERE row.doc_id=doctimestamp_id AND row.parent_id=9774 AND NOT row.removed AND row.doctype=9 \n" +
+				") x WHERE YEAR(created)=2018 \n" +
+				"AND reference2 in (:person_id)"
 	},
 }
