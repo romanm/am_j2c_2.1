@@ -19,7 +19,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -28,16 +27,19 @@ import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@PropertySource(value = "classpath:email.properties", encoding="UTF-8")
 @Controller
 public class ExcellRest {
 	private static final Logger logger = LoggerFactory.getLogger(ExcellRest.class);
-	
+
 	private InputStream buildExcel(HttpServletResponse response, Map<String, Object> data) throws EncryptedDocumentException, InvalidFormatException, IOException {
 		logger.info("\n\n-- 48 -- "
 				+ "\n"
@@ -52,11 +54,11 @@ public class ExcellRest {
 	}
 
 	private Workbook buildReport(Map<String, Object> data) throws IOException, InvalidFormatException {
-		Workbook wb = WorkbookFactory.create(new File(filePath));
+		Workbook wb = WorkbookFactory.create(new File(serverDataFiles+filePath));
 		CellStyle cellDateStyle = wb.createCellStyle();
 		CreationHelper createHelper = wb.getCreationHelper();
 		cellDateStyle.setDataFormat(
-		        createHelper.createDataFormat().getFormat("dd mmm. yyyy"));
+				createHelper.createDataFormat().getFormat("dd mmm. yyyy"));
 		Sheet sheet = wb.getSheetAt(0);
 		System.err.println(data);
 		for (String keyR : (Set<String>) data.keySet()) {
@@ -97,14 +99,14 @@ public class ExcellRest {
 		cell.setCellType(CellType.STRING);
 		cell.setCellValue("a test");
 		return inp;
-		    * */
+		 * */
 		return wb;
 	}
 
 	@GetMapping(
-		value = "/r/excel1",
-		produces = {"application/vnd.ms-excel"}
-	)
+			value = "/r/excel1",
+			produces = {"application/vnd.ms-excel"}
+			)
 	public @ResponseBody byte[] getImageWithMediaType(HttpServletRequest request, HttpServletResponse response) throws IOException, EncryptedDocumentException, InvalidFormatException {
 		String data = request.getParameter("data");
 		System.out.println("---------70----------");
@@ -114,15 +116,14 @@ public class ExcellRest {
 		return IOUtils.toByteArray(inp);
 	}
 
-	
-	String filePath = "/home/roman/algoritmed/edu/excel_file_sample.xlsx";
+	private @Value("${config.server.data_files}") String serverDataFiles;
+	String filePath = "excel_file_sample.xlsx";
 	private InputStream buildExcel(HttpServletResponse response) throws FileNotFoundException {
-		   response.setHeader("Content-disposition", "attachment; filename=excel_file_sample_"+123+".xlsx");
-
-		InputStream inp = new FileInputStream(filePath);
+		response.setHeader("Content-disposition", "attachment; filename=excel_file_sample_"+123+".xlsx");
+		InputStream inp = new FileInputStream(serverDataFiles+filePath);
 		return inp;
 	}
-	
+
 	@Autowired protected	ObjectMapper objectMapper;
 	protected Map<String, Object> stringToMap(String protocolDoc) {
 		Map map = null;
