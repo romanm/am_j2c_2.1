@@ -28,6 +28,13 @@ init_read_j2c_tables = function($scope, $http){
 	};
 	$scope.seekParam.initFromRequest();
 	app_fn = new App_fn($scope, $http);	
+	$scope.$watch('seekParam.physician',function(newValue){if(newValue){
+		console.log(newValue)
+		$http.get(url_sql_read,{params:{person_id:newValue, 
+			sql:sql2.f74_physician__select()}}).then(function(response) {
+				$scope.seekParam.physicianData = response.data.list[0];
+			})
+	}})
 	$scope.$watch('principalResponse',function(newValue){if(newValue){
 		console.log('----$scope.$watch(principal,function()------118------');
 		var msp_id = app_fn.getMsp_id();
@@ -115,7 +122,6 @@ var App_fn = function($scope, $http){
 					report_table.select_rows_to_group=sql
 					params.person_id=$scope.seekParam.physician
 				}
-				console.log(params)
 
 				$scope.table.row_indexs[report_table_name]={}
 				report_table.rows_select = sql2[$scope.table.init.data.rows]()

@@ -62,13 +62,7 @@ console.log($scope.table.init.read_cell)
 	$scope.modal={
 		physicianChoose:{}
 	}
-	$scope.$watch('seekParam.physician',function(newValue){if(newValue){
-		console.log(newValue)
-		$http.get(url_sql_read,{params:{person_id:newValue, 
-			sql:sql2.f74_physician__select()}}).then(function(response) {
-				$scope.seekParam.physicianData = response.data.list[0];
-			})
-	}})
+
 
 	$scope.$watch('modal.physicianChoose.display',function(newValue){if(newValue){
 		if(newValue.display){

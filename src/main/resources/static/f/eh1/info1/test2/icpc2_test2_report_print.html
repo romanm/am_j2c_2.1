@@ -1,10 +1,15 @@
-<a class="w3-hover-light-gray" href="/v/icpc2_test2_report"><i
+<a class="w3-hover-light-gray" href="/v/icpc2_test2_report{{seekParam.getURL()}}"><i
 	class="fa fa-arrow-left" aria-hidden="true"></i> </a>
 <table class="1w3-table-all">
 	<caption class="am-b w3-small w3-border">
 		<div>ВІДОМІСТЬ</div>
 		<div>обліку відвідувань у поліклініці (амбулаторії), диспансері,
 			центрі первинної медико-санітарної допомоги, консультації, вдома</div>
+		<div class="w3-small w3-border" ng-if="seekParam.physician">
+			<b>Лікар:</b> {{seekParam.physicianData.family_name}}
+			{{seekParam.physicianData.first_name}}
+			{{seekParam.physicianData.second_name}}
+		</div>
 	</caption>
 	<thead class="w3-small">
 		<tr>
