@@ -40,31 +40,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ExcellRest {
 	private static final Logger logger = LoggerFactory.getLogger(ExcellRest.class);
 
-	private InputStream buildExcel(HttpServletResponse response, Map<String, Object> data) throws EncryptedDocumentException, InvalidFormatException, IOException {
+	private InputStream buildExcel(HttpServletResponse response, Map<String, Object> excelData) throws EncryptedDocumentException, InvalidFormatException, IOException {
 		logger.info("\n\n-- 48 -- "
 				+ "\n"
-				+ data
+				+ excelData
 				);
-		Workbook wb = buildReport(data);
+		Workbook wb = buildReport(excelData);
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		wb.write(bos);
 		byte[] barray = bos.toByteArray();
 		return new ByteArrayInputStream(barray);
-
 	}
 
-	private Workbook buildReport(Map<String, Object> data) throws IOException, InvalidFormatException {
+	private Workbook buildReport(Map<String, Object> excelData) throws IOException, InvalidFormatException {
 		Workbook wb = WorkbookFactory.create(new File(serverDataFiles+filePath));
 		CellStyle cellDateStyle = wb.createCellStyle();
 		CreationHelper createHelper = wb.getCreationHelper();
 		cellDateStyle.setDataFormat(
 				createHelper.createDataFormat().getFormat("dd mmm. yyyy"));
 		Sheet sheet = wb.getSheetAt(0);
-		System.err.println(data);
-		for (String keyR : (Set<String>) data.keySet()) {
+		Map<String, Object> rcData = (Map<String, Object>) excelData.get("rcData");
+		System.err.println(rcData);
+		for (String keyR : (Set<String>) rcData.keySet()) {
 			int rowNr = Integer.parseInt(keyR);
 			Row row = sheet.createRow(rowNr);
-			Map<String, Object> cells = (Map<String, Object>)data.get(keyR);
+			Map<String, Object> cells = (Map<String, Object>)rcData.get(keyR);
 			for (String keyC : cells.keySet()) {
 				int cellNr = Integer.parseInt(keyC);
 				Cell cell = row.createCell(cellNr);

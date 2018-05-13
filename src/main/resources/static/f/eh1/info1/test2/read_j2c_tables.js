@@ -45,9 +45,9 @@ init_read_j2c_tables = function($scope, $http){
 
 		}
 	};
-	$scope.table.init = {
+	$scope.table.init = {read_cell:0,
 		report_table:{select_rows_to_group:'f74_day_rows__select', column_to_group:'year_day', read_cell:0},
-		report2_table:{select_rows_to_group:'f74_day_rows__select', column_to_group:'year'},
+		report2_table:{select_rows_to_group:'f74_day_rows__select', column_to_group:'year', read_cell:0},
 		data:{
 			rows:'f74_case_rows__group',
 			cells:{
@@ -114,7 +114,6 @@ var App_fn = function($scope, $http){
 					var sql = report_table.select_rows_to_group.replace('__','_physician__')
 					report_table.select_rows_to_group=sql
 					params.person_id=$scope.seekParam.physician
-					console.log(report_table)
 				}
 				console.log(params)
 
