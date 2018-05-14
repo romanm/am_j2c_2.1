@@ -4,8 +4,18 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 
 	$scope.initExcelData = function(data){
 		if(!$scope.excelData){
-			$scope.excelData = {rc:{ r0:3, c0:1}}
+			$scope.excelData = {rc:{ r0:4, c0:1}}
 			$scope.excelData.rcData = {}
+			if($scope.seekParam.physician) {
+				$scope.excelData.physician={
+					r:2, c:1, d:'physitian name'
+				}
+				var p = $scope.seekParam.physicianData
+				$scope.excelData.physician.d =
+					p.family_name+ ' '+
+					p.first_name+ ' '+
+					p.second_name
+			}
 		}
 		angular.forEach(data, function(data_row,k){
 			var rowCells= {}

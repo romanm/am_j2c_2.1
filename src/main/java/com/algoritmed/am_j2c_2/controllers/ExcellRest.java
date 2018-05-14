@@ -51,6 +51,19 @@ public class ExcellRest {
 		byte[] barray = bos.toByteArray();
 		return new ByteArrayInputStream(barray);
 	}
+	
+	private void addPhysician(Sheet sheet , Map<String, Object> excelData) {
+		if(excelData.containsKey("physician")) {
+			Map<String, Object> physician = (Map<String, Object>) excelData.get("physician");
+			int rowNr = Integer.parseInt(""+physician.get("r"));
+			int cellNr = Integer.parseInt(""+physician.get("c"));
+			Row row = sheet.createRow(rowNr);
+			Cell cell = row.createCell(cellNr);
+			cell.setCellValue(""+physician.get("d"));
+			Cell cell2 = row.createCell(0);
+			cell2.setCellValue("Лікар");
+		}
+	}
 
 	private Workbook buildReport(Map<String, Object> excelData) throws IOException, InvalidFormatException {
 		Workbook wb = WorkbookFactory.create(new File(serverDataFiles+filePath));
@@ -59,6 +72,7 @@ public class ExcellRest {
 		cellDateStyle.setDataFormat(
 				createHelper.createDataFormat().getFormat("dd mmm. yyyy"));
 		Sheet sheet = wb.getSheetAt(0);
+		addPhysician(sheet,excelData);
 		Map<String, Object> rcData = (Map<String, Object>) excelData.get("rcData");
 		System.err.println(rcData);
 		for (String keyR : (Set<String>) rcData.keySet()) {
