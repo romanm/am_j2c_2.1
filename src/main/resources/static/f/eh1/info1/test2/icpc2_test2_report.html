@@ -7,7 +7,14 @@
 			class="w3-btn" ng-class="{'w3-light-gray':seekParam.physician}">
 			лікаря</button>
 		|| випадки | діагнози <a href="{{seekParam.getURL()}}"
-			class="w3-btn w3-border"> Пошук </a>
+			class="w3-btn w3-border"> 
+			<i class="fa fa-filter" aria-hidden="true"></i>
+			Виборка
+			<!--  
+			<i class="fa fa-search" aria-hidden="true"></i>
+			Пошук 
+			-->
+			</a>
 		{{seekParam.year}}-{{seekParam.month}}
 	</div>
 	<div class="w3-small w3-border" ng-if="seekParam.physician">
