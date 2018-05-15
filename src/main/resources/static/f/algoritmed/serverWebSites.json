@@ -149,6 +149,13 @@
   "alias":"Адмін застосунка",
   "parent":"info"
 },
+"icpc2_test3":{
+    "th_template": "template2",
+    "ng_template": "'/f/eh1/info1/test3/icpc2_test3.html'",
+    "script": "/f/eh1/info1/test3/icpc2_test3.js",
+    "title": "ICPC2 тест2 звітів",
+    "parent": "home"
+},
 "icpc2_test2_report":{
     "th_template": "template2",
     "ng_template": "'/f/eh1/info1/test2/icpc2_test2_report.html'",
@@ -177,7 +184,6 @@
   "alias":"ICPC2 тест звітів",
   "parent":"info"
 },
-
 "icpc2_test2":{
   "th_template":"eh1_index2",
   "ng_template":"'/f/eh1/info1/test1/icpc2-test1.html'",

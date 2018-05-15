@@ -1,14 +1,15 @@
 <div ng-include="'/f/eh1/info1/test2/f74-head2.html'"></div>
 <div>
-<div class="w3-border-bottom">
-	вибір року і місяця | вибір: <a href="?" class="w3-btn"
- ng-class="{'w3-light-gray':!seekParam.physician}">
-ЛЗ</a> |
-	<button ng-click="modal.physicianChoose.display={display:'block'}"
-		class="w3-btn" ng-class="{'w3-light-gray':seekParam.physician}">
-		лікаря</button>
-	| вибір випадки або діагнози
-</div>
+	<div class="w3-border-bottom">
+		<span class="w3-small w13-gray">вибір:</span> рік, місяць || <a href="?" class="w3-btn"
+			ng-class="{'w3-light-gray':!seekParam.physician}"> ЛЗ</a> |
+		<button ng-click="modal.physicianChoose.display={display:'block'}"
+			class="w3-btn" ng-class="{'w3-light-gray':seekParam.physician}">
+			лікаря</button>
+		|| випадки | діагнози <a href="{{seekParam.getURL()}}"
+			class="w3-btn w3-border"> Пошук </a>
+		{{seekParam.year}}-{{seekParam.month}}
+	</div>
 	<div class="w3-small w3-border" ng-if="seekParam.physician">
 		<b>Лікар:</b> {{seekParam.physicianData.family_name}}
 		{{seekParam.physicianData.first_name}}
@@ -29,7 +30,7 @@
 		</div>
 	</div>
 
-	<div class="w3-small">
+	<div class="w3-small w3-border-bottom">
 		рік: <select class="w3-btn w3-border">
 			<option value="{{year}}" ng-repeat="year in [2018,2017]"
 				ng-click="seekParam.setYear(year)"
@@ -38,7 +39,7 @@
 		<button class="w3-btn" ng-class="{'w3-gray':month==seekParam.month}"
 			ng-click="seekParam.setMonth(month)"
 			ng-repeat="month in [1,2,3,4,5,6,7,8,9,10,11,12]">{{month}}</button>
-		| <a class="w3-btn w3-border" title="Загрузити excel"
+		 <a class="w3-btn w3-border" title="Загрузити excel"
 			ng-href="/r/excel1?data={{reportToParam()}}"><i
 			class="fa fa-file-excel-o" aria-hidden="true"></i></a> <a
 			href="/v/icpc2_test2_report_print{{seekParam.getURL()}}"> <i class="fa fa-print"
@@ -46,8 +47,7 @@
 		</a>
 
 	</div>
-	<a href="{{seekParam.getURL()}}" class="w3-btn w3-border"> Пошук </a>
-	{{seekParam.year}}-{{seekParam.month}}
+
 </div>
 
 <table>
