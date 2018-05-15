@@ -81,6 +81,8 @@ var j2c_cell_constraint_update = function(programRunObj,cell_id,constraint,col_i
 
 var j2c_persist2 = function(editObj, k, value, cln, $http, fn_after_update){
 	var data={ value:value }
+	console.log(editObj);
+
 	if(editObj[k+'_id']){
 		data.sql='sql2.'+cln.col_table_name+'.updateCellById';
 		data.data_id=editObj[k+'_id'];

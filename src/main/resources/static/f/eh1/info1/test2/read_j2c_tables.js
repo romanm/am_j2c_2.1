@@ -1,5 +1,21 @@
 console.log("----------read_j2c_tables.js------")
+init2_read_j2c_tables = function($scope, $http){
+	console.log("-----init2_read_j2c_tables -----read_j2c_tables.js------")
+		$scope.table = {row_indexs:{},
+		structure:{
+			createdDay:{name:'день',_039o:'A'},
+			cnt:{name:'кількість',_039o:'1'},
+			village_10900:{name:'село',_039o:'2'},
+			and_age017:{name:'вік 0-17',_039o:'3'},
+			and_age017_village:{name:'вік 0-17 село',_039o:'4'},
+			home_9776:{name:'відвідувань вдома',_039o:'9'},
+
+		}
+	};
+}
+
 init_read_j2c_tables = function($scope, $http){
+	init2_read_j2c_tables($scope, $http);
 	$scope.seekParam = {
 			year:2018,
 			setYear:function(year){this.year=year;},
@@ -41,17 +57,7 @@ init_read_j2c_tables = function($scope, $http){
 		$scope.params={msp_id:msp_id}
 		app_fn.readTable()
 	}});
-	$scope.table = {row_indexs:{},
-		structure:{
-			createdDay:{name:'день',_039o:'A'},
-			cnt:{name:'кількість',_039o:'1'},
-			village_10900:{name:'село',_039o:'2'},
-			and_age017:{name:'вік 0-17',_039o:'3'},
-			and_age017_village:{name:'вік 0-17 село',_039o:'4'},
-			home_9776:{name:'відвідувань вдома',_039o:'9'},
 
-		}
-	};
 	$scope.table.init = {read_cell:0,
 		report_table:{select_rows_to_group:'f74_day_rows__select', column_to_group:'year_day', read_cell:0},
 		report2_table:{select_rows_to_group:'f74_day_rows__select', column_to_group:'year', read_cell:0},
