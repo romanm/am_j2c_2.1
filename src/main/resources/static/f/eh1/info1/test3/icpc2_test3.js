@@ -21,7 +21,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 			});
 		}
 	}
-	
+
 	$scope.getColValue=function(row,col_key){
 		if(row[col_key]){
 			if('col_9775|and_age017_village'.indexOf(col_key)>=0)
@@ -69,13 +69,21 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 
 	var init_selectedCell = function(table){
 		table.isCellSelect=function(row_k, col_k){
-			if(table.selectedCell)
+			if(table.selectedCell && !table.selectedCell.close)
 				return table.selectedCell.row_k==row_k && table.selectedCell.col_k==col_k
+		}
+		table.closeDropdown=function(){
+			table.selectedCell.close=true;
 		}
 		table.selectCell=function(row_k, col_k){
 			console.log(table.selectedCell)
 			if(table.selectedCell && table.selectedCell.col_k==col_k && table.selectedCell.row_k==row_k){
-				delete table.selectedCell
+				if('col_10766|col_10771'.indexOf(col_k)>=0){
+					if(table.selectedCell.close)
+						delete table.selectedCell
+				}else{
+					delete table.selectedCell
+				}
 			}else{
 				table.selectedCell={row_k:row_k, col_k:col_k}
 			}
