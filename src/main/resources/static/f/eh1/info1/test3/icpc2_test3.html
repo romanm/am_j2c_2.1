@@ -1,9 +1,10 @@
 <div ng-include="'/f/eh1/info1/test2/f74-head2.html'"></div>
-icpc2_test3.html
 <table>
 	<thead>
 		<tr class="w3-tiny w3-gray">
-		<th style="background: white;"></th>
+			<th style="background: white;"><span
+				ng-click="icpc2_nakaz74.closeDropdown()"
+				class="w3-button  w3-padding-small">+</span></th>
 			<th><i class="fa fa-calendar-o" aria-hidden="true"></i></th>
 			<th ng-repeat="c in icpc2_nakaz74.col_sort"
 				ng-init="ca=icpc2_nakaz74.col_keys[c]">{{ca}}</th>
@@ -19,14 +20,16 @@ icpc2_test3.html
 				ng-class="{'w3-border':icpc2_nakaz74.isCellSelect(row_k, col_k)}"
 				ng-click="icpc2_nakaz74.selectCell(row_k, col_k)"
 				ng-init="ca=icpc2_nakaz74.col_keys[col_k];c_index=$index">
+				
 				<div class="w3-dropdown-click">
 					{{getColValue(r, col_k)}}
-					<div class="w3-dropdown-content w3-border" 
+					<div class="w3-dropdown-content w3-border w3-card-4" 
 					ng-style="dropdown_data.ngStyle(col_k)"
 					ng-switch on="col_k"
 						ng-if="icpc2_nakaz74.isCellSelect(row_k, col_k)"
 						ng-class="{'w3-show':icpc2_nakaz74.isCellSelect(row_k, col_k)}">
-						<div class="w3-tiny w3-gray">{{ca}} — {{col_k}}</div>
+
+						<div class="w3-tiny w3-gray" title=" — {{col_k}}">{{ca}}</div>
 						<span ng-click="icpc2_nakaz74.closeDropdown()"
 							class="w3-button  w3-padding-small w3-display-topright">×</span>
 						<div ng-switch-when="col_10766">вибір пацієнта</div>
@@ -40,8 +43,10 @@ icpc2_test3.html
 								class="w3-hover-light-gray" ng-click="col_save(value,r,col_k)">{{value}}:
 								{{name}}</div>
 						</div>
+						
 					</div>
 				</div>
+				
 			</td>
 		</tr>
 	</tbody>

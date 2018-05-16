@@ -1,5 +1,6 @@
 init_am_directive.init_icpc2_test3 = function($scope, $http){
 	console.log('-----init_icpc2_test3-----------------');
+	
 	$scope.col_save=function(value,editObj,col_k){
 		var data={ value:value }
 		if(editObj[col_k+'_id']){
@@ -58,40 +59,45 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 
 	})
 
-	
 	init2_read_j2c_tables($scope, $http);
-
 	
 	$scope.table.rows = [1,2,3,4];
+
 	$scope.dropdown_data = {
 		seekICPC2:null,
 		ngStyle:function(col_k){
 			var style={}
 			if('col_10771'==col_k){
-				style.left='-300px';
+				style.left='-250px';
 			}
-			console.log(style)
 			return style;
 		}
 	};
-	fn_lib.read_data_col_10771=function(){
+	$scope.$watch('dropdown_data.seekIcpc2',function(seekIcpc2){if(seekIcpc2){
+		console.log(seekIcpc2)
+		fn_lib.read_data_col_10771()
+	}})
+
+	fn_lib.read_data_col_10771=function(){ // ICPC2
 		console.log('--------read----dropdown---------')
 		var params={seek:'%%'}
+		if($scope.dropdown_data.seekIcpc2)
+			params.seek = '%'+$scope.dropdown_data.seekIcpc2+'%'
 		params.sql = sql2['f74_icpc2_seek__select']();
 		params.sql = spaceClean(params.sql)
-		console.log(params)
+//		console.log(params)
 		$http.get(url_sql_read,{params:params}).then(function(response) {
-			console.log(response.data)
+//			console.log(response.data)
 			$scope.dropdown_data.list=response.data.list
-			$scope.dropdown_data.col_keys={
-				code:'Код',
-				value:'Назва',
-				doc_id:'ІН',
-				part:'Група',
-				doctype:'zГрупа',
-			}
+			if(!$scope.dropdown_data.seekIcpc2)
+				$scope.dropdown_data.col_keys={
+					code:'Код',
+					value:'Назва',
+					doc_id:'ІН',
+					part:'Група',
+					doctype:'zГрупа',
+				}
 			console.log($scope.dropdown_data)
-
 		})
 	}
 
