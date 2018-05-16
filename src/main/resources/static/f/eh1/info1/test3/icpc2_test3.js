@@ -2,16 +2,32 @@
 
 init_am_directive.init_icpc2_test3 = function($scope, $http){
 	console.log('-----init_icpc2_test3-----------------');
-	$scope.col_save={
-		col_9775:function(value,editObj){
-			console.log(value)
-			var data={ value:value }
-			if(editObj.col_9775_id){
-				data.sql='sql2.integer.updateCellById';
-				console.log(data);
-			}else{
-				
-			}
+	$scope.col_save=function(value,editObj,col_k){
+		var data={ value:value }
+		if(editObj[col_k+'_id']){
+			data.sql='sql2.integer.updateCellById';
+			data.data_id=editObj[col_k+'_id'];
+			$http.post('/r/update2_sql_with_param', data).then(function(response) {
+				editObj[col_k]=response.data.value
+			});
+		}else{
+			data.sql='sql2.integer.insertCellId';
+			data.row_id=editObj.row_id;
+			var cln_id = col_k.split('_')[1]
+			data.cln_id = cln_id;
+			$http.post('/r/update2_sql_with_param', data).then(function(response) {
+				editObj[col_k+'_id'] = response.data.nextDbId1;
+				editObj[col_k]=response.data.value
+			});
+		}
+	}
+	
+	$scope.getColValue=function(row,col_key){
+		if(row[col_key]){
+			if('col_9775|and_age017_village'.indexOf(col_key)>=0)
+				return row[col_key]+':'+$scope.col_values[col_key][row[col_key]]
+			else
+				return row[col_key]
 		}
 	}
 

@@ -147,3 +147,6 @@ init_am_directive.initObj_registry= function($scope, $http){
 	}
 
 }
+Object.prototype.objKeys = function(){
+	return Object.keys(this);
+};

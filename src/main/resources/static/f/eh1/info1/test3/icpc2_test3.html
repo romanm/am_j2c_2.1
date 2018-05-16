@@ -18,13 +18,19 @@ icpc2_test3.html
 				ng-click="icpc2_nakaz74.selectCell(row_k, col_k)"
 				ng-init="ca=icpc2_nakaz74.col_keys[col_k];c_index=$index">
 				<div class="w3-dropdown-click">
-					{{r[col_k]}}
-					<div class="w3-dropdown-content w3-border"
-                ng-if="icpc2_nakaz74.isCellSelect(row_k, col_k)"
-                ng-class="{'w3-show':icpc2_nakaz74.isCellSelect(row_k, col_k)}">
-                <div class="w3-tiny w3-gray">{{ca}} — {{col_k}}</div>
-                <div ng-include="'/f/eh1/info1/test3/dropdown_'+col_k+'.html'"></div>
-              </div>
+					{{getColValue(r, col_k)}}
+					<div class="w3-dropdown-content w3-border" ng-switch on="col_k"
+						ng-if="icpc2_nakaz74.isCellSelect(row_k, col_k)"
+						ng-class="{'w3-show':icpc2_nakaz74.isCellSelect(row_k, col_k)}">
+						<div class="w3-tiny w3-gray">{{ca}} — {{col_k}}</div>
+						<div ng-switch-when="col_9775|and_age017_village"
+							ng-switch-when-separator="|">
+							<div ng-repeat="(value,name) in col_values[col_k]"
+								ng-class="{'w3-light-green':r[col_k]==value}"
+								class="w3-hover-light-gray" ng-click="col_save(value,r,col_k)">{{value}}:
+								{{name}}</div>
+						</div>
+					</div>
 				</div>
 			</td>
 		</tr>
