@@ -1,0 +1,17 @@
+col_10771 вибір ICPC2 кода
+<div style="height: 200px; overflow: auto;">
+	<table style="width: 700px;">
+		<thead>
+			<tr class="w3-tiny w3-gray">
+				<th title="{{k}}" ng-repeat="(k,v) in dropdown_data.col_keys">
+					{{v}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="row in dropdown_data.list">
+				<td ng-repeat="(col_k,v) in dropdown_data.col_keys">1
+					{{row[col_k]}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

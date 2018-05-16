@@ -1,4 +1,5 @@
 var app = angular.module('app', ['ngSanitize']);
+var fn_lib = {};
 var init_am_directive = {};
 app.controller('ControllerApp1', function($scope, $http) {
 	console.log('-------ControllerApp1--------');

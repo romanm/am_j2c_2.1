@@ -1,5 +1,3 @@
-
-
 init_am_directive.init_icpc2_test3 = function($scope, $http){
 	console.log('-----init_icpc2_test3-----------------');
 	$scope.col_save=function(value,editObj,col_k){
@@ -65,7 +63,43 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 
 	
 	$scope.table.rows = [1,2,3,4];
-	
+	$scope.dropdown_data = {
+		seekICPC2:null,
+		ngStyle:function(col_k){
+			var style={}
+			if('col_10771'==col_k){
+				style.left='-300px';
+			}
+			console.log(style)
+			return style;
+		}
+	};
+	fn_lib.read_data_col_10771=function(){
+		console.log('--------read----dropdown---------')
+		var params={seek:'%%'}
+		params.sql = sql2['f74_icpc2_seek__select']();
+		params.sql = spaceClean(params.sql)
+		console.log(params)
+		$http.get(url_sql_read,{params:params}).then(function(response) {
+			console.log(response.data)
+			$scope.dropdown_data.list=response.data.list
+			$scope.dropdown_data.col_keys={
+				code:'Код',
+				value:'Назва',
+				doc_id:'ІН',
+				part:'Група',
+				doctype:'zГрупа',
+			}
+			console.log($scope.dropdown_data)
+
+		})
+	}
+
+	$scope.$watch('icpc2_nakaz74.selectedCell.col_k',function(col_k){if(col_k){
+		console.log(col_k)
+		if(fn_lib['read_data_'+col_k])
+			fn_lib['read_data_'+col_k]()
+	}})
 
 	var init_selectedCell = function(table){
 		table.isCellSelect=function(row_k, col_k){
@@ -76,7 +110,6 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 			table.selectedCell.close=true;
 		}
 		table.selectCell=function(row_k, col_k){
-			console.log(table.selectedCell)
 			if(table.selectedCell && table.selectedCell.col_k==col_k && table.selectedCell.row_k==row_k){
 				if('col_10766|col_10771'.indexOf(col_k)>=0){
 					if(table.selectedCell.close)
