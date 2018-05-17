@@ -1,84 +1,31 @@
 <div ng-include="'/f/eh1/info1/test2/f74-head2.html'"></div>
+
 <table>
 	<thead>
 		<tr class="w3-tiny w3-gray">
 			<th style="background: white;"><span
 				ng-click="icpc2_nakaz74.closeDropdown()"
-				class="w3-button  w3-padding-small">+</span></th>
+				class="w3-button  w3-padding-small"><i class="fa fa-bars"
+					aria-hidden="true"></i> </span></th>
 			<th><i class="fa fa-calendar-o" aria-hidden="true"></i></th>
-			<th ng-repeat="c in icpc2_nakaz74.col_sort"
-				ng-init="ca=icpc2_nakaz74.col_keys[c]">{{ca}}</th>
+			<th ng-repeat="col_k in icpc2_nakaz74.col_sort">
+				{{icpc2_nakaz74.data.col_keys[col_k]}}</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="r in icpc2_nakaz74.list" ng-init="row_k=$index"
+		<tr ng-repeat="r in icpc2_nakaz74.data.list" ng-init="row_k=$index"
 			class="w3-hover-light-gray">
 			<td>{{row_k}}</td>
 			<td>d</td>
 			<td ng-repeat="col_k in icpc2_nakaz74.col_sort"
 				class="w3-border-bottom w3-hover-shadow"
 				ng-class="{'w3-border':icpc2_nakaz74.isCellSelect(row_k, col_k)}"
-				ng-click="icpc2_nakaz74.selectCell(row_k, col_k)"
-				ng-init="ca=icpc2_nakaz74.col_keys[col_k];c_index=$index">
-				
-				<div class="w3-dropdown-click">
-					{{getColValue(r, col_k)}}
-					<div class="w3-dropdown-content w3-border w3-card-4" 
-					ng-style="dropdown_data.ngStyle(col_k)"
-					ng-switch on="col_k"
-						ng-if="icpc2_nakaz74.isCellSelect(row_k, col_k)"
-						ng-class="{'w3-show':icpc2_nakaz74.isCellSelect(row_k, col_k)}">
+				ng-click="icpc2_nakaz74.selectCell(row_k, col_k)">
 
-						<div class="w3-tiny w3-gray" title=" — {{col_k}}">{{ca}}</div>
-						<span ng-click="icpc2_nakaz74.closeDropdown()"
-							class="w3-button  w3-padding-small w3-display-topright">×</span>
-						<div ng-switch-when="col_10766">вибір пацієнта</div>
-						<div ng-switch-default>
-							<div ng-include="'/f/eh1/info1/test3/dropdown_'+col_k+'.html'"></div>
-						</div>
-						<div ng-switch-when="col_9775|and_age017_village"
-							ng-switch-when-separator="|">
-							<div ng-repeat="(value,name) in col_values[col_k]"
-								ng-class="{'w3-light-green':r[col_k]==value}"
-								class="w3-hover-light-gray" ng-click="col_save(value,r,col_k)">{{value}}:
-								{{name}}</div>
-						</div>
-						
-					</div>
-				</div>
-				
+				<div ng-include="'/f/eh1/info1/test3/dropdown_window.html'"></div>
+
 			</td>
 		</tr>
 	</tbody>
 </table>
-<div class="w3-row">
-	<div class="w3-half"></div>
-	<div class="w3-half">
-		<table>
-			<tr class="w3-small w3-gray">
-				<th ng-repeat="(k,v) in table.structure">{{v.name}}</th>
-			</tr>
-			<tr class="w3-small w3-tiny">
-				<td class="w3-border w3-center" ng-repeat="(k,v) in table.structure">{{v._039o}}</td>
-			</tr>
-			<tbody>
-				<tr ng-repeat="row_k in table.rows" class="w3-hover-light-gray">
-					<td class="w3-border-bottom w3-hover-shadow"
-						ng-class="{'w3-border':table.isCellSelect(row_k, col_k)}"
-						ng-click="table.selectCell(row_k, col_k)"
-						ng-repeat="(col_k, v) in table.structure">
-						<div class="w3-dropdown-click">
-							{{v._039o}}
-							<div class="w3-dropdown-content w3-border"
-								ng-if="table.isCellSelect(row_k, col_k)"
-								ng-class="{'w3-show':table.isCellSelect(row_k, col_k)}">
-								<div class="w3-tiny w3-gray">{{v.name}} — {{col_k}}</div>
-								<div ng-include="'/f/eh1/info1/test3/dropdown_'+col_k+'.html'"></div>
-							</div>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</div>
+

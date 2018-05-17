@@ -9,7 +9,7 @@
 		|| випадки | діагнози <a href="{{seekParam.getURL()}}"
 			class="w3-btn w3-border"> 
 			<i class="fa fa-filter" aria-hidden="true"></i>
-			Виборка
+			Вибірка
 			<!--  
 			<i class="fa fa-search" aria-hidden="true"></i>
 			Пошук 
@@ -37,16 +37,16 @@
 		</div>
 	</div>
 
-	<div class="w3-small w3-border-bottom">
-		рік: <select class="w3-btn w3-border">
+	<div class="w3-small w3-border-bottom  ">
+		рік: <select class="w3-btn w3-border w3-padding-small">
 			<option value="{{year}}" ng-repeat="year in [2018,2017]"
 				ng-click="seekParam.setYear(year)"
 				ng-selected="year==seekParam.year">{{year}}</option>
 		</select> місяць:
-		<button class="w3-btn" ng-class="{'w3-gray':month==seekParam.month}"
+		<button class="w3-btn " ng-class="{'w3-gray':month==seekParam.month}"
 			ng-click="seekParam.setMonth(month)"
 			ng-repeat="month in [1,2,3,4,5,6,7,8,9,10,11,12]">{{month}}</button>
-		 <a class="w3-btn w3-border" title="Загрузити excel"
+		 <a class="w3-btn w3-border w3-padding-small" title="Загрузити excel"
 			ng-href="/r/excel1?data={{reportToParam()}}"><i
 			class="fa fa-file-excel-o" aria-hidden="true"></i></a> <a
 			href="/v/icpc2_test2_report_print{{seekParam.getURL()}}"> <i class="fa fa-print"

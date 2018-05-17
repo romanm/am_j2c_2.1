@@ -1,7 +1,8 @@
 <div>
 	<div class="w3-border-bottom">
-		<i class="fa fa-filter fa-3"></i> <input ng-model="dropdown_data.seekIcpc2"
-			placeholder="знайти ICPC2"> --
+		<i class="fa fa-filter fa-3"></i> <input
+			ng-model="dropdown_data.seekIcpc2" placeholder="знайти ICPC2">
+		--
 	</div>
 
 	<div style="height: 200px; overflow: auto;">
@@ -13,9 +14,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="row in dropdown_data.list">
-					<td ng-repeat="(col_k,v) in dropdown_data.col_keys">
-						{{row[col_k]}}</td>
+				<tr ng-repeat="row in dropdown_data.list" ng-click=""
+					class="w3-hover-light-gray">
+					<td ng-repeat="(col_k,v) in dropdown_data.col_keys" ng-switch
+						on="col_k">
+						<div ng-switch-default
+							ng-bind-html="highlight(row[col_k], dropdown_data.seekIcpc2)"></div>
+						<a ng-switch-when="code" href="#"
+						ng-bind-html="highlight(row[col_k], dropdown_data.seekIcpc2)"></a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
