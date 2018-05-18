@@ -19,43 +19,70 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 		}
 	}
 	
-	var init_ngClick = function(table){
-	table.col_save=function(value,editObj,col_k){
-		var data={ value:value }
-		if(editObj[col_k+'_id']){
-			data.sql='sql2.integer.updateCellById';
-			data.data_id=editObj[col_k+'_id'];
-			$http.post('/r/update2_sql_with_param', data).then(function(response) {
-				editObj[col_k]=response.data.value
-			});
-		}else{
-			data.sql='sql2.integer.insertCellId';
-			data.row_id=editObj.row_id;
-			var cln_id = col_k.split('_')[1]
-			data.cln_id = cln_id;
-			$http.post('/r/update2_sql_with_param', data).then(function(response) {
-				editObj[col_k+'_id'] = response.data.nextDbId1;
-				editObj[col_k]=response.data.value
-			});
+	var init_ngClick = function(icpc2_nakaz74){
+		icpc2_nakaz74.clickToSave={}
+
+		icpc2_nakaz74.clickToSave.icpc2=function(row){
+			var data={reference2:row.doc_id}
+			var cell_value = row.code+':'+row.value
+			var editObj = icpc2_nakaz74.data.list[icpc2_nakaz74.selectedCell.row_k]
+			var cell_id = editObj[icpc2_nakaz74.selectedCell.col_k+'_id']
+			if(cell_id){
+				data.sql = 'sql2.j2c.updateCellWithConstraint'
+				data.doc_id = cell_id 
+				$http.post('/r/update2_sql_with_param', data).then(function(response) {
+					editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = row.doc_id // cell_id
+					editObj[icpc2_nakaz74.selectedCell.col_k] = cell_value
+				});
+			}else{ // insert
+				data.sql = 'sql2.j2c.insertCellWithConstraint'
+				data.parent_id = editObj.row_id
+				var col_id = icpc2_nakaz74.selectedCell.col_k.split('_')[1] 
+				data.reference = col_id
+				$http.post('/r/update2_sql_with_param', data).then(function(response) {
+					editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = response.data.nextDbId1 // cell_id
+					editObj[icpc2_nakaz74.selectedCell.col_k] = cell_value
+				});
+			}
 		}
-	}
-		table.isCellSelect=function(row_k, col_k){
-			if(table.selectedCell && !table.selectedCell.close)
-				return table.selectedCell.row_k==row_k && table.selectedCell.col_k==col_k
+
+		icpc2_nakaz74.col_save=function(value,editObj,col_k){
+			var data={ value:value }
+			if(editObj[col_k+'_id']){
+				data.sql='sql2.integer.updateCellById';
+				data.data_id=editObj[col_k+'_id'];
+				$http.post('/r/update2_sql_with_param', data).then(function(response) {
+					editObj[col_k]=response.data.value
+				});
+			}else{
+				data.sql='sql2.integer.insertCellId';
+				data.row_id=editObj.row_id;
+				var cln_id = col_k.split('_')[1]
+				data.cln_id = cln_id;
+				$http.post('/r/update2_sql_with_param', data).then(function(response) {
+					editObj[col_k+'_id'] = response.data.nextDbId1;
+					editObj[col_k]=response.data.value
+				});
+			}
 		}
-		table.closeDropdown=function(){
-			table.selectedCell.close=true;
+
+		icpc2_nakaz74.isCellSelect=function(row_k, col_k){
+			if(icpc2_nakaz74.selectedCell && !icpc2_nakaz74.selectedCell.close)
+				return icpc2_nakaz74.selectedCell.row_k==row_k && icpc2_nakaz74.selectedCell.col_k==col_k
 		}
-		table.selectCell=function(row_k, col_k){
-			if(table.selectedCell && table.selectedCell.col_k==col_k && table.selectedCell.row_k==row_k){
+		icpc2_nakaz74.closeDropdown=function(){
+			icpc2_nakaz74.selectedCell.close=true;
+		}
+		icpc2_nakaz74.selectCell=function(row_k, col_k){
+			if(icpc2_nakaz74.selectedCell && icpc2_nakaz74.selectedCell.col_k==col_k && icpc2_nakaz74.selectedCell.row_k==row_k){
 				if('col_10766|col_10771'.indexOf(col_k)>=0){
-					if(table.selectedCell.close)
-						delete table.selectedCell
+					if(icpc2_nakaz74.selectedCell.close)
+						delete icpc2_nakaz74.selectedCell
 				}else{
-					delete table.selectedCell
+					delete icpc2_nakaz74.selectedCell
 				}
 			}else{
-				table.selectedCell={row_k:row_k, col_k:col_k}
+				icpc2_nakaz74.selectedCell={row_k:row_k, col_k:col_k}
 			}
 		}
 	}
