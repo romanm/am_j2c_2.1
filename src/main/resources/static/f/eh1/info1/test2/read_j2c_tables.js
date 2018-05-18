@@ -1,6 +1,6 @@
 console.log("----------read_j2c_tables.js------")
-init2_read_j2c_tables = function($scope, $http){
-	console.log("-----init2_read_j2c_tables -----read_j2c_tables.js------")
+init2_read_f74_tables = function($scope, $http){
+	console.log("-----init2_read_f74_tables -----read_j2c_tables.js------")
 		$scope.table = {row_indexs:{},
 		structure:{
 			createdDay:{name:'день',_039o:'A'},
@@ -9,38 +9,37 @@ init2_read_j2c_tables = function($scope, $http){
 			and_age017:{name:'вік 0-17',_039o:'3'},
 			and_age017_village:{name:'вік 0-17 село',_039o:'4'},
 			home_9776:{name:'відвідувань вдома',_039o:'9'},
-
 		}
 	};
 }
 
 init_read_j2c_tables = function($scope, $http){
-	init2_read_j2c_tables($scope, $http);
+	init2_read_f74_tables($scope, $http);
 	$scope.seekParam = {
-			year:2018,
-			setYear:function(year){this.year=year;},
-			setMonth:function(month){
-				if(this.month==month)
-					delete this.month;
-				else
-					this.month=month;
-			},
-			getURL:function(){
-				var url = '?year='+this.year 
-				if(this.month)
-					url += '&month='+this.month; 
-				if(this.physician)
-					url += '&physician='+this.physician; 
+		year:2018,
+		setYear:function(year){this.year=year;},
+		setMonth:function(month){
+			if(this.month==month)
+				delete this.month;
+			else
+				this.month=month;
+		},
+		getURL:function(){
+			var url = '?year='+this.year 
+			if(this.month)
+				url += '&month='+this.month; 
+			if(this.physician)
+				url += '&physician='+this.physician; 
 
-				return url;
-			},
-			initFromRequest:function(){
-				console.log($scope.request.parameters)
-				if($scope.request.parameters.physician)
-					this.physician=$scope.request.parameters.physician;
-				if($scope.request.parameters.month)
-					this.setMonth($scope.request.parameters.month)
-			}
+			return url;
+		},
+		initFromRequest:function(){
+			console.log($scope.request.parameters)
+			if($scope.request.parameters.physician)
+				this.physician=$scope.request.parameters.physician;
+			if($scope.request.parameters.month)
+				this.setMonth($scope.request.parameters.month)
+		}
 	};
 	$scope.seekParam.initFromRequest();
 	app_fn = new App_fn($scope, $http);	

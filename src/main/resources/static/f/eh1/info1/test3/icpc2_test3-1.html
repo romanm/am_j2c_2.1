@@ -33,31 +33,39 @@
 <div class="w3-row">
 	<div class="w3-half"></div>
 	<div class="w3-half">
-		<table>
-			<tr class="w3-small w3-gray">
-				<th ng-repeat="(k,v) in table.structure">{{v.name}}</th>
-			</tr>
-			<tr class="w3-small w3-tiny">
-				<td class="w3-border w3-center" ng-repeat="(k,v) in table.structure">{{v._039o}}</td>
-			</tr>
-			<tbody>
-				<tr ng-repeat="row_k in table.rows" class="w3-hover-light-gray">
-					<td class="w3-border-bottom w3-hover-shadow"
-						ng-class="{'w3-border':table.isCellSelect(row_k, col_k)}"
-						ng-click="table.selectCell(row_k, col_k)"
-						ng-repeat="(col_k, v) in table.structure">
-						<div class="w3-dropdown-click">
-							{{v._039o}}
-							<div class="w3-dropdown-content w3-border"
-								ng-if="table.isCellSelect(row_k, col_k)"
-								ng-class="{'w3-show':table.isCellSelect(row_k, col_k)}">
-								<div class="w3-tiny w3-gray">{{v.name}} — {{col_k}}</div>
-								<div ng-include="'/f/eh1/info1/test3/dropdown_'+col_k+'.html'"></div>
-							</div>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+
+	<table>
+  <tr class="w3-small w3-gray">
+    <th ng-repeat="(k,v) in table.structure">{{v.name}}</th>
+  </tr>
+  <tr class="w3-small w3-tiny">
+    <td class="w3-border w3-center" ng-repeat="(k,v) in table.structure">{{v._039o}}</td>
+  </tr>
+  <tbody>
+    <tr ng-repeat="row_k in table.rows" class="w3-hover-light-gray">
+      <td class="w3-border-bottom w3-hover-shadow"
+        ng-class="{'w3-border':table.isCellSelect(row_k, col_k)}"
+        ng-click="table.selectCell(row_k, col_k)"
+        ng-repeat="(col_k, v) in table.structure">
+        <div class="w3-dropdown-click">
+          <a 
+          href="#"
+          ng-if="!table.isCellSelect(row_k, col_k)"> {{v._039o}}
+          </a> 
+          <input ng-model="v._039o"
+          class="w3-input"
+           ng-if="table.isCellSelect(row_k, col_k)"/>
+          <div class="w3-dropdown-content w3-border"
+            ng-if="table.isCellSelect(row_k, col_k)"
+            ng-class="{'w3-show':table.isCellSelect(row_k, col_k)}">
+            <div class="w3-tiny w3-gray">{{v.name}} — {{col_k}}</div>
+            <div ng-include="'/f/eh1/info1/test3/dropdown_'+col_k+'.html'"></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 	</div>
 </div>

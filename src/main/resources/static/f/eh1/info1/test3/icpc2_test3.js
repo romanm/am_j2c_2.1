@@ -33,6 +33,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				$http.post('/r/update2_sql_with_param', data).then(function(response) {
 					editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = row.doc_id // cell_id
 					editObj[icpc2_nakaz74.selectedCell.col_k] = cell_value
+icpc2_nakaz74.selectedCell.col_k = null
 				});
 			}else{ // insert
 				data.sql = 'sql2.j2c.insertCellWithConstraint'
@@ -42,6 +43,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				$http.post('/r/update2_sql_with_param', data).then(function(response) {
 					editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = response.data.nextDbId1 // cell_id
 					editObj[icpc2_nakaz74.selectedCell.col_k] = cell_value
+icpc2_nakaz74.selectedCell.col_k = null
 				});
 			}
 		}
@@ -109,7 +111,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 
 	})
 
-	init2_read_j2c_tables($scope, $http);
+	init2_read_f74_tables($scope, $http);
 	
 
 	$scope.dropdown_data = {
@@ -156,9 +158,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 			fn_lib['read_data_'+col_k]()
 	}})
 
-/*
 	$scope.table.rows = [1,2,3,4];
 	init_ngClick($scope.table)
-*/
 
 }

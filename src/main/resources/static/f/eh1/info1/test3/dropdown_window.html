@@ -1,5 +1,7 @@
 <div class="w3-dropdown-click">
+<a href="#">
 	{{getColValue(r, col_k)}}
+</a>
 	<div class="w3-dropdown-content w3-border w3-card-4"
 		ng-style="dropdown_data.ngStyle(col_k)"
 		ng-if="icpc2_nakaz74.isCellSelect(row_k, col_k)"
@@ -19,7 +21,8 @@
 			ng-switch-when-separator="|">
 			<div ng-repeat="(value,name) in col_values[col_k]"
 				ng-class="{'w3-light-green':r[col_k]==value}"
-				class="w3-hover-light-gray" ng-click="icpc2_nakaz74.col_save(value,r,col_k)">{{value}}:
+				class="w3-hover-light-gray" ng-click="icpc2_nakaz74.col_save(value,r,col_k)">
+				<a href="#">{{value}}</a>:
 				{{name}}</div>
 		</div>
 
