@@ -1,9 +1,6 @@
 <div class="w3-dropdown-click">
-<a href="#" class="am-j2c"
-ng-keyup="dropdown_data.keyUp($event)"
->
-	{{getColValue(r, col_k)}}
-</a>
+	<a href="#" class="am-j2c" ng-keyup="dropdown_data.keyUp($event)">
+		{{getColValue(r, col_k)}} </a>
 	<div class="w3-dropdown-content w3-border w3-card-4"
 		ng-style="dropdown_data.ngStyle(col_k)"
 		ng-if="icpc2_nakaz74.isCellSelect(row_k, col_k)"
@@ -15,19 +12,20 @@ ng-keyup="dropdown_data.keyUp($event)"
 		<i ng-click="icpc2_nakaz74.closeDropdown()"
 			class="fa fa-window-close-o w3-display-topright w3-hover-shadow"
 			aria-hidden="true"></i>
-		<div ng-switch-when="col_10766">вибір пацієнта</div>
 		<div ng-switch-default>
-			<div ng-include="'/f/eh1/info1/test3/dropdown_'+col_k+'.html'"></div>
+			???
 		</div>
-		<div ng-switch-when="col_9775|col_9776"
-			ng-switch-when-separator="|">
+		<div ng-switch-when="col_10766|col_10771" ng-switch-when-separator="|">
+		  <div ng-include="'/f/eh1/info1/test3/dropdown_reference2_table.html'"></div>
+		</div>
+		<div ng-switch-when="col_9775|col_9776" ng-switch-when-separator="|">
 			<div ng-repeat="(value,name) in col_values[col_k]"
 				ng-class="{'w3-light-green':r[col_k]==value}"
-				class="w3-hover-light-gray" ng-click="icpc2_nakaz74.col_save(value,r,col_k)">
-				<a href="#"
-				ng-keyup="dropdown_data.keyUp($event)"
-				>{{value}}</a>:
-				{{name}}</div>
+				class="w3-hover-light-gray"
+				ng-click="icpc2_nakaz74.col_save(value,r,col_k)">
+				<a href="#" ng-keyup="dropdown_data.keyUp($event)">{{value}}</a>:
+				{{name}}
+			</div>
 		</div>
 
 	</div>

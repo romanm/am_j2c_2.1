@@ -1,0 +1,33 @@
+<div>
+	<div class="w3-border-bottom">
+		<i class="fa fa-filter fa-3"></i> <input
+			ng-keyup="dropdown_data.keyUp($event)"
+			ng-model="dropdown_data.seek[icpc2_nakaz74.selectedCell.col_k]"
+			placeholder="{{dropdown_data.seek_placeholder[icpc2_nakaz74.selectedCell.col_k]}}">
+		-1-
+	</div>
+	<div style="height: 200px; overflow: auto;">
+		<table style="">
+			<thead>
+				<tr class="w3-tiny w3-gray">
+					<th title="{{k}}" ng-repeat="(k,v) in dropdown_data.col_keys">
+						{{v}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="row in dropdown_data.list"
+					ng-click="icpc2_nakaz74.clickToSave[icpc2_nakaz74.selectedCell.col_k](row)"
+					class="w3-hover-light-gray">
+					<td ng-repeat="(col_k,v) in dropdown_data.col_keys" ng-switch
+						on="col_k">
+						<div ng-switch-default
+							ng-bind-html="highlight(row[col_k], dropdown_data.seek[icpc2_nakaz74.selectedCell.col_k])"></div>
+						<a ng-switch-when="code" href="#"
+						ng-bind-html="highlight(row[col_k], dropdown_data.seek[icpc2_nakaz74.selectedCell.col_k])"></a>
+						<div ng-switch-when="col_10823">{{row.col_10823|date:'mediumDate'}}</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

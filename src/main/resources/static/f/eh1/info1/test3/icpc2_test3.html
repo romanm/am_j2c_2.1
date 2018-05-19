@@ -8,8 +8,16 @@
 				class="w3-button  w3-padding-small"><i class="fa fa-bars"
 					aria-hidden="true"></i> </span></th>
 			<th><i class="fa fa-calendar-o" aria-hidden="true"></i></th>
-			<th ng-repeat="col_k in icpc2_nakaz74.col_sort">
+			<th ng-repeat="col_k in icpc2_nakaz74.col_sort" title="{{col_k}}">
 				{{icpc2_nakaz74.data.col_keys[col_k]}}</th>
+		</tr>
+		<tr class="w3-tiny w3-center">
+		  <td></td>
+			<td class="w3-border"
+				ng-repeat="n in ['2','5,6,7,8','3','9','4']"
+				n1g-repeat="n in ['2','3','4', 'д.1','12','5,6,7,8','10','9','11']"
+				>
+				{{n}}</td>
 		</tr>
 	</thead>
 	<tbody>

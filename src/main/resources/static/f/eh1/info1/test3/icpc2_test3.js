@@ -1,6 +1,5 @@
 init_am_directive.init_icpc2_test3 = function($scope, $http){
 	console.log('-----init_icpc2_test3-----------------');
-	
 
 	$scope.getColValue=function(row,col_key){
 		if(row[col_key]){
@@ -26,7 +25,15 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 	
 	var init_ngClick = function(icpc2_nakaz74){
 		icpc2_nakaz74.clickToSave={}
+		icpc2_nakaz74.clickToSave.col_10766=function(row){
+			console.log(row)
+		}
 
+		icpc2_nakaz74.clickToSave.col_10771=function(row){
+			var cell_value = row.code+':'+row.value
+			icpc2_nakaz74.clickToSave.ref2Cell(row, cell_value, 
+					'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+		}
 		icpc2_nakaz74.clickToSave.ref2Cell=function(row, cell_value, sqlInsertUpdate){
 			var data={reference2:row.doc_id}
 			var editObj = icpc2_nakaz74.data.list[icpc2_nakaz74.selectedCell.row_k]
@@ -51,15 +58,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				});
 			}
 		}
-		icpc2_nakaz74.clickToSave.patient=function(row){
-			console.log(row)
-		}
 
-		icpc2_nakaz74.clickToSave.icpc2=function(row){
-			var cell_value = row.code+':'+row.value
-			icpc2_nakaz74.clickToSave.ref2Cell(row, cell_value, 
-					'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
-		}
 
 		icpc2_nakaz74.col_save=function(value,editObj,col_k){
 			var data={ value:value }
@@ -89,7 +88,10 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 			icpc2_nakaz74.selectedCell.close=true;
 		}
 		icpc2_nakaz74.selectCell=function(row_k, col_k){
-			if(icpc2_nakaz74.selectedCell && icpc2_nakaz74.selectedCell.col_k==col_k && icpc2_nakaz74.selectedCell.row_k==row_k){
+			if(icpc2_nakaz74.selectedCell 
+				&& icpc2_nakaz74.selectedCell.col_k==col_k 
+				&& icpc2_nakaz74.selectedCell.row_k==row_k)
+			{
 				if('col_10766|col_10771'.indexOf(col_k)>=0){
 					if(icpc2_nakaz74.selectedCell.close)
 						delete icpc2_nakaz74.selectedCell
@@ -128,8 +130,13 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 	
 
 	$scope.dropdown_data = {
-		seekICPC2:null,
+		seek:{},
+		seek_placeholder:{
+			col_10766:'знайти Пацієнта',
+			col_10771:'знайти ICPC2'
+		},
 		keyUp:function($event){
+//			console.log($event.key)
 			if('Escape'==$event.key){
 				delete $scope.icpc2_nakaz74.selectedCell.col_k
 			}
@@ -140,32 +147,54 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				style.left='-250px';
 			}
 			return style;
-		}
+		},
 	};
-	$scope.$watch('dropdown_data.seekIcpc2',function(seekIcpc2){if(seekIcpc2){
+
+	$scope.$watch('dropdown_data.seek.col_10766',function(seek){if(seek){
+		console.log(seek)
+		fn_lib.read_data_col_10766()
+	}})
+
+	fn_lib.read_data_col_10766=function(){ // Пацієнт
+		console.log('--------read----dropdown--Пацієнт-------')
+		var url = '/r/read2_sql_with_param'
+		var params={seekPatient:'%%'}
+		if($scope.dropdown_data.seek.col_10766){
+			params.seekPatient = '%'+$scope.dropdown_data.seek.col_10766+'%'
+		}
+		params.sql='sql2.table.select_seekPatient'
+		params.table_id=9765
+		$http.get(url, {params:params}).then(function(response) {
+			$scope.dropdown_data.list=response.data.list
+			$scope.dropdown_data.col_keys=response.data.col_keys
+			console.log($scope.dropdown_data)
+		})
+	}
+
+	$scope.$watch('dropdown_data.seek.col_10771',function(seekIcpc2){if(seekIcpc2){
 		console.log(seekIcpc2)
 		fn_lib.read_data_col_10771()
 	}})
 
 	fn_lib.read_data_col_10771=function(){ // ICPC2
-		console.log('--------read----dropdown---------')
+		console.log('--------read----dropdown--ICPC2-------')
 		var params={seek:'%%'}
-		if($scope.dropdown_data.seekIcpc2)
-			params.seek = '%'+$scope.dropdown_data.seekIcpc2+'%'
+		if($scope.dropdown_data.seek.col_10771)
+			params.seek = '%'+$scope.dropdown_data.seek.col_10771+'%'
 		params.sql = sql2['f74_icpc2_seek__select']();
 		params.sql = spaceClean(params.sql)
 //		console.log(params)
 		$http.get(url_sql_read,{params:params}).then(function(response) {
 //			console.log(response.data)
 			$scope.dropdown_data.list=response.data.list
-			if(!$scope.dropdown_data.seekIcpc2)
-				$scope.dropdown_data.col_keys={
-					code:'Код',
-					value:'Назва',
-					doc_id:'ІН',
-					part:'Група',
-					doctype:'zГрупа',
-				}
+			//if(!$scope.dropdown_data.seekIcpc2)
+			$scope.dropdown_data.col_keys={
+				code:'Код',
+				value:'Назва',
+				doc_id:'ІН',
+				part:'Група',
+				doctype:'zГрупа',
+			}
 			console.log($scope.dropdown_data)
 		})
 	}
