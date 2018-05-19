@@ -24,7 +24,9 @@ ng-keyup="dropdown_data.keyUp($event)"
 			<div ng-repeat="(value,name) in col_values[col_k]"
 				ng-class="{'w3-light-green':r[col_k]==value}"
 				class="w3-hover-light-gray" ng-click="icpc2_nakaz74.col_save(value,r,col_k)">
-				<a href="#">{{value}}</a>:
+				<a href="#"
+				ng-keyup="dropdown_data.keyUp($event)"
+				>{{value}}</a>:
 				{{name}}</div>
 		</div>
 

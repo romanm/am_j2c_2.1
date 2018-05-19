@@ -131,7 +131,6 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 		seekICPC2:null,
 		keyUp:function($event){
 			if('Escape'==$event.key){
-				console.log($scope.icpc2_nakaz74.selectedCell)
 				delete $scope.icpc2_nakaz74.selectedCell.col_k
 			}
 		},
