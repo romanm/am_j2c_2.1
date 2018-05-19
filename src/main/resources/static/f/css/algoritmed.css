@@ -2,6 +2,9 @@ pre {
   tab-size: 2; /* Set tab size to 2 spaces */
   -moz-tab-size:2;
 }
+a.am-j2c:link{
+	text-decoration: none;
+}
 .am-width-100pr{
   width: 100%;
 }

@@ -4,7 +4,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 
 	$scope.getColValue=function(row,col_key){
 		if(row[col_key]){
-			if('col_9775|and_age017_village'.indexOf(col_key)>=0)
+			if('col_9775|col_9776'.indexOf(col_key)>=0)
 				return row[col_key]+':'+$scope.col_values[col_key][row[col_key]]
 			else
 				return row[col_key]
@@ -12,40 +12,53 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 	}
 
 	$scope.col_values={
+		col_9776:{
+			1:'амбулаторно',
+			2:'вдома',
+			3:'по телефону',
+		},
 		col_9775:{
 			1:'первинне',
 			2:'повторне',
 			3:'зевершення епізоду',
-		}
+		},
 	}
 	
 	var init_ngClick = function(icpc2_nakaz74){
 		icpc2_nakaz74.clickToSave={}
 
-		icpc2_nakaz74.clickToSave.icpc2=function(row){
+		icpc2_nakaz74.clickToSave.ref2Cell=function(row, cell_value, sqlInsertUpdate){
 			var data={reference2:row.doc_id}
-			var cell_value = row.code+':'+row.value
 			var editObj = icpc2_nakaz74.data.list[icpc2_nakaz74.selectedCell.row_k]
 			var cell_id = editObj[icpc2_nakaz74.selectedCell.col_k+'_id']
 			if(cell_id){
-				data.sql = 'sql2.j2c.updateCellWithConstraint'
-				data.doc_id = cell_id 
-				$http.post('/r/update2_sql_with_param', data).then(function(response) {
-					editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = row.doc_id // cell_id
-					editObj[icpc2_nakaz74.selectedCell.col_k] = cell_value
-icpc2_nakaz74.selectedCell.col_k = null
-				});
+				data.sql = sqlInsertUpdate.split('|')[1]
+					data.doc_id = cell_id 
+					$http.post('/r/update2_sql_with_param', data).then(function(response) {
+						editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = row.doc_id // cell_id
+						editObj[icpc2_nakaz74.selectedCell.col_k] = cell_value
+						delete icpc2_nakaz74.selectedCell.col_k
+					});
 			}else{ // insert
-				data.sql = 'sql2.j2c.insertCellWithConstraint'
-				data.parent_id = editObj.row_id
-				var col_id = icpc2_nakaz74.selectedCell.col_k.split('_')[1] 
+				data.sql = sqlInsertUpdate.split('|')[0]
+					data.parent_id = editObj.row_id
+					var col_id = icpc2_nakaz74.selectedCell.col_k.split('_')[1] 
 				data.reference = col_id
 				$http.post('/r/update2_sql_with_param', data).then(function(response) {
 					editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = response.data.nextDbId1 // cell_id
 					editObj[icpc2_nakaz74.selectedCell.col_k] = cell_value
-icpc2_nakaz74.selectedCell.col_k = null
+					delete icpc2_nakaz74.selectedCell.col_k
 				});
 			}
+		}
+		icpc2_nakaz74.clickToSave.patient=function(row){
+			console.log(row)
+		}
+
+		icpc2_nakaz74.clickToSave.icpc2=function(row){
+			var cell_value = row.code+':'+row.value
+			icpc2_nakaz74.clickToSave.ref2Cell(row, cell_value, 
+					'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
 		}
 
 		icpc2_nakaz74.col_save=function(value,editObj,col_k){
@@ -90,7 +103,7 @@ icpc2_nakaz74.selectedCell.col_k = null
 	}
 	
 	$scope.icpc2_nakaz74={}
-	$scope.icpc2_nakaz74.col_sort = ['col_10766','col_9775', 'col_10771']
+	$scope.icpc2_nakaz74.col_sort = ['col_10766','col_9775', 'col_10771','col_9776']
 	init_ngClick($scope.icpc2_nakaz74)
 	$http.get('/r/read2_sql_with_param',
 			{params:{sql:'sql2.j2c_table.selectByIdDesc',msp_id:188,table_id:9774}}
@@ -116,6 +129,12 @@ icpc2_nakaz74.selectedCell.col_k = null
 
 	$scope.dropdown_data = {
 		seekICPC2:null,
+		keyUp:function($event){
+			if('Escape'==$event.key){
+				console.log($scope.icpc2_nakaz74.selectedCell)
+				delete $scope.icpc2_nakaz74.selectedCell.col_k
+			}
+		},
 		ngStyle:function(col_k){
 			var style={}
 			if('col_10771'==col_k){
