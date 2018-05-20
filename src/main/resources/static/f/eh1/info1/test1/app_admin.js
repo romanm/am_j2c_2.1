@@ -180,9 +180,7 @@ var init_icpc2_test = function($scope, $http){
 			});
 //				console.log($scope.msp_employee)
 		});
-
 	});
-
 
 	var j2c_add_row = function(tbl_id, $http, fn_after_update){
 		var data={

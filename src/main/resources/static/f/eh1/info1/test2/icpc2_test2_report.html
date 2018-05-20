@@ -1,13 +1,11 @@
 <div ng-include="'/f/eh1/info1/test2/f74-head2.html'"></div>
 <div>
 	<div class="w3-border-bottom">
-		<span class="w3-small w13-gray">вибір:</span> рік, місяць || <a href="?" class="w3-btn"
-			ng-class="{'w3-light-gray':!seekParam.physician}"> ЛЗ</a> |
-		<button ng-click="modal.physicianChoose.display={display:'block'}"
-			class="w3-btn" ng-class="{'w3-light-gray':seekParam.physician}">
-			лікаря</button>
-		|| випадки | діагнози <a href="{{seekParam.getURL()}}"
-			class="w3-btn w3-border"> 
+		<span class="w3-small w13-gray">вибір:</span> рік, місяць || <a href="?" class="w3-btn w3-padding-small"
+			ng-class="{'w3-light-gray':!seekParam.physician}"> ЛЗ</a> | <span
+			ng-include="'/f/eh1/info1/test2/physician_choose_button.html'">
+		</span> || випадки | діагнози <a href="{{seekParam.getURL()}}"
+			class="w3-btn w3-border w3-padding-small"> 
 			<i class="fa fa-filter" aria-hidden="true"></i>
 			Вибірка
 			<!--  
@@ -18,24 +16,11 @@
 		{{seekParam.year}}-{{seekParam.month}}
 	</div>
 	<div class="w3-small w3-border" ng-if="seekParam.physician">
-		<b>Лікар:</b> {{seekParam.physicianData.family_name}}
-		{{seekParam.physicianData.first_name}}
-		{{seekParam.physicianData.second_name}}
+		<b>Лікар:</b> {{physicianData.family_name}}
+		{{physicianData.first_name}}
+		{{physicianData.second_name}}
 	</div>
-	<div ng-style="modal.physicianChoose.display" class="w3-modal">
-		<div class="w3-modal-content">
-			<div class="w3-container">
-				<span ng-click="modal.physicianChoose.display={}"
-					class="w3-button w3-display-topright">&times;</span>
-				<p class="am-b">Вибір лікаря</p>
-				<div ng-repeat="p in modal.physicianChoose.data.list"
-					class="w3-hover-light-gray">
-					<a href="?physician={{p.person_id}}"> {{p.family_name}}
-						{{p.first_name}} {{p.second_name}} </a>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 
 	<div class="w3-small w3-border-bottom  ">
 		рік: <select class="w3-btn w3-border w3-padding-small">

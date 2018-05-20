@@ -6,9 +6,7 @@
 		<div>обліку відвідувань у поліклініці (амбулаторії), диспансері,
 			центрі первинної медико-санітарної допомоги, консультації, вдома</div>
 		<div class="w3-small w3-border" ng-if="seekParam.physician">
-			<b>Лікар:</b> {{seekParam.physicianData.family_name}}
-			{{seekParam.physicianData.first_name}}
-			{{seekParam.physicianData.second_name}}
+			<b>Лікар:</b> <span ng-include="'/f/eh1/info1/test2/physicain_fullname.html'"></span>
 		</div>
 	</caption>
 	<thead class="w3-small">

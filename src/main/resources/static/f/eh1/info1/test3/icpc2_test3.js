@@ -23,8 +23,29 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 		},
 	}
 	
+	$scope.f74_physician_id = 183;
+	
 	var init_ngClick = function(icpc2_nakaz74){
 		icpc2_nakaz74.clickToSave={}
+		icpc2_nakaz74.clickToSave.add_row=function(){
+			var r0 = icpc2_nakaz74.data.list[0]
+			console.log(r0)
+			if($scope.physicianData)
+				$scope.f74_physician_id = $scope.physicianData.person_id;
+
+			var data={
+				sql:'sql2.j2c.insertRow2',
+				tbl_id:r0.tbl_id,
+				reference2:$scope.f74_physician_id,
+			}
+			console.log(data);
+			$http.post('/r/update2_sql_with_param', data).then(function(response) {
+				console.log(response.data);
+				response.data.row_id = response.data.nextDbId1
+				console.log(response.data.nextDbId1);
+				icpc2_nakaz74.data.list.unshift(response.data);
+			});
+		}
 		icpc2_nakaz74.clickToSave.col_10766=function(row){
 			console.log(row)
 		}
@@ -85,7 +106,8 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				return icpc2_nakaz74.selectedCell.row_k==row_k && icpc2_nakaz74.selectedCell.col_k==col_k
 		}
 		icpc2_nakaz74.closeDropdown=function(){
-			icpc2_nakaz74.selectedCell.close=true;
+			if(icpc2_nakaz74.selectedCell)
+				icpc2_nakaz74.selectedCell.close=true;
 		}
 		icpc2_nakaz74.selectCell=function(row_k, col_k){
 			if(icpc2_nakaz74.selectedCell 
@@ -127,19 +149,28 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 	})
 
 	init2_read_f74_tables($scope, $http);
-	
 
 	$scope.dropdown_data = {
-		seek:{},
-		seek_placeholder:{
-			col_10766:'знайти Пацієнта',
-			col_10771:'знайти ICPC2'
-		},
-		keyUp:function($event){
-//			console.log($event.key)
-			if('Escape'==$event.key){
-				delete $scope.icpc2_nakaz74.selectedCell.col_k
+		ask_confirm_delete:{display:'none'},
+		deleteRow:function(){
+			console.log($scope.icpc2_nakaz74.selectedCell)
+			var row = $scope.icpc2_nakaz74.data.list[$scope.icpc2_nakaz74.selectedCell.row_k]
+			console.log(row)
+			var data={
+				sql:'sql2.j2c.deleteRowId2',
+				row_id:row.row_id,
 			}
+			console.log(data);
+			$http.post('/r/update2_sql_with_param', data).then(function(response) {
+				console.log(response.data)
+				$scope.icpc2_nakaz74.data.list.splice($scope.icpc2_nakaz74.selectedCell.row_k, 1)
+				$scope.dropdown_data.ask_confirm_delete = {display:'none'}
+			});
+		},
+		ngStyleAskDelete:function(){
+			if($scope.icpc2_nakaz74.selectedCell)
+				if($scope.icpc2_nakaz74.selectedCell.row_k>=0)
+					this.ask_confirm_delete={display:'block'}
 		},
 		ngStyle:function(col_k){
 			var style={}
@@ -147,6 +178,11 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				style.left='-250px';
 			}
 			return style;
+		},
+		seek:{},
+		seek_placeholder:{
+			col_10766:'знайти Пацієнта',
+			col_10771:'знайти ICPC2'
 		},
 	};
 

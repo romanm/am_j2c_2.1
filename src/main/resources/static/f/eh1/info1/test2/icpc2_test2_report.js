@@ -10,7 +10,7 @@ init_am_directive.init_icpc2_test2_report = function($scope, $http){
 				$scope.excelData.physician={
 					r:2, c:1, d:'physitian name'
 				}
-				var p = $scope.seekParam.physicianData
+				var p = $scope.physicianData
 				$scope.excelData.physician.d =
 					p.family_name+ ' '+
 					p.first_name+ ' '+
@@ -68,22 +68,5 @@ console.log($scope.table.init.read_cell)
 			$scope.initExcelData($scope.table.data2)
 		}
 	})
-	
-	$scope.modal={
-		physicianChoose:{}
-	}
-
-
-	$scope.$watch('modal.physicianChoose.display',function(newValue){if(newValue){
-		if(newValue.display){
-			console.log(app_fn.getMsp_id())
-			$http.get(url_sql_read,{params:{msp_id:$scope.params.msp_id, 
-				sql:sql2.f74_msp_physician__select()}}).then(function(response) {
-					console.log(response.data)
-					$scope.modal.physicianChoose.data = response.data;
-			})
-
-		}
-	}})
 
 }

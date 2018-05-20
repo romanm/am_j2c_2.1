@@ -1,12 +1,34 @@
 <div ng-include="'/f/eh1/info1/test2/f74-head2.html'"></div>
+<div>
+	<span class="w3-small"> вибір: </span> <span
+		ng-include="'/f/eh1/info1/test2/physician_choose_button.html'">
+	</span>
+	—
+	 <span ng-include="'/f/eh1/info1/test2/physicain_fullname.html'"></span>
+</div>
 
 <table>
 	<thead>
 		<tr class="w3-tiny w3-gray">
-			<th style="background: white;"><span
-				ng-click="icpc2_nakaz74.closeDropdown()"
-				class="w3-button  w3-padding-small"><i class="fa fa-bars"
-					aria-hidden="true"></i> </span></th>
+			<th style="background: white;">
+				<div ng-click="icpc2_nakaz74.closeDropdown()"
+					class="w3-dropdown-hover">
+					<div class="w3-button  w3-padding-small ">
+						<i class="fa fa-bars" aria-hidden="true"></i>
+					</div>
+					<div class="w3-dropdown-content w3-bar-block w3-border">
+						<a href="#" class="w3-bar-item w3-button"
+						ng-click="icpc2_nakaz74.clickToSave.add_row()"
+						>
+						+ Додати запис </a> 
+							<a href="#"
+							ng-class="{'w3-disabled':!(icpc2_nakaz74.selectedCell.row_k>=0)}"
+						ng-click="dropdown_data.ngStyleAskDelete()"
+              class="w3-bar-item w3-button">
+            - Видалити запис </a>
+					</div>
+				</div>
+			</th>
 			<th><i class="fa fa-calendar-o" aria-hidden="true"></i></th>
 			<th ng-repeat="col_k in icpc2_nakaz74.col_sort" title="{{col_k}}">
 				{{icpc2_nakaz74.data.col_keys[col_k]}}</th>
@@ -23,8 +45,19 @@
 	<tbody>
 		<tr ng-repeat="r in icpc2_nakaz74.data.list" ng-init="row_k=$index"
 			class="w3-hover-light-gray">
-			<td>{{row_k}}</td>
-			<td>d</td>
+			<td 
+			class="w3-small"
+			ng-class="{'am-b':row_k==icpc2_nakaz74.selectedCell.row_k}">{{row_k}}
+			</td>
+			<td
+				title="{{r.created | date : 'longDate'}}/{{r.updated | date : 'short'}}">{{r.created
+				| date : "dd.MM"}} <span class="w3-tiny"
+				title="{{r.family_name}} {{
+              r.first_name}} {{
+              r.second_name}}">
+					{{r.family_name.substring(0,1)}}{{ r.first_name.substring(0,1)}}{{
+					r.second_name.substring(0,1)}} </span>
+			</td>
 			<td ng-repeat="col_k in icpc2_nakaz74.col_sort"
 				class="w3-border-bottom w3-hover-shadow"
 				ng-class="{'w3-border':icpc2_nakaz74.isCellSelect(row_k, col_k)}"
@@ -37,3 +70,25 @@
 	</tbody>
 </table>
 
+<div class="w3-modal"
+ng-style="dropdown_data.ask_confirm_delete"
+n1g-if="icpc2_nakaz74.selectedCell.row_k>=0"
+>
+      <div class="w3-modal-content">
+        <div class="w3-container">
+          <span
+            ng-click="dropdown_data.ask_confirm_delete={display:'none'}"
+            class="w3-button w3-display-topright">&times;</span>
+          <p>&nbsp;</p>
+          <p>Підтвердіть видаленя</p>
+          <p>&nbsp;</p>
+          <span class="w3-btn w3-border w3-red"
+  title="стерти обраний запис  з форми 74"
+      ng-click="dropdown_data.deleteRow()">видалити</span>
+          <span ng-click="dropdown_data.ask_confirm_delete={display:'none'}"
+            class="w3-display-bottomright"> 
+            <span class="w3-button w3-border">не видаляти</span>
+          </span>
+        </div>
+      </div>
+    </div>

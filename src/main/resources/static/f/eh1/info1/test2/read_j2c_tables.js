@@ -1,6 +1,6 @@
 console.log("----------read_j2c_tables.js------")
 init2_read_f74_tables = function($scope, $http){
-	console.log("-----init2_read_f74_tables -----read_j2c_tables.js------")
+	console.log("--init2_read_f74_tables-----")
 		$scope.table = {row_indexs:{},
 		structure:{
 			createdDay:{name:'день',_039o:'A'},
@@ -11,6 +11,50 @@ init2_read_f74_tables = function($scope, $http){
 			home_9776:{name:'відвідувань вдома',_039o:'9'},
 		}
 	};
+	
+	$scope.modal={
+		physicianChoose:{}
+	}
+
+	$scope.$watch('modal.physicianChoose.display',function(newValue){if(newValue){
+		if(newValue.display){
+			console.log(app_fn.getMsp_id())
+			$http.get(url_sql_read,{params:{msp_id:$scope.params.msp_id, 
+				sql:sql2.f74_msp_physician__select()}}).then(function(response) {
+					console.log(response.data)
+					$scope.modal.physicianChoose.data = response.data;
+				})
+		}
+	}})
+
+	app_fn = new App_fn($scope, $http);	
+	$scope.$watch('principalResponse',function(newValue){if(newValue){
+		console.log('----$scope.$watch(principal,function()-----32------');
+		var msp_id = app_fn.getMsp_id();
+		$scope.params={msp_id:msp_id}
+		app_fn.readTable()
+	}});
+
+	$scope.$watch('request.parameters.physician',function(newValue){if(newValue){
+		console.log(newValue)
+		$http.get(url_sql_read,{params:{person_id:newValue, 
+			sql:sql2.f74_physician__select()}}).then(function(response) {
+				$scope.physicianData = response.data.list[0];
+				console.log($scope.physicianData)
+			})
+	}})
+
+	$scope.keys_use = {}
+	$scope.keys_use.keyUp = function($event){
+//		console.log($event.key)
+		if('Escape'==$event.key){
+			if($scope.modal.physicianChoose)
+				$scope.modal.physicianChoose.display={}
+			if($scope.icpc2_nakaz74)
+				if($scope.icpc2_nakaz74.selectedCell)
+					delete $scope.icpc2_nakaz74.selectedCell.col_k
+		}
+	}
 }
 
 init_read_j2c_tables = function($scope, $http){
@@ -42,20 +86,7 @@ init_read_j2c_tables = function($scope, $http){
 		}
 	};
 	$scope.seekParam.initFromRequest();
-	app_fn = new App_fn($scope, $http);	
-	$scope.$watch('seekParam.physician',function(newValue){if(newValue){
-		console.log(newValue)
-		$http.get(url_sql_read,{params:{person_id:newValue, 
-			sql:sql2.f74_physician__select()}}).then(function(response) {
-				$scope.seekParam.physicianData = response.data.list[0];
-			})
-	}})
-	$scope.$watch('principalResponse',function(newValue){if(newValue){
-		console.log('----$scope.$watch(principal,function()------118------');
-		var msp_id = app_fn.getMsp_id();
-		$scope.params={msp_id:msp_id}
-		app_fn.readTable()
-	}});
+	//$scope.$watch('seekParam.physician',function(newValue){if(newValue){
 
 	$scope.table.init = {read_cell:0,
 		report_table:{select_rows_to_group:'f74_day_rows__select', column_to_group:'year_day', read_cell:0},

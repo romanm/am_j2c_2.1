@@ -1,0 +1,20 @@
+<button ng-click="modal.physicianChoose.display={display:'block'}"
+	class="w3-btn w3-padding-small"
+	ng-class="{'w3-light-gray':seekParam.physician}">лікаря</button>
+
+<div ng-style="modal.physicianChoose.display" class="w3-modal">
+	<div class="w3-modal-content">
+		<div class="w3-container">
+			<span ng-click="modal.physicianChoose.display={}"
+				class="w3-button w3-display-topright">&times;</span>
+			<p class="am-b">Вибір лікаря</p>
+			<div ng-repeat="p in modal.physicianChoose.data.list"
+				class="w3-hover-light-gray">
+				<a 
+				ng-keyup="keys_use.keyUp($event)"
+				href="?physician={{p.person_id}}"> {{p.family_name}}
+					{{p.first_name}} {{p.second_name}} </a>
+			</div>
+		</div>
+	</div>
+</div>
