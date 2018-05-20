@@ -241,10 +241,13 @@ var init_icpc2_test = function($scope, $http){
 
 	$scope.$watch('seekIcd10', function(newValue){if(newValue){
 		console.log(newValue)
-		read_sql_with_param($http, {sql:'sql2.icd10.seek',doctype:89,seek:'%'+newValue+'%'}, function(response){
-			$scope.icd10.list=response.data.list;
-			console.log(response.data)
-		});
+		read_sql_with_param($http, 
+			{sql:'sql2.icd10.seek',doctype:89,seek:'%'+newValue+'%'}, 
+			function(response){
+				$scope.icd10.list=response.data.list;
+				console.log(response.data)
+			}
+		);
 	}});
 
 	$scope.programRun = {

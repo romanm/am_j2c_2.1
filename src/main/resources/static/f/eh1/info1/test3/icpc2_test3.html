@@ -36,8 +36,8 @@
 		<tr class="w3-tiny w3-center">
 		  <td></td>
 			<td class="w3-border"
-				ng-repeat="n in ['2','5,6,7,8','3','9','4']"
-				n1g-repeat="n in ['2','3','4', 'д.1','12','5,6,7,8','10','9','11']"
+				ng-repeat="n in ['2','5,6,7,8','3','9','10','11','4','д.1']"
+				n1g-repeat="n in ['2','3','4', 'д.1','12','5,6,7,8','10','11','9','11']"
 				>
 				{{n}}</td>
 		</tr>
@@ -70,25 +70,22 @@
 	</tbody>
 </table>
 
-<div class="w3-modal"
-ng-style="dropdown_data.ask_confirm_delete"
-n1g-if="icpc2_nakaz74.selectedCell.row_k>=0"
->
-      <div class="w3-modal-content">
-        <div class="w3-container">
-          <span
-            ng-click="dropdown_data.ask_confirm_delete={display:'none'}"
-            class="w3-button w3-display-topright">&times;</span>
-          <p>&nbsp;</p>
-          <p>Підтвердіть видаленя</p>
-          <p>&nbsp;</p>
-          <span class="w3-btn w3-border w3-red"
-  title="стерти обраний запис  з форми 74"
-      ng-click="dropdown_data.deleteRow()">видалити</span>
-          <span ng-click="dropdown_data.ask_confirm_delete={display:'none'}"
-            class="w3-display-bottomright"> 
-            <span class="w3-button w3-border">не видаляти</span>
-          </span>
-        </div>
-      </div>
-    </div>
+<div class="w3-modal" ng-style="dropdown_data.ask_confirm_delete"
+	n1g-if="icpc2_nakaz74.selectedCell.row_k>=0">
+	<div class="w3-modal-content">
+		<div class="w3-container">
+			<span ng-click="dropdown_data.ask_confirm_delete={display:'none'}"
+				class="w3-button w3-display-topright">&times;</span>
+			<p>&nbsp;</p>
+			<p>Підтвердіть видаленя</p>
+			<p>&nbsp;</p>
+			<span class="w3-btn w3-border w3-red"
+				title="стерти обраний запис  з форми 74"
+				ng-click="dropdown_data.deleteRow()">видалити</span> <span
+				ng-click="dropdown_data.ask_confirm_delete={display:'none'}"
+				class="w3-display-bottomright"> <span
+				class="w3-button w3-border">не видаляти</span>
+			</span>
+		</div>
+	</div>
+</div>

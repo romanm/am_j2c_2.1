@@ -290,4 +290,18 @@ var sql2= {
 				") x " +
 				"WHERE LOWER(value) LIKE LOWER(:seek) OR LOWER(code) LIKE LOWER(:seek) LIMIT 20";
 	},
+	f74_icpc2_seekProcess__select:function(){
+		return "::f74_icpc2_seek2__select AND parent_id=857  LIMIT 20";
+	},
+	f74_icpc2_seek3__select:function(){
+		return "::f74_icpc2_seek2__select  LIMIT 20";
+	},
+	f74_icpc2_seek2__select:function(){
+		return "SELECT * FROM ( \n" +
+				"SELECT c1.code||c2.code code, s2.value, d2.doc_id, d2.parent_id, s1.value part, d2.doctype \n" +
+				"FROM string s2, doc d1, doc d2, string s1, code c2, code c1 \n" +
+				"WHERE d1.doc_id=d2.parent_id AND d1.doctype=57 AND s2.string_id=d2.doc_id AND s1.string_id=d1.doc_id AND c2.code_id=d2.doc_id AND c1.code_id=d1.doc_id \n" +
+				") x " +
+				"WHERE LOWER(value) LIKE LOWER(:seek) OR LOWER(code) LIKE LOWER(:seek) ";
+	},
 }

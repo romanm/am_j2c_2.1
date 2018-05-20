@@ -3,7 +3,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 
 	$scope.getColValue=function(row,col_key){
 		if(row[col_key]){
-			if('col_9775|col_9776'.indexOf(col_key)>=0)
+			if('col_9775|col_9776|col_10900'.indexOf(col_key)>=0)
 				return row[col_key]+':'+$scope.col_values[col_key][row[col_key]]
 			else
 				return row[col_key]
@@ -20,6 +20,10 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 			1:'первинне',
 			2:'повторне',
 			3:'зевершення епізоду',
+		},
+		col_10900:{
+			1:'місто',
+			2:'село',
 		},
 	}
 	
@@ -46,11 +50,31 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				icpc2_nakaz74.selectedCell = {row_k:0, row_id:response.data.row_id}
 			});
 		}
+
 		icpc2_nakaz74.clickToSave.col_10766=function(row){//Patient
 			console.log(row)
 			var data={
 				reference2:row.row_id,
 				cell_value : row.col_9766+', '+row.col_9767
+			}
+			icpc2_nakaz74.clickToSave.ref2Cell(data, 
+				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+		}
+
+		icpc2_nakaz74.clickToSave.col_10777=function(row){//ICD10
+			console.log(row)
+			var data={
+				reference2:row.doc_id,
+				cell_value : row.icd_code+':'+row.icd_name
+			}
+			icpc2_nakaz74.clickToSave.ref2Cell(data, 
+			'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+		}
+
+		icpc2_nakaz74.clickToSave.col_10807=function(row){//ICPC2 process
+			var data={
+				reference2:row.doc_id,
+				cell_value : row.code+':'+row.value
 			}
 			icpc2_nakaz74.clickToSave.ref2Cell(data, 
 				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
@@ -64,8 +88,8 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 			icpc2_nakaz74.clickToSave.ref2Cell(data, 
 				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
 		}
+
 		icpc2_nakaz74.clickToSave.ref2Cell=function(data, sqlInsertUpdate){
-			console.log(data)
 
 			var editObj = icpc2_nakaz74.data.list[icpc2_nakaz74.selectedCell.row_k]
 			var cell_id = editObj[icpc2_nakaz74.selectedCell.col_k+'_id']
@@ -89,7 +113,6 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				});
 			}
 		}
-
 
 		icpc2_nakaz74.col_save=function(value,row,col_k){
 			var data={ value:value }
@@ -130,7 +153,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				&& icpc2_nakaz74.selectedCell.col_k==col_k 
 				&& icpc2_nakaz74.selectedCell.row_k==row_k)
 			{
-				if('col_10766|col_10771'.indexOf(col_k)>=0){
+				if('col_10766|col_10771|col_10807|col_10777'.indexOf(col_k)>=0){
 					if(icpc2_nakaz74.selectedCell.close)
 						delete icpc2_nakaz74.selectedCell
 				}else{
@@ -144,7 +167,8 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 	}
 	
 	$scope.icpc2_nakaz74={}
-	$scope.icpc2_nakaz74.col_sort = ['col_10766','col_9775', 'col_10771','col_9776']
+	$scope.icpc2_nakaz74.col_sort = ['col_10766','col_9775', 'col_10771', 'col_10777','col_10807'
+		,'col_9776','col_10900']
 	init_ngClick($scope.icpc2_nakaz74)
 	$http.get('/r/read2_sql_with_param',
 			{params:{sql:'sql2.j2c_table.selectByIdDesc',msp_id:188,table_id:9774}}
@@ -191,15 +215,24 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 		},
 		ngStyle:function(col_k){
 			var style={}
-			if('col_10771'==col_k){
-				style.left='-250px';
+			if('col_10777'==col_k){
+				style.left='-150px';
+				style['min-width']='450px';
+			}else if('col_10766'==col_k){
+				style['min-width']='400px';
+			}else if('col_10807'==col_k){
+				style.left='-150px';
+			}else if('col_10771'==col_k){
+				style.left='-150px';
 			}
 			return style;
 		},
 		seek:{},
 		seek_placeholder:{
 			col_10766:'знайти Пацієнта',
-			col_10771:'знайти ICPC2'
+			col_10777:'знайти МКХ10',
+			col_10771:'знайти ICPC2',
+			col_10807:'знайти процес ICPC2',
 		},
 	};
 
@@ -208,22 +241,57 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 		fn_lib.read_data_col_10766()
 	}})
 
+	var url_read2_sql_with_param = '/r/read2_sql_with_param'
 	fn_lib.read_data_col_10766=function(){ // Пацієнт
 		console.log('--------read----dropdown--Пацієнт-------')
-		var url = '/r/read2_sql_with_param'
 		var params={seekPatient:'%%'}
 		if($scope.dropdown_data.seek.col_10766){
 			params.seekPatient = '%'+$scope.dropdown_data.seek.col_10766+'%'
 		}
 		params.sql='sql2.table.select_seekPatient'
 		params.table_id=9765
-		$http.get(url, {params:params}).then(function(response) {
+		$http.get(url_read2_sql_with_param, {params:params}).then(function(response) {
 			$scope.dropdown_data.list=response.data.list
 			$scope.dropdown_data.col_keys=response.data.col_keys
 			console.log($scope.dropdown_data)
 		})
 	}
 
+	$scope.$watch('dropdown_data.seek.col_10777',function(seek){if(seek){
+		console.log(seek)
+		fn_lib.read_data_col_10777()
+	}})
+
+	fn_lib.read_data_col_10777=function(){ // ICD10
+		console.log('--------read----dropdown--ICD10-------')
+		var params={seek:'%%',doctype: 89}
+		if($scope.dropdown_data.seek.col_10777)
+			params.seek = '%'+$scope.dropdown_data.seek.col_10777+'%'
+		params.sql='sql2.icd10.seek'
+		console.log(params)
+		$http.get(url_read2_sql_with_param, {params:params}).then(function(response) {
+			$scope.dropdown_data.list=response.data.list
+			$scope.dropdown_data.col_keys={
+				icd_code:'Код',
+				icd_name:'Назва',
+			}
+			console.log($scope.dropdown_data)
+		})
+	}
+
+	$scope.$watch('dropdown_data.seek.col_10807',function(seekIcpc2){if(seekIcpc2){
+		console.log(seekIcpc2)
+		fn_lib.read_data_col_10807()
+	}})
+
+	fn_lib.read_data_col_10807=function(){ // ICPC2 Process
+		console.log('--------read----dropdown--ICPC2-------')
+		fn_lib.read_data_ICPC2(
+			'f74_icpc2_seekProcess__select', 
+			$scope.dropdown_data.seek.col_10807
+		)
+	}
+	
 	$scope.$watch('dropdown_data.seek.col_10771',function(seekIcpc2){if(seekIcpc2){
 		console.log(seekIcpc2)
 		fn_lib.read_data_col_10771()
@@ -231,10 +299,19 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 
 	fn_lib.read_data_col_10771=function(){ // ICPC2
 		console.log('--------read----dropdown--ICPC2-------')
+		fn_lib.read_data_ICPC2(
+			'f74_icpc2_seek3__select', 
+			$scope.dropdown_data.seek.col_10771
+		)
+	}
+
+	fn_lib.read_data_ICPC2=function(sql, seek){ // ICPC2
 		var params={seek:'%%'}
-		if($scope.dropdown_data.seek.col_10771)
-			params.seek = '%'+$scope.dropdown_data.seek.col_10771+'%'
-		params.sql = sql2['f74_icpc2_seek__select']();
+		if(seek)
+			params.seek = '%'+seek+'%'
+		params.sql = sql2[sql]();
+		params.sql = composeSql(params.sql)
+//		console.log(params.sql)
 		params.sql = spaceClean(params.sql)
 //		console.log(params)
 		$http.get(url_sql_read,{params:params}).then(function(response) {
@@ -242,16 +319,16 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 			$scope.dropdown_data.list=response.data.list
 			//if(!$scope.dropdown_data.seekIcpc2)
 			$scope.dropdown_data.col_keys={
-				code:'Код',
-				value:'Назва',
-				doc_id:'ІН',
-				part:'Група',
-				doctype:'zГрупа',
+					code:'Код',
+					value:'Назва',
+					doc_id:'ІН',
+					part:'Група',
+					doctype:'zГрупа',
 			}
 			console.log($scope.dropdown_data)
 		})
 	}
-
+	
 	$scope.$watch('icpc2_nakaz74.selectedCell.col_k',function(col_k){if(col_k){
 		console.log(col_k)
 		if(fn_lib['read_data_'+col_k])

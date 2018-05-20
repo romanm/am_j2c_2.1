@@ -22,7 +22,9 @@
 						on="col_k">
 						<div ng-switch-default
 							ng-bind-html="highlight(row[col_k], dropdown_data.seek[icpc2_nakaz74.selectedCell.col_k])"></div>
-						<a ng-switch-when="code" href="#"
+						<a ng-switch-when="code|icd_code" 
+						ng-switch-when-separator="|"
+						href="#"
 						ng-bind-html="highlight(row[col_k], dropdown_data.seek[icpc2_nakaz74.selectedCell.col_k])"></a>
 						<div ng-switch-when="col_10823">{{row.col_10823|date:'mediumDate'}}</div>
 					</td>

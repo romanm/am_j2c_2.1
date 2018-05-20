@@ -634,7 +634,7 @@ fn_lib.addProgram = function(programRun, programList){
 // url_read_sql_with_param -- is rewritable in Controller file by demand 
 var url_read_sql_with_param = '/r/read_sql_with_param';
 var read_sql_with_param = function($http, params,fn, fn_error){
-	//console.log(url_read_sql_with_param)
+	console.log(url_read_sql_with_param)
 	console.log(params)
 	var url = params.url?params.url:url_read_sql_with_param;
 	if(!fn_error)
