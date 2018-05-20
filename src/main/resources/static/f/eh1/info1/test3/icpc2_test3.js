@@ -46,25 +46,35 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				icpc2_nakaz74.data.list.unshift(response.data);
 			});
 		}
-		icpc2_nakaz74.clickToSave.col_10766=function(row){
+		icpc2_nakaz74.clickToSave.col_10766=function(row){//Patient
 			console.log(row)
+			var data={
+				reference2:row.row_id,
+				cell_value : row.col_9766+', '+row.col_9767
+			}
+			icpc2_nakaz74.clickToSave.ref2Cell(data, 
+				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
 		}
 
-		icpc2_nakaz74.clickToSave.col_10771=function(row){
-			var cell_value = row.code+':'+row.value
-			icpc2_nakaz74.clickToSave.ref2Cell(row, cell_value, 
-					'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+		icpc2_nakaz74.clickToSave.col_10771=function(row){//ICPC2
+			var data={
+				reference2:row.doc_id,
+				cell_value : row.code+':'+row.value
+			}
+			icpc2_nakaz74.clickToSave.ref2Cell(data, 
+				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
 		}
-		icpc2_nakaz74.clickToSave.ref2Cell=function(row, cell_value, sqlInsertUpdate){
-			var data={reference2:row.doc_id}
+		icpc2_nakaz74.clickToSave.ref2Cell=function(data, sqlInsertUpdate){
+			console.log(data)
+
 			var editObj = icpc2_nakaz74.data.list[icpc2_nakaz74.selectedCell.row_k]
 			var cell_id = editObj[icpc2_nakaz74.selectedCell.col_k+'_id']
 			if(cell_id){
 				data.sql = sqlInsertUpdate.split('|')[1]
 					data.doc_id = cell_id 
 					$http.post('/r/update2_sql_with_param', data).then(function(response) {
-						editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = row.doc_id // cell_id
-						editObj[icpc2_nakaz74.selectedCell.col_k] = cell_value
+						editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = data.reference2 // cell_id
+						editObj[icpc2_nakaz74.selectedCell.col_k] = data.cell_value
 						delete icpc2_nakaz74.selectedCell.col_k
 					});
 			}else{ // insert
@@ -74,7 +84,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				data.reference = col_id
 				$http.post('/r/update2_sql_with_param', data).then(function(response) {
 					editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = response.data.nextDbId1 // cell_id
-					editObj[icpc2_nakaz74.selectedCell.col_k] = cell_value
+					editObj[icpc2_nakaz74.selectedCell.col_k] = data.cell_value
 					delete icpc2_nakaz74.selectedCell.col_k
 				});
 			}
