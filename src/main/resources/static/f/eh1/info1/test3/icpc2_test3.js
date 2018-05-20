@@ -32,7 +32,6 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 			console.log(r0)
 			if($scope.physicianData)
 				$scope.f74_physician_id = $scope.physicianData.person_id;
-
 			var data={
 				sql:'sql2.j2c.insertRow2',
 				tbl_id:r0.tbl_id,
@@ -44,6 +43,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				response.data.row_id = response.data.nextDbId1
 				console.log(response.data.nextDbId1);
 				icpc2_nakaz74.data.list.unshift(response.data);
+				icpc2_nakaz74.selectedCell = {row_k:0, row_id:response.data.row_id}
 			});
 		}
 		icpc2_nakaz74.clickToSave.col_10766=function(row){//Patient
@@ -91,29 +91,35 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 		}
 
 
-		icpc2_nakaz74.col_save=function(value,editObj,col_k){
+		icpc2_nakaz74.col_save=function(value,row,col_k){
 			var data={ value:value }
-			if(editObj[col_k+'_id']){
+			if(row[col_k+'_id']){
 				data.sql='sql2.integer.updateCellById';
-				data.data_id=editObj[col_k+'_id'];
+				data.data_id=row[col_k+'_id'];
 				$http.post('/r/update2_sql_with_param', data).then(function(response) {
-					editObj[col_k]=response.data.value
+					row[col_k]=response.data.value
 				});
 			}else{
 				data.sql='sql2.integer.insertCellId';
-				data.row_id=editObj.row_id;
+				data.row_id=row.row_id;
 				var cln_id = col_k.split('_')[1]
 				data.cln_id = cln_id;
 				$http.post('/r/update2_sql_with_param', data).then(function(response) {
-					editObj[col_k+'_id'] = response.data.nextDbId1;
-					editObj[col_k]=response.data.value
+					row[col_k+'_id'] = response.data.nextDbId1;
+					row[col_k]=response.data.value
 				});
 			}
 		}
 
-		icpc2_nakaz74.isCellSelect=function(row_k, col_k){
-			if(icpc2_nakaz74.selectedCell && !icpc2_nakaz74.selectedCell.close)
-				return icpc2_nakaz74.selectedCell.row_k==row_k && icpc2_nakaz74.selectedCell.col_k==col_k
+		icpc2_nakaz74.isCellSelect=function(row_k, col_k, row){
+			if(icpc2_nakaz74.selectedCell && !icpc2_nakaz74.selectedCell.close){
+				if(icpc2_nakaz74.selectedCell.row_id==row.row_id)
+					return icpc2_nakaz74.selectedCell.row_k==row_k 
+						&& icpc2_nakaz74.selectedCell.col_k==col_k
+//				if( icpc2_nakaz74.selectedCell.row_k==row_k 
+//						&& icpc2_nakaz74.selectedCell.col_k==col_k){
+//					return icpc2_nakaz74.selectedCell.row_id==row.row_id				}
+			}
 		}
 		icpc2_nakaz74.closeDropdown=function(){
 			if(icpc2_nakaz74.selectedCell)
@@ -131,7 +137,8 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 					delete icpc2_nakaz74.selectedCell
 				}
 			}else{
-				icpc2_nakaz74.selectedCell={row_k:row_k, col_k:col_k}
+				var row = icpc2_nakaz74.data.list[row_k];
+				icpc2_nakaz74.selectedCell={row_k:row_k, col_k:col_k, row_id:row.row_id}
 			}
 		}
 	}
