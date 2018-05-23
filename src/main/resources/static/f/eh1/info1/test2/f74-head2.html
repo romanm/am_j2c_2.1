@@ -5,11 +5,15 @@
 			href="/"> <i class="fa fa-home"></i></a> :// {{page.request.viewKey}}
 	</div>
 	<div class="w3-col l7 m7 s7">
-		<span> <b class="w3-small"
-		style="text-transform: uppercase;"
-		>Журнал</b> : <a
-			href="/v/icpc2_test3"> реєстрація № 074/о</a> | <a
-			href="/v/icpc2_test2_report"> облік № 039/о </a>
+		<span> 
+		<b class="w3-small" style="text-transform: uppercase;">Журнал</b>
+			: <span
+			ng-repeat="(k,v) in {
+			icpc2_test3:'реєстрація № 074/о',
+			icpc2_test2_report:'облік № 039/о',
+			}"><a
+				ng-class="{'w3-light-gray':k==request.viewKey}" href="/v/{{k}}">
+					{{v}}</a> {{$last?'':'|'}} </span>
 		</span>
 	</div>
 	<div class="w3-col l2 m2 s2 w3-right-align">

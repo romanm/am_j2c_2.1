@@ -1,0 +1,11 @@
+<div class="w3-border-bottom" ng-repeat="group_v in [eHealth.hrm]">
+	<a class="w3-hover-light-gray" title="" href="/v/info2"><i
+		class="fa fa-arrow-up"></i></a> <span
+		ng-include="'/f/eh1/info2/info2_group_links.html'"> </span>
+</div>
+
+<div ng-repeat="view in progr_am.viewes">
+	<div ng-repeat="data in [data[view.dataName]]" 
+	ng-init="o=data"
+    ng-include="view.ngInclude"></div>
+</div>

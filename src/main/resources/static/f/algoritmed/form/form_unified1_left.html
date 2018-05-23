@@ -6,6 +6,7 @@
 	}"
 	ng-click="openObjectToEdit(o)"
 >
+a123
 	<span ng-repeat="(k,v) in o"> 
 	<div ng-if="k*1==k" class="w3-topbar w3-light-gray">
 		<b>{{k+1}} з
@@ -20,7 +21,7 @@
 </div>
 <div ng-repeat="(k,v) in o" ng-if="v.isObject()">
 	<div class="w3-border-right w3-light-gray">
-		<b ng-if="k*1!=k"> 
+		<b ng-if="k*1!=k">
 			{{eh_dictionaries.amMapValue(k)}}
 		</b>
 	</div>

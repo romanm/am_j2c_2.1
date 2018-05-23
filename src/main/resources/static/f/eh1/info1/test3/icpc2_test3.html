@@ -10,25 +10,8 @@
 <table>
 	<thead>
 		<tr class="w3-tiny w3-gray">
-			<th style="background: white;">
-				<div ng-click="icpc2_nakaz74.closeDropdown()"
-					class="w3-dropdown-hover">
-					<div class="w3-button  w3-padding-small ">
-						<i class="fa fa-bars" aria-hidden="true"></i>
-					</div>
-					<div class="w3-dropdown-content w3-bar-block w3-border">
-						<a href="#" class="w3-bar-item w3-button"
-						ng-click="icpc2_nakaz74.clickToSave.add_row()"
-						>
-						+ Додати запис </a> 
-							<a href="#"
-							ng-class="{'w3-disabled':!(icpc2_nakaz74.selectedCell.row_k>=0)}"
-						ng-click="dropdown_data.ngStyleAskDelete()"
-              class="w3-bar-item w3-button">
-            - Видалити запис </a>
-					</div>
-				</div>
-			</th>
+			<th style="background: white;"
+				ng-include="'/f/eh1/info1/test3/table_menu.html'"></th>
 			<th><i class="fa fa-calendar-o" aria-hidden="true"></i></th>
 			<th ng-repeat="col_k in icpc2_nakaz74.col_sort" title="{{col_k}}">
 				{{icpc2_nakaz74.data.col_keys[col_k]}}</th>
@@ -69,6 +52,13 @@
 		</tr>
 	</tbody>
 </table>
+
+<!-- TODO: перехід на універсальний viewer/editor таблиці
+<div ng-repeat="view in progr_am.viewes">
+  <div ng-repeat="tableData in [icpc2_nakaz74]" 
+    ng-include="view.ngInclude"></div>
+</div>
+ -->
 
 <div class="w3-modal" ng-style="dropdown_data.ask_confirm_delete"
 	n1g-if="icpc2_nakaz74.selectedCell.row_k>=0">

@@ -1,0 +1,26 @@
+<div class="w3-hover-shadow "
+	ng-class="{
+  'w3-border-right':oToEdit != o,
+  }"
+	ng-click="progr_am.fn.openObjectToEdit(o)">
+	<span ng-repeat="(k,v) in o"> <!-- 
+		<div ng-if="k*1==k" class="w3-topbar w3-light-gray">
+			<b>{{k+1}} з {{eh_dictionaries.amMapValue(k0)}} </b>
+		</div> 
+	 --> <span ng-if="!v.isObject()"> <b class="w3-tiny">
+				{{progr_am.fn.amMapValue(k)}} </b> {{progr_am.fn.ehMap[k.toUpperCase()]?
+			progr_am.fn.ehMap[k.toUpperCase()].values[v]:(v?v:'___')}}
+	</span>
+	</span>
+</div>
+<div ng-repeat="(k,v) in o" ng-if="v.isObject()">
+	<div class="w3-light-gray"
+	ng-class="{
+  'w3-border-right':oToEdit != o,
+  }"
+	>
+		<b ng-if="k*1!=k"> {{progr_am.fn.amMapValue(k)}} </b>
+	</div>
+	<div class="w3-leftbar" n1g-repeat="o1 in [v]" ng-init="o=v"
+		ng-include="'/f/eh1/info2/hrm_cards/json_form.html'"></div>
+</div>

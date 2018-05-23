@@ -149,6 +149,20 @@
   "alias":"Адмін застосунка",
   "parent":"info"
 },
+"info2":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh1/info2/info2.html'",
+    "script": "/f/eh1/info2/info2.js",
+    "title": "development declaration",
+    "parent": "home"
+},
+"hrm_cards":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh1/info2/hrm_cards/hrm_cards.html'",
+    "script": "/f/eh1/info2/hrm_cards/hrm_cards.js",
+    "title": "відділ кадрів",
+    "parent": "home"
+},
 "icpc2_test3":{
     "th_template": "template2",
     "ng_template": "'/f/eh1/info1/test3/icpc2_test3.html'",

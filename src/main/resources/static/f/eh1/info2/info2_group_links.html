@@ -1,0 +1,5 @@
+<b class="w3-small" style="text-transform: uppercase;">{{group_v.name}}</b>
+:
+<span ng-repeat="(k,v) in group_v" ng-if="k!='name'"><a
+	ng-class="{'w3-light-gray':k==request.viewKey}" href="/v/{{k}}">
+		{{v}}</a> {{$last?'':'|'}} </span>

@@ -1,8 +1,9 @@
 var app = angular.module('app', ['ngSanitize']);
 var fn_lib = {};
 var init_am_directive = {};
+var exe_fn
 app.controller('ControllerApp1', function($scope, $http) {
-	console.log('-------ControllerApp1--------');
+//	console.log('-------ControllerApp1--------');
 	console.log($scope)
 	
 //	console.log(request)
@@ -10,16 +11,17 @@ app.controller('ControllerApp1', function($scope, $http) {
 });
 
 init_am_directive.init_programRuns=function($scope, $http){
-	console.log('-------init_am_directive.init_programRuns--------');
+//	console.log('-------init_am_directive.init_programRuns--------');
+//	console.log(request.viewKey)
+	exe_fn = new Exe_fn($scope, $http)
 	onLoadPage($scope);
-	console.log(request.viewKey)
 	if(init_am_directive['init_'+request.viewKey])
 		init_am_directive['init_'+request.viewKey]($scope, $http);
 	$http.get('/r/principal').then(function(response) {
 		$scope.principalResponse = true;
 		$scope.principal = response.data.principal;
 		$scope.principalUser = response.data.user;
-		console.log($scope.principal)
+//		console.log($scope.principal)
 
 		if($scope.principal){
 			$scope.principal.authorities.forEach(function(v){
@@ -37,7 +39,44 @@ init_am_directive.init_programRuns=function($scope, $http){
 
 }
 
-console.log('-----------31----------')
+var Exe_fn = function($scope, $http){
+	this.httpGet=function(progr_am){
+//		console.log('-----Exe_fn-----httpGet--------')
+//		console.log(progr_am)
+		$http
+		.get(progr_am.url, {params:progr_am.params})
+		.then(progr_am.then_fn)
+	}
+	this.run_progr_am=function(){
+//		console.log('-----Exe_fn-----run_progr_am--------')
+		$scope.data={}
+		var exe_fn = this;
+
+		angular.forEach($scope.progr_am, function(v, k){
+			if('viewes|fn'.indexOf(k)>=0){}else
+			{
+				console.log(k)
+				$scope[k] = {}
+				$scope.data[k]=$scope[k]
+				$scope.data[k].fn=$scope.progr_am[k].fn
+
+				console.log($scope.data[k])
+
+				angular.forEach(v, function(v1, k1){
+					if(exe_fn[k1])
+						exe_fn[k1](v1)
+					else 
+					if('init_data'==k1){
+						angular.forEach(v1, function(v2, k2){
+							$scope[k][k2] = v2
+						})
+					}
+				})
+			}
+		});
+	}
+}
+
 function import_js_file(fileName, $http){
 	$http.get(fileName).then(function(response) {
 		var load_amProgram = response.data; 
@@ -49,7 +88,7 @@ function onLoadPage($scope){
 	$scope.request={};
 	request = $scope.request
 	request.parameters={};
-	console.log(window.location);
+//	console.log(window.location);
 
 	$scope.urlFragment=function(){
 		var urlFragmentSplit = window.location.href.split('#')
@@ -156,4 +195,7 @@ init_am_directive.initObj_registry= function($scope, $http){
 }
 Object.prototype.objKeys = function(){
 	return Object.keys(this);
+};
+Object.prototype.isObject = function(){
+	return (''+this).indexOf('Object')>=0;
 };
