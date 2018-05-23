@@ -199,3 +199,6 @@ Object.prototype.objKeys = function(){
 Object.prototype.isObject = function(){
 	return (''+this).indexOf('Object')>=0;
 };
+var procentWindowHeight=function(procent){
+	return Math.floor(window.innerHeight*procent/100) 
+}

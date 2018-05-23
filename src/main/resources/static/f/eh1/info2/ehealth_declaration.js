@@ -15,3 +15,9 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		},
 	}
 }
+
+var sql2= {
+	sql2_docbody_selectById:function(){
+		return "SELECT * FROM docbody WHERE docbody_id=:docbody_id"
+	}
+}

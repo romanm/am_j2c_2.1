@@ -4,6 +4,15 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 	init_am_directive.ehealth_declaration($scope, $http);
 	
 	if($scope.request.parameters.person_id){
+		console.log(window.innerHeight)
+		console.log(procentWindowHeight(74))
+		console.log(window.innerHeight*25/100)
+		console.log(window.innerHeight*75/100
+					+window.innerHeight*25/100)
+
+		console.log(sql2)
+		console.log(sql2.sql2_docbody_selectById())
+
 		exe_fn.httpGet({url:'/f/mvp/employee_template2.json',
 			then_fn:function(response) {
 //				console.log(response.data)
@@ -14,6 +23,16 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 	
 	$scope.progr_am={
 		fn:{
+			ngStyle:function(component_name){
+				var style={}
+				if('json_form'==component_name){
+					var h = procentWindowHeight(70)
+					style.height= h+'px';
+					style.overflow='auto';
+					style.direction='rtl'
+				}
+				return style;
+			},
 			openObjectToEdit:function(o,kp){
 				$scope.oToEdit = o;
 			},
