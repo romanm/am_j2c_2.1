@@ -62,8 +62,14 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 				})
 				return style;
 			},
-			openObjectToEdit:function(o,kp){
-				$scope.oToEdit = o;
+			isGroupToEdit:function(){
+				if($scope.oToEdit){
+					if('doctor|'.indexOf($scope.oToEdit.k)>=0)
+						return true
+				}
+			},
+			openObjectToEdit:function(o,k,k_parent){
+				$scope.oToEdit = {o:o,k:k,k_parent:k_parent};
 			},
 			amMapValue:function(k){
 				return amMap[k]?amMap[k]:k;

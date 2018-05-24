@@ -193,6 +193,13 @@ init_am_directive.initObj_registry= function($scope, $http){
 	}
 
 }
+
+Object.prototype.isObjectNotArray = function(){
+	return this.isObject()&&!this.isArray();
+}
+Object.prototype.isArray = function(){
+	return Array.isArray(this);
+};
 Object.prototype.objKeys = function(){
 	return Object.keys(this);
 };
