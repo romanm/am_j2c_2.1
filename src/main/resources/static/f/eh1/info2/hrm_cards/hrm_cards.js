@@ -1,17 +1,20 @@
 //console.log('------hrm_cards.js---------------')
 init_am_directive.init_hrm_cards = function($scope, $http){
 //	console.log('----init_am_directive.hrm_cards------------')
+//	console.log(CRC32(JSON.stringify({a:1})))
 	init_am_directive.ehealth_declaration($scope, $http);
-	
-	if($scope.request.parameters.person_id){
-		console.log(window.innerHeight)
-		console.log(procentWindowHeight(74))
-		console.log(window.innerHeight*25/100)
-		console.log(window.innerHeight*75/100
-					+window.innerHeight*25/100)
 
-		console.log(sql2)
-		console.log(sql2.sql2_docbody_selectById())
+	if($scope.request.parameters.person_id){
+		exe_fn.httpGet({url:'/r/url_sql_read2',
+			params:{
+				sql:sql2.sql2_docbody_selectById(),
+				docbody_id:$scope.request.parameters.person_id},
+			then_fn:function(response) {
+				var //docbody = response.data.list[0].docbody
+				docbody = JSON.parse(response.data.list[0].docbody);
+				console.log(docbody)
+			}
+		})
 
 		exe_fn.httpGet({url:'/f/mvp/employee_template2.json',
 			then_fn:function(response) {
@@ -19,18 +22,44 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 				$scope.data.jsonTemplate=response.data
 			}
 		})
+
 	}
 	
+	$scope.$watch('progr_am.viewes.hrm_menu.seek',function(seek){if(seek){
+		console.log(seek)
+	}})
+	
 	$scope.progr_am={
+		viewes:{
+			json_form:{ngInclude:'/f/eh1/info2/hrm_cards/json_form1.html',
+				dataName:'jsonTemplate',
+				heightProcent:65,
+			},
+			hrm_menu:{ngInclude:'/f/eh1/info2/hrm_cards/hrm_menu.html',
+				seek_placeholder:'пошук картки працівника',
+				seek:null,
+			},
+			j2c_table:{ngInclude:'/f/eh1/info2/hrm_cards/j2c_table.html',
+				dataName:'hrm_cards',
+				heightProcent:25,
+			},
+		},
 		fn:{
-			ngStyle:function(component_name){
+			ngStyle:function(component_name, add_style){
 				var style={}
-				if('json_form'==component_name){
-					var h = procentWindowHeight(70)
+				if('json_form|j2c_table'
+					.indexOf(component_name)>=0
+				){
+					var hp = $scope.progr_am
+					.viewes[component_name].heightProcent
+					var h = procentWindowHeight(hp)
 					style.height= h+'px';
 					style.overflow='auto';
-					style.direction='rtl'
 				}
+				if(add_style)
+				angular.forEach(add_style, function(value, style_name){
+					style[style_name]=value;
+				})
 				return style;
 			},
 			openObjectToEdit:function(o,kp){
@@ -40,15 +69,6 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 				return amMap[k]?amMap[k]:k;
 			},
 		},
-		viewes:[
-			{ngInclude:'/f/eh1/info2/hrm_cards/j2c_table.html',
-				dataName:'hrm_cards'
-			},
-			{ngInclude:'/f/eh1/info2/hrm_cards/json_form1.html',
-				dataName:'jsonTemplate'
-			},
-
-		],
 		hrm_cards:{
 			fn:{
 				isEditRow:function(row){

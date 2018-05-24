@@ -1,0 +1,11 @@
+<div>
+	<div ng-repeat="(k,v) in oToEdit">
+		<div ng-if="!v.isObject()">
+			<b class="w3-tiny"> {{progr_am.fn.amMapValue(k)}} </b> 
+			<input
+				style="width: 100%;"
+				ng-if="!v.isObject()" ng-model="oToEdit.o[k]" class="w3-border">
+		</div>
+	</div>
+</div>
+{{oToEdit}}

@@ -4,7 +4,7 @@
 		ng-include="'/f/eh1/info2/info2_group_links.html'"> </span>
 </div>
 
-<div ng-repeat="view in progr_am.viewes">
+<div ng-repeat="(k,view) in progr_am.viewes">
 	<div ng-repeat="data in [data[view.dataName]]" 
 	ng-init="o=data"
     ng-include="view.ngInclude"></div>
