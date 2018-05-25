@@ -3,7 +3,6 @@ var fn_lib = {};
 var init_am_directive = {};
 var exe_fn
 app.controller('ControllerApp1', function($scope, $http) {
-	$scope.editDocDataName
 	$scope.data={}
 	$scope.progr_am={}
 

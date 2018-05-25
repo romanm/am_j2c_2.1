@@ -4,7 +4,6 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 //	console.log(CRC32(JSON.stringify({a:1})))
 	init_am_directive.ehealth_declaration($scope, $http);
 
-	$scope.editDocDataName='hrm_card'
 	if($scope.request.parameters.person_id){
 		exe_fn.httpGet({url:'/f/mvp/employee_template2.json',
 			then_fn:function(response) {
@@ -17,7 +16,6 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 					then_fn:function(response) {
 						var //docbody = response.data.list[0].docbody
 						docbody = JSON.parse(response.data.list[0].docbody);
-						$scope.data[$scope.editDocDataName] = docbody
 						$scope.editDoc = docbody
 						console.log($scope.editDoc)
 						$scope.progr_am.hrm_cards.fn.calcEditDoc_CRC32()
@@ -46,7 +44,7 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 	$scope.progr_am.hrm_cards={
 		fn:{
 			calcEditDoc_CRC32(){
-				$scope.editDoc_CRC32 = exe_fn.calcJSON_CRC32($scope.data[$scope.editDocDataName]) 
+				$scope.editDoc_CRC32 = exe_fn.calcJSON_CRC32($scope.editDoc) 
 			},
 			save:function(){
 				console.log('-----save------48-------')
@@ -122,13 +120,13 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 			}
 		},
 		openObjectToEdit:function(o,k,k_parent){
-			var dataObj=$scope.data[$scope.editDocDataName][k]
+			var dataObj=$scope.editDoc[k]
 			if('employee_request'==k)
-				dataObj=$scope.data[$scope.editDocDataName]
+				dataObj=$scope.editDoc
 			console.log(k_parent+'.'+k)
 
 			$scope.oToEdit = {o:o,k:k,k_parent:k_parent,dataObj:dataObj};
-			console.log($scope.data[$scope.editDocDataName])
+			console.log($scope.editDoc)
 
 		},
 		amMapValue:function(k){
