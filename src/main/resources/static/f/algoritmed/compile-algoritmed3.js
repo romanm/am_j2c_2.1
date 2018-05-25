@@ -3,6 +3,10 @@ var fn_lib = {};
 var init_am_directive = {};
 var exe_fn
 app.controller('ControllerApp1', function($scope, $http) {
+	$scope.editDocDataName
+	$scope.data={}
+	$scope.progr_am={}
+
 //	console.log('-------ControllerApp1--------');
 	console.log($scope)
 	
@@ -18,13 +22,14 @@ init_am_directive.init_programRuns=function($scope, $http){
 	if(init_am_directive['init_'+request.viewKey])
 		init_am_directive['init_'+request.viewKey]($scope, $http);
 	$http.get('/r/principal').then(function(response) {
+		console.log(response.data)
 		$scope.principalResponse = true;
-		$scope.principal = response.data.principal;
+		$scope.principal = response.data;
+//		$scope.principal = response.data.principal;
 		$scope.principalUser = response.data.user;
-//		console.log($scope.principal)
 
-		if($scope.principal){
-			$scope.principal.authorities.forEach(function(v){
+		if($scope.principal.principal){
+			$scope.principal.principal.authorities.forEach(function(v){
 				if(v.authority=='ROLE_PATIENT'){
 					$scope.hasRolePatient=true;
 				}
@@ -40,6 +45,9 @@ init_am_directive.init_programRuns=function($scope, $http){
 }
 
 var Exe_fn = function($scope, $http){
+	this.calcJSON_CRC32=function(jsonObj){
+		return CRC32(JSON.stringify(jsonObj))
+	}
 	this.httpGet=function(progr_am){
 //		console.log('-----Exe_fn-----httpGet--------')
 //		console.log(progr_am)
@@ -49,7 +57,6 @@ var Exe_fn = function($scope, $http){
 	}
 	this.run_progr_am=function(){
 //		console.log('-----Exe_fn-----run_progr_am--------')
-		$scope.data={}
 		var exe_fn = this;
 
 		angular.forEach($scope.progr_am, function(v, k){
@@ -59,7 +66,6 @@ var Exe_fn = function($scope, $http){
 				$scope[k] = {}
 				$scope.data[k]=$scope[k]
 				$scope.data[k].fn=$scope.progr_am[k].fn
-
 				console.log($scope.data[k])
 
 				angular.forEach(v, function(v1, k1){

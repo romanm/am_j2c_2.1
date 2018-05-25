@@ -4,22 +4,25 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 //	console.log(CRC32(JSON.stringify({a:1})))
 	init_am_directive.ehealth_declaration($scope, $http);
 
+	$scope.editDocDataName='hrm_card'
 	if($scope.request.parameters.person_id){
-		exe_fn.httpGet({url:'/r/url_sql_read2',
-			params:{
-				sql:sql2.sql2_docbody_selectById(),
-				docbody_id:$scope.request.parameters.person_id},
-			then_fn:function(response) {
-				var //docbody = response.data.list[0].docbody
-				docbody = JSON.parse(response.data.list[0].docbody);
-				console.log(docbody)
-			}
-		})
-
 		exe_fn.httpGet({url:'/f/mvp/employee_template2.json',
 			then_fn:function(response) {
 //				console.log(response.data)
 				$scope.data.jsonTemplate=response.data
+				exe_fn.httpGet({url:'/r/url_sql_read2',
+					params:{
+						sql:sql2.sql2_docbody_selectById(),
+						docbody_id:$scope.request.parameters.person_id},
+					then_fn:function(response) {
+						var //docbody = response.data.list[0].docbody
+						docbody = JSON.parse(response.data.list[0].docbody);
+						$scope.data[$scope.editDocDataName] = docbody
+						$scope.editDoc = docbody
+						console.log($scope.editDoc)
+						$scope.progr_am.hrm_cards.fn.calcEditDoc_CRC32()
+					}
+				})
 			}
 		})
 
@@ -29,83 +32,109 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		console.log(seek)
 	}})
 	
-	$scope.progr_am={
-		viewes:{
-			json_form:{ngInclude:'/f/eh1/info2/hrm_cards/json_form1.html',
-				dataName:'jsonTemplate',
-				heightProcent:65,
+	$scope.$watch('principal',function(){
+		if($scope.principal){
+			console.log('----$scope.$watch(principal,function()------109------');
+			if($scope.principal.msp_id){
+				$scope.progr_am.hrm_cards.httpGet.params.msp_id
+					= $scope.principal.msp_id
+			}
+			exe_fn.run_progr_am()
+		}
+	});
+
+	$scope.progr_am.hrm_cards={
+		fn:{
+			calcEditDoc_CRC32(){
+				$scope.editDoc_CRC32 = exe_fn.calcJSON_CRC32($scope.data[$scope.editDocDataName]) 
 			},
-			hrm_menu:{ngInclude:'/f/eh1/info2/hrm_cards/hrm_menu.html',
-				seek_placeholder:'пошук картки працівника',
-				seek:null,
+			save:function(){
+				console.log('-----save------48-------')
+				this.calcEditDoc_CRC32()
+				console.log($scope.editDoc_CRC32)
 			},
-			j2c_table:{ngInclude:'/f/eh1/info2/hrm_cards/j2c_table.html',
-				dataName:'hrm_cards',
-				heightProcent:25,
+			isEditRow:function(row){
+				return row.person_id
+					== $scope.request.parameters.person_id
 			},
 		},
-		fn:{
-			ngStyle:function(component_name, add_style){
-				var style={}
-				if('json_form|j2c_table'
-					.indexOf(component_name)>=0
-				){
-					var hp = $scope.progr_am
-					.viewes[component_name].heightProcent
-					var h = procentWindowHeight(hp)
-					style.height= h+'px';
-					style.overflow='auto';
+		init_data:{
+			col_sort:['person_id', 'family_name', 'pip']
+		},
+		httpGet:{
+			url:'/r/read2_sql_with_param',
+			params:{
+				sql:'sql.msp_employee.list',msp_id:188
+			},
+			then_fn:function(response) {
+//				console.log(response.data)
+				$scope.hrm_cards.data=response.data
+				delete $scope.hrm_cards[$scope.hrm_cards.sql]
+				delete $scope.hrm_cards.sql
+//				console.log($scope.hrm_cards)
+				$scope.hrm_cards.data
+				.col_keys={
+						person_id:'ІН',
+						family_name:'Фамілія',
+						pip:'ПІП'
 				}
-				if(add_style)
+			}
+		},
+	}
+	
+	$scope.progr_am.viewes={
+		json_form:{ngInclude:'/f/eh1/info2/hrm_cards/json_form1.html',
+			dataName:'jsonTemplate',
+			heightProcent:65,
+		},
+		hrm_menu:{ngInclude:'/f/eh1/info2/hrm_cards/hrm_menu.html',
+			seek_placeholder:'пошук картки працівника',
+			seek:null,
+		},
+		j2c_table:{ngInclude:'/f/eh1/info2/hrm_cards/j2c_table.html',
+			dataName:'hrm_cards',
+			heightProcent:22,
+		},
+	},
+	
+	$scope.progr_am.fn={
+		ngStyle:function(component_name, add_style){
+			var style={}
+			if('json_form|j2c_table'
+					.indexOf(component_name)>=0
+			){
+				var hp = $scope.progr_am
+				.viewes[component_name].heightProcent
+				var h = procentWindowHeight(hp)
+				style.height= h+'px';
+				style.overflow='auto';
+			}
+			if(add_style)
 				angular.forEach(add_style, function(value, style_name){
 					style[style_name]=value;
 				})
 				return style;
-			},
-			isGroupToEdit:function(){
-				if($scope.oToEdit){
-					if('doctor|'.indexOf($scope.oToEdit.k)>=0)
-						return true
-				}
-			},
-			openObjectToEdit:function(o,k,k_parent){
-				$scope.oToEdit = {o:o,k:k,k_parent:k_parent};
-			},
-			amMapValue:function(k){
-				return amMap[k]?amMap[k]:k;
-			},
 		},
-		hrm_cards:{
-			fn:{
-				isEditRow:function(row){
-					return row.person_id
-					== $scope.request.parameters.person_id
-				},
-			},
-			init_data:{
-				col_sort:['person_id', 'family_name']
-			},
-			httpGet:{
-				url:'/r/read2_sql_with_param',
-				params:{
-					sql:'sql.msp_employee.list',msp_id:188
-				},
-				then_fn:function(response) {
-//					console.log(response.data)
-					$scope.hrm_cards.data=response.data
-					delete $scope.hrm_cards[$scope.hrm_cards.sql]
-					delete $scope.hrm_cards.sql
-//					console.log($scope.hrm_cards)
-					$scope.hrm_cards.data
-					.col_keys={
-						person_id:'ІН',
-						family_name:'Фамілія',
-					}
-				}
-			},
+		isGroupToEdit:function(){
+			if($scope.oToEdit){
+				if('doctor|'.indexOf($scope.oToEdit.k)>=0)
+					return true
+			}
+		},
+		openObjectToEdit:function(o,k,k_parent){
+			var dataObj=$scope.data[$scope.editDocDataName][k]
+			if('employee_request'==k)
+				dataObj=$scope.data[$scope.editDocDataName]
+			console.log(k_parent+'.'+k)
+
+			$scope.oToEdit = {o:o,k:k,k_parent:k_parent,dataObj:dataObj};
+			console.log($scope.data[$scope.editDocDataName])
+
+		},
+		amMapValue:function(k){
+			return amMap[k]?amMap[k]:k;
 		},
 	}
-	exe_fn.run_progr_am()
 }
 
 var amMap={
