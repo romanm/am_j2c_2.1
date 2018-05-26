@@ -115,9 +115,16 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 				})
 				return style;
 		},
+		clear_oToEdit:function(){
+			console.log($scope.oToEdit)
+			delete $scope.oToEdit
+			console.log($scope.oToEdit)
+
+		},
+		groupsToEdit:'doctor|',
 		isGroupToEdit:function(){
 			if($scope.oToEdit){
-				if('doctor|'.indexOf($scope.oToEdit.k)>=0)
+				if(this.groupsToEdit.indexOf($scope.oToEdit.k)>=0)
 					return true
 			}
 		},

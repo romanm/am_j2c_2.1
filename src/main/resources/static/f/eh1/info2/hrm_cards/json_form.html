@@ -11,7 +11,7 @@
 </div>
 <div ng-repeat="(k,v) in o" ng-if="v.isObject()">
 	<div class="w3-light-gray"
-		title="{{k_parent}}"
+		title="{{k_parent+'.'+k}}"
 		ng-class="{'w3-border-right':oToEdit.o != o,}">
 		<div class="w3-hover-shadow w3-hover-text-gray"
 			ng-class="{'w3-blue-gray w3-card-4':oToEdit.o==o}"
