@@ -148,7 +148,6 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 	$scope.progr_am.fn.openObjectToEdit=function(o,k_parent,k){
 		var dataObj=this.getEditDocObj(k_parent)
 		$scope.oToEdit = {k_parent:k_parent,k:k,o:o,dataObj:dataObj};
-		console.log($scope.oToEdit)
 	}
 }
 
