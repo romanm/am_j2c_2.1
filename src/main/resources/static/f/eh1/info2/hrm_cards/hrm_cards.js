@@ -80,6 +80,7 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		console.log('-----save------79-------')
 		this.calcEditDoc_CRC32()
 		console.log($scope.editDoc_CRC32)
+		console.log($scope.editDoc)
 	}
 	
 	$scope.progr_am.viewes={
@@ -133,28 +134,54 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 			return amMap[k]?amMap[k]:k;
 		},
 	}
-	$scope.progr_am.fn.getEditDocObj=function(kk){
-		var kkk = kk.split('|')
-		kkk.splice(0,2)
-		if(!this.editDocObjMap)
-			this.editDocObjMap = {}
-		var dataObj=$scope.editDoc
-		if(!this.editDocObjMap[kkk.toString()]){
-			kkk.forEach(function(k){if(dataObj[k])
-				dataObj = dataObj[k]
-			})
-			this.editDocObjMap[kkk.toString()] = dataObj
-		}else
-			dataObj = this.editDocObjMap[kkk.toString()]
-		return dataObj
-	}
 	$scope.progr_am.fn.oToEdit_k_parent=function(){
 		var k_parent = $scope.oToEdit.k_parent;
 		return k_parent.split('|').splice(-2,1).toString()
 	}
 	$scope.progr_am.fn.openObjectToEdit=function(o,k_parent,k){
 		var dataObj=this.getEditDocObj(k_parent)
+		if(!dataObj){//create empty object
+			var kkk = this.clearPathToObj(k_parent)	
+			var jsonTemplateObj = $scope.data.jsonTemplate.employee_request
+			var dataObj = $scope.editDoc
+			kkk.forEach(function(k){
+				jsonTemplateObj = jsonTemplateObj[k]
+				if(dataObj[k]){
+					dataObj = dataObj[k]
+				}else{
+					if(jsonTemplateObj.isArray()){
+						dataObj[k] = [{}]
+					}else{
+						dataObj[k] = {}
+					}
+					dataObj = dataObj[k]
+				}
+			})
+		}
 		$scope.oToEdit = {k_parent:k_parent,k:k,o:o,dataObj:dataObj};
+	}
+	$scope.progr_am.fn.getEditDocObj=function(kk){
+		var kkk = this.clearPathToObj(kk)
+		if(!this.editDocObjMap)
+			this.editDocObjMap = {}
+		var dataObj=$scope.editDoc
+		if(!this.editDocObjMap[kkk.toString()]){
+			kkk.forEach(function(k){
+				if(dataObj)
+					if(dataObj[k])
+						dataObj = dataObj[k]
+					else
+						dataObj = null
+			})
+			this.editDocObjMap[kkk.toString()] = dataObj
+		}else
+			dataObj = this.editDocObjMap[kkk.toString()]
+		return dataObj
+	}
+	$scope.progr_am.fn.clearPathToObj = function(kk){
+		var kkk = kk.split('|')
+		kkk.splice(0,2)
+		return kkk		
 	}
 }
 
