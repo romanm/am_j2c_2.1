@@ -1,9 +1,10 @@
+
 //console.log('------hrm_cards.js---------------')
 init_am_directive.init_hrm_cards = function($scope, $http){
 //	console.log('----init_am_directive.hrm_cards------------')
 //	console.log(CRC32(JSON.stringify({a:1})))
 	init_am_directive.ehealth_declaration($scope, $http);
-
+	
 	if($scope.request.parameters.person_id){
 		exe_fn.httpGet({url:'/f/mvp/employee_template2.json',
 			then_fn:function(response) {
@@ -46,11 +47,6 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 			calcEditDoc_CRC32(){
 				$scope.editDoc_CRC32 = exe_fn.calcJSON_CRC32($scope.editDoc) 
 			},
-			save:function(){
-				console.log('-----save------48-------')
-				this.calcEditDoc_CRC32()
-				console.log($scope.editDoc_CRC32)
-			},
 			isEditRow:function(row){
 				return row.person_id
 					== $scope.request.parameters.person_id
@@ -78,6 +74,12 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 				}
 			}
 		},
+	}
+
+	$scope.progr_am.hrm_cards.fn.save=function(){
+		console.log('-----save------79-------')
+		this.calcEditDoc_CRC32()
+		console.log($scope.editDoc_CRC32)
 	}
 	
 	$scope.progr_am.viewes={
@@ -119,19 +121,34 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 					return true
 			}
 		},
-		openObjectToEdit:function(o,k,k_parent){
-			var dataObj=$scope.editDoc[k]
-			if('employee_request'==k)
-				dataObj=$scope.editDoc
-			console.log(k_parent+'.'+k)
-
-			$scope.oToEdit = {o:o,k:k,k_parent:k_parent,dataObj:dataObj};
-			console.log($scope.editDoc)
-
-		},
+		
 		amMapValue:function(k){
 			return amMap[k]?amMap[k]:k;
 		},
+	}
+	$scope.progr_am.fn.getEditDocObj=function(kk){
+		var kkk = kk.split('|')
+		kkk.splice(0,2)
+		if(!this.editDocObjMap)
+			this.editDocObjMap = {}
+		var dataObj=$scope.editDoc
+		if(!this.editDocObjMap[kkk.toString()]){
+			kkk.forEach(function(k){if(dataObj[k])
+				dataObj = dataObj[k]
+			})
+			this.editDocObjMap[kkk.toString()] = dataObj
+		}else
+			dataObj = this.editDocObjMap[kkk.toString()]
+		return dataObj
+	}
+	$scope.progr_am.fn.oToEdit_k_parent=function(){
+		var k_parent = $scope.oToEdit.k_parent;
+		return k_parent.split('|').splice(-2,1).toString()
+	}
+	$scope.progr_am.fn.openObjectToEdit=function(o,k_parent,k){
+		var dataObj=this.getEditDocObj(k_parent)
+		$scope.oToEdit = {k_parent:k_parent,k:k,o:o,dataObj:dataObj};
+		console.log($scope.oToEdit)
 	}
 }
 
