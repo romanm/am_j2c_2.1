@@ -5,16 +5,16 @@
 				<i class="fa fa-arrow-up"></i>
 		</span>
 		</span> <span ng-if="oToEdit.k*1!=oToEdit.k">
-			{{progr_am.fn.amMapValue(oToEdit.k)}}</span> <span
+			{{progr_am.fn.keyTranslate(oToEdit.k)}}</span> <span
 			ng-if="oToEdit.k*1==oToEdit.k">
-			{{progr_am.fn.amMapValue(progr_am.fn.oToEdit_k_parent())}} :
+			{{progr_am.fn.keyTranslate(progr_am.fn.oToEdit_k_parent())}} :
 			{{1+oToEdit.k}} </span>
 	</div>
 	<div ng-if="progr_am.fn.isGroupToEdit()">
 		<div ng-repeat="(k,v) in oToEdit.o"
 			ng-click="progr_am.fn.openObjectToEdit(v,oToEdit.k_parent+'|'+k,k)"
 			class="w3-border-bottom w3-hover-shadow">
-			<a href="#" class="w3-btn"> {{progr_am.fn.amMapValue(k)}}</a>
+			<a href="#" class="w3-btn"> {{progr_am.fn.keyTranslate(k)}}</a>
 		</div>
 	</div>
 	<div ng-if="oToEdit.o.isArray()">
@@ -29,30 +29,37 @@
 	</div>
 	<div ng-repeat="(k,v) in oToEdit.o">
 		<div ng-if="!v.isObject()">
-			<b class="w3-tiny" title="{{k}}">
-				{{progr_am.fn.amMapValue(k)}} </b> <input style="width: 100%;"
-				ng-if="!v.isObject()" ng-model="oToEdit.dataObj[k]" class="w3-border">
+			<b class="w3-tiny" title="{{k}}"> {{progr_am.fn.keyTranslate(k)}} </b>
+			<input ng-if="!eh_dictionaries.getValues(k)" style="width: 100%;"
+				ng-if="!v.isObject()" ng-model="oToEdit.dataObj[k]"
+				class="w3-border"> 
+			<select style="width: 100%;"
+			ng-model="oToEdit.dataObj[k]"
+				class="w3-border" ng-if="eh_dictionaries.getValues(k)">
+				<option ng-repeat="(k1,v1) in eh_dictionaries.getValues(k)"
+					value="{{k1}}">{{v1}}</option>
+			</select>
 		</div>
 	</div>
 </div>
 <div ng-if="!oToEdit">
 	<div ng-repeat="(k,v) in data" ng-init="k_parent=k_parent+'|'+k">
 		<div ng-click="progr_am.fn.openObjectToEdit(v,k_parent,k)"
-			class="w3-hover-shadow w3-hover-text-gray">{{progr_am.fn.amMapValue(k)}}</div>
+			class="w3-hover-shadow w3-hover-text-gray">{{progr_am.fn.keyTranslate(k)}}</div>
 		<ul class="w3-ul">
 			<li class="w3-hover-shadow" ng-repeat="(k1,v1) in v"
 				ng-init="k_parent=k_parent+'|'+k1" ng-if="v1.isObject()">
 				<div ng-click="progr_am.fn.openObjectToEdit(v1,k_parent,k1)"
 				title="{{k_parent+'.'+k1}}"
 					class="w3-hover-text-gray">
-					{{progr_am.fn.amMapValue(k1)}}</div>
+					{{progr_am.fn.keyTranslate(k1)}}</div>
 				<ul class="w3-ul">
 					<li class="w3-hover-shadow" ng-repeat="(k2,v2) in v1"
 						ng-init="k_parent=k_parent+'|'+k2" ng-if="v2.isObject()">
 						<div ng-click="progr_am.fn.openObjectToEdit(v2,k_parent,k2)"
 						title="{{k_parent+'.'+k2}}"
 							class="w3-hover-text-gray">
-							{{progr_am.fn.amMapValue(k2)}}</div>
+							{{progr_am.fn.keyTranslate(k2)}}</div>
 					</li>
 				</ul>
 			</li>

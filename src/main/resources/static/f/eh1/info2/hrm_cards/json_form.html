@@ -3,9 +3,9 @@
 	ng-click="progr_am.fn.openObjectToEdit(o,k_parent,k)">
 	<span ng-repeat="(k,v) in o"> <span
 		ng-if="!v.isObject()"> <b
-			class="w3-tiny w3-text-gray"> {{progr_am.fn.amMapValue(k)}} </b>
-			{{progr_am.fn.getEditDocObj(k_parent)[k]?progr_am.fn.getEditDocObj(k_parent)[k]
-			:'___'}}<span class="w3-text-gray">{{$last?'':','}} </span>
+			class="w3-tiny w3-text-gray"> {{progr_am.fn.keyTranslate(k)}} </b>
+			 {{progr_am.fn.valueTranslate(k_parent, k)}} 
+			<span class="w3-text-gray">{{$last?'':','}} </span>
 	</span>
 	</span>
 </div>
@@ -17,7 +17,7 @@
 			ng-class="{'w3-blue-gray w3-card-4':oToEdit.o==o}"
 			ng-click="progr_am.fn.openObjectToEdit(o,k_parent,k)">
 			<a href="#" title="{{k}}"> <b class="w3-tiny" ng-if="k*1==k">{{1+k}}</b>
-				<b ng-if="k*1!=k"> {{progr_am.fn.amMapValue(k)}} </b>
+				<b ng-if="k*1!=k"> {{progr_am.fn.keyTranslate(k)}} </b>
 			</a>
 		</div>
 	</div>

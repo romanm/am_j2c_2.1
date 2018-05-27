@@ -6,11 +6,31 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 	init_am_directive.ehealth_declaration($scope, $http);
 	
 	if($scope.request.parameters.person_id){
-		exe_fn.httpGet({url:'/f/mvp/employee_template2.json',
+		exe_fn.httpGet({url:'/f/eh1/dictionaries.json', //read eHealth dictionary
+			then_fn:function(response) {
+				console.log(response.data)
+				$scope.eh_dictionaries={
+					getValues:function(k){
+						var valuesObject = this.ehMap[k.toUpperCase()]
+						if(valuesObject){
+							return valuesObject.values 
+						}
+					},
+					ehMap:{},
+				
+				};
+				angular.forEach(response.data.data, function(v, k){
+					$scope.eh_dictionaries.ehMap[v.name]=v;
+				});
+				console.log($scope.eh_dictionaries.ehMap)
+			}
+		})
+
+		exe_fn.httpGet({url:'/f/mvp/employee_template2.json', //read template
 			then_fn:function(response) {
 //				console.log(response.data)
 				$scope.data.jsonTemplate=response.data
-				exe_fn.httpGet({url:'/r/url_sql_read2',
+				exe_fn.httpGet({url:'/r/url_sql_read2', //read data
 					params:{
 						sql:sql2.sql2_docbody_selectById(),
 						docbody_id:$scope.request.parameters.person_id},
@@ -129,8 +149,17 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 					return true
 			}
 		},
-		
-		amMapValue:function(k){
+		valueTranslate:function(k_parent, k){
+			var editDocObject = $scope.progr_am.fn.getEditDocObj(k_parent)
+			var dictionarieValues = $scope.eh_dictionaries.getValues(k)
+			if(!editDocObject)
+				return '___'
+			else if(!dictionarieValues)
+				return editDocObject[k]
+			else 
+				return dictionarieValues[editDocObject[k]]
+		},
+		keyTranslate:function(k){
 			return amMap[k]?amMap[k]:k;
 		},
 	}
@@ -138,6 +167,7 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		var k_parent = $scope.oToEdit.k_parent;
 		return k_parent.split('|').splice(-2,1).toString()
 	}
+
 	$scope.progr_am.fn.openObjectToEdit=function(o,k_parent,k){
 		var dataObj=this.getEditDocObj(k_parent)
 		if(!dataObj){//create empty object
@@ -160,6 +190,7 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		}
 		$scope.oToEdit = {k_parent:k_parent,k:k,o:o,dataObj:dataObj};
 	}
+
 	$scope.progr_am.fn.getEditDocObj=function(kk){
 		var kkk = this.clearPathToObj(kk)
 		if(!this.editDocObjMap)
@@ -178,6 +209,7 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 			dataObj = this.editDocObjMap[kkk.toString()]
 		return dataObj
 	}
+
 	$scope.progr_am.fn.clearPathToObj = function(kk){
 		var kkk = kk.split('|')
 		kkk.splice(0,2)
