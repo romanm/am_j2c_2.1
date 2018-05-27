@@ -32,13 +32,13 @@
 	<div ng-repeat="(k,v) in oToEdit.o">
 		<div ng-if="!v.isObject()">
 			<b class="w3-tiny" title="{{k}}"> {{progr_am.fn.keyTranslate(k)}} </b>
-			<input ng-if="!eh_dictionaries.getValues(k)" style="width: 100%;"
+			<input ng-if="!eh_dictionaries.getValues(k, oToEdit.k_parent)" style="width: 100%;"
 				ng-if="!v.isObject()" ng-model="oToEdit.dataObj[k]"
 				class="w3-border"> 
 			<select style="width: 100%;"
 			ng-model="oToEdit.dataObj[k]"
-				class="w3-border" ng-if="eh_dictionaries.getValues(k)">
-				<option ng-repeat="(k1,v1) in eh_dictionaries.getValues(k)"
+				class="w3-border" ng-if="eh_dictionaries.getValues(k, oToEdit.k_parent)">
+				<option ng-repeat="(k1,v1) in eh_dictionaries.getValues(k, oToEdit.k_parent)"
 					value="{{k1}}">{{v1}}</option>
 			</select>
 		</div>

@@ -6,19 +6,32 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 	init_am_directive.ehealth_declaration($scope, $http);
 	
 	if($scope.request.parameters.person_id){
+		$scope.eh_dictionaries={ehMap:{},};
+		$scope.eh_dictionaries.getValues=function(k, k_parent){
+			if('type'.indexOf(k)>=0)
+				k = k_parent.split('|')
+				.splice(-2,1)[0].slice(0, -1)+'_'+k
+			else if('speciality'.indexOf(k)>=0){
+				k='speciality_type'
+			}else if('status'.indexOf(k)>=0){
+				k = k_parent.split('|')[1]+'_'+k
+			}else if('degree'.indexOf(k)>=0){
+				k = k_parent.split('|')
+				.splice(-2,1)[0].slice(0, -1)+'_'+k
+				k = k.replace('docto_degree','science_degree')
+			}else if('level'.indexOf(k)>=0){
+				k = k_parent.split('|')
+				.splice(-2,1)[0].slice(0, -1)+'_'+k
+				k = k.replace('specialitie_level','speciality_level')
+			}
+			var valuesObject = this.ehMap[k.toUpperCase()]
+			if(valuesObject){
+				return valuesObject.values 
+			}
+		},
+
 		exe_fn.httpGet({url:'/f/eh1/dictionaries.json', //read eHealth dictionary
 			then_fn:function(response) {
-				console.log(response.data)
-				$scope.eh_dictionaries={
-					getValues:function(k){
-						var valuesObject = this.ehMap[k.toUpperCase()]
-						if(valuesObject){
-							return valuesObject.values 
-						}
-					},
-					ehMap:{},
-				
-				};
 				angular.forEach(response.data.data, function(v, k){
 					$scope.eh_dictionaries.ehMap[v.name]=v;
 				});
@@ -170,7 +183,7 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		},
 		valueTranslate:function(k_parent, k){
 			var editDocObject = $scope.progr_am.fn.getEditDocObj(k_parent)
-			var dictionarieValues = $scope.eh_dictionaries.getValues(k)
+			var dictionarieValues = $scope.eh_dictionaries.getValues(k, k_parent)
 			if(!editDocObject)
 				return '___'
 			else if(!dictionarieValues)
