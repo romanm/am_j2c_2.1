@@ -40,10 +40,29 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 						$scope.editDoc = docbody
 						console.log($scope.editDoc)
 						$scope.progr_am.hrm_cards.fn.calcEditDoc_CRC32()
+						adaptTemplateToData($scope.editDoc, 
+								$scope.data.jsonTemplate.employee_request)
 					}
 				})
 			}
 		})
+		
+		adaptTemplateToData = function(data, template){
+			angular.forEach(data, function(v, k){
+				if(v.isObject()){
+					var v_template = template[k]
+					if(v.isArray()){
+						/*duplicate the template  array element 
+						 *to the number of data elements in array*/
+						for (var i = v_template.length; i < v.length; i++) {
+							v_template[i]=
+								JSON.parse(JSON.stringify(v_template[0]));
+						}
+					}
+					adaptTemplateToData(v, v_template)
+				}
+			});
+		}
 
 	}
 	
@@ -168,6 +187,13 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		return k_parent.split('|').splice(-2,1).toString()
 	}
 
+	$scope.progr_am.fn.addToList=function(){
+		console.log($scope.oToEdit)
+		var dataObj=this.getEditDocObj($scope.oToEdit.k_parent)
+		console.log(dataObj)
+
+	}
+
 	$scope.progr_am.fn.openObjectToEdit=function(o,k_parent,k){
 		var dataObj=this.getEditDocObj(k_parent)
 		if(!dataObj){//create empty object
@@ -240,7 +266,7 @@ var amMap={
 	first_name:"Ім'я",
 	last_name:'Призвище',
 	family_name:'Призвище+',
-	second_name:'По батькові',
+	second_name:'По‑батькові',
 	party:'паспортна частина',
 	phones:'телефони',
 	employee_request:'картка співробітника',

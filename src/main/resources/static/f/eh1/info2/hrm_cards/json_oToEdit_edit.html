@@ -24,7 +24,9 @@
 			<a href="#" class="w3-btn ">{{1+k}}</a>
 		</div>
 		<div class="w3-border-bottom w3-hover-shadow">
-			<a href="#" class="w3-btn ">+</a>
+			<a href="#" 
+			ng-click="progr_am.fn.addToList()"
+			class="w3-btn ">+</a>--
 		</div>
 	</div>
 	<div ng-repeat="(k,v) in oToEdit.o">
@@ -42,6 +44,7 @@
 		</div>
 	</div>
 </div>
+
 <div ng-if="!oToEdit">
 	<div ng-repeat="(k,v) in data" ng-init="k_parent=k_parent+'|'+k">
 		<div ng-click="progr_am.fn.openObjectToEdit(v,k_parent,k)"
