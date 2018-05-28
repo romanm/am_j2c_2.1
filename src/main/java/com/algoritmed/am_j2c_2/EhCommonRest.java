@@ -34,6 +34,29 @@ public class EhCommonRest  extends Db2Common{
 		return map;
 	}
 	
+	@PostMapping("/r/url_sql_update2")
+	public @ResponseBody Map<String, Object> url_sql_update2(
+//			@RequestParam(value = "sql", required = true) String sql,
+			@RequestBody Map<String, Object> data
+			,HttpServletRequest request
+			,Principal principal
+		) {
+		logger.info("\n\n--44----- "
+				+ "/r/url_sql_update2"
+				+ "\n" + data
+				);
+
+		String sql = (String) data.get("sql");
+		int i = 0;
+		for (String sql_command : sql.split(";")) {
+			System.err.println(sql_command);
+			int update = db2ParamJdbcTemplate.update(sql_command, data);
+			data.put("update_"+ ++i, update);			
+		}
+			return data;
+	}
+	
+	
 	@GetMapping("/r/read2_sql_with_param")
 	public @ResponseBody Map<String, Object> read2_sql_with_param(
 			@RequestParam(value = "sql", required = true) String sql

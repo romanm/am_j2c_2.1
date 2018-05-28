@@ -47,11 +47,14 @@ var Exe_fn = function($scope, $http){
 	this.calcJSON_CRC32=function(jsonObj){
 		return CRC32(JSON.stringify(jsonObj))
 	}
+	this.httpPost=function(progr_am){
+		$http.post(progr_am.url, progr_am.data)
+		.then(progr_am.then_fn)
+	}
 	this.httpGet=function(progr_am){
 //		console.log('-----Exe_fn-----httpGet--------')
 //		console.log(progr_am)
-		$http
-		.get(progr_am.url, {params:progr_am.params})
+		$http.get(progr_am.url, {params:progr_am.params})
 		.then(progr_am.then_fn)
 	}
 	this.run_progr_am=function(){

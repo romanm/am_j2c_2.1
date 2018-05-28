@@ -134,9 +134,18 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		console.log('-----save------79-------')
 		this.calcEditDoc_CRC32()
 		console.log($scope.editDoc_CRC32)
-		console.log($scope.editDoc)
+//		console.log($scope.editDoc)
+		var docbody = JSON.stringify($scope.editDoc)
+		console.log(docbody)
+		var data = {sql:sql2.sql2_docbody_updateById(), docbody:docbody, docbody_id:$scope.editDoc.docbody_id}
+		exe_fn.httpPost({url:'/r/url_sql_update2',
+			then_fn:function(response) {
+//				console.log(response.data)
+			},
+			data:data,
+		})
 	}
-	
+
 	$scope.progr_am.viewes={
 		json_form:{ngInclude:'/f/eh1/info2/hrm_cards/json_form1.html',
 			dataName:'jsonTemplate',
