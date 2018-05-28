@@ -13,6 +13,9 @@ table.am-table-va th{
 }
 table.am-table-va td{
   vertical-align: top;
+ }
+.am-nowrap{
+	white-space: nowrap;
 }
 .am-b{
 	font-weight:bold;

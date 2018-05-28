@@ -51,6 +51,8 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 						var //docbody = response.data.list[0].docbody
 						docbody = JSON.parse(response.data.list[0].docbody);
 						$scope.editDoc = docbody
+						if($scope.editDoc.data)
+							$scope.editDoc = $scope.editDoc.data
 						console.log($scope.editDoc)
 						$scope.progr_am.hrm_cards.fn.calcEditDoc_CRC32()
 						adaptTemplateToData($scope.editDoc, 
@@ -319,9 +321,9 @@ var amMap={
 	zip:'п.індекс',
 	issued_by:'ким виданий',
 	issued_at:'коли виданий',
-	issued_date:'дата видачі',
-	start_date:'дата початку',
-	end_date:'дата завершеня',
+	issued_date:'дата‑видачі',
+	start_date:'дата‑початку',
+	end_date:'дата‑завершеня',
 	valid_to :'дійсний до',
 	additional_info:'додаткова інформація',
 	diploma_number :'№ діплома',

@@ -5,12 +5,16 @@
 	 'w3-topbar':oToEdit.o == o && k0*1==k0, 
 	}"
 	ng-click="progr_am.fn.openObjectToEdit(o,k_parent,k)">
-	<b ng-if="k0*1==k0" class="w3-tiny"> {{1+k0}}. </b> 
-	<span ng-repeat="(k,v) in o"> <span
-		ng-if="!v.isObject()"> <b
-			class="w3-tiny w3-text-gray"> {{progr_am.fn.keyTranslate(k)}} </b>
-			 {{progr_am.fn.valueTranslate(k_parent, k)
-			 }}<span class="w3-text-gray">{{$last?'':','}} </span>
+	<b ng-if="k0*1==k0" class="w3-tiny"> {{1+k0}}. </b> <span
+		ng-repeat="(k,v) in o" on="k" ng-switch> <span ng-if="!v.isObject()">
+			<b class="w3-tiny w3-text-gray"> {{progr_am.fn.keyTranslate(k)}}</b>&nbsp;<span
+			class="am-nowrap" ng-switch-when="birth_date">
+				{{progr_am.fn.valueTranslate(k_parent, k)|date:'mediumDate'}}</span><span
+			class="am-nowrap" ng-switch-when="start_date|end_date"
+			ng-switch-when-separator="|">{{progr_am.fn.valueTranslate(k_parent,
+				k)|date:'medium'}}</span><span ng-switch-default>
+				{{progr_am.fn.valueTranslate(k_parent, k) }}</span><span
+			class="w3-text-gray">{{$last?'':','}} </span>
 	</span>
 	</span>
 </div>
@@ -22,9 +26,6 @@
 			ng-class="{'w3-blue-gray w3-card-4':oToEdit.o==o}"
 			ng-click="progr_am.fn.openObjectToEdit(o,k_parent,k)">
 			<a href="#" title="{{k}}"> 
-			<!-- 
-			<b class="w3-tiny" ng-if="k*1==k">{{1+k}}</b>
-			 -->
 				<b ng-if="k*1!=k"> {{progr_am.fn.keyTranslate(k)}} </b>
 			</a>
 		</div>
