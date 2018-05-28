@@ -201,11 +201,28 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		var k_parent = $scope.oToEdit.k_parent;
 		return k_parent.split('|').splice(-2,1).toString()
 	}
+	
+	$scope.progr_am.fn.removeFromList=function(){
+		var d = {
+			o:$scope.oToEdit.o.splice($scope.oToEdit.selectedItem,1)[0],
+			dataObj:$scope.oToEdit.dataObj.splice($scope.oToEdit.selectedItem,1)[0],
+		}
+		return d
+	}
+
+	$scope.progr_am.fn.firstInList=function(){
+		var d = this.removeFromList()
+		$scope.oToEdit.dataObj.splice(0,0,d.dataObj)
+		$scope.oToEdit.o.splice(0,0,d.o)
+	}
 
 	$scope.progr_am.fn.addToList=function(){
-		console.log($scope.oToEdit)
 		var dataObj=this.getEditDocObj($scope.oToEdit.k_parent)
-		console.log(dataObj)
+		var listElement0 = $scope.oToEdit.o[0],
+		listElement1 = JSON.parse(JSON.stringify(listElement0));
+		delete listElement1.$$hashKey
+		$scope.oToEdit.o.push(listElement1)
+		$scope.oToEdit.dataObj.push({})
 
 	}
 

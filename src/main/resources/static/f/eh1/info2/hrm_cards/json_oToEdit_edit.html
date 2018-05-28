@@ -18,15 +18,25 @@
 		</div>
 	</div>
 	<div ng-if="oToEdit.o.isArray()">
-		<div ng-repeat="(k,v) in oToEdit.o" 
-		ng-click="progr_am.fn.openObjectToEdit(v,oToEdit.k_parent+'|'+k,k)"
-		class="w3-border-bottom w3-hover-shadow">
-			<a href="#" class="w3-btn ">{{1+k}}</a>
+		<div ng-repeat="(k,v) in oToEdit.o"
+			class="w3-border-bottom w3-hover-shadow w3-display-container"
+			ng-click="oToEdit.selectedItem = k"
+			ng-class="{'w3-rightbar':oToEdit.selectedItem == k}">
+			{{selectedItem}} <a href="#" class="w3-btn "
+				ng-click="progr_am.fn.openObjectToEdit(v,oToEdit.k_parent+'|'+k,k)">{{1+k}}</a>
+			<div ng-if="oToEdit.selectedItem == k" class="w3-display-topright">
+				<a href="#" ng-click="progr_am.fn.removeFromList()" class="w3-btn "
+					title="removeFromList">-</a> 
+				<a href="#"
+					ng-click="progr_am.fn.firstInList(k)" class="w3-btn "
+					ng-class="{'w3-disabled':k==0}"
+					title="firstInList"> <i class="fa fa-arrows-v"
+					aria-hidden="true"></i>
+				</a>
+			</div>
 		</div>
 		<div class="w3-border-bottom w3-hover-shadow">
-			<a href="#" 
-			ng-click="progr_am.fn.addToList()"
-			class="w3-btn ">+</a>--
+			<a href="#" ng-click="progr_am.fn.addToList()" class="w3-btn ">+</a>
 		</div>
 	</div>
 	<div ng-repeat="(k,v) in oToEdit.o">
