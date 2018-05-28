@@ -1,12 +1,12 @@
 {
 	"employee_request": {
+		"position": "",
+		"employee_type": "",
+		"status": "",
 		"division_id": "",
 		"legal_entity_id": "",
-		"position": "",
 		"start_date": "",
 		"end_date": "",
-		"status": "",
-		"employee_type": "",
 		"party": {
 			"first_name": "",
 			"last_name": "",
