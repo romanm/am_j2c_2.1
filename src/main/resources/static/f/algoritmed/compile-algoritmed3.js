@@ -4,7 +4,7 @@ var init_am_directive = {};
 var exe_fn
 app.controller('ControllerApp1', function($scope, $http) {
 	$scope.data={}
-	$scope.progr_am={}
+	$scope.progr_am={fn:{}}
 
 //	console.log('-------ControllerApp1--------');
 	console.log($scope)

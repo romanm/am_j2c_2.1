@@ -5,6 +5,8 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 //	console.log(CRC32(JSON.stringify({a:1})))
 	init_am_directive.ehealth_declaration($scope, $http);
 	
+	$scope.eHealth.pageGroup();
+	
 	if($scope.request.parameters.person_id){
 		$scope.eh_dictionaries={ehMap:{},};
 		$scope.eh_dictionaries.getValues=function(k, k_parent){
@@ -85,17 +87,6 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		console.log(seek)
 	}})
 	
-	$scope.$watch('principal',function(){
-		if($scope.principal){
-			console.log('----$scope.$watch(principal,function()------109------');
-			if($scope.principal.msp_id){
-				$scope.progr_am.hrm_cards.httpGet.params.msp_id
-					= $scope.principal.msp_id
-			}
-			exe_fn.run_progr_am()
-		}
-	});
-
 	$scope.progr_am.hrm_cards={
 		fn:{
 			calcEditDoc_CRC32(){
@@ -146,6 +137,13 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		})
 	}
 
+	$scope.progr_am.fn.init_principal = function(){
+		if($scope.principal.msp_id){
+			$scope.progr_am.hrm_cards.httpGet.params.msp_id
+				= $scope.principal.msp_id
+		}
+	}
+
 	$scope.progr_am.viewes={
 		json_form:{ngInclude:'/f/eh1/info2/hrm_cards/json_form1.html',
 			dataName:'jsonTemplate',
@@ -160,52 +158,34 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 			heightProcent:22,
 		},
 	},
-	
-	$scope.progr_am.fn={
-		ngStyle:function(component_name, add_style){
-			var style={}
-			if('json_form|j2c_table'
-					.indexOf(component_name)>=0
-			){
-				var hp = $scope.progr_am
-				.viewes[component_name].heightProcent
-				var h = procentWindowHeight(hp)
-				style.height= h+'px';
-				style.overflow='auto';
-			}
-			if(add_style)
-				angular.forEach(add_style, function(value, style_name){
-					style[style_name]=value;
-				})
-				return style;
-		},
-		clear_oToEdit:function(){
-			console.log($scope.oToEdit)
-			delete $scope.oToEdit
-			console.log($scope.oToEdit)
 
-		},
-		groupsToEdit:'doctor|',
-		isGroupToEdit:function(){
-			if($scope.oToEdit){
-				if(this.groupsToEdit.indexOf($scope.oToEdit.k)>=0)
-					return true
-			}
-		},
-		valueTranslate:function(k_parent, k){
-			var editDocObject = $scope.progr_am.fn.getEditDocObj(k_parent)
-			var dictionarieValues = $scope.eh_dictionaries.getValues(k, k_parent)
-			if(!editDocObject)
-				return '___'
+
+	$scope.progr_am.fn.clear_oToEdit=function(){
+		console.log($scope.oToEdit)
+		delete $scope.oToEdit
+		console.log($scope.oToEdit)
+	},
+	$scope.progr_am.fn.groupsToEdit='doctor|',
+	$scope.progr_am.fn.isGroupToEdit=function(){
+		if($scope.oToEdit){
+			if(this.groupsToEdit.indexOf($scope.oToEdit.k)>=0)
+				return true
+		}
+	},
+	$scope.progr_am.fn.valueTranslate=function(k_parent, k){
+		var editDocObject = $scope.progr_am.fn.getEditDocObj(k_parent)
+		var dictionarieValues = $scope.eh_dictionaries.getValues(k, k_parent)
+		if(!editDocObject)
+			return '___'
 			else if(!dictionarieValues)
 				return editDocObject[k]
 			else 
 				return dictionarieValues[editDocObject[k]]
-		},
-		keyTranslate:function(k){
-			return amMap[k]?amMap[k]:k;
-		},
-	}
+	},
+	$scope.progr_am.fn.keyTranslate=function(k){
+		return amMap[k]?amMap[k]:k;
+	},
+
 	$scope.progr_am.fn.oToEdit_k_parent=function(){
 		var k_parent = $scope.oToEdit.k_parent;
 		return k_parent.split('|').splice(-2,1).toString()
