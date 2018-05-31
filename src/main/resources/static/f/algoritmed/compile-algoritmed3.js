@@ -75,9 +75,20 @@ var Exe_fn = function($scope, $http){
 						exe_fn[k1](v1)
 					else 
 					if('init_data'==k1){
+						console.log($scope[k])
 						angular.forEach(v1, function(v2, k2){
 							$scope[k][k2] = v2
 						})
+						if(!$scope[k].fn)
+							$scope[k].fn={}
+						console.log(v1.row_key)
+						
+						$scope[k].fn.row_key=v1.row_key
+						$scope[k].fn.isEditRow=function(row){
+							return this.row_key
+							&& row[this.row_key]
+								== $scope.request.parameters[this.row_key]
+						}
 					}
 				})
 			}

@@ -8,21 +8,13 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 		}
 	}
 
+	$scope.progr_am.viewes.j2c_table.dataName='hrm_cards'
 	$scope.progr_am.hrm_cards={
-		fn:{
-			calcEditDoc_CRC32(){
-				$scope.editDoc_CRC32 = exe_fn.calcJSON_CRC32($scope.editDoc) 
-			},
-			isEditRow:function(row){
-				return row.person_id
-				== $scope.request.parameters.person_id
-			},
-		},
 		init_data:{
+			row_key:'person_id',
 			col_sort:['person_id', 'family_name', 'pip']
 		},
-		httpGet:{
-			url:'/r/read2_sql_with_param',
+		httpGet:{ url:'/r/read2_sql_with_param',
 			params:{
 				sql:'sql.msp_employee.list',msp_id:188
 			},

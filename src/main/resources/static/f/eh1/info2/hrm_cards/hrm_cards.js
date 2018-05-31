@@ -56,7 +56,7 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 						if($scope.editDoc.data)
 							$scope.editDoc = $scope.editDoc.data
 						console.log($scope.editDoc)
-						$scope.progr_am.hrm_cards.fn.calcEditDoc_CRC32()
+						$scope.progr_am.fn.calcEditDoc_CRC32()
 						adaptTemplateToData($scope.editDoc, 
 								$scope.data.jsonTemplate.employee_request)
 					}
@@ -87,17 +87,10 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		console.log(seek)
 	}})
 	
+	$scope.progr_am.viewes.j2c_table.dataName='hrm_cards'
 	$scope.progr_am.hrm_cards={
-		fn:{
-			calcEditDoc_CRC32(){
-				$scope.editDoc_CRC32 = exe_fn.calcJSON_CRC32($scope.editDoc) 
-			},
-			isEditRow:function(row){
-				return row.person_id
-					== $scope.request.parameters.person_id
-			},
-		},
 		init_data:{
+			row_key:'person_id',
 			col_sort:['person_id', 'family_name', 'pip']
 		},
 		httpGet:{
@@ -121,9 +114,10 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		},
 	}
 
+	$scope.progr_am.hrm_cards.fn={}
 	$scope.progr_am.hrm_cards.fn.save=function(){
 		console.log('-----save------79-------')
-		this.calcEditDoc_CRC32()
+		$scope.progr_am.fn.calcEditDoc_CRC32()
 		console.log($scope.editDoc_CRC32)
 //		console.log($scope.editDoc)
 		var docbody = JSON.stringify($scope.editDoc)

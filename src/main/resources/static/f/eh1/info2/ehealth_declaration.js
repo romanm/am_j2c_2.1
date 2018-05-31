@@ -11,7 +11,13 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		exe_fn.run_progr_am()
 	} });
 
-	
+	$scope.progr_am.fn.calcEditDoc_CRC32=function(){
+		$scope.editDoc_CRC32 = exe_fn.calcJSON_CRC32($scope.editDoc) 
+	},
+	$scope.progr_am.fn.isEditRow=function(row){
+		return row.person_id
+			== $scope.request.parameters.person_id
+	},
 	$scope.progr_am.fn.ngStyle=function(component_name, add_style){
 		var style={}
 		if('json_form|j2c_table'
@@ -40,7 +46,7 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			seek:null,
 		},
 		j2c_table:{ngInclude:'/f/eh1/info2/hrm_cards/j2c_table.html',
-			dataName:'hrm_cards',
+			dataName:'j2c_table-dataName-h123rm_cards',
 			heightProcent:22,
 		},
 	},
@@ -71,6 +77,10 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 }
 
 var sql2= {
+	sql2_msp_divisions_select:function(){
+		return "SELECT doc_id division_id, d.*,b.* FROM doc d, docbody b " +
+				"WHERE doc_id=docbody_id AND doctype=16  AND parent_id=:msp_id"
+	},
 	sql2_docbody_selectById:function(){
 		return "SELECT * FROM docbody WHERE docbody_id=:docbody_id"
 	},

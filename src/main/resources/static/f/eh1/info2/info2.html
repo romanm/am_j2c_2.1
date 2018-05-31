@@ -2,7 +2,8 @@
 	<h1 class="w3-small" style="text-decoration: overline;">
 		<span style="text-decoration: underline;"> ДП "еЗдоров'я"</span>
 	</h1>
-	<div ng-repeat="(group_k, group_v) in eHealth">
-		 <span ng-include="'/f/eh1/info2/info2_group_links.html'"></span>
+	<div ng-repeat="(group_k, group_v) in eHealth"
+		ng-if="group_v.isObject()">
+		<span ng-include="'/f/eh1/info2/info2_group_links.html'"></span>
 	</div>
 </div>
