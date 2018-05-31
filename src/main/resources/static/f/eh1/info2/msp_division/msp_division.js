@@ -2,9 +2,12 @@ init_am_directive.init_msp_division = function($scope, $http){
 	console.log('-------msp_division----2------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 
-	$scope.progr_am.viewes.hrm_menu.seek_placeholder
-	='пошук амбулаторії'
+	$scope.progr_am.fn.init_onLoad = function(){
+		console.log('-----init_onLoad------------')
+	}
 
+	$scope.progr_am.viewes.hrm_menu.seek_placeholder
+		='пошук амбулаторії'
 	$scope.progr_am.viewes.j2c_table.dataName='msp_division'
 	$scope.progr_am.msp_division={
 		init_data:{

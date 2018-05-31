@@ -5,81 +5,86 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 //	console.log(CRC32(JSON.stringify({a:1})))
 	init_am_directive.ehealth_declaration($scope, $http);
 	
-	$scope.eHealth.pageGroup();
-	
-	if($scope.request.parameters.person_id){
-		$scope.eh_dictionaries={ehMap:{},};
-		$scope.eh_dictionaries.getValues=function(k, k_parent){
-			if('type'.indexOf(k)>=0)
-				k = k_parent.split('|')
-				.splice(-2,1)[0].slice(0, -1)+'_'+k
-			else if('speciality'.indexOf(k)>=0){
-				k='speciality_type'
-			}else if('status'.indexOf(k)>=0){
-				k = k_parent.split('|')[1]+'_'+k
-			}else if('degree'.indexOf(k)>=0){
-				k = k_parent.split('|')
-				.splice(-2,1)[0].slice(0, -1)+'_'+k
-				k = k.replace('docto_degree','science_degree')
-			}else if('level'.indexOf(k)>=0){
-				k = k_parent.split('|')
-				.splice(-2,1)[0].slice(0, -1)+'_'+k
-				k = k.replace('specialitie_level','speciality_level')
-			}
-			var valuesObject = this.ehMap[k.toUpperCase()]
-			if(valuesObject){
-				return valuesObject.values 
-			}
-		},
+	$scope.progr_am.fn.init_onLoad = function(){
+		console.log('-----init_onLoad------------')
+		if($scope.request.parameters.person_id){
 
-		exe_fn.httpGet({url:'/f/eh1/dictionaries.json', //read eHealth dictionary
-			then_fn:function(response) {
-				angular.forEach(response.data.data, function(v, k){
-					$scope.eh_dictionaries.ehMap[v.name]=v;
-				});
-				console.log($scope.eh_dictionaries.ehMap)
-			}
-		})
+			exe_fn.httpGet({url:'/f/mvp/employee_template2.json', //read template
+				then_fn:function(response) {
+//					console.log(response.data)
+					$scope.data.jsonTemplate=response.data
+					exe_fn.httpGet({url:'/r/url_sql_read2', //read data
+						params:{
+							sql:sql2.sql2_docbody_selectById(),
+							docbody_id:$scope.request.parameters.person_id},
+							then_fn:function(response) {
+								var //docbody = response.data.list[0].docbody
+								docbody = JSON.parse(response.data.list[0].docbody);
+								$scope.editDoc = docbody
+								if($scope.editDoc.data)
+									$scope.editDoc = $scope.editDoc.data
+									console.log($scope.editDoc)
+									$scope.progr_am.fn.calcEditDoc_CRC32()
+									adaptTemplateToData($scope.editDoc, 
+											$scope.data.jsonTemplate.employee_request)
+							}
+					})
+				}
+			})
 
-		exe_fn.httpGet({url:'/f/mvp/employee_template2.json', //read template
-			then_fn:function(response) {
-//				console.log(response.data)
-				$scope.data.jsonTemplate=response.data
-				exe_fn.httpGet({url:'/r/url_sql_read2', //read data
-					params:{
-						sql:sql2.sql2_docbody_selectById(),
-						docbody_id:$scope.request.parameters.person_id},
-					then_fn:function(response) {
-						var //docbody = response.data.list[0].docbody
-						docbody = JSON.parse(response.data.list[0].docbody);
-						$scope.editDoc = docbody
-						if($scope.editDoc.data)
-							$scope.editDoc = $scope.editDoc.data
-						console.log($scope.editDoc)
-						$scope.progr_am.fn.calcEditDoc_CRC32()
-						adaptTemplateToData($scope.editDoc, 
-								$scope.data.jsonTemplate.employee_request)
+			adaptTemplateToData = function(data, template){
+				angular.forEach(data, function(v, k){
+					if(v.isObject()){
+						var v_template = template[k]
+						if(v.isArray()){
+							/*duplicate the template  array element 
+							 *to the number of data elements in array*/
+							for (var i = v_template.length; i < v.length; i++) {
+								v_template[i]=
+									JSON.parse(JSON.stringify(v_template[0]));
+							}
+						}
+						adaptTemplateToData(v, v_template)
 					}
-				})
+				});
 			}
-		})
-		
-		adaptTemplateToData = function(data, template){
-			angular.forEach(data, function(v, k){
-				if(v.isObject()){
-					var v_template = template[k]
-					if(v.isArray()){
-						/*duplicate the template  array element 
-						 *to the number of data elements in array*/
-						for (var i = v_template.length; i < v.length; i++) {
-							v_template[i]=
-								JSON.parse(JSON.stringify(v_template[0]));
+
+			exe_fn.httpGet({url:'/f/eh1/dictionaries.json', //read eHealth dictionary
+				then_fn:function(response) {
+					$scope.eh_dictionaries={ehMap:{},};
+					angular.forEach(response.data.data, function(v, k){
+						$scope.eh_dictionaries.ehMap[v.name]=v;
+					});
+					console.log($scope.eh_dictionaries.ehMap)
+					$scope.eh_dictionaries.getValues=function(k, k_parent){
+						if('type'.indexOf(k)>=0)
+							k = k_parent.split('|')
+							.splice(-2,1)[0].slice(0, -1)+'_'+k
+							else if('speciality'.indexOf(k)>=0){
+								k='speciality_type'
+							}else if('status'.indexOf(k)>=0){
+								k = k_parent.split('|')[1]+'_'+k
+							}else if('degree'.indexOf(k)>=0){
+								k = k_parent.split('|')
+								.splice(-2,1)[0].slice(0, -1)+'_'+k
+								k = k.replace('docto_degree','science_degree')
+							}else if('level'.indexOf(k)>=0){
+								k = k_parent.split('|')
+								.splice(-2,1)[0].slice(0, -1)+'_'+k
+								k = k.replace('specialitie_level','speciality_level')
+							}
+						var valuesObject = this.ehMap[k.toUpperCase()]
+						if(valuesObject){
+							return valuesObject.values 
 						}
 					}
-					adaptTemplateToData(v, v_template)
 				}
-			});
+			})
+			
 		}
+	}
+	
+	if($scope.request.parameters.person_id){
 
 	}
 	
@@ -166,6 +171,7 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 				return true
 		}
 	},
+
 	$scope.progr_am.fn.valueTranslate=function(k_parent, k){
 		var editDocObject = $scope.progr_am.fn.getEditDocObj(k_parent)
 		var dictionarieValues = $scope.eh_dictionaries.getValues(k, k_parent)
@@ -176,6 +182,7 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 			else 
 				return dictionarieValues[editDocObject[k]]
 	},
+
 	$scope.progr_am.fn.keyTranslate=function(k){
 		return amMap[k]?amMap[k]:k;
 	},
@@ -258,80 +265,3 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 	}
 }
 
-var amMap={
-	id:'Ідентифікаційний №',
-	name:'Назва лікувального закладу',
-	short_name:'Коротка назва ЛЗ',
-	public_name:'Публічена назва ЛЗ',
-	edrpou:'ЄДРПОУ',
-	is_active:'активне',
-	kveds:'КВЕДи',
-	medical_service_provider:'постачальник медичних послуг',
-	licenses:'ліцензії',
-	license_number:'№ ліцензії',
-	expiry_date:'дійсний до',
-	order_date:'дата замовлення',
-	active_from_date:'активний з',
-	what_licensed:'що ліцензовано',
-	order_no:'номер замовлення',
-	accreditation:'акредитація',
-	category:'категорія',
-	working_hours:'часи роботи',
-	number:'№',
-	first_name:"Ім'я",
-	last_name:'Призвище',
-	family_name:'Призвище+',
-	second_name:'По‑батькові',
-	party:'паспортна частина',
-	phones:'телефони',
-	employee_request:'картка співробітника',
-	doctor:'лікар',
-	confidant_person:'опікун',
-	documents_person:'документи осіб',
-	authentication_methods:'методи перевірки автентичності',
-	documents_relationship:'документи взаємовідносин',
-	confident_persons:'довірені особа',
-	documents:'документи',
-	educations:'освіта документи',
-	qualifications:'кваліфікація документи',
-	specialities:'спеціалізація документи',
-	science_degree:'наукова ступінь',
-	birth_date:'д.н.',
-	birth_country:'країна народження',
-	gender:'стать',
-	no_tax_id:'ІПН відсутній',
-	type:'тип',
-	tax_id:'ІПН',
-	data:'/',
-	division_id:'ІН підрозділу',
-	legal_entity_id :'ІН лікувального закладу',
-	phone_number:'№ тел.',
-	emergency_contact:"для екстреного зв'язку",
-	addresses:'адреси',
-	country:'країна',
-	area:'обл.',
-	region:'р-н.',
-	city:'місто',
-	settlement:'поселення',
-	settlement_id:'ІН поселення',
-	street_type:'тип вул.',
-	street:'вулиця',
-	building:'буд.',
-	apartment:'кв.',
-	zip:'п.індекс',
-	issued_by:'ким виданий',
-	issued_at:'коли виданий',
-	issued_date:'дата‑видачі',
-	start_date:'дата‑початку',
-	end_date:'дата‑завершеня',
-	valid_to :'дійсний до',
-	additional_info:'додаткова інформація',
-	diploma_number :'№ діплома',
-	certificate_number :'№ сертифіката',
-	speciality :'спеціальність',
-	degree:'рівень',
-	position :'позиція',
-	status:'статус',
-	employee_type:'тип робітника',
-	institution_name:'назва інститута',
-}

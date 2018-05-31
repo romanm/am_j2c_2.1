@@ -60,29 +60,26 @@ var Exe_fn = function($scope, $http){
 	this.run_progr_am=function(){
 //		console.log('-----Exe_fn-----run_progr_am--------')
 		var exe_fn = this;
+		if($scope.progr_am.fn.init_onLoad)
+			$scope.progr_am.fn.init_onLoad()
 
 		angular.forEach($scope.progr_am, function(v, k){
 			if('viewes|fn'.indexOf(k)>=0){}else
 			{
-				console.log(k)
 				$scope[k] = {}
 				$scope.data[k]=$scope[k]
 				$scope.data[k].fn=$scope.progr_am[k].fn
-				console.log($scope.data[k])
 
 				angular.forEach(v, function(v1, k1){
 					if(exe_fn[k1])
 						exe_fn[k1](v1)
 					else 
 					if('init_data'==k1){
-						console.log($scope[k])
 						angular.forEach(v1, function(v2, k2){
 							$scope[k][k2] = v2
 						})
 						if(!$scope[k].fn)
 							$scope[k].fn={}
-						console.log(v1.row_key)
-						
 						$scope[k].fn.row_key=v1.row_key
 						$scope[k].fn.isEditRow=function(row){
 							return this.row_key
