@@ -2,18 +2,20 @@
 	ng-class="{
 	 'w3-border-right':oToEdit.o != o, 
 	 'w3-border-bottom w3-border-blue-gray':oToEdit.o == o, 
-	 'w3-topbar':oToEdit.o == o && k0*1==k0, 
+	 'w3-topbar':oToEdit.o == o && k*1==k, 
 	}"
 	ng-click="progr_am.fn.openObjectToEdit(o,k_parent,k)">
-	<b ng-if="k0*1==k0" class="w3-tiny"> {{1+k0}}. </b> <span
-		ng-repeat="(k,v) in o" on="k" ng-switch> <span ng-if="!v.isObject()">
-			<b class="w3-tiny w3-text-gray"> {{progr_am.fn.keyTranslate(k)}}</b>&nbsp;<span
+	<a ng-if="k*1==k" class="w3-tiny am-b" href="#"> {{1+k}}.</a> 
+	<span
+		ng-repeat="(k1,v) in o" on="k1" ng-switch> <span ng-if="!v.isObject()">
+			<b title="{{k1}}"
+			class="w3-tiny w3-text-gray"> {{progr_am.fn.keyTranslate(k1)}}</b>&nbsp;<span
 			class="am-nowrap" ng-switch-when="birth_date">
-				{{progr_am.fn.valueTranslate(k_parent, k)|date:'mediumDate'}}</span><span
+				{{progr_am.fn.valueTranslate(k_parent, k1)|date:'mediumDate'}}</span><span
 			class="am-nowrap" ng-switch-when="start_date|end_date"
 			ng-switch-when-separator="|">{{progr_am.fn.valueTranslate(k_parent,
-				k)|date:'medium'}}</span><span ng-switch-default>
-				{{progr_am.fn.valueTranslate(k_parent, k) }}</span><span
+				k1)|date:'medium'}}</span><span ng-switch-default>
+				{{progr_am.fn.valueTranslate(k_parent, k1) }}</span><span
 			class="w3-text-gray">{{$last?'':','}} </span>
 	</span>
 	</span>
@@ -25,12 +27,10 @@
 		<div class="w3-hover-shadow w3-hover-text-gray"
 			ng-class="{'w3-blue-gray w3-card-4':oToEdit.o==o}"
 			ng-click="progr_am.fn.openObjectToEdit(o,k_parent,k)">
-			<a href="#" title="{{k}}"
-			> 
-				<b ng-if="k*1!=k"> {{progr_am.fn.keyTranslate(k)}} </b>
-			</a>
+			<a href="#" title="{{k}}" ng-if="k*1!=k" class="am-b">
+				{{progr_am.fn.keyTranslate(k)}} </a>
 		</div>
 	</div>
-	<div class="w3-leftbar" ng-init="o=v;k_parent=k_parent+'|'+k;k0=k"
+	<div class="w3-leftbar" ng-init="o=v;k_parent=k_parent+'|'+k;"
 		ng-include="'/f/eh1/info2/hrm_cards/json_form.html'"></div>
 </div>

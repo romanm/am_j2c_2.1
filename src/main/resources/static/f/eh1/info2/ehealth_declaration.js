@@ -35,6 +35,7 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 									jsonTemplate = $scope.data.jsonTemplate.employee_request 
 									
 								console.log(jsonTemplate)
+								console.log($scope.editDoc)
 
 								adaptTemplateToData($scope.editDoc, jsonTemplate)
 						}
@@ -42,38 +43,42 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			}
 		})
 
-
-			exe_fn.httpGet({url:'/f/eh1/dictionaries.json', //read eHealth dictionary
-				then_fn:function(response) {
-					$scope.eh_dictionaries={ehMap:{},};
-					angular.forEach(response.data.data, function(v, k){
-						$scope.eh_dictionaries.ehMap[v.name]=v;
-					});
-					console.log($scope.eh_dictionaries.ehMap)
-					$scope.eh_dictionaries.getValues=function(k, k_parent){
+		exe_fn.httpGet({url:'/f/eh1/dictionaries.json', //read eHealth dictionary
+			then_fn:function(response) {
+				$scope.eh_dictionaries={ehMap:{},};
+				angular.forEach(response.data.data, function(v, k){
+					$scope.eh_dictionaries.ehMap[v.name]=v;
+				});
+				console.log($scope.eh_dictionaries.ehMap)
+				
+				$scope.eh_dictionaries.getValues = function(k, k_parent){
+					if(k_parent){
 						if('type'.indexOf(k)>=0)
 							k = k_parent.split('|')
 							.splice(-2,1)[0].slice(0, -1)+'_'+k
-							else if('speciality'.indexOf(k)>=0){
-								k='speciality_type'
-							}else if('status'.indexOf(k)>=0){
-								k = k_parent.split('|')[1]+'_'+k
-							}else if('degree'.indexOf(k)>=0){
-								k = k_parent.split('|')
-								.splice(-2,1)[0].slice(0, -1)+'_'+k
-								k = k.replace('docto_degree','science_degree')
-							}else if('level'.indexOf(k)>=0){
-								k = k_parent.split('|')
-								.splice(-2,1)[0].slice(0, -1)+'_'+k
-								k = k.replace('specialitie_level','speciality_level')
-							}
-						var valuesObject = this.ehMap[k.toUpperCase()]
-						if(valuesObject){
-							return valuesObject.values 
+						else if('speciality'.indexOf(k)>=0){
+							k='speciality_type'
+						}else if('status'.indexOf(k)>=0){
+							k = k_parent.split('|')[1]+'_'+k
+						}else if('degree'.indexOf(k)>=0){
+							k = k_parent.split('|')
+							.splice(-2,1)[0].slice(0, -1)+'_'+k
+							k = k.replace('docto_degree','science_degree')
+						}else if('level'.indexOf(k)>=0){
+							k = k_parent.split('|')
+							.splice(-2,1)[0].slice(0, -1)+'_'+k
+							k = k.replace('specialitie_level','speciality_level')
 						}
 					}
-				}
-			})
+					var valuesObject = this.ehMap[k.toUpperCase()]
+					if(valuesObject){
+						return valuesObject.values 
+					}
+				};
+
+			}
+		})
+
 	}
 
 	$scope.progr_am.fn.openObjectToEdit=function(o,k_parent,k){
@@ -100,27 +105,32 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 	}
 	
 	$scope.progr_am.fn.getEditDocObj=function(kk){
-		var kkk = this.clearPathToObj(kk)
-		if(!this.editDocObjMap)
-			this.editDocObjMap = {}
 		var dataObj=$scope.editDoc
-		if(!this.editDocObjMap[kkk.toString()]){
-			kkk.forEach(function(k){
-				if(dataObj)
-					if(dataObj[k])
-						dataObj = dataObj[k]
-					else
-						dataObj = null
-			})
-			this.editDocObjMap[kkk.toString()] = dataObj
-		}else
-			dataObj = this.editDocObjMap[kkk.toString()]
+		if(kk){
+			var kkk = this.clearPathToObj(kk)
+			if(!this.editDocObjMap)
+				this.editDocObjMap = {}
+			if(!this.editDocObjMap[kkk.toString()]){
+				kkk.forEach(function(k){
+					if(dataObj)
+						if(dataObj[k])
+							dataObj = dataObj[k]
+						else
+							dataObj = null
+				})
+				this.editDocObjMap[kkk.toString()] = dataObj
+			}else
+				dataObj = this.editDocObjMap[kkk.toString()]
+		}
 		return dataObj
 	}
 
 	$scope.progr_am.fn.clearPathToObj = function(kk){
+		var i=1
+		if(kk.indexOf('employee_request')>=0)
+			i=2
 		var kkk = kk.split('|')
-		kkk.splice(0,2)
+		kkk.splice(0,i)
 		return kkk		
 	}
 
@@ -129,11 +139,6 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 	},
 	
 	$scope.progr_am.fn.valueTranslate=function(k_parent, k){
-		if(!k_parent){
-			console.log(k)
-			return '???'			
-		}
-
 		var editDocObject = $scope.progr_am.fn.getEditDocObj(k_parent)
 		var dictionarieValues = $scope.eh_dictionaries.getValues(k, k_parent)
 		if(!editDocObject)
@@ -337,5 +342,6 @@ var amMap={
 	status:'статус',
 	employee_type:'тип робітника',
 	institution_name:'назва інститута',
+	location:'місце знаходження',
 }
 
