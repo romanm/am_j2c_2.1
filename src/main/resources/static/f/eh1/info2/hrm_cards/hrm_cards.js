@@ -8,79 +8,12 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 	$scope.progr_am.fn.init_onLoad = function(){
 		console.log('-----init_onLoad------------')
 		if($scope.request.parameters.person_id){
-
-			exe_fn.httpGet({url:'/f/mvp/employee_template2.json', //read template
-				then_fn:function(response) {
-//					console.log(response.data)
-					$scope.data.jsonTemplate=response.data
-					exe_fn.httpGet({url:'/r/url_sql_read2', //read data
-						params:{
-							sql:sql2.sql2_docbody_selectById(),
-							docbody_id:$scope.request.parameters.person_id},
-							then_fn:function(response) {
-								var //docbody = response.data.list[0].docbody
-								docbody = JSON.parse(response.data.list[0].docbody);
-								$scope.editDoc = docbody
-								if($scope.editDoc.data)
-									$scope.editDoc = $scope.editDoc.data
-									console.log($scope.editDoc)
-									$scope.progr_am.fn.calcEditDoc_CRC32()
-									adaptTemplateToData($scope.editDoc, 
-											$scope.data.jsonTemplate.employee_request)
-							}
-					})
-				}
-			})
-
-			adaptTemplateToData = function(data, template){
-				angular.forEach(data, function(v, k){
-					if(v.isObject()){
-						var v_template = template[k]
-						if(v.isArray()){
-							/*duplicate the template  array element 
-							 *to the number of data elements in array*/
-							for (var i = v_template.length; i < v.length; i++) {
-								v_template[i]=
-									JSON.parse(JSON.stringify(v_template[0]));
-							}
-						}
-						adaptTemplateToData(v, v_template)
-					}
-				});
-			}
-
-			exe_fn.httpGet({url:'/f/eh1/dictionaries.json', //read eHealth dictionary
-				then_fn:function(response) {
-					$scope.eh_dictionaries={ehMap:{},};
-					angular.forEach(response.data.data, function(v, k){
-						$scope.eh_dictionaries.ehMap[v.name]=v;
-					});
-					console.log($scope.eh_dictionaries.ehMap)
-					$scope.eh_dictionaries.getValues=function(k, k_parent){
-						if('type'.indexOf(k)>=0)
-							k = k_parent.split('|')
-							.splice(-2,1)[0].slice(0, -1)+'_'+k
-							else if('speciality'.indexOf(k)>=0){
-								k='speciality_type'
-							}else if('status'.indexOf(k)>=0){
-								k = k_parent.split('|')[1]+'_'+k
-							}else if('degree'.indexOf(k)>=0){
-								k = k_parent.split('|')
-								.splice(-2,1)[0].slice(0, -1)+'_'+k
-								k = k.replace('docto_degree','science_degree')
-							}else if('level'.indexOf(k)>=0){
-								k = k_parent.split('|')
-								.splice(-2,1)[0].slice(0, -1)+'_'+k
-								k = k.replace('specialitie_level','speciality_level')
-							}
-						var valuesObject = this.ehMap[k.toUpperCase()]
-						if(valuesObject){
-							return valuesObject.values 
-						}
-					}
-				}
-			})
 			
+			exe_fn.jsonEditorRead({
+				url_template:'/f/mvp/employee_template2.json',
+				docbody_id:$scope.request.parameters.person_id,
+			});
+
 		}
 	}
 	
@@ -120,21 +53,6 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 	}
 
 	$scope.progr_am.hrm_cards.fn={}
-	$scope.progr_am.hrm_cards.fn.save=function(){
-		console.log('-----save------79-------')
-		$scope.progr_am.fn.calcEditDoc_CRC32()
-		console.log($scope.editDoc_CRC32)
-//		console.log($scope.editDoc)
-		var docbody = JSON.stringify($scope.editDoc)
-		console.log(docbody)
-		var data = {sql:sql2.sql2_docbody_updateById(), docbody:docbody, docbody_id:$scope.editDoc.docbody_id}
-		exe_fn.httpPost({url:'/r/url_sql_update2',
-			then_fn:function(response) {
-//				console.log(response.data)
-			},
-			data:data,
-		})
-	}
 
 	$scope.progr_am.fn.init_principal = function(){
 		if($scope.principal.msp_id){
@@ -172,20 +90,6 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		}
 	},
 
-	$scope.progr_am.fn.valueTranslate=function(k_parent, k){
-		var editDocObject = $scope.progr_am.fn.getEditDocObj(k_parent)
-		var dictionarieValues = $scope.eh_dictionaries.getValues(k, k_parent)
-		if(!editDocObject)
-			return '___'
-			else if(!dictionarieValues)
-				return editDocObject[k]
-			else 
-				return dictionarieValues[editDocObject[k]]
-	},
-
-	$scope.progr_am.fn.keyTranslate=function(k){
-		return amMap[k]?amMap[k]:k;
-	},
 
 	$scope.progr_am.fn.oToEdit_k_parent=function(){
 		var k_parent = $scope.oToEdit.k_parent;
@@ -216,52 +120,6 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 
 	}
 
-	$scope.progr_am.fn.openObjectToEdit=function(o,k_parent,k){
-		var dataObj=this.getEditDocObj(k_parent)
-		if(!dataObj){//create empty object
-			var kkk = this.clearPathToObj(k_parent)	
-			var jsonTemplateObj = $scope.data.jsonTemplate.employee_request
-			var dataObj = $scope.editDoc
-			kkk.forEach(function(k){
-				jsonTemplateObj = jsonTemplateObj[k]
-				if(dataObj[k]){
-					dataObj = dataObj[k]
-				}else{
-					if(jsonTemplateObj.isArray()){
-						dataObj[k] = [{}]
-					}else{
-						dataObj[k] = {}
-					}
-					dataObj = dataObj[k]
-				}
-			})
-		}
-		$scope.oToEdit = {k_parent:k_parent,k:k,o:o,dataObj:dataObj};
-	}
 
-	$scope.progr_am.fn.getEditDocObj=function(kk){
-		var kkk = this.clearPathToObj(kk)
-		if(!this.editDocObjMap)
-			this.editDocObjMap = {}
-		var dataObj=$scope.editDoc
-		if(!this.editDocObjMap[kkk.toString()]){
-			kkk.forEach(function(k){
-				if(dataObj)
-					if(dataObj[k])
-						dataObj = dataObj[k]
-					else
-						dataObj = null
-			})
-			this.editDocObjMap[kkk.toString()] = dataObj
-		}else
-			dataObj = this.editDocObjMap[kkk.toString()]
-		return dataObj
-	}
-
-	$scope.progr_am.fn.clearPathToObj = function(kk){
-		var kkk = kk.split('|')
-		kkk.splice(0,2)
-		return kkk		
-	}
 }
 
