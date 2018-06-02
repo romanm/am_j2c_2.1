@@ -1,6 +1,7 @@
 <div ng-include="'/f/eh1/info1/test2/f74-head2.html'"></div>
 <div class="w3-topbar w3-border-blue-gray">
-	<div class="w3-border-bottom  w3-small">
+
+	<div class="w3-border-bottom w3-small">
 		<span class="w3-small w13-gray">вибір:</span> рік, місяць || <a href="?" class="w3-btn w3-padding-small"
 			ng-class="{'w3-light-gray':!seekParam.physician}"> ЛЗ</a> | <span
 			ng-include="'/f/eh1/info1/test2/physician_choose_button.html'">
@@ -20,7 +21,6 @@
 		{{physicianData.first_name}}
 		{{physicianData.second_name}}
 	</div>
-	
 
 	<div class="w3-small w3-border-bottom  w3-blue-gray">
 		рік: <select class="w3-btn w3-border w3-padding-small">
@@ -37,7 +37,6 @@
 			href="/v/icpc2_test2_report_print{{seekParam.getURL()}}"> <i class="fa fa-print"
 			aria-hidden="true"></i>
 		</a>
-
 	</div>
 
 </div>
