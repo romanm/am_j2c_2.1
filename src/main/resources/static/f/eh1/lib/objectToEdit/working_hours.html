@@ -10,15 +10,29 @@
 			- <input style="width: 80%;" ng-model="v[0][1]" class="w3-border">
 		</div>
 		<div class="w3-quarter">
-			, <input ng-if="v[1]" style="width: 80%;" ng-model="v[1][0]"
-				class="w3-border">
+			<div ng-if="v[1]">
+				, <input style="width: 80%;" ng-model="v[1][0]" class="w3-border">
+			</div>
+			<a href="#" ng-if="!v[1]" class="w3-btn  w3-padding-small w3-tiny"
+			ng-click="progr_am.fn.working_hours.addPaar(v)"
+			> + </a>
 		</div>
 		<div class="w3-quarter">
-      - <input ng-if="v[1]" style="width: 80%;" ng-model="v[1][1]"
-        class="w3-border">
-    </div>
+			<div ng-if="v[1]">
+				- <input style="width: 80%;" ng-model="v[1][1]" class="w3-border">
+			</div>
+		</div>
 	</div>
 </div>
+<div class="w3-row">
+	<div class="w3-half">&nbsp;</div>
+	<div class="w3-half">
+		<a href="#" ng-if="!v[1]" class="w3-btn w3-padding-small w3-tiny"
+			ng-click="progr_am.fn.working_hours.minusEmpty(oToEdit.dataObj)">
+			- Видалити пусті </a>
+	</div>
+</div>
+
 <!-- 
 {{oToEdit.dataObj}}
  -->

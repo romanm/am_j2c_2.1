@@ -1,16 +1,6 @@
 <span ng-repeat="(k1,v1) in o"
-	ng-init="v1_data=progr_am.fn.getEditDocObj(k_parent)[k1]"> <!-- 
-ng-init="v1_data=progr_am.fn.valueTranslate(k_parent, k1)"
-a1
-{{progr_am.fn.getEditDocObj(k_parent)}}
- --> <span ng-if="!v1_data.isObject()"> <b title="{{k}}.{{k1}}"
-		class="w3-tiny w3-text-gray"> {{progr_am.fn.keyTranslate(k1)}}</b>&nbsp;
-		<span ng-repeat="v2 in v1_data "> <!-- 
-      ng-repeat="v2 in v1_data  track by $index">
-			{{v2}}
- --> <span ng-repeat="v3 in v2">{{$last?'-':''}}{{v3}}</span>
-			{{$last?'':', '}}
-	</span> <span class="w3-text-gray">{{$last?'':','}} </span>
-</span>
-
-</span>
+	ng-init="v1_data=progr_am.fn.getEditDocObj(k_parent)[k1]"><b
+	title="{{k}}.{{k1}}" class="w3-tiny w3-text-gray">{{progr_am.fn.keyTranslate(k1)}}</b>&nbsp;<span
+	ng-repeat="v2 in v1_data "><span
+		ng-repeat="v3 in v2  track by $index">{{$last?'-':''}}{{v3}}</span>{{$last?'':',&nbsp;'}}</span><span
+	class="w3-text-gray">{{$last?'':', '}}</span></span>
