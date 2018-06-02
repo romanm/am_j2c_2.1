@@ -207,7 +207,7 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		if(!docbody_id)
 			docbody_id = $scope.editDoc.doc_id
 		var data = {sql:sql2.sql2_docbody_updateById(), docbody:docbody, docbody_id:docbody_id}
-		console.log(data)
+//		console.log(data)
 		exe_fn.httpPost
 		({	url:'/r/url_sql_update2',
 			then_fn:function(response) {
@@ -245,6 +245,29 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			return style;
 	},
 	
+	$scope.progr_am.fn.firstInList=function(){
+		var d = this.removeFromList()
+		$scope.oToEdit.dataObj.splice(0,0,d.dataObj)
+		$scope.oToEdit.o.splice(0,0,d.o)
+	}
+
+	$scope.progr_am.fn.addToList=function(){
+		var dataObj=this.getEditDocObj($scope.oToEdit.k_parent)
+		var listElement0 = $scope.oToEdit.o[0],
+		listElement1 = JSON.parse(JSON.stringify(listElement0));
+		delete listElement1.$$hashKey
+		$scope.oToEdit.o.push(listElement1)
+		$scope.oToEdit.dataObj.push({})
+	}
+
+	$scope.progr_am.fn.removeFromList=function(){
+		var d = {
+			o:$scope.oToEdit.o.splice($scope.oToEdit.selectedItem,1)[0],
+			dataObj:$scope.oToEdit.dataObj.splice($scope.oToEdit.selectedItem,1)[0],
+		}
+		return d
+	}
+
 	$scope.progr_am.viewes={
 		json_form:{ngInclude:'/f/eh1/info2/hrm_cards/json_form1.html',
 			dataName:'jsonTemplate',
@@ -267,7 +290,7 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			msp_division:'підрозділи',
 		},
 		hrm:{name:'Відділ кадрів',
-			hrm_cards:'карточки',
+			hrm_cards2:'карточки',
 		},
 		physician:{name:'Кабінет лікаря',
 			declaration:'декларація'
