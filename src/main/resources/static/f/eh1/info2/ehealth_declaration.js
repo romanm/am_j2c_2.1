@@ -5,7 +5,7 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 //	$scope.data.jsonTemplate={x:'y'}
 
 	$scope.$watch('principal',function(){ if($scope.principal){
-		console.log('----$scope.$watch(principal,function()------8------');
+		console.log('---watch-principal------8------');
 		if($scope.progr_am.fn.init_principal)
 			$scope.progr_am.fn.init_principal()
 		exe_fn.run_progr_am()
@@ -28,16 +28,12 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 							if($scope.editDoc.data)
 								$scope.editDoc = $scope.editDoc.data
 								console.log($scope.editDoc)
-								$scope.progr_am.fn.calcEditDoc_CRC32()
-								
-								var jsonTemplate = $scope.data.jsonTemplate 
-								if(jsonTemplate.employee_request)
-									jsonTemplate = $scope.data.jsonTemplate.employee_request 
-									
-								console.log(jsonTemplate)
-								console.log($scope.editDoc)
 
-								adaptTemplateToData($scope.editDoc, jsonTemplate)
+								$scope.progr_am.fn.calcEditDoc_CRC32()
+								$scope.data.jsonTemplateBody
+									= $scope.data.jsonTemplate[jsonEditorReadParams.doc_type+'_request']
+								//console.log($scope.data.jsonTemplateBody)
+								adaptTemplateToData($scope.editDoc, $scope.data.jsonTemplateBody)
 						}
 				})
 			}
@@ -85,14 +81,17 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		var dataObj=this.getEditDocObj(k_parent)
 		if(!dataObj){//create empty object
 			var kkk = this.clearPathToObj(k_parent)	
-			var jsonTemplateObj = $scope.data.jsonTemplate
+			var jsonTemplateObj = $scope.data.jsonTemplateBody
+			/*
 			if(jsonTemplateObj.employee_request)
 				jsonTemplateObj = jsonTemplateObj.employee_request
+			else if(jsonTemplateObj.division_request)
+				jsonTemplateObj = jsonTemplateObj.division_request
+			 * */
 
 			var dataObj = $scope.editDoc
 			kkk.forEach(function(k){
 				jsonTemplateObj = jsonTemplateObj[k]
-				console.log(k)
 
 				if(!dataObj[k]){
 					if(jsonTemplateObj.isArray()){
@@ -114,7 +113,6 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		$scope.oToEdit = {k_parent:k_parent,k:k,o:o,dataObj:dataObj};
 		
 		$scope.oToEdit.editFormType = $scope.progr_am.fn.editFormType(dataObj, k)
-		console.log($scope.oToEdit)
 	}
 	
 	$scope.progr_am.fn.editFormType=function(dataObj, k){
@@ -153,12 +151,9 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 	},
 
 	$scope.progr_am.fn.clearPathToObj = function(kk){
-		var i=1
-		if(kk.indexOf('employee_request')>=0)
-			i=2
 		var kkk = kk.split('|')
-		kkk.splice(0,i)
-		return kkk		
+		kkk.splice(0,2)
+		return kkk
 	}
 
 	$scope.progr_am.fn.groupsToEdit='null|',//setted in page.js
@@ -282,10 +277,7 @@ adaptTemplateToData = function(data, template){
 	if(template){
 		angular.forEach(data, function(v, k){
 			if(v.isObject()){
-				console.log(k)
-				console.log(v)
 				var v_template = template[k]
-				console.log(v_template)
 				if(v.isArray()){
 					/*duplicate the template  array element 
 					 *to the number of data elements in array*/
@@ -340,8 +332,11 @@ var amMap={
 	second_name:'По‑батькові',
 	party:'паспортна частина',
 	phones:'телефони',
-	employee_request:'картка співробітника',
 	doctor:'лікар',
+	
+	employee_request:'картка співробітника',
+	division_request:'амбулаторія - філіал',
+
 	confidant_person:'опікун',
 	documents_person:'документи осіб',
 	authentication_methods:'методи перевірки автентичності',

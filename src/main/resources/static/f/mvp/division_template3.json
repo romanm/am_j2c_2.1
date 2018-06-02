@@ -1,0 +1,72 @@
+{
+  "division_request": {
+    "name": "",
+    "type": "",
+    "email": "",
+    "external_id": "",
+    "addresses": [
+      {
+        "type": "",
+        "country": "",
+        "area": "",
+        "region": "",
+        "settlement": "",
+        "settlement_type": "",
+        "settlement_id": "",
+        "street_type": "",
+        "street": "",
+        "building": "",
+        "apartment": "",
+        "zip": ""
+      }
+    ],
+    "phones": [
+      {
+        "type": "",
+        "number": ""
+      }
+    ],
+    "working_hours": {
+      "mon": [
+        [
+          "08.00",
+          "12.00"
+        ],
+        [
+          "14.00",
+          "18.00"
+        ]
+      ],
+      "tue": [
+        [
+          "08.00",
+          "12.00"
+        ]
+      ],
+      "wed": [
+        [
+          "08.00",
+          "12.00"
+        ]
+      ],
+      "thu": [
+        [
+          "08.00",
+          "12.00"
+        ]
+      ],
+      "fri": [
+        [
+          "08.00",
+          "12.00"
+        ]
+      ],
+      "sat": [],
+      "sun": []
+    },
+    "location": {
+      "latitude": null,
+      "longitude": null
+    }
+  }
+}

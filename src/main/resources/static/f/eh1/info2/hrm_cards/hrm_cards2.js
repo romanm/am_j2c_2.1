@@ -14,6 +14,7 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 
 			exe_fn.jsonEditorRead({
 				url_template:'/f/mvp/employee_template2.json',
+				doc_type:'employee',
 				docbody_id:$scope.request.parameters.person_id,
 			})
 
