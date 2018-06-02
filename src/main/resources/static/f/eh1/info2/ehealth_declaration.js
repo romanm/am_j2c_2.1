@@ -82,12 +82,6 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		if(!dataObj){//create empty object
 			var kkk = this.clearPathToObj(k_parent)	
 			var jsonTemplateObj = $scope.data.jsonTemplateBody
-			/*
-			if(jsonTemplateObj.employee_request)
-				jsonTemplateObj = jsonTemplateObj.employee_request
-			else if(jsonTemplateObj.division_request)
-				jsonTemplateObj = jsonTemplateObj.division_request
-			 * */
 
 			var dataObj = $scope.editDoc
 			kkk.forEach(function(k){
