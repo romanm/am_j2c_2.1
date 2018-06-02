@@ -107,18 +107,15 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 				$scope.progr_am.fn.working_hours = {}
 				$scope.progr_am.fn.working_hours.addPaar 
 				= function(v){
-					console.log(v)
 					v.push(['',''])
 				}
 				$scope.progr_am.fn.working_hours.minusEmpty 
 				= function(o){
 					angular.forEach(o, function(v,k){
-						if(v[1] && '' == (v[1][0]+v[1][1]) ){
+						if(v[1] && '' == (v[1][0]+v[1][1]) )
 							v = v.splice(1,2)
-						}
 					})
 				}
-
 			}
 		}
 
