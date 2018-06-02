@@ -20,6 +20,7 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 		}
 	}
 
+	$scope.progr_am.fn.groupsToEdit='doctor|',
 	$scope.progr_am.viewes.j2c_table.dataName='hrm_cards'
 	$scope.progr_am.hrm_cards={
 		init_data:{

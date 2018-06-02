@@ -17,10 +17,6 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 		}
 	}
 	
-	if($scope.request.parameters.person_id){
-
-	}
-	
 	$scope.$watch('progr_am.viewes.hrm_menu.seek',function(seek){if(seek){
 		console.log(seek)
 	}})
@@ -77,19 +73,7 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 	},
 
 
-	$scope.progr_am.fn.clear_oToEdit=function(){
-		console.log($scope.oToEdit)
-		delete $scope.oToEdit
-		console.log($scope.oToEdit)
-	},
 	$scope.progr_am.fn.groupsToEdit='doctor|',
-	$scope.progr_am.fn.isGroupToEdit=function(){
-		if($scope.oToEdit){
-			if(this.groupsToEdit.indexOf($scope.oToEdit.k)>=0)
-				return true
-		}
-	},
-
 
 	$scope.progr_am.fn.oToEdit_k_parent=function(){
 		var k_parent = $scope.oToEdit.k_parent;

@@ -2,6 +2,8 @@ init_am_directive.init_msp_division = function($scope, $http){
 	console.log('-------msp_division----2------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 
+	$scope.testDate = new Date()
+	
 	$scope.progr_am.fn.init_onLoad = function(){
 		console.log('-----init_onLoad------------')
 		if($scope.request.parameters.division_id){
@@ -10,7 +12,6 @@ init_am_directive.init_msp_division = function($scope, $http){
 				docbody_id:$scope.request.parameters.division_id,
 			})
 		}
-
 	}
 
 	$scope.progr_am.viewes.hrm_menu.seek_placeholder

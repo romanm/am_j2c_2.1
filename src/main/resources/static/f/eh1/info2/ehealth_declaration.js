@@ -85,23 +85,44 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		var dataObj=this.getEditDocObj(k_parent)
 		if(!dataObj){//create empty object
 			var kkk = this.clearPathToObj(k_parent)	
-			var jsonTemplateObj = $scope.data.jsonTemplate.employee_request
+			var jsonTemplateObj = $scope.data.jsonTemplate
+			if(jsonTemplateObj.employee_request)
+				jsonTemplateObj = jsonTemplateObj.employee_request
+
 			var dataObj = $scope.editDoc
 			kkk.forEach(function(k){
 				jsonTemplateObj = jsonTemplateObj[k]
-				if(dataObj[k]){
-					dataObj = dataObj[k]
-				}else{
+				console.log(k)
+
+				if(!dataObj[k]){
 					if(jsonTemplateObj.isArray()){
 						dataObj[k] = [{}]
 					}else{
 						dataObj[k] = {}
 					}
-					dataObj = dataObj[k]
 				}
+				dataObj = dataObj[k]
 			})
 		}
+
+		if('working_hours'==k)
+			if(dataObj.isEmpty())
+				angular.forEach(o, function(v,k){
+					dataObj[k]=v
+				})			
+
 		$scope.oToEdit = {k_parent:k_parent,k:k,o:o,dataObj:dataObj};
+		
+		$scope.oToEdit.editFormType = $scope.progr_am.fn.editFormType(dataObj, k)
+		console.log($scope.oToEdit)
+	}
+	
+	$scope.progr_am.fn.editFormType=function(dataObj, k){
+		var editFormType
+		if($scope.progr_am.fn.isGroupToEdit())	editFormType = 'isGroupToEdit'
+		else if(dataObj.isArray())	editFormType = 'isArray'
+		else if('working_hours'==k)	editFormType = 'isInclude'
+		return editFormType
 	}
 	
 	$scope.progr_am.fn.getEditDocObj=function(kk){
@@ -125,6 +146,12 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		return dataObj
 	}
 
+	$scope.progr_am.fn.clear_oToEdit=function(){
+		console.log($scope.oToEdit)
+		delete $scope.oToEdit
+		console.log($scope.oToEdit)
+	},
+
 	$scope.progr_am.fn.clearPathToObj = function(kk){
 		var i=1
 		if(kk.indexOf('employee_request')>=0)
@@ -134,7 +161,17 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		return kkk		
 	}
 
+	$scope.progr_am.fn.groupsToEdit='null|',//setted in page.js
+	$scope.progr_am.fn.isGroupToEdit=function(){
+		if($scope.oToEdit){
+			if(this.groupsToEdit.indexOf($scope.oToEdit.k)>=0)
+				return true
+		}
+	},
+	
 	$scope.progr_am.fn.keyTranslate=function(k){
+		if(k*1==k)
+			return k+1
 		return amMap[k]?amMap[k]:k;
 	},
 	
@@ -143,10 +180,10 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		var dictionarieValues = $scope.eh_dictionaries.getValues(k, k_parent)
 		if(!editDocObject)
 			return '___'
-			else if(!dictionarieValues)
-				return editDocObject[k]
-			else 
-				return dictionarieValues[editDocObject[k]]
+		else if(!dictionarieValues)
+			return editDocObject[k]
+		else 
+			return dictionarieValues[editDocObject[k]]
 	},
 
 	$scope.progr_am.fn.save=function(){
@@ -155,9 +192,15 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		console.log($scope.editDoc_CRC32)
 //		console.log($scope.editDoc)
 		var docbody = JSON.stringify($scope.editDoc)
-		console.log(docbody)
-		var data = {sql:sql2.sql2_docbody_updateById(), docbody:docbody, docbody_id:$scope.editDoc.docbody_id}
-		exe_fn.httpPost({url:'/r/url_sql_update2',
+//		console.log(docbody)
+		console.log($scope.editDoc)
+		var docbody_id = $scope.editDoc.docbody_id
+		if(!docbody_id)
+			docbody_id = $scope.editDoc.doc_id
+		var data = {sql:sql2.sql2_docbody_updateById(), docbody:docbody, docbody_id:docbody_id}
+		console.log(data)
+		exe_fn.httpPost
+		({	url:'/r/url_sql_update2',
 			then_fn:function(response) {
 //				console.log(response.data)
 			},
@@ -236,20 +279,25 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 }
 
 adaptTemplateToData = function(data, template){
-	angular.forEach(data, function(v, k){
-		if(v.isObject()){
-			var v_template = template[k]
-			if(v.isArray()){
-				/*duplicate the template  array element 
-				 *to the number of data elements in array*/
-				for (var i = v_template.length; i < v.length; i++) {
-					v_template[i]=
-						JSON.parse(JSON.stringify(v_template[0]));
+	if(template){
+		angular.forEach(data, function(v, k){
+			if(v.isObject()){
+				console.log(k)
+				console.log(v)
+				var v_template = template[k]
+				console.log(v_template)
+				if(v.isArray()){
+					/*duplicate the template  array element 
+					 *to the number of data elements in array*/
+					for (var i = v_template.length; i < v.length; i++) {
+						v_template[i]=
+							JSON.parse(JSON.stringify(v_template[0]));
+					}
 				}
+				adaptTemplateToData(v, v_template)
 			}
-			adaptTemplateToData(v, v_template)
-		}
-	});
+		});
+	}
 }
 
 var sql2= {
@@ -343,5 +391,12 @@ var amMap={
 	employee_type:'тип робітника',
 	institution_name:'назва інститута',
 	location:'місце знаходження',
+	mon:'пн',
+	tue:'вт',
+	wed:'ср',
+	thu:'чт',
+	fri:'пт',
+	sat:'сб',
+	sun:'нд',
 }
 

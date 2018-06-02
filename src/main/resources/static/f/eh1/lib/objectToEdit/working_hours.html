@@ -1,0 +1,24 @@
+<div ng-repeat="(k,v) in oToEdit.dataObj">
+	<b class="w3-tiny" 
+	title="{{k}}-{{v}}"
+	> {{progr_am.fn.keyTranslate(k)}} </b>
+	<div class="w3-row">
+		<div class="w3-quarter">
+			<input style="width: 80%;" ng-model="v[0][0]" class="w3-border">
+		</div>
+		<div class="w3-quarter">
+			- <input style="width: 80%;" ng-model="v[0][1]" class="w3-border">
+		</div>
+		<div class="w3-quarter">
+			, <input ng-if="v[1]" style="width: 80%;" ng-model="v[1][0]"
+				class="w3-border">
+		</div>
+		<div class="w3-quarter">
+      - <input ng-if="v[1]" style="width: 80%;" ng-model="v[1][1]"
+        class="w3-border">
+    </div>
+	</div>
+</div>
+<!-- 
+{{oToEdit.dataObj}}
+ -->

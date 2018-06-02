@@ -222,6 +222,13 @@ Object.prototype.objKeys = function(){
 Object.prototype.isObject = function(){
 	return (''+this).indexOf('Object')>=0;
 };
+Object.prototype.isEmpty = function() {
+    for(var key in this) {
+        if(this.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+};
 var procentWindowHeight=function(procent){
 	return Math.floor(window.innerHeight*procent/100) 
 }

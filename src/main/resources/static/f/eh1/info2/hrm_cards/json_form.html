@@ -6,17 +6,22 @@
 	}"
 	ng-click="progr_am.fn.openObjectToEdit(o,k_parent,k)">
 	<a ng-if="k*1==k" class="w3-tiny am-b" href="#"> {{1+k}}.</a> 
-	<span
-		ng-repeat="(k1,v) in o" on="k1" ng-switch> <span ng-if="!v.isObject()">
-			<b title="{{k1}}"
-			class="w3-tiny w3-text-gray"> {{progr_am.fn.keyTranslate(k1)}}</b>&nbsp;<span
-			class="am-nowrap" ng-switch-when="birth_date">
-				{{progr_am.fn.valueTranslate(k_parent, k1)|date:'mediumDate'}}</span><span
-			class="am-nowrap" ng-switch-when="start_date|end_date"
-			ng-switch-when-separator="|">{{progr_am.fn.valueTranslate(k_parent,
-				k1)|date:'medium'}}</span><span ng-switch-default>
-				{{progr_am.fn.valueTranslate(k_parent, k1) }}</span><span
-			class="w3-text-gray">{{$last?'':','}} </span>
+	<span on="editFormType" ng-switch> <span
+		ng-switch-when="isInclude"> <span
+			ng-include="'/f/eh1/lib/objectToEdit/'+k+'-view.html'"></span>
+	</span> <span ng-switch-default> <span ng-repeat="(k1,v1) in o" on="k1"
+			ng-switch> <span ng-if="!v1.isObject()"> <b
+					title="{{k}}.{{k1}}" class="w3-tiny w3-text-gray">
+						{{progr_am.fn.keyTranslate(k1)}}</b>&nbsp;<span class="am-nowrap"
+					ng-switch-when="birth_date">
+						{{progr_am.fn.valueTranslate(k_parent, k1)|date:'mediumDate'}}</span><span
+					class="am-nowrap" ng-switch-when="start_date|end_date"
+					ng-switch-when-separator="|">{{progr_am.fn.valueTranslate(k_parent,
+						k1)|date:'medium'}}</span><span ng-switch-default>
+						{{progr_am.fn.valueTranslate(k_parent, k1) }}</span><span
+					class="w3-text-gray">{{$last?'':','}} </span>
+			</span>
+		</span>
 	</span>
 	</span>
 </div>
@@ -27,10 +32,11 @@
 		<div class="w3-hover-shadow w3-hover-text-gray"
 			ng-class="{'w3-blue-gray w3-card-4':oToEdit.o==o}"
 			ng-click="progr_am.fn.openObjectToEdit(o,k_parent,k)">
-			<a href="#" title="{{k}}" ng-if="k*1!=k" class="am-b">
-				{{progr_am.fn.keyTranslate(k)}} </a>
+			<a ng-if="k*1!=k" href="#" title="{{k}}" class="am-b">
+				{{progr_am.fn.keyTranslate(k)}}
+			</a>
 		</div>
 	</div>
-	<div class="w3-leftbar" ng-init="o=v;k_parent=k_parent+'|'+k;"
+	<div class="w3-leftbar" ng-init="o=v;k_parent=k_parent+'|'+k;editFormType=progr_am.fn.editFormType(o, k)"
 		ng-include="'/f/eh1/info2/hrm_cards/json_form.html'"></div>
 </div>
