@@ -172,7 +172,12 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 				return true
 		}
 	},
-	
+
+	$scope.progr_am.fn.oToEdit_k_parent=function(){
+		var k_parent = $scope.oToEdit.k_parent;
+		return k_parent.split('|').splice(-2,1).toString()
+	}
+
 	$scope.progr_am.fn.keyTranslate=function(k){
 		if(k*1==k)
 			return k+1
