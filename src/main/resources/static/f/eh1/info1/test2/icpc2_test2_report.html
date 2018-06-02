@@ -1,12 +1,12 @@
 <div ng-include="'/f/eh1/info1/test2/f74-head2.html'"></div>
-<div>
-	<div class="w3-border-bottom">
+<div class="w3-topbar ">
+	<div class="w3-border-bottom w3-small">
 		<span class="w3-small w13-gray">вибір:</span> рік, місяць || <a href="?" class="w3-btn w3-padding-small"
 			ng-class="{'w3-light-gray':!seekParam.physician}"> ЛЗ</a> | <span
 			ng-include="'/f/eh1/info1/test2/physician_choose_button.html'">
 		</span> || випадки | діагнози <a href="{{seekParam.getURL()}}"
-			class="w3-btn w3-border w3-padding-small"> 
-			<i class="fa fa-filter" aria-hidden="true"></i>
+			class="w3-btn w3-border w3-padding-small w3-blue-gray"> 
+			<i class="fa fa-filter"></i>
 			Вибірка
 			<!--  
 			<i class="fa fa-search" aria-hidden="true"></i>
@@ -22,7 +22,7 @@
 	</div>
 	
 
-	<div class="w3-small w3-border-bottom  ">
+	<div class="w3-small w3-border-bottom  w3-blue-gray">
 		рік: <select class="w3-btn w3-border w3-padding-small">
 			<option value="{{year}}" ng-repeat="year in [2018,2017]"
 				ng-click="seekParam.setYear(year)"
