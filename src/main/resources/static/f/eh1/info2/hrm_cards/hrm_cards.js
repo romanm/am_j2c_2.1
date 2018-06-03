@@ -75,13 +75,5 @@ init_am_directive.init_hrm_cards = function($scope, $http){
 
 	$scope.progr_am.fn.groupsToEdit='doctor|',
 
-	$scope.progr_am.fn.removeFromList=function(){
-		var d = {
-			o:$scope.oToEdit.o.splice($scope.oToEdit.selectedItem,1)[0],
-			dataObj:$scope.oToEdit.dataObj.splice($scope.oToEdit.selectedItem,1)[0],
-		}
-		return d
-	}
-
 }
 

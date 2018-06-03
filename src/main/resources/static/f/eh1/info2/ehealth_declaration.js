@@ -49,10 +49,20 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 				
 				$scope.eh_dictionaries.getValues = function(k, k_parent){
 					if(k_parent){
-						if('type'.indexOf(k)>=0)
-							k = k_parent.split('|')
-							.splice(-2,1)[0].slice(0, -1)+'_'+k
-						else if('speciality'.indexOf(k)>=0){
+						if('type'.indexOf(k)>=0){
+							var kk = k_parent.split('|')
+							var i = kk.length==2?-1:-2
+							var kki = kk.splice(i,1)
+							var kk0 = kki[0]
+							if(kk0.indexOf('_request')>=0){
+								kk0 = kk0.replace('_request','')
+							}else if(kk0.indexOf('addresses')>=0){
+								kk0 = kk0.replace('addresses','address')
+							}else{
+								kk0 = kk0.slice(0, -1)
+							}
+							k = kk0+'_'+k
+						}else if('speciality'.indexOf(k)>=0){
 							k='speciality_type'
 						}else if('status'.indexOf(k)>=0){
 							k = k_parent.split('|')[1]+'_'+k
@@ -154,9 +164,7 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 	}
 
 	$scope.progr_am.fn.clear_oToEdit=function(){
-		console.log($scope.oToEdit)
 		delete $scope.oToEdit
-		console.log($scope.oToEdit)
 	},
 
 	$scope.progr_am.fn.clearPathToObj = function(kk){

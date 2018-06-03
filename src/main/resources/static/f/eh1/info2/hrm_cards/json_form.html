@@ -17,7 +17,9 @@
 						{{progr_am.fn.valueTranslate(k_parent, k1)|date:'mediumDate'}}</span><span
 					class="am-nowrap" ng-switch-when="start_date|end_date"
 					ng-switch-when-separator="|">{{progr_am.fn.valueTranslate(k_parent,
-						k1)|date:'medium'}}</span><span ng-switch-default>
+						k1)|date:'medium'}}</span><span ng-switch-default
+						title="{{k_parent}}.{{k1}}"
+						>
 						{{progr_am.fn.valueTranslate(k_parent, k1) }}</span><span
 					class="w3-text-gray">{{$last?'':','}} </span>
 			</span>
