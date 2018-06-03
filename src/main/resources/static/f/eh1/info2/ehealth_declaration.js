@@ -338,6 +338,9 @@ adaptTemplateToData = function(data, template){
 }
 
 var sql2= {
+	sql2_patient_persons:function(){
+		return "SELECT p.* FROM person p,doc d WHERE doc_id=person_id AND doctype=1"
+	},
 	sql2_msp_divisions_select:function(){
 		return "SELECT doc_id division_id, d.*,b.* FROM doc d, docbody b " +
 				"WHERE doc_id=docbody_id AND doctype=16  AND parent_id=:msp_id"
@@ -348,7 +351,7 @@ var sql2= {
 	sql2_docbody_updateById:function(){
 		return "UPDATE docbody SET docbody=:docbody " +
 				" WHERE docbody_id=:docbody_id"
-	}
+	},
 }
 
 var amMap={

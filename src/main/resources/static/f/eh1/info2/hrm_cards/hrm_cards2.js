@@ -11,7 +11,6 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 	$scope.progr_am.fn.init_onLoad = function(){
 		console.log('-----init_onLoad------------')
 		if($scope.request.parameters.person_id){
-
 			exe_fn.jsonEditorRead({
 				url_template:'/f/mvp/employee_template2.json',
 				doc_type:'employee',

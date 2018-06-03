@@ -3,6 +3,7 @@ package com.algoritmed.am_j2c_2;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -63,11 +64,16 @@ public class EhCommonRest  extends Db2Common{
 			,HttpServletRequest request
 			) {
 		Map<String, Object> map = sqlParamToMap(sql, request);
-		logger.info("\n\n--24-- --begin-- /read2_sql_with_param"
+		logger.info("\n\n--66-- --begin-- /read2_sql_with_param"
 				+ "\n" + map
 				);
+		for (String key : map.keySet()) {
+			if(!key.contains("sql")) {
+				System.err.println(key+" = "+map.get(key));
+			}
+		}
 		read_select(map, env.getProperty(sql), db2ParamJdbcTemplate);
-		logger.info("\n--28-- --end-- /read2_sql_with_param \n"
+		logger.info("\n--70-- --end-- /read2_sql_with_param \n"
 				);
 		return map;
 	}

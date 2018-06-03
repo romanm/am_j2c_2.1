@@ -1,4 +1,32 @@
 {
+"info2":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh1/info2/info2.html'",
+    "script": "/f/eh1/info2/info2.js",
+    "title": "development declaration",
+    "parent": "home"
+},
+"msp_division":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh1/lib/table_json_editor.html'",
+    "script": "/f/eh1/info2/msp_division/msp_division.js",
+    "title": "амбулаторії",
+    "parent": "home"
+},
+"declaration":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh1/lib/table_json_editor.html'",
+    "script": "/f/eh1/info2/declaration1/declaration1.js",
+    "title": "відділ кадрів",
+    "parent": "home"
+},
+"hrm_cards2":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh1/lib/table_json_editor.html'",
+    "script": "/f/eh1/info2/hrm_cards/hrm_cards2.js",
+    "title": "відділ кадрів",
+    "parent": "home"
+},
 "info":{
 	"th_template":"eh1_index1"
 	,"ng_template":"'/f/eh1/info1/info1.html'"
@@ -148,27 +176,6 @@
   "script":"/f/eh1/info1/test1/app_admin.js",
   "alias":"Адмін застосунка",
   "parent":"info"
-},
-"info2":{
-    "th_template": "template3",
-    "ng_template": "'/f/eh1/info2/info2.html'",
-    "script": "/f/eh1/info2/info2.js",
-    "title": "development declaration",
-    "parent": "home"
-},
-"msp_division":{
-    "th_template": "template3",
-    "ng_template": "'/f/eh1/lib/table_json_editor.html'",
-    "script": "/f/eh1/info2/msp_division/msp_division.js",
-    "title": "амбулаторії",
-    "parent": "home"
-},
-"hrm_cards2":{
-    "th_template": "template3",
-    "ng_template": "'/f/eh1/lib/table_json_editor.html'",
-    "script": "/f/eh1/info2/hrm_cards/hrm_cards2.js",
-    "title": "відділ кадрів",
-    "parent": "home"
 },
 "hrm_cards":{
     "th_template": "template3",
