@@ -6,6 +6,14 @@
     "title": "development declaration",
     "parent": "home"
 },
+"msp_data":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh1/lib/table_json_editor.html'",
+    "n2g_template": "'/f/eh1/info2/msp_division/msp_data.html'",
+    "script": "/f/eh1/info2/msp_division/msp_data.js",
+    "title": "амбулаторії",
+    "parent": "home"
+},
 "msp_division":{
     "th_template": "template3",
     "ng_template": "'/f/eh1/lib/table_json_editor.html'",
