@@ -28,7 +28,4 @@ init_am_directive.init_declaration = function($scope, $http){
 		},
 	}
 
-
 }
-
-
