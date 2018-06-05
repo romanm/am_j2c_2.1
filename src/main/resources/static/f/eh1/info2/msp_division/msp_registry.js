@@ -1,5 +1,5 @@
 init_am_directive.init_msp_registry = function($scope, $http){
-	console.log('-------msp_page----2------------')
+	console.log('-init_msp_registry----2------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 
 	$scope.progr_am.viewes={
