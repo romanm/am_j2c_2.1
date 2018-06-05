@@ -1,8 +1,12 @@
 <div class="w3-row w3-card w3-topbar">
-	<h1>{{mspDoc.name}}</h1>
+	<h1
+	class="w3-border-bottom"
+	>{{mspDoc.name}}</h1>
 	<div ng-repeat="divisionItem in msp_division.data.list"
 		ng-init="division=divisionItem.docbody">
-		<h2>{{division.name}}</h2>
+		<h2
+		class="w3-border-bottom"
+		>{{division.name}}</h2>
 		<div class="w3-row">
 			<div class="w3-half ">
 				<span ng-repeat="phone in division.phones"> {{phone.type}}
