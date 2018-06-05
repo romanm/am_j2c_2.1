@@ -11,6 +11,48 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		exe_fn.run_progr_am()
 	} });
 
+	exe_fn.msp = {}
+	exe_fn.msp.msp_division = {
+		init_data:{
+			row_key:'division_id',
+			include_cols:'/f/eh1/info2/msp_division/division_cols.html',
+			col_sort:['division_id', 'name', 'address'],
+			fn_col:{
+				name1:function(row){
+					return row.docbody.name
+				},
+			},
+		},
+		httpGet:{ url:'/r/url_sql_read2',
+			params:{
+				sql:sql2.sql2_msp_divisions_select(),msp_id:723,
+			},
+			then_fn:function(response) {
+				$scope.msp_division.data=response.data
+				$scope.msp_division.data
+				.col_keys={
+					division_id:'ІН',
+					name:'Назва',
+					address:'Адреса',
+				}
+				angular.forEach($scope.msp_division.data.list, function(v){
+					v.docbody = JSON.parse(v.docbody)
+				})
+				console.log($scope.msp_division)
+			}
+		},
+	}
+	
+	exe_fn.msp.DataRead = function(){
+		var docbody_id = 723
+		exe_fn.jsonEditorRead({
+			url_template:'/f/mvp/legalEntity_new_template.json',
+			doc_type:'msp',
+			docbody_id:docbody_id,
+		})
+	}
+
+	
 	exe_fn.jsonEditorRead = function(jsonEditorReadParams){
 
 		exe_fn.httpGet({url:jsonEditorReadParams.url_template, //read template
@@ -293,8 +335,9 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 
 	$scope.eHealth = {
 		msp:{name:'ЛЗ',
-			msp_data:'данні ЛЗ',
-			msp_registry:'реєстрація ЛЗ',
+			msp_page:'сторінка ЛЗ',
+			msp_data:'данні',
+			msp_registry:'реєстрація',
 			msp_division:'підрозділи',
 		},
 		hrm:{name:'Відділ кадрів',

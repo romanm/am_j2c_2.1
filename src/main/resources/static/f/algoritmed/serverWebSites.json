@@ -6,12 +6,28 @@
     "title": "development declaration",
     "parent": "home"
 },
+"msp_page":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh1/lib/table_json_editor.html'",
+    "n2g_template": "'/f/eh1/info2/msp_division/msp_data.html'",
+    "script": "/f/eh1/info2/msp_division/msp_page.js",
+    "title": "лікувальний заклад",
+    "parent": "home"
+},
+"msp_registry":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh1/lib/table_json_editor.html'",
+    "n2g_template": "'/f/eh1/info2/msp_division/msp_data.html'",
+    "script": "/f/eh1/info2/msp_division/msp_registry.js",
+    "title": "лікувальний заклад",
+    "parent": "home"
+},
 "msp_data":{
     "th_template": "template3",
     "ng_template": "'/f/eh1/lib/table_json_editor.html'",
     "n2g_template": "'/f/eh1/info2/msp_division/msp_data.html'",
     "script": "/f/eh1/info2/msp_division/msp_data.js",
-    "title": "амбулаторії",
+    "title": "дана ЛЗ",
     "parent": "home"
 },
 "msp_division":{

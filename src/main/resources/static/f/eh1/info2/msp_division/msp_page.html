@@ -1,0 +1,46 @@
+<div class="w3-row w3-card w3-topbar">
+	<h1>{{mspDoc.name}}</h1>
+	<div ng-repeat="divisionItem in msp_division.data.list"
+		ng-init="division=divisionItem.docbody">
+		<h2>{{division.name}}</h2>
+		<div class="w3-row">
+			<div class="w3-half ">
+				<span ng-repeat="phone in division.phones"> {{phone.type}}
+					{{phone.number}}, </span> {{division.email}}
+				<ul>
+					<li ng-repeat="address in division.addresses">
+					           {{address.type}}
+						{{address.zip?'':'_____'}} {{address.zip}},
+						{{address.street?'':'___________'}} {{address.street}}
+						{{address.building?'':'__'}} {{address.building}}
+						{{address.apartment?'кв.':''}} {{address.apartment}}
+						<div>{{address.settlement_type}} {{address.settlement}}</div>
+
+						<div ng-if="address.area">{{address.area?'обл.':''}}
+							{{address.area}} {{address.region?'р-н.':''}} {{address.region}}
+						</div> <!-- 
+						{{address}}
+						 -->
+					</li>
+				</ul>
+			</div>
+			<div class="w3-half w3-border-left">
+				<ul>
+					<li ng-repeat="(k, working_hour) in division.working_hours"><b>
+							{{k}} </b> <span ng-if="!working_hour[0]">вихідний</span> <span
+						ng-if="working_hour[0]"> {{working_hour[0][0]}} -
+							{{working_hour[0][1]}}{{working_hour[1]?',':''}} </span><span
+						ng-if="working_hour[1]"> {{working_hour[1][0]}} -
+							{{working_hour[1][1]}} </span></li>
+				</ul>
+
+			</div>
+		</div>
+		<!-- 
+		{{division}}
+		 -->
+	</div>
+	<!-- 
+	<div>{{mspDoc}}</div>
+	 -->
+</div>
