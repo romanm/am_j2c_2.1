@@ -394,11 +394,25 @@ adaptTemplateToData = function(data, template){
 }
 
 var sql2= {
+	sql2_hrmCard_insert:function(){ 
+	return 	"INSERT INTO doc (doc_id, doctype) \n" +
+			"VALUES (:nextDbId1, :doctypeEmployee); \n" +
+			"INSERT INTO doc (parent_id, reference,  doctype) \n" +
+			"VALUES (:nextDbId1, :msp_id, :doctypeMsp); \n" +
+			"INSERT INTO person (person_id, family_name) \n" +
+			"VALUES (:nextDbId1,  :family_name); \n" +
+			"INSERT INTO users (user_id, username, password) \n" +
+			"VALUES (:nextDbId1, :nextDbId1, :password); \n" +
+			this.sql2_docbody_insert()
+	},
+	sql2_docbody_insert:function(){
+	return	"INSERT INTO docbody (docbody_id, docbody) \n" +
+			"VALUES (:nextDbId1, :docbody);"
+	},
 	sql2_docDocbody_insert:function(){
-		return "INSERT INTO doc (parent_id, doc_id, doctype) \n" +
-				"VALUES (:parent_id, :nextDbId1, :doctype);\n" +
-				"INSERT INTO docbody (docbody_id, docbody) \n" +
-				"VALUES (:nextDbId1, :docbody);"
+	return "INSERT INTO doc (parent_id, doc_id, doctype) \n" +
+		"VALUES (:parent_id, :nextDbId1, :doctype);\n" +
+		this.sql2_docbody_insert()
 	},
 	sql2_docById_delete:function(){
 		return "DELETE FROM doc where doc_id=:doc_id"

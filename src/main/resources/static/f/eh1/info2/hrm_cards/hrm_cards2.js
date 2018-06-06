@@ -20,6 +20,31 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 		}
 	}
 
+	$scope.progr_am.fn.j2c.add_row=function(){
+		console.log('------j2c.add_row--------16----------')
+		var docbody = {party:{
+			last_name:'<Призвище>',
+		}}
+		exe_fn.httpPost
+		({	url:'/r/url_sql_update2',
+			data:{
+				sql:sql2.sql2_hrmCard_insert(),
+				doctypeEmployee:13,
+				doctypeMsp:23,
+				msp_id:exe_fn.msp.msp_id,
+				family_name:docbody.party.last_name,
+				docbody:JSON.stringify(docbody), 
+				password:guid(),
+			},
+			then_fn:function(response) 
+			{window.location.replace(
+				'?person_id=' + response.data.nextDbId1		
+			)},
+		})
+	}
+
+	exe_fn.msp.msp_id=188
+	
 	$scope.progr_am.fn.groupsToEdit='doctor|',
 	$scope.progr_am.viewes.j2c_table.dataName='hrm_cards'
 	$scope.progr_am.hrm_cards={
@@ -29,7 +54,7 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 		},
 		httpGet:{ url:'/r/read2_sql_with_param',
 			params:{
-				sql:'sql.msp_employee.list',msp_id:188
+				sql:'sql.msp_employee.list',msp_id:exe_fn.msp.msp_id //188
 			},
 			then_fn:function(response) {
 //					console.log(response.data)
