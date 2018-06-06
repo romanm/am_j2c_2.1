@@ -20,6 +20,24 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 		}
 	}
 
+	$scope.progr_am.fn.j2c.isSelected_row=function(){
+		return $scope.editDoc && $scope.editDoc.doc_id==$scope.request.parameters.person_id;
+	}
+	$scope.progr_am.fn.j2c.remove_row=function(){
+		console.log('-------j2c.remove_row--------27----------')
+		exe_fn.httpPost
+		({	then_fn:function(response) {
+				window.location.replace('?division_id='
+				+ $scope.request.parameters.division_id
+				)
+			},
+			data:{
+				sql:sql2.sql2_docByIdAndParent_delete(),
+				doc_id:$scope.request.parameters.person_id,
+			},
+			url:'/r/url_sql_update2',
+		})
+	}
 	$scope.progr_am.fn.j2c.add_row=function(){
 		console.log('------j2c.add_row--------16----------')
 		var docbody = {party:{

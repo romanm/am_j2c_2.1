@@ -414,8 +414,12 @@ var sql2= {
 		"VALUES (:parent_id, :nextDbId1, :doctype);\n" +
 		this.sql2_docbody_insert()
 	},
+	sql2_docByIdAndParent_delete:function(){
+		return "DELETE FROM doc WHERE parent_id=:doc_id; \n"+
+			this.sql2_docById_delete()
+	},
 	sql2_docById_delete:function(){
-		return "DELETE FROM doc where doc_id=:doc_id"
+		return "DELETE FROM doc WHERE doc_id=:doc_id"
 	},
 	sql2_patient_persons:function(){
 		return "SELECT p.* FROM person p,doc d WHERE doc_id=person_id AND doctype=1"
