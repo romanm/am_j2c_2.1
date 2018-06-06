@@ -31,8 +31,8 @@
 			<div class="w3-half w3-border-left">
 				<ul>
 					<li ng-repeat="(k, working_hour) in division.working_hours"><b>
-							{{k}} </b> <span ng-if="!working_hour[0]">вихідний</span> <span
-						ng-if="working_hour[0]"> {{working_hour[0][0]}} -
+							{{progr_am.fn.keyTranslate(k)}} </b> <span ng-if="!working_hour[0]">вихідний</span>
+						<span ng-if="working_hour[0]"> {{working_hour[0][0]}} -
 							{{working_hour[0][1]}}{{working_hour[1]?',':''}} </span><span
 						ng-if="working_hour[1]"> {{working_hour[1][0]}} -
 							{{working_hour[1][1]}} </span></li>

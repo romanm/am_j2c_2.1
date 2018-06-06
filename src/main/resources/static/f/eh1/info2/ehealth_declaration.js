@@ -11,7 +11,7 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		exe_fn.run_progr_am()
 	} });
 
-	exe_fn.msp = {}
+	exe_fn.msp = {msp_id:723}
 	exe_fn.msp.msp_division = {
 		init_data:{
 			row_key:'division_id',
@@ -25,7 +25,8 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		},
 		httpGet:{ url:'/r/url_sql_read2',
 			params:{
-				sql:sql2.sql2_msp_divisions_select(),msp_id:723,
+				sql:sql2.sql2_msp_divisions_select(),
+				msp_id:exe_fn.msp.msp_id,
 			},
 			then_fn:function(response) {
 				$scope.msp_division.data=response.data
@@ -64,18 +65,21 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 						sql:sql2.sql2_docbody_selectById(),
 						docbody_id:jsonEditorReadParams.docbody_id},
 						then_fn:function(response) {
-							var //docbody = response.data.list[0].docbody
-							docbody = JSON.parse(response.data.list[0].docbody);
-							$scope.editDoc = docbody
-							if($scope.editDoc.data)
-								$scope.editDoc = $scope.editDoc.data
+							if(response.data.list[0]){
+								var docbody = JSON.parse(response.data.list[0].docbody);
+								$scope.editDoc = docbody
+								if($scope.editDoc.data)
+									$scope.editDoc = $scope.editDoc.data
+								if(!$scope.editDoc.doc_id)
+									$scope.editDoc.doc_id = response.data.docbody_id
 								console.log($scope.editDoc)
-
+								
 								$scope.progr_am.fn.calcEditDoc_CRC32()
 								$scope.data.jsonTemplateBody
 									= $scope.data.jsonTemplate[jsonEditorReadParams.doc_type+'_request']
 								//console.log($scope.data.jsonTemplateBody)
 								adaptTemplateToData($scope.editDoc, $scope.data.jsonTemplateBody)
+							}
 						}
 				})
 			}
@@ -266,7 +270,6 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			data:data,
 		})
 	}
-
 	
 	$scope.progr_am.fn.calcEditDoc_CRC32=function(){
 		$scope.editDoc_CRC32 = exe_fn.calcJSON_CRC32($scope.editDoc) 
@@ -316,6 +319,16 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			dataObj:$scope.oToEdit.dataObj.splice($scope.oToEdit.selectedItem,1)[0],
 		}
 		return d
+	}
+	$scope.progr_am.fn.j2c = {}
+	$scope.progr_am.fn.j2c.remove_row=function(){
+		console.log('----interface---j2c.remove_row--------324----------')
+	}
+	$scope.progr_am.fn.j2c.isSelected_row=function(){
+		return false;
+	}
+	$scope.progr_am.fn.j2c.add_row=function(){
+		console.log('----interface---j2c.add_row--------327----------')
 	}
 
 	$scope.progr_am.viewes={
@@ -381,6 +394,15 @@ adaptTemplateToData = function(data, template){
 }
 
 var sql2= {
+	sql2_docDocbody_insert:function(){
+		return "INSERT INTO doc (parent_id, doc_id, doctype) \n" +
+				"VALUES (:parent_id, :nextDbId1, :doctype);\n" +
+				"INSERT INTO docbody (docbody_id, docbody) \n" +
+				"VALUES (:nextDbId1, :docbody);"
+	},
+	sql2_docById_delete:function(){
+		return "DELETE FROM doc where doc_id=:doc_id"
+	},
 	sql2_patient_persons:function(){
 		return "SELECT p.* FROM person p,doc d WHERE doc_id=person_id AND doctype=1"
 	},

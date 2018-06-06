@@ -11,13 +11,12 @@ init_am_directive.init_msp_page = function($scope, $http){
 	$scope.$watch('editDoc',function(){ if($scope.editDoc){
 		$scope.mspDoc=$scope.editDoc
 	} });
-
 	
 	$scope.progr_am.viewes={
 		json_form:{
 			ngInclude:'/f/eh1/info2/msp_division/msp_page.html',
 			dataName:'jsonTemplate',
-			heightProcent:85,
+//			heightProcent:85,
 		},
 	}
 

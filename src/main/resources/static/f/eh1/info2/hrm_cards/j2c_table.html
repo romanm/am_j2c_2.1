@@ -1,11 +1,9 @@
-<div
-class="w3-card"
- ng-style="progr_am.fn.ngStyle('j2c_table')"
->
+<div class="w3-card" ng-style="progr_am.fn.ngStyle('j2c_table')">
 	<table>
 		<thead>
 			<tr class="w3-tiny w3-gray">
-				<th style="background: white;"></th>
+				<th style="background: white;"
+					ng-include="'/f/eh1/lib/table_menu.html'"></th>
 				<th ng-repeat="col_k in data.col_sort" title="{{col_k}}">
 					{{data.data.col_keys[col_k]}}</th>
 			</tr>
@@ -14,18 +12,14 @@ class="w3-card"
 			<tr ng-repeat="row in data.data.list" ng-init="row_k=$index"
 				n1g-class="{'w3-blue-gray':data.fn.isEditRow(row)}"
 				class="w3-hover-light-gray">
-				<td class="w3-small" ng-class="{'w3-gray ':data.fn.isEditRow(row)}"
-				>{{row_k}}</td>
+				<td class="w3-small" ng-class="{'w3-gray ':data.fn.isEditRow(row)}">{{row_k}}</td>
 				<td class="w3-border-bottom w3-hover-shadow"
 					ng-class="{'w3-topbar w3-bottombar':data.fn.isEditRow(row)}"
 					ng-repeat="col_k in data.col_sort" on="col_k" ng-switch>
 					<div ng-switch-default>
 						{{row[col_k]}} {{data.fn_col[col_k](row)}}
-						<div ng-include="data.include_cols"
-						on="col_k" ng-switch
-						></div>
-					</div> <a
-					ng-switch-when="person_id" href="?person_id={{row[col_k]}}">
+						<div ng-include="data.include_cols" on="col_k" ng-switch></div>
+					</div> <a ng-switch-when="person_id" href="?person_id={{row[col_k]}}">
 						{{row[col_k]}} </a> <a ng-switch-when="division_id"
 					href="?division_id={{row[col_k]}}"> {{row[col_k]}} </a>
 				</td>

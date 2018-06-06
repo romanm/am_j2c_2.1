@@ -48,6 +48,7 @@ public class EhCommonRest  extends Db2Common{
 				);
 
 		String sql = (String) data.get("sql");
+		executeSqlBlock.updateNewIds(sql, data, env);
 		int i = 0;
 		for (String sql_command : sql.split(";")) {
 			System.err.println(sql_command);

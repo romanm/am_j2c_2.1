@@ -114,7 +114,13 @@ public class ExecuteSqlBlock {
 				sql_from_env=sql_from_env.replaceAll(":"+key, ":"+replace_param.get(key));
 			}
 		}
-		String[] split_nextDbId = sql_from_env.split("nextDbId");
+		updateNewIds(sql_from_env, data, env);
+		return sql_from_env;
+	}
+
+	public void updateNewIds(String sql, Map<String, Object> data, Environment env) {
+		this.env =env;
+		String[] split_nextDbId = sql.split("nextDbId");
 		System.err.println("nextDbId cnt="+split_nextDbId.length);
 		if(split_nextDbId.length > 0) {
 			HashMap<Integer, Integer> nextDbMap = new HashMap<>();
@@ -142,8 +148,8 @@ public class ExecuteSqlBlock {
 				data.put("uuid", UUID.randomUUID());
 			System.err.println(data);
 		}
-		return sql_from_env;
 	}
+
 	protected void read_select(Map<String, Object> data, String sql_command, Integer i) {
 		String nr = null==i?"":(""+i);
 //		System.err.println(sql_command);

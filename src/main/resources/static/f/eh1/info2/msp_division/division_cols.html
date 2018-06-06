@@ -1,5 +1,6 @@
 <div ng-switch-when="name">
-	<b class="w3-tiny"> {{row.docbody.type}}: </b>
+	<b class="w3-tiny"> 
+	{{eh_dictionaries.ehMap.DIVISION_TYPE.values[row.docbody.type]}}: </b>
 	 {{row.docbody.name}}
 </div>
 <div ng-switch-when="address"
