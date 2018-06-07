@@ -394,6 +394,22 @@ adaptTemplateToData = function(data, template){
 }
 
 var sql2= {
+	sql2_physician_declaration:function(){
+		return "SELECT de.reference physician, de.doc_id declaration, dd.parent_id  patient" +
+				", last_name||' '||first_name||' '||'second_name' pip_phisician \n" +
+				"FROM doc dd,doc de, person p \n" +
+				"WHERE dd.doc_id=de.parent_id AND dd.doctype=14 AND de.doctype=13 AND p.person_id=de.reference "
+	},
+	sql2_patient_and_declaration:function(){
+		return "SELECT * FROM (\n" + 
+				this.sql2_patient_persons() + ") p \n" +
+				"LEFT JOIN (\n" +
+				this.sql2_physician_declaration() +
+				"\n)  d ON d.patient=p.person_id"
+	},
+	sql2_patient_persons:function(){
+		return "SELECT p.* FROM person p,doc d WHERE doc_id=person_id AND doctype=1 "
+	},
 	sql2_hrmCard_insert:function(){ 
 	return 	"INSERT INTO doc (doc_id, doctype) \n" +
 			"VALUES (:nextDbId1, :doctypeEmployee); \n" +
@@ -420,9 +436,6 @@ var sql2= {
 	},
 	sql2_docById_delete:function(){
 		return "DELETE FROM doc WHERE doc_id=:doc_id"
-	},
-	sql2_patient_persons:function(){
-		return "SELECT p.* FROM person p,doc d WHERE doc_id=person_id AND doctype=1"
 	},
 	sql2_msp_divisions_select:function(){
 		return "SELECT doc_id division_id, d.*,b.* FROM doc d, docbody b " +

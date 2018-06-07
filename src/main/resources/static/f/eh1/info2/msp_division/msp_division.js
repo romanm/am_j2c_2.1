@@ -12,6 +12,7 @@ init_am_directive.init_msp_division = function($scope, $http){
 			})
 		}
 	}
+
 	$scope.progr_am.fn.j2c.isSelected_row=function(){
 		return $scope.editDoc && $scope.editDoc.doc_id==$scope.request.parameters.division_id;
 	}
