@@ -37,6 +37,7 @@ init_am_directive.init_programRuns=function($scope, $http){
 	});
 	
 	$scope.highlight = function(text, search){
+		if(!text) return
 		if (!search) return text;
 		return (''+text).replace(new RegExp(search, 'gi'), '<span class="w3-yellow">$&</span>');
 	}

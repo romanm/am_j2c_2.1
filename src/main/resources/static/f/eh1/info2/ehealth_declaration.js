@@ -345,7 +345,9 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			heightProcent:22,
 		},
 	},
-
+	$scope.progr_am.viewes.hrm_menu.seekClean = function(){
+		console.log('---interface---progr_am.viewes.hrm_menu.seekClean---')
+	}
 	$scope.eHealth = {
 		msp:{name:'ЛЗ',
 			msp_page:'сторінка ЛЗ',
@@ -393,22 +395,30 @@ adaptTemplateToData = function(data, template){
 	}
 }
 
-var sql2= {
-	sql2_physician_declaration:function(){
-		return "SELECT de.reference physician, de.doc_id declaration, dd.parent_id  patient" +
-				", last_name||' '||first_name||' '||'second_name' pip_phisician \n" +
-				"FROM doc dd,doc de, person p \n" +
-				"WHERE dd.doc_id=de.parent_id AND dd.doctype=14 AND de.doctype=13 AND p.person_id=de.reference "
+var sql2 = {
+	sql2_physician_declaration_seek:function(){
+		return "SELECT * FROM ( \n" +
+				this.sql2_patient_and_declaration() +
+				"\n ) x WHERE " +
+				" LOWER(pip_patient) LIKE LOWER(:seek) " +
+				" OR LOWER(pip_phisician) LIKE LOWER(:seek)"
 	},
 	sql2_patient_and_declaration:function(){
 		return "SELECT * FROM (\n" + 
-				this.sql2_patient_persons() + ") p \n" +
-				"LEFT JOIN (\n" +
-				this.sql2_physician_declaration() +
-				"\n)  d ON d.patient=p.person_id"
+		this.sql2_patient_persons() + ") p \n" +
+		"LEFT JOIN (\n" +
+		this.sql2_physician_declaration() +
+		"\n)  d ON d.patient=p.person_id"
+	},
+	sql2_physician_declaration:function(){
+		return "SELECT de.reference physician, de.doc_id declaration, dd.parent_id  patient" +
+				", last_name||' '||first_name||' '||second_name pip_phisician \n" +
+				"FROM doc dd,doc de, person p \n" +
+				"WHERE dd.doc_id=de.parent_id AND dd.doctype=14 AND de.doctype=13 AND p.person_id=de.reference "
 	},
 	sql2_patient_persons:function(){
-		return "SELECT p.* FROM person p,doc d WHERE doc_id=person_id AND doctype=1 "
+		return "SELECT last_name||' '||first_name||' '||second_name pip_patient, p.* \n" +
+				"FROM person p,doc d WHERE doc_id=person_id AND doctype=1 "
 	},
 	sql2_hrmCard_insert:function(){ 
 	return 	"INSERT INTO doc (doc_id, doctype) \n" +

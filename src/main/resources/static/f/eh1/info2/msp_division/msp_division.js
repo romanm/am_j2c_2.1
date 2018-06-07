@@ -12,10 +12,12 @@ init_am_directive.init_msp_division = function($scope, $http){
 			})
 		}
 	}
+	
 
 	$scope.progr_am.fn.j2c.isSelected_row=function(){
 		return $scope.editDoc && $scope.editDoc.doc_id==$scope.request.parameters.division_id;
 	}
+
 	$scope.progr_am.fn.j2c.remove_row=function(){
 		console.log('-------j2c.remove_row--------16----------')
 		exe_fn.httpPost
@@ -31,6 +33,7 @@ init_am_directive.init_msp_division = function($scope, $http){
 			url:'/r/url_sql_update2',
 		})
 	}
+
 	$scope.progr_am.fn.j2c.add_row=function(){
 		console.log('------j2c.add_row--------16----------')
 		var docbody = {name:'<Назва>'}
