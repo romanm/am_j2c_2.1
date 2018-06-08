@@ -12,9 +12,10 @@
 			<tr ng-repeat="row in data.data.list" ng-init="row_k=$index"
 				n1g-class="{'w3-blue-gray':data.fn.isEditRow(row)}"
 				class="w3-hover-light-gray">
-				<td class="w3-small" ng-class="{'w3-gray ':data.fn.isEditRow(row)}">{{row_k}}</td>
+				<td class="w3-small" ng-class="{'w3-gray ':progr_am.fn.isEditRow(row)}">{{row_k}}
+				</td>
 				<td class="w3-border-bottom w3-hover-shadow"
-					ng-class="{'w3-topbar w3-bottombar':data.fn.isEditRow(row)}"
+					ng-class="{'w3-topbar w3-bottombar':progr_am.fn.isEditRow(row)}"
 					ng-repeat="col_k in data.col_sort" on="col_k" ng-switch>
 					<div ng-switch-default>
 						<div
@@ -22,8 +23,13 @@
 						</div>
 						<div ng-include="
 							data.include_cols" on="col_k" ng-switch></div>
-					</div> <a ng-switch-when="person_id" href="?person_id={{row[col_k]}}">
-						{{row[col_k]}} </a> <a ng-switch-when="division_id"
+					</div> 
+					<div ng-switch-when="person_id" on="request.viewKey" ng-switch>
+							<a ng-switch-when="hrm_cards2" href="?person_id={{row[col_k]}}">a1
+								{{row[col_k]}} </a> 
+							<a ng-switch-when="declaration"
+							href="?person_id={{row[col_k]}}&declaration={{row.declaration}}&seek={{progr_am.viewes.hrm_menu.seek}}"> a2 {{row[col_k]}} </a>
+					</div> <a ng-switch-when="division_id"
 					href="?division_id={{row[col_k]}}"> {{row[col_k]}} </a>
 					<a ng-switch-when="pip_phisician"
 					href="?declaration={{row.declaration}}&seek={{progr_am.viewes.hrm_menu.seek}}"

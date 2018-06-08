@@ -11,10 +11,15 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		exe_fn.run_progr_am()
 	} });
 
+	$scope.progr_am.fn.isEditRow = function(row){
+		return this.row_key
+		&& row[this.row_key]
+			== $scope.request.parameters[this.row_key]
+	}
 	exe_fn.msp = {msp_id:723}
 	exe_fn.msp.msp_division = {
 		init_data:{
-			row_key:'division_id',
+//			row_key:'division_id',
 			include_cols:'/f/eh1/info2/msp_division/division_cols.html',
 			col_sort:['division_id', 'name', 'address'],
 			fn_col:{
@@ -332,7 +337,6 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			heightProcent:65,
 		},
 		hrm_menu:{ngInclude:'/f/eh1/info2/hrm_cards/hrm_menu.html',
-			seek_placeholder:'пошук картки працівника',
 			seek:null,
 		},
 		j2c_table:{ngInclude:'/f/eh1/info2/hrm_cards/j2c_table.html',

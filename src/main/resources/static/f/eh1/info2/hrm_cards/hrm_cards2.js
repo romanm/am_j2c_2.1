@@ -63,11 +63,9 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 
 	exe_fn.msp.msp_id=188
 	
-	$scope.progr_am.fn.groupsToEdit='doctor|',
-	$scope.progr_am.viewes.j2c_table.dataName='hrm_cards'
 	$scope.progr_am.hrm_cards={
 		init_data:{
-			row_key:'person_id',
+//			row_key:'person_id',
 			col_sort:['person_id', 'family_name', 'pip']
 		},
 		httpGet:{ url:'/r/read2_sql_with_param',
@@ -89,5 +87,13 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 			}
 		},
 	}
+
+
+	$scope.progr_am.fn.row_key='person_id',
+	$scope.progr_am.viewes.j2c_table.dataName='hrm_cards'
+
+	$scope.progr_am.viewes.hrm_menu.seek_placeholder
+		='пошук картки працівника'
+	$scope.progr_am.fn.groupsToEdit='doctor|'
 
 }

@@ -1,7 +1,6 @@
 init_am_directive.init_declaration = function($scope, $http){
 	console.log('------init_declaration1-----------------')
 	init_am_directive.ehealth_declaration($scope, $http);
-	$scope.progr_am.viewes.j2c_table.dataName='declaration'
 	
 	var httpGet_declaration_params = function(params){
 		return { url:'/r/url_sql_read2',
@@ -23,6 +22,7 @@ init_am_directive.init_declaration = function($scope, $http){
 	var params = {
 		sql:sql2.sql2_patient_and_declaration(),
 	}
+
 	if($scope.request.parameters.seek){
 		$scope.progr_am.viewes.hrm_menu.seek
 			= decodeURIComponent($scope.request.parameters.seek)
@@ -35,7 +35,7 @@ init_am_directive.init_declaration = function($scope, $http){
 
 	$scope.progr_am.declaration={
 		init_data:{
-			row_key:'declaration',
+//			row_key:'declaration',
 			include_cols:'/f/eh1/info2/declaration1/declaration_cols.html',
 			col_sort:['person_id', 'pip_patient', 'birth_date', 'pip_phisician'],
 		},
@@ -70,6 +70,22 @@ init_am_directive.init_declaration = function($scope, $http){
 		}))
 	}
 
+	$scope.progr_am.fn.isEditRow = function(row){
+		if($scope.request.parameters.declaration){
+			if(row.declaration == $scope.request.parameters.declaration){
+				return true
+			}
+		}else if($scope.request.parameters.person_id){
+			if(row.person_id == $scope.request.parameters.person_id){
+				console.log('-----74-------------')
+				return true
+			}
+		}
+		return false
+	}
+	
+	$scope.progr_am.viewes.j2c_table.dataName='declaration'
 	$scope.progr_am.viewes.hrm_menu.seek_placeholder
 		='пошук пацієнта'
+
 }
