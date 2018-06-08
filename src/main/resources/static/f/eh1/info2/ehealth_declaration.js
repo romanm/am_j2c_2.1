@@ -275,11 +275,6 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		$scope.editDoc_CRC32 = exe_fn.calcJSON_CRC32($scope.editDoc) 
 	},
 
-	$scope.progr_am.fn.isEditRow=function(row){
-		return row.person_id
-			== $scope.request.parameters.person_id
-	},
-
 	$scope.progr_am.fn.ngStyle=function(component_name, add_style){
 		var style={}
 		if('json_form|j2c_table'

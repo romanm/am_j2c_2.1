@@ -83,7 +83,7 @@ var Exe_fn = function($scope, $http){
 						if(!$scope[k].fn)
 							$scope[k].fn={}
 						$scope[k].fn.row_key=v1.row_key
-						$scope[k].fn.isEditRow=function(row){
+						$scope[k].fn.isEditRow = function(row){
 							return this.row_key
 							&& row[this.row_key]
 								== $scope.request.parameters[this.row_key]
