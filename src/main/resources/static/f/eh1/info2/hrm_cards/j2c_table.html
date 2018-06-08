@@ -25,6 +25,10 @@
 					</div> <a ng-switch-when="person_id" href="?person_id={{row[col_k]}}">
 						{{row[col_k]}} </a> <a ng-switch-when="division_id"
 					href="?division_id={{row[col_k]}}"> {{row[col_k]}} </a>
+					<a ng-switch-when="pip_phisician"
+					href="?declaration={{row.declaration}}&seek={{progr_am.viewes.hrm_menu.seek}}"
+					ng-bind-html="highlight(row[col_k] + data.fn_col[col_k](row), progr_am.viewes.hrm_menu.seek)">
+				</a>
 				</td>
 			</tr>
 		</tbody>

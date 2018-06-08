@@ -1,0 +1,259 @@
+{
+  "data": {
+    "status": "",
+    "id": "",
+    "start_date": "",
+    "end_date": "",
+    "person": {
+      "first_name": "",
+      "last_name": "",
+      "second_name": "",
+      "birth_date": "",
+      "birth_country": "",
+      "birth_settlement": "",
+      "gender": "",
+      "email": "",
+      "tax_id": "",
+      "secret": "",
+      "documents": [
+        {
+          "type": "",
+          "number": "",
+          "issued_by": "",
+          "issued_at": ""
+        }
+      ],
+      "addresses": [
+        {
+          "type": "",
+          "country": "",
+          "area": "",
+          "region": "",
+          "settlement": "",
+          "settlement_type": "",
+          "settlement_id": "",
+          "street_type": "",
+          "street": "",
+          "building": "",
+          "apartment": "",
+          "zip": ""
+        }
+      ],
+      "phones": [
+        {
+          "type": "",
+          "number": ""
+        }
+      ],
+      "authentication_methods": [
+        {
+          "type": "",
+          "phone_number": ""
+        }
+      ],
+      "preferred_way_communication": "",
+      "emergency_contact": {
+        "first_name": "",
+        "last_name": "",
+        "second_name": "",
+        "phones": [
+          {
+            "type": "",
+            "number": ""
+          }
+        ]
+      },
+      "confidant_person": [
+        {
+          "relation_type": "",
+          "first_name": "",
+          "last_name": "",
+          "second_name": "",
+          "birth_date": "",
+          "birth_country": "",
+          "birth_settlement": "",
+          "gender": "",
+          "tax_id": "",
+          "secret": "",
+          "documents_person": [
+            {
+              "type": "",
+              "number": "",
+              "issued_by": "",
+              "issued_at": ""
+            }
+          ],
+          "documents_relationship": [
+            {
+              "type": "",
+              "number": "",
+              "issued_by": "",
+              "issued_at": ""
+            }
+          ],
+          "phones": [
+            {
+              "type": "",
+              "number": ""
+            }
+          ]
+        }
+      ],
+      "patient_signed": false,
+      "process_disclosure_data_consent": true
+    },
+    "scope": "",
+    "overlimit": false,
+    "employee": {
+      "id": "",
+      "position": "",
+      "party": {
+        "id": "",
+        "first_name": "",
+        "last_name": "",
+        "second_name": "",
+        "email": "",
+        "phones": [
+          {
+            "type": "",
+            "number": ""
+          }
+        ]
+      }
+    },
+    "legal_entity": {
+      "name": "",
+      "short_name": "",
+      "legal_form": "",
+      "public_name": "",
+      "edrpou": "",
+      "licenses": [
+        {
+          "license_number": "",
+          "issued_by": "",
+          "issued_date": "",
+          "expiry_date": "",
+          "active_from_date": "",
+          "what_licensed": "",
+          "order_no": ""
+        }
+      ],
+      "accreditation": {
+        "category": "",
+        "issued_date": "",
+        "expiry_date": "",
+        "order_no": "",
+        "order_date": ""
+      },
+      "addresses": [
+        {
+          "type": "",
+          "country": "",
+          "area": "",
+          "region": "",
+          "settlement": "",
+          "settlement_type": "",
+          "settlement_id": "",
+          "street_type": "",
+          "street": "",
+          "building": "",
+          "apartment": "",
+          "zip": ""
+        }
+      ],
+      "phones": [
+        {
+          "type": "",
+          "number": ""
+        }
+      ],
+      "email": "",
+      "id": ""
+    },
+    "division": {
+      "id": "",
+      "name": "",
+      "addresses": [
+        {
+          "type": "",
+          "country": "",
+          "area": "",
+          "region": "",
+          "settlement": "",
+          "settlement_type": "",
+          "settlement_id": "",
+          "street_type": "",
+          "street": "",
+          "building": "",
+          "apartment": "",
+          "zip": ""
+        }
+      ],
+      "phones": [
+        {
+          "type": "",
+          "number": ""
+        }
+      ],
+      "email": "",
+      "working_hours": {
+        "mon": [
+          [
+            "08.00",
+            "12.00"
+          ],
+          [
+            "14.00",
+            "18.00"
+          ]
+        ],
+        "tue": [
+          [
+            "08.00",
+            "12.00"
+          ]
+        ],
+        "wed": [
+          [
+            "08.00",
+            "12.00"
+          ]
+        ],
+        "thu": [
+          [
+            "08.00",
+            "12.00"
+          ]
+        ],
+        "fri": [
+          [
+            "08.00",
+            "12.00"
+          ]
+        ],
+        "sat": [],
+        "sun": []
+      },
+      "type": "",
+      "external_id": "",
+      "location": {
+        "latitude": null,
+        "longitude": null
+      }
+    },
+    "content": "",
+    "seed": ""
+  },
+  "urgent": {
+    "authentication_method_current": {
+      "type": "",
+      "number": ""
+    },
+    "documents": [
+      {
+        "type": "",
+        "url": ""
+      }
+    ]
+  }
+}

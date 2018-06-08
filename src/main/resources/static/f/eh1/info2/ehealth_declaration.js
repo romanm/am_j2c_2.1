@@ -373,7 +373,6 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		})
 		return r
 	}
-
 }
 
 adaptTemplateToData = function(data, template){
@@ -404,7 +403,7 @@ var sql2 = {
 				" OR LOWER(pip_phisician) LIKE LOWER(:seek)"
 	},
 	sql2_patient_and_declaration:function(){
-		return "SELECT * FROM (\n" + 
+		return "SELECT pip_patient, person_id, d.* FROM (\n" + 
 		this.sql2_patient_persons() + ") p \n" +
 		"LEFT JOIN (\n" +
 		this.sql2_physician_declaration() +

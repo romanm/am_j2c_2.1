@@ -24,30 +24,40 @@ init_am_directive.init_declaration = function($scope, $http){
 		return { url:'/r/url_sql_read2',
 			params: params,
 			then_fn:function(response) {
-				$scope.declaration.data=response.data
+				$scope.declaration.data = response.data
 				console.log($scope.declaration.data)
 				$scope.declaration.data
-				.col_keys={
+				.col_keys = {
 					person_id:'ІН',
-					pip_patient:'ПІП',
+					pip_patient:'ПІП Пацієнта',
 					birth_date:'дата народженя',
 					pip_phisician:'декларація з лікарем',
 				}
 			}
 		}
 	}
-	
+
+	var params = {
+		sql:sql2.sql2_patient_and_declaration(),
+	}
+	if($scope.request.parameters.seek){
+		$scope.progr_am.viewes.hrm_menu.seek
+			= decodeURIComponent($scope.request.parameters.seek)
+		params = 
+		{
+			sql:sql2.sql2_physician_declaration_seek(), 
+			seek:'%'+$scope.progr_am.viewes.hrm_menu.seek+'%'
+		}
+	}
+
 	$scope.progr_am.declaration={
 		init_data:{
 			row_key:'person'+'_id',
 			include_cols:'/f/eh1/info2/declaration1/declaration_cols.html',
 			col_sort:['person_id', 'pip_patient', 'birth_date', 'pip_phisician'],
 		},
-		httpGet:httpGet_declaration_params({
-			sql:sql2.sql2_patient_and_declaration(),
-		}),
+		httpGet:httpGet_declaration_params(params),
 	}
-
 
 	$scope.progr_am.fn.init_onLoad = function(){
 		console.log('-----init_onLoad------------')
