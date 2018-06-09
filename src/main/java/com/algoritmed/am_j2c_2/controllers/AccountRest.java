@@ -24,6 +24,7 @@ import com.algoritmed.am_j2c_2.Db2Common;
 @Controller
 public class AccountRest extends Db2Common{
 	protected static final Logger logger = LoggerFactory.getLogger(AccountRest.class);
+	
 	@PostMapping("/r/activateAccount")
 	public @ResponseBody Map<String, Object> activateAccount(
 			@RequestBody Map<String, Object> data

@@ -51,6 +51,13 @@
     "title": "відділ кадрів",
     "parent": "home"
 },
+"admin":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh1/admin/admin.html'",
+    "script": "/f/eh1/admin/admin.js",
+    "title": "admin",
+    "parent": "home"
+},
 "info":{
 	"th_template":"eh1_index1"
 	,"ng_template":"'/f/eh1/info1/info1.html'"

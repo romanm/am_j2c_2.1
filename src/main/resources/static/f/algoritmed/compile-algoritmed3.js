@@ -2,7 +2,7 @@ var app = angular.module('app', ['ngSanitize']);
 var fn_lib = {};
 var init_am_directive = {};
 var exe_fn
-app.controller('ControllerApp1', function($scope, $http) {
+app.controller('ControllerApp1', function($scope, $http, $filter) {
 	$scope.data={}
 	$scope.progr_am={fn:{}}
 
@@ -10,16 +10,16 @@ app.controller('ControllerApp1', function($scope, $http) {
 	console.log($scope)
 	
 //	console.log(request)
-	init_am_directive.init_programRuns($scope, $http);
+	init_am_directive.init_programRuns($scope, $http, $filter);
 });
 
-init_am_directive.init_programRuns=function($scope, $http){
+init_am_directive.init_programRuns=function($scope, $http, $filter){
 //	console.log('-------init_am_directive.init_programRuns--------');
 //	console.log(request.viewKey)
 	exe_fn = new Exe_fn($scope, $http)
 	onLoadPage($scope);
 	if(init_am_directive['init_'+request.viewKey])
-		init_am_directive['init_'+request.viewKey]($scope, $http);
+		init_am_directive['init_'+request.viewKey]($scope, $http, $filter);
 	$http.get('/r/principal').then(function(response) {
 		console.log(response.data)
 		$scope.principalResponse = true;
