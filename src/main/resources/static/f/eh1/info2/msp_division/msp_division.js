@@ -1,5 +1,10 @@
+init_am_directive.init_msp_division3 = function($scope, $http){
+	console.log('-------msp_division3----2------------')
+	init_am_directive.init_msp_division($scope, $http)
+}
+
 init_am_directive.init_msp_division = function($scope, $http){
-	console.log('-------msp_division----2------------')
+	console.log('-------msp_division---7------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 
 	$scope.progr_am.fn.init_onLoad = function(){

@@ -20,18 +20,19 @@
 		</div>
 
 		<div class="w3-third">
-		    <div class="w3-blue-gray">
-			<b class="w3-small w13-border-bottom w13-light-gray"> Список
-				сторінок </b>
-		    </div>
-			<div ng-repeat="(k,site) in serverWebSites"
-				class="w3-row w3-border-bottom">
-				<a href="/v/{{k}}">
-				<span ng-bind-html="site.alias"></span>
-				 - <span class="w3-tiny">({{k}})</span>
-				 {{site.title}}
-				</a>
+			<div class="w3-blue-gray">
+				<b class="w3-small w13-border-bottom w13-light-gray"> Список
+					сторінок </b>
 			</div>
+			<div style="height: 300px; overflow: auto;">
+				<div ng-repeat="(k,site) in serverWebSites"
+					class="w3-row w3-border-bottom">
+					<a href="/v/{{k}}"> <span ng-bind-html="site.alias"></span> - <span
+						class="w3-tiny">({{k}})</span> {{site.title}}
+					</a>
+				</div>
+			</div>
+
 		</div>
 	</div>
 	<div class="w13-small">

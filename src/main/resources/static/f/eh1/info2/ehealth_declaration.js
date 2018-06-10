@@ -347,27 +347,58 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 	$scope.progr_am.viewes.hrm_menu.seekClean = function(){
 		console.log('---interface---progr_am.viewes.hrm_menu.seekClean---')
 	}
-	$scope.eHealth = {
-		msp:{name:'ЛЗ',
+	$scope.pageGroup = {}
+	$scope.pageGroup.misAlgoritmed3 = {
+		registry:{parent:{name:'Регістратура', url:'info3' },
+			reception:'запис на прийом',
+			queue:'черга',
+			new_patient:'новий пацієнт',
+			registry_calendar:'календар',
+
+		},
+		physician:{parent:{name:'Кабінет лікаря', url:'info3' },
+			ak:'амбулаторна картка №025/о',
+			declaration:'декларація',
+			physician_calendar:'календар',
+		},
+		analytics:{parent:{name:'Аналітіка', url:'info3' },
+			f074:'ф.074/о',
+			f039:'ф.039/о',
+		},
+		msp:{parent:{name:'ЛЗ', url:'info3' },
+			msp_page3:'сторінка ЛЗ',
+			msp_data3:'данні',
+			msp_registry3:'реєстрація',
+			msp_division3:'підрозділи',
+		},	
+	}
+	$scope.pageGroup.eHealth = {
+		msp:{parent:{name:'ЛЗ', url:'info2' },
 			msp_page:'сторінка ЛЗ',
 			msp_data:'данні',
 			msp_registry:'реєстрація',
 			msp_division:'підрозділи',
 		},
-		hrm:{name:'Відділ кадрів',
+		hrm:{parent:{name:'Відділ кадрів', url:'info2' },
 			hrm_cards2:'карточки',
 		},
-		physician:{name:'Кабінет лікаря',
+		physician:{parent:{name:'Кабінет лікаря', url:'info2' },
 			declaration:'декларація'
 		},
 	}
 
-	$scope.eHealth.pageGroup = function(){
-		var r
-		angular.forEach(this, function(v,k){
-			angular.forEach(v, function(v1,k1){
-				if($scope.request.viewKey.indexOf(k1)==0)
-					r=v
+	$scope.pageGroup.thisPageGroup = function(){
+		var r,r_k
+		angular.forEach(this, function(v0,k0){
+			angular.forEach(v0, function(v,k){
+				angular.forEach(v, function(v1,k1){
+//					if($scope.request.viewKey.indexOf(k1)==0)
+//					r={v:v,k:k}
+					if($scope.request.viewKey==k1){
+						r=v
+						r_k=k
+					}
+				})
 			})
 		})
 		return r
