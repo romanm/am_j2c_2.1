@@ -1,5 +1,10 @@
+init_am_directive.init_declaration3 = function($scope, $http){
+	console.log('------init_declaration3---2--------------')
+	init_am_directive.init_declaration($scope, $http)
+}
+
 init_am_directive.init_declaration = function($scope, $http){
-	console.log('------init_declaration1-----------------')
+	console.log('------init_declaration--7---------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 	
 	var httpGet_declaration_params = function(params){

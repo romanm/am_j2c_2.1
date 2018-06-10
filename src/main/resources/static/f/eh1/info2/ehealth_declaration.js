@@ -357,13 +357,13 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 
 		},
 		physician:{parent:{name:'Кабінет лікаря', url:'info3' },
-			ak:'амбулаторна картка №025/о',
-			declaration:'декларація',
+			ak:'амб-на картка №025/о',
+			declaration3:'декларація',
 			physician_calendar:'календар',
 		},
 		analytics:{parent:{name:'Аналітіка', url:'info3' },
-			f074:'ф.074/о',
-			f039:'ф.039/о',
+			icpc2_test3:'ф.074/о', //f074
+			icpc2_test2_report:'ф.039/о',//f039
 		},
 		msp:{parent:{name:'ЛЗ', url:'info3' },
 			msp_page3:'сторінка ЛЗ',
