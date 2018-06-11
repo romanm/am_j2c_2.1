@@ -13,6 +13,13 @@
     "title": "development declaration",
     "parent": "home"
 },
+"physician_calendar":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh2/calendar/calendar3.html'",
+    "script": "/f/eh2/calendar/calendar3.js",
+    "title": "development declaration",
+    "parent": "home"
+},
 "msp_division3":{
     "th_template": "template3",
     "ng_template": "'/f/eh1/lib/table_json_editor.html'",

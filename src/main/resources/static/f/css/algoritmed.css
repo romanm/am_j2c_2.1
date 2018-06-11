@@ -26,6 +26,9 @@ table.am-table-va td{
 .am-nowrap{
 	white-space: nowrap;
 }
+.am-normal {
+    font-weight: normal;
+}
 .am-b{
 	font-weight:bold;
 }
