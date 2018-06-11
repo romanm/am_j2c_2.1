@@ -1,0 +1,34 @@
+<table class="w3-table">
+<col  width="1%">
+	<col width="10%" ng-repeat="d in basicCalendar.gui.daysOfWeek" />
+	<tr class="w3-tiny">
+	<td></td>
+		<td ng-repeat="wd in basicCalendar.gui.daysOfWeek">
+			{{basicCalendar.dayOfMonthOfWeekMonth(0,wd)|date:'EEE'}}</td>
+	</tr>
+	<tr ng-repeat="w in basicCalendar.gui.monthWeek"
+		ng-init="w_index=$index;">
+		<td class="w3-tiny w3-hover-gray"
+		ng-click="basicCalendar.gui.goWeek(w)"
+		>
+			{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,1)|date:'ww'}}</td>
+		<td ng-repeat="d in basicCalendar.gui.daysOfWeek"
+			ng-click="basicCalendar.gui.setWorkTimeStampDay(w,d)"
+			class="w3-border w3-display-container w3-hover-shadow"
+			ng-class="{'w3-border-black w3-light-gray':
+			basicCalendar.gui.isToday(basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)),
+			'w3-border-blue':basicCalendar.gui.isWorkTimeStampDay(w,d)}">
+			<div class="w3-display-topleft w3-tiny"
+				ng-class="{'w3-text-gray':!basicCalendar.gui.isWorkTimeStampMonth(w,d)}">
+				<div ng-if="w_index==0">
+					{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'EEE'}}</div>
+				{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'dd'}}
+			</div> <span class="w3-tiny" ng-if="w==2&&d==1"> Принято 8 хв. </span> <span
+			class="w3-tiny" ng-if="w==3&&d==3"> Записано 8 хв. </span> <span
+			class="w3-tiny" ng-if="w==3&&d==5"> Записано 3 хв. </span> <!-- 
+          {{basicCalendar.isToday(basicCalendar.dayOfMonthOfWeekMonth(w,d))}}
+           -->
+			<p>&nbsp;</p>
+		</td>
+	</tr>
+</table>

@@ -1,0 +1,18 @@
+<select class="w3-btn w3-border w3-padding-small w3-small">
+	<option value="{{calendarViewPart}}"
+		ng-repeat="calendarViewPart in basicCalendar.gui.calendarViewPart.list"
+		ng-click="basicCalendar.gui.calendarViewPart.setItem(calendarViewPart)" 
+		ng-selected="calendarViewPart==basicCalendar.gui.calendarViewPart.item">
+		{{basicCalendar.gui.calendarViewPart.itemNames_ua[$index]}}</option>
+</select>
+<a href="#"
+ng-click="basicCalendar.gui.goPrevious()"
+class="w3-hover-light-gray w3-hover-shadow"
+><i class="fa fa-chevron-left"></i></a>
+<a href="#"
+ng-click="basicCalendar.gui.goNext()"
+class="w3-hover-light-gray w3-hover-shadow"
+><i class="fa fa-chevron-right"></i></a>
+<span class="w13-tiny am-b">
+{{basicCalendar.gui.workTimeStamp|date:'dd.MMMM.yyyy'}}
+</span>

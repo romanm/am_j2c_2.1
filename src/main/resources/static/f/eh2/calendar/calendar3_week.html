@@ -1,0 +1,16 @@
+<table class="w3-table">
+	<tr class="w3-tiny">
+		<td class="w3-tiny w3-right">чч:хх</td>
+		<td ng-repeat="wd in basicCalendar.gui.daysOfWeek"
+			ng-class="{'w3-border-blue w3-border':basicCalendar.gui.isWorkTimeStampDay(wd),
+			'w3-text-gray':!basicCalendar.gui.isWorkTimeStampMonth(wd)}"
+			class=" w3-hover-gray">
+			{{basicCalendar.gui.workTimeStampWeekDay(wd)|date:'EEE d.M'}}</td>
+	</tr>
+	<tr ng-repeat="h in basicCalendar.gui.hoursOfWork">
+		<td class="w3-tiny w3-right w3-hover-gray">{{h}}</td>
+		<td ng-repeat="wd in basicCalendar.gui.daysOfWeek"
+		ng-click="basicCalendar.gui.setWorkTimeStampDay(wd)"
+			class="w3-border w3-hover-shadow"></td>
+	</tr>
+</table>

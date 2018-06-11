@@ -1,0 +1,55 @@
+<table class="w3-table">
+	<col width="10%">
+	<col width="90%">
+	<tr class="w3-tiny">
+		<td class="w3-tiny w3-right">чч:хх</td>
+		<td class="w3-center">{{basicCalendar.gui.todayTime | date : 'EEEE
+			d.M'}}</td>
+	</tr>
+</table>
+<div style="max-height: 400px; overflow: auto;">
+<table class="w3-table">
+	<col width="10%">
+	<col width="90%">
+	<tr ng-repeat="h in basicCalendar.gui.hoursOfWork">
+		<td class="w3-tiny w3-right">
+			{{basicCalendar.gui.getDateWithHour(h)|date:'HH:mm'}}</td>
+		<td class="w3-border">
+			<div ng-if="h==9" style="position: relative;">
+				<div class="w3-border" style="position: absolute; width: 50%">
+					<span class="w3-tiny w3-gray"> 9:00-9:30</span>&nbsp; <a
+						href="/v/patient?id=3"> Петренко </a>
+					<div>
+						&nbsp; <span class="w3-border-top w3-border-left w3-border-red">
+							<span class="w3-tiny">ICPC2:</span> Код
+						</span> <span class="w3-border-bottom w3-border-left w3-border-green">
+							<span class="w3-tiny">МКХ10:</span> Код
+						</span>
+					</div>
+				</div>
+				<br /> <br />
+				<div style="position: absolute; top: 8px; left: 45%"
+					class="w3-border w3-white">
+						<span class="w3-tiny w3-gray"> 9:15-9:45</span> &nbsp; <a
+							href="/v/patient?id=4"> Сидоренко </a> &nbsp; &nbsp; &nbsp;
+						&nbsp; &nbsp;&nbsp;
+						<div>
+							&nbsp;<span class="w3-border-top w3-border-left w3-border-red">
+								<span class="w3-tiny">ICPC2:</span> Код
+							</span> <span class="w3-border-bottom w3-leftbar w3-border-red">
+								<span class="w3-tiny">МКХ10:</span> ?
+							</span>
+						</div>
+						<br />
+					</div>
+				</div>
+				<div ng-if="h==10">
+					<div class="w3-border">
+						<span class="w3-tiny w3-gray"> 10:00-10:45</span> &nbsp; <a
+							href="/v/patient?id=5">Бондаренко</a>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>

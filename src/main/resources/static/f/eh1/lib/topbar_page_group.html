@@ -4,7 +4,10 @@
 	class="fa fa-home"></i></a>
 <span ng-include="'/f/eh1/info2/info2_group_links.html'"> </span>
 <span class="w3-text-light-gray"> | </span>
-<span>
+<span ng-include="include.topbar_page_group"> </span>
+<span
+ng-if="pageGroup.saveButtonPages.indexOf(request.viewKey)>=0"
+>
 	<button ng-click="progr_am.fn.save()"
 		class=" w3-border  w3-text-blue-gray ">
 		<i class="fa fa-save"></i> Зберегти

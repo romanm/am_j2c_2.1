@@ -347,7 +347,12 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 	$scope.progr_am.viewes.hrm_menu.seekClean = function(){
 		console.log('---interface---progr_am.viewes.hrm_menu.seekClean---')
 	}
-	$scope.pageGroup = {}
+	$scope.pageGroup = {
+		saveButtonPages:[
+				'declaration','msp_division','msp_data','hrm_cards2',
+				'declaration3', 'msp_division3', 'new_patient'
+			]
+	}
 	$scope.pageGroup.misAlgoritmed3 = {
 		registry:{parent:{name:'Регістратура', url:'info3' },
 			reception:'запис на прийом',
