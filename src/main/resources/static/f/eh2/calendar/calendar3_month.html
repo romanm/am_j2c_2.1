@@ -20,15 +20,22 @@
 			ng-repeat="d in basicCalendar.gui.daysOfWeek"
 			ng-click="basicCalendar.gui.setWorkTimeStampDay(w,d)">
 			<div class="w3-display-topleft w3-tiny"
-				ng-class="{'w3-text-gray':!basicCalendar.gui.isWorkTimeStampMonth(w,d)}">
+				ng-class="{'w3-text-gray':!basicCalendar.gui.isWorkTimeStampMonth(w,d)}"
+				>
 				<div ng-if="w_index==0">
 					{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'EEE'}}</div>
 				{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'dd'}}
-			</div> <span class="w3-tiny" ng-if="w==2&&d==1"> Принято 8 хв. </span> <span
+			</div>
+			<div class="w3-display-topright w3-tiny"
+				ng-class="{'w3-text-gray':(basicCalendar.gui.workTimeStamp|date:'M')
+!= (basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'M')}"
+				ng-if="basicCalendar.gui.isLastMonthDay(w,d)==1">
+				{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'MMM'}}</div>
+			<div>
+			<span class="w3-tiny" ng-if="w==2&&d==1"> Принято 8 хв. </span> <span
 			class="w3-tiny" ng-if="w==3&&d==3"> Записано 8 хв. </span> <span
-			class="w3-tiny" ng-if="w==3&&d==5"> Записано 3 хв. </span> <!-- 
-          {{basicCalendar.isToday(basicCalendar.dayOfMonthOfWeekMonth(w,d))}}
-           -->
+			class="w3-tiny" ng-if="w==3&&d==5"> Записано 3 хв. </span> 
+			</div>
 			<p>&nbsp;</p>
 			<div class="w3-dropdown-content w3-border w3-card-4"
 				ng-class="{'w3-show':basicCalendar.gui.editDialogOpen && basicCalendar.gui.isWorkTimeStampDay(w,d)}"

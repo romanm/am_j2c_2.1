@@ -69,24 +69,45 @@ var BasicCalendar = function($scope, $http, $filter){
 		setWorkTimeStampDayHour:function(wd,h){
 			var d1 = new Date(this.workTimeStamp)
 			d1.setDate(d1.getDate()+(wd-d1.getDay()+1))
-			this.workTimeStamp = d1;
+			var dd = this.workTimeStamp.getDate(),
+			mm = this.workTimeStamp.getMonth(),
+			hh = this.workTimeStamp.getUTCHours()
+//			this.workTimeStamp = d1;
+//			this.workTimeStamp.setUTCHours(h)
 			this.workTimeStamp.setUTCHours(h)
+			this.workTimeStamp.setDate(d1.getDate())
+			this.workTimeStamp.setMonth(d1.getMonth())
 			console.log(this.workTimeStamp)
-			$scope.basicCalendar.gui.editDialogOpen
-			=! $scope.basicCalendar.gui.editDialogOpen
+			if(	dd == this.workTimeStamp.getDate() 
+			&& 	mm == this.workTimeStamp.getMonth()
+			&& 	hh == this.workTimeStamp.getUTCHours()
+			){
+				$scope.basicCalendar.gui.editDialogOpen
+				=! $scope.basicCalendar.gui.editDialogOpen
+			}
 			console.log($scope.basicCalendar.gui.editDialogOpen)
 		},
 		isWorkTimeStampHour:function(wd, h){
 			return this.workTimeStamp.getUTCHours()==h
 		},
 		isWorkTimeStampDayHour:function(wd, h){
-			
 			var isMyDay = this.isWorkTimeStampDay(wd)
 			return (this.workTimeStamp.getUTCHours()==h) && isMyDay
 		},
 		setWorkTimeStampDay:function(w, d){
-			$scope.basicCalendar.gui.editDialogOpen
-				=! $scope.basicCalendar.gui.editDialogOpen
+			var d1 = this.getWorkTimeStampDay(w, d)
+			var dd = this.workTimeStamp.getDate(),
+				mm = this.workTimeStamp.getMonth()
+			this.workTimeStamp.setDate(d1.getDate())
+			this.workTimeStamp.setMonth(d1.getMonth())
+			if(	dd == this.workTimeStamp.getDate() 
+			&&	mm == this.workTimeStamp.getMonth()
+			){
+				$scope.basicCalendar.gui.editDialogOpen
+					=! $scope.basicCalendar.gui.editDialogOpen
+			}
+		},
+		getWorkTimeStampDay:function(w, d){
 			if('month'==this.calendarViewPart.item){
 				var d1 = new Date(this.dayOfMonthOfWeekMonth(w,d))
 //				this.workTimeStamp = d1;
@@ -96,8 +117,12 @@ var BasicCalendar = function($scope, $http, $filter){
 				d1.setDate(d1.getDate()+(wd-d1.getDay()+1))
 //				this.workTimeStamp = d1;
 			}
-			this.workTimeStamp.setDate(d1.getDate())
-			this.workTimeStamp.setMonth(d1.getMonth())
+			return d1
+		},
+		isLastMonthDay:function(w,d){
+			var d1 = this.getWorkTimeStampDay(w, d)
+			d1.setDate(d1.getDate()+1)
+			return d1.getDate()
 		},
 		isWorkTimeStampMonth:function(w,d){
 			var date = new Date(this.workTimeStamp)
@@ -168,7 +193,7 @@ var BasicCalendar = function($scope, $http, $filter){
 			return new Date(d.getFullYear(),d.getMonth(),1);
 		}
 		,init:function(){
-			this.workTimeStamp = this.todayDate
+			this.workTimeStamp = new Date(this.todayDate)
 			console.log($filter('date')(this.workTimeStamp, 'short'))
 			for (var i = 7; i < 24; i++) {
 				this.hoursOfWork.push(i);
