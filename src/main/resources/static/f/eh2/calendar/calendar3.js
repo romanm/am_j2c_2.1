@@ -8,7 +8,6 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter){
 	console.log('------init_registry_calendar---7--------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 	$scope.basicCalendar = new BasicCalendar($scope, $http, $filter)
-	//$scope.basicCalendar.gui.todayTime = $scope.basicCalendar.gui.todayDate.getTime();
 	$scope.basicCalendar.gui.init();
 	console.log($scope.basicCalendar)
 	$scope.include = {
@@ -60,39 +59,38 @@ var BasicCalendar = function($scope, $http, $filter){
 			this.workTimeStamp = d1
 		},
 		goWeek:function(w){
-//			var wd = this.workTimeStamp.getDay()
-//			var date = this.dayOfMonthOfWeekMonth(w,wd-1)
-//			this.workTimeStamp = new Date(date)
-//			this.workTimeStamp.setDate(this.workTimeStamp.getDate()-1);
+			var newWeekOfYear = $filter('date')(this.dayOfMonthOfWeekMonth(w,1), 'ww'),
+				oldWeekOfYear = $filter('date')(this.workTimeStamp, 'ww'),
+				addDay = (newWeekOfYear-oldWeekOfYear)*7
+			this.workTimeStamp.setDate(this.workTimeStamp.getDate()+addDay);
 			this.calendarViewPart.item = 'week'
 		},
 		setWorkTimeStampDayHour:function(wd,h){
+			var dd = this.workTimeStamp.getDate(),
+				mm = this.workTimeStamp.getMonth(),
+				hh = $filter('date')(this.workTimeStamp, 'H')
 			var d1 = new Date(this.workTimeStamp)
 			d1.setDate(d1.getDate()+(wd-d1.getDay()+1))
-			var dd = this.workTimeStamp.getDate(),
-			mm = this.workTimeStamp.getMonth(),
-			hh = this.workTimeStamp.getUTCHours()
-//			this.workTimeStamp = d1;
-//			this.workTimeStamp.setUTCHours(h)
-			this.workTimeStamp.setUTCHours(h)
+			this.workTimeStamp.setHours(h)
 			this.workTimeStamp.setDate(d1.getDate())
 			this.workTimeStamp.setMonth(d1.getMonth())
 			console.log(this.workTimeStamp)
 			if(	dd == this.workTimeStamp.getDate() 
 			&& 	mm == this.workTimeStamp.getMonth()
-			&& 	hh == this.workTimeStamp.getUTCHours()
+			&& 	hh == $filter('date')(this.workTimeStamp, 'H')
 			){
 				$scope.basicCalendar.gui.editDialogOpen
 				=! $scope.basicCalendar.gui.editDialogOpen
 			}
 			console.log($scope.basicCalendar.gui.editDialogOpen)
 		},
-		isWorkTimeStampHour:function(wd, h){
-			return this.workTimeStamp.getUTCHours()==h
+		isWorkTimeStampHour:function(h){
+			var hh = $filter('date')(this.workTimeStamp, 'H')
+			return hh==h
 		},
 		isWorkTimeStampDayHour:function(wd, h){
 			var isMyDay = this.isWorkTimeStampDay(wd)
-			return (this.workTimeStamp.getUTCHours()==h) && isMyDay
+			return this.isWorkTimeStampHour(h) && isMyDay
 		},
 		setWorkTimeStampDay:function(w, d){
 			var d1 = this.getWorkTimeStampDay(w, d)
@@ -110,12 +108,10 @@ var BasicCalendar = function($scope, $http, $filter){
 		getWorkTimeStampDay:function(w, d){
 			if('month'==this.calendarViewPart.item){
 				var d1 = new Date(this.dayOfMonthOfWeekMonth(w,d))
-//				this.workTimeStamp = d1;
 			}else if('week'==this.calendarViewPart.item){
 				var wd = w
 				var d1 = new Date(this.workTimeStamp)
 				d1.setDate(d1.getDate()+(wd-d1.getDay()+1))
-//				this.workTimeStamp = d1;
 			}
 			return d1
 		},
@@ -188,7 +184,6 @@ var BasicCalendar = function($scope, $http, $filter){
 			return d1;
 		}
 		,firstDateOfMonth:function(d){
-			//if(!d) d = this.todayDate;
 			if(!d) d = this.workTimeStamp;
 			return new Date(d.getFullYear(),d.getMonth(),1);
 		}

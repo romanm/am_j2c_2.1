@@ -7,10 +7,11 @@
 			class=" w3-hover-gray">
 			{{basicCalendar.gui.workTimeStampWeekDay(wd)|date:'EEE d.M'}}</td>
 	</tr>
-	<tr ng-repeat="h in basicCalendar.gui.hoursOfWork">
+	<tr ng-repeat="h in basicCalendar.gui.hoursOfWork"
+	>
 		<td class="w3-tiny w3-right w3-hover-gray"
-		ng-class="{'am-b':basicCalendar.gui.isWorkTimeStampHour(wd,h)}"
-		>{{h}}</td>
+			ng-class="{'am-b':basicCalendar.gui.isWorkTimeStampHour(h)}">{{h}}
+		</td>
 		<td ng-repeat="wd in basicCalendar.gui.daysOfWeek"
 			ng-click="basicCalendar.gui.setWorkTimeStampDayHour(wd,h)"
 			ng-class="{'w3-border-blue':
@@ -20,7 +21,7 @@
 			<div class="w3-dropdown-content w3-border w3-card-4"
 				ng-class="{'w3-show':basicCalendar.gui.editDialogOpen 
     && basicCalendar.gui.isWorkTimeStampDayHour(wd,h)}"
-				ng-if="basicCalendar.gui.editDialogOpen 
+				ng-if="basicCalendar.gui.editDialogOpen
     && basicCalendar.gui.isWorkTimeStampDayHour(wd,h)">a1</div>
 		</td>
 	</tr>

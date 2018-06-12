@@ -1,36 +1,45 @@
 <table class="w3-table">
 <col  width="1%">
 	<col width="10%" ng-repeat="d in basicCalendar.gui.daysOfWeek" />
+	<!-- 
 	<tr class="w3-tiny">
-	<td></td>
+		<td></td>
 		<td ng-repeat="wd in basicCalendar.gui.daysOfWeek">
 			{{basicCalendar.dayOfMonthOfWeekMonth(0,wd)|date:'EEE'}}</td>
 	</tr>
-	<tr ng-repeat="w in basicCalendar.gui.monthWeek"
-		ng-init="w_index=$index;">
+	 -->
+	<tr ng-repeat="w in basicCalendar.gui.monthWeek" >
 		<td class="w3-tiny w3-hover-gray"
-		ng-click="basicCalendar.gui.goWeek(w)"
-		>
+			ng-class="{'am-b':
+			(basicCalendar.gui.dayOfMonthOfWeekMonth(w,1)|date:'ww')
+      == (basicCalendar.gui.workTimeStamp|date:'ww')}"
+			ng-click="basicCalendar.gui.goWeek(w)">
 			{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,1)|date:'ww'}}</td>
-		<td
+		<td ng-repeat="d in basicCalendar.gui.daysOfWeek"
 			class="w3-border w3-display-container w3-hover-shadow w3-dropdown-click"
 			ng-class="{'w3-border-black w3-light-gray':
 			basicCalendar.gui.isToday(basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)),
 			'w3-border-blue':basicCalendar.gui.isWorkTimeStampDay(w,d)}"
-			ng-repeat="d in basicCalendar.gui.daysOfWeek"
 			ng-click="basicCalendar.gui.setWorkTimeStampDay(w,d)">
-			<div class="w3-display-topleft w3-tiny"
-				ng-class="{'w3-text-gray':!basicCalendar.gui.isWorkTimeStampMonth(w,d)}"
-				>
-				<div ng-if="w_index==0">
+			<div class="w3-tiny">
+				<div ng-if="w==0" class="w3-display-topmiddle"
+					ng-class="{
+          'w3-text-black':!(d>=5),
+          'w3-text-red':d>=5,
+          'am-b':
+      (basicCalendar.gui.dayOfMonthOfWeekMonth(0,d)|date:'EEE')
+      == (basicCalendar.gui.workTimeStamp|date:'EEE')}">
 					{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'EEE'}}</div>
-				{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'dd'}}
-			</div>
-			<div class="w3-display-topright w3-tiny"
-				ng-class="{'w3-text-gray':(basicCalendar.gui.workTimeStamp|date:'M')
+				<div class="w3-display-topleft "
+					ng-class="{'w3-text-gray':!basicCalendar.gui.isWorkTimeStampMonth(w,d)}">
+					{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'dd'}}</div>
+				<div class="w3-display-topright"
+					ng-class="{'w3-text-gray':(basicCalendar.gui.workTimeStamp|date:'M')
 != (basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'M')}"
-				ng-if="basicCalendar.gui.isLastMonthDay(w,d)==1">
-				{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'MMM'}}</div>
+					ng-if="basicCalendar.gui.isLastMonthDay(w,d)==1">
+					{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'MMM'}}</div>
+			</div>
+
 			<div>
 			<span class="w3-tiny" ng-if="w==2&&d==1"> Принято 8 хв. </span> <span
 			class="w3-tiny" ng-if="w==3&&d==3"> Записано 8 хв. </span> <span
