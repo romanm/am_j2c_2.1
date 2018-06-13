@@ -9,15 +9,14 @@ init_am_directive.init_msp_division = function($scope, $http){
 
 	$scope.progr_am.fn.init_onLoad = function(){
 		console.log('-----init_onLoad------------')
-		if($scope.request.parameters.division_id){
-			exe_fn.jsonEditorRead({
-				url_template:'/f/mvp/division_template3.json',
-				doc_type:'division',
-				docbody_id:$scope.request.parameters.division_id,
-			})
-		}
+		if($scope.request.parameters.division_id)
+		{exe_fn.jsonEditorRead
+		({	
+			url_template:'/f/mvp/division_template3.json',
+			doc_type:'division',
+			docbody_id:$scope.request.parameters.division_id,
+		})}
 	}
-	
 
 	$scope.progr_am.fn.j2c.isSelected_row=function(){
 		return $scope.editDoc && $scope.editDoc.doc_id==$scope.request.parameters.division_id;

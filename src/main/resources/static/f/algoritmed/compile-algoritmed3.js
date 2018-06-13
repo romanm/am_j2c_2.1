@@ -59,7 +59,7 @@ var Exe_fn = function($scope, $http){
 		.then(progr_am.then_fn)
 	}
 	this.run_progr_am=function(){
-//		console.log('-----Exe_fn-----run_progr_am--------')
+		console.log('-----Exe_fn-----run_progr_am--------')
 		var exe_fn = this;
 		if($scope.progr_am.fn)
 		if($scope.progr_am.fn.init_onLoad)

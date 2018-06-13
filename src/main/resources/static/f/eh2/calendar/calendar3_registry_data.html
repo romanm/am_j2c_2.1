@@ -1,0 +1,16 @@
+<div>
+	<div ng-if="'week'==basicCalendar.gui.calendarViewPart.item"
+		class="w3-tiny">
+		<div
+			ng-repeat="row in icpc2_nakaz74.mapDate
+      [(basicCalendar.gui.getWorkTimeStampWeekDay(wd)|date:'dd.MM.yy')]
+      .hours[h]"
+			ng-class="{
+      'am-b':progr_am.fn.isEditRow(row)
+      }">
+			{{1+$index}}) {{row.col_10766.split('тел.')[0]}}</div>
+	</div>
+	<div ng-if="'month'==basicCalendar.gui.calendarViewPart.item">
+		{{icpc2_nakaz74.mapDate[(basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'dd.MM.yy')].list.length}}
+	</div>
+</div>

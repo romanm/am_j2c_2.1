@@ -28,7 +28,8 @@
           'w3-text-red':d>=5,
           'am-b':
       (basicCalendar.gui.dayOfMonthOfWeekMonth(0,d)|date:'EEE')
-      == (basicCalendar.gui.workTimeStamp|date:'EEE')}">
+      == (basicCalendar.gui.workTimeStamp|date:'EEE')}
+      ">
 					{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'EEE'}}</div>
 				<div class="w3-display-topleft "
 					ng-class="{'w3-text-gray':!basicCalendar.gui.isWorkTimeStampMonth(w,d)}">
@@ -39,17 +40,12 @@
 					ng-if="basicCalendar.gui.isLastMonthDay(w,d)==1">
 					{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'MMM'}}</div>
 			</div>
-
-			<div>
-			<span class="w3-tiny" ng-if="w==2&&d==1"> Принято 8 хв. </span> <span
-			class="w3-tiny" ng-if="w==3&&d==3"> Записано 8 хв. </span> <span
-			class="w3-tiny" ng-if="w==3&&d==5"> Записано 3 хв. </span> 
-			</div>
-			<p>&nbsp;</p>
+			<div ng-include="include.registry_calendar_data"></div>
 			<div class="w3-dropdown-content w3-border w3-card-4"
 				ng-class="{'w3-show':basicCalendar.gui.editDialogOpen && basicCalendar.gui.isWorkTimeStampDay(w,d)}"
-				ng-if="basicCalendar.gui.editDialogOpen && basicCalendar.gui.isWorkTimeStampDay(w,d)">
-				a1</div>
+				ng-if="basicCalendar.gui.editDialogOpen && basicCalendar.gui.isWorkTimeStampDay(w,d)"
+				ng-include="include.calendar_dialog"></div>
+			<p>&nbsp;</p>
 		</td>
 	</tr>
 </table>

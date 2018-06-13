@@ -10,26 +10,130 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter){
 	$scope.basicCalendar = new BasicCalendar($scope, $http, $filter)
 	$scope.basicCalendar.gui.init();
 	console.log($scope.basicCalendar)
+	$scope.progr_am.viewes={
+		calendar:{
+			//ngInclude:,
+			dataName:'jsonTemplate',
+			heightProcent:65,
+			setNgInclude:function(calendarViewPart){
+				this.ngInclude = 
+				'/f/eh2/calendar/calendar3_'+ calendarViewPart +'.html'	
+			}
+		},
+		menu:{ngInclude:'/f/eh1/info2/hrm_cards/hrm_menu.html',
+			seek:null,
+		},
+		j2c_table:{ngInclude:'/f/eh1/info2/hrm_cards/j2c_table.html',
+			dataName:'icpc2_nakaz74',
+			heightProcent:22,
+		},
+	},
+	$scope.progr_am.viewes.calendar.setNgInclude(
+		$scope.basicCalendar.gui.calendarViewPart.item		
+	)
 	$scope.include = {
 		topbar_page_group:'/f/eh2/calendar/calendar3_top_page.html',
+		registry_calendar_data:'/f/eh2/calendar/calendar3_registry_data.html',
+		calendar_dialog:'/f/eh2/calendar/calendar3_dialog.html',
 	}
-	$scope.basicCalendar.gui.editDialogOpen = false
+
+/*
+	$scope.$watch('basicCalendar.gui.calendarViewPart.item',function(newValue, oldValue){
+		console.log(newValue+' changed '+oldValue)
+	})
+*/
+	
 	$scope.$watch('basicCalendar.gui.workTimeStamp',function(newValue, oldValue){
 		if(newValue.getTime()!=oldValue.getTime()){
 			console.log(newValue+' changed '+oldValue)
 		}
 	});
+	$scope.basicCalendar.gui.editDialogOpen = false
+	
+	$scope.progr_am.icpc2_nakaz74={
+		httpGet:{
+			url:'/r/read2_sql_with_param',
+			params:{
+				sql:'sql2.j2c_table.selectByIdDesc',msp_id:188,table_id:9774
+			},
+			then_fn:function(response) {
+				delete response.data.add_joins
+				delete response.data.add_columns
+				delete response.data['sql2.j2c_table.selectByIdDesc']
+				$scope.icpc2_nakaz74.data = response.data
+
+				/*
+				console.log(response.data)
+				$scope.icpc2_nakaz74.list = response.data.list
+				$scope.icpc2_nakaz74.list_0 = response.data.list_0
+				$scope.icpc2_nakaz74.col_alias = response.data.col_alias
+				$scope.icpc2_nakaz74.col_keys = response.data.col_keys
+				 * */
+				console.log($scope.icpc2_nakaz74)
+				$scope.icpc2_nakaz74.mapDate = {}
+				angular.forEach($scope.icpc2_nakaz74.data.list,function(v){
+					var mapDateKey = $filter('date')(v.created, 'shortDate'),
+						h = $filter('date')(v.created, 'H')
+					if(!$scope.icpc2_nakaz74.mapDate[mapDateKey])
+						$scope.icpc2_nakaz74.mapDate[mapDateKey]= {list:[],hours:{}}
+					var mapDateValue = $scope.icpc2_nakaz74.mapDate[mapDateKey]
+					mapDateValue.list.push(v)
+					if(!mapDateValue.hours[h])
+						mapDateValue.hours[h] = []
+					mapDateValue.hours[h].push(v)
+					
+					console.log(mapDateKey)
+//					console.log(v)
+				})
+				console.log($scope.icpc2_nakaz74.mapDate)
+			}
+		},
+		init_data:{
+			col_values:{
+				col_9776:{
+					1:'амбулаторно',
+					2:'вдома',
+					3:'по телефону',
+				},
+				col_9775:{
+					1:'первинне',
+					2:'повторне',
+					3:'зевершення епізоду',
+				},
+				col_10900:{
+					1:'місто',
+					2:'село',
+				},
+			},
+			include_cols:'/f/eh1/info1/test3/icpc2_test3_cols.html',
+			col_sort:['creat_date', 'col_10766', 'col_9775', 'col_10771', 'col_10777', 'col_10807'
+				,'col_9776', 'col_10900'],
+		},
+	}
+	//exe_fn.)
+	$scope.progr_am.icpc2_nakaz74.selectCell=function(row_k, col_k){
+		$scope.editRow = $scope.icpc2_nakaz74.data.list[row_k];
+		console.log($scope.editRow)
+	}
+	$scope.progr_am.fn.isEditRow = function(row){
+		return $scope.editRow 
+		&& row.row_id == $scope.editRow.row_id
+	}
 }
 
 var BasicCalendar = function($scope, $http, $filter){
+console.log($scope.progr_am)
 	this.gui = {
 		calendarViewPart:{
 			list:['day','week','month','4day','termin'],
-			item:'month',
+			item:'week',
 			itemNames_ua:['День','Неділя','Місяць','4 дні','Терміни'],
 			weekDay_uaEEE:['пн','вт','ср','чт','пт','сб','нд'],
 			setItem:function(calendarViewPart){
-				this.item=calendarViewPart				
+				this.item=calendarViewPart
+				$scope.progr_am.viewes.calendar.setNgInclude(
+					calendarViewPart		
+				)
 			},
 		},
 		hoursOfWork:[],
@@ -63,18 +167,26 @@ var BasicCalendar = function($scope, $http, $filter){
 				oldWeekOfYear = $filter('date')(this.workTimeStamp, 'ww'),
 				addDay = (newWeekOfYear-oldWeekOfYear)*7
 			this.workTimeStamp.setDate(this.workTimeStamp.getDate()+addDay);
-			this.calendarViewPart.item = 'week'
+			this.calendarViewPart.setItem('week')
 		},
 		setWorkTimeStampDayHour:function(wd,h){
+			var addDay = wd-this.workTimeStamp.getDay()+1
+			console.log(addDay+'/'+h)
 			var dd = this.workTimeStamp.getDate(),
 				mm = this.workTimeStamp.getMonth(),
 				hh = $filter('date')(this.workTimeStamp, 'H')
-			var d1 = new Date(this.workTimeStamp)
-			d1.setDate(d1.getDate()+(wd-d1.getDay()+1))
-			this.workTimeStamp.setHours(h)
-			this.workTimeStamp.setDate(d1.getDate())
-			this.workTimeStamp.setMonth(d1.getMonth())
+			console.log(addDay)
+
 			console.log(this.workTimeStamp)
+			this.workTimeStamp.setHours(h)
+						console.log(this.workTimeStamp)
+
+			console.log(this.workTimeStamp.getDate())
+
+			this.workTimeStamp.setDate(
+				this.workTimeStamp.getDate()
+				+ addDay
+			)
 			if(	dd == this.workTimeStamp.getDate() 
 			&& 	mm == this.workTimeStamp.getMonth()
 			&& 	hh == $filter('date')(this.workTimeStamp, 'H')
@@ -82,7 +194,6 @@ var BasicCalendar = function($scope, $http, $filter){
 				$scope.basicCalendar.gui.editDialogOpen
 				=! $scope.basicCalendar.gui.editDialogOpen
 			}
-			console.log($scope.basicCalendar.gui.editDialogOpen)
 		},
 		isWorkTimeStampHour:function(h){
 			var hh = $filter('date')(this.workTimeStamp, 'H')
@@ -96,8 +207,8 @@ var BasicCalendar = function($scope, $http, $filter){
 			var d1 = this.getWorkTimeStampDay(w, d)
 			var dd = this.workTimeStamp.getDate(),
 				mm = this.workTimeStamp.getMonth()
-			this.workTimeStamp.setDate(d1.getDate())
 			this.workTimeStamp.setMonth(d1.getMonth())
+			this.workTimeStamp.setDate(d1.getDate())
 			if(	dd == this.workTimeStamp.getDate() 
 			&&	mm == this.workTimeStamp.getMonth()
 			){
@@ -105,13 +216,16 @@ var BasicCalendar = function($scope, $http, $filter){
 					=! $scope.basicCalendar.gui.editDialogOpen
 			}
 		},
+		getWorkTimeStampWeekDay:function(wd){
+			var d1 = new Date(this.workTimeStamp)
+			d1.setDate(d1.getDate()+(wd-d1.getDay()+1))
+			return d1
+		},
 		getWorkTimeStampDay:function(w, d){
 			if('month'==this.calendarViewPart.item){
 				var d1 = new Date(this.dayOfMonthOfWeekMonth(w,d))
 			}else if('week'==this.calendarViewPart.item){
-				var wd = w
-				var d1 = new Date(this.workTimeStamp)
-				d1.setDate(d1.getDate()+(wd-d1.getDay()+1))
+				var d1 = this.getWorkTimeStampWeekDay(w)
 			}
 			return d1
 		},

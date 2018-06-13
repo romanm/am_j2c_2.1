@@ -1,28 +1,49 @@
 <table class="w3-table">
-	<tr class="w3-tiny">
-		<td class="w3-tiny w3-right">чч:хх</td>
-		<td ng-repeat="wd in basicCalendar.gui.daysOfWeek"
-			ng-class="{'am-b w3-border-blue w3-border':basicCalendar.gui.isWorkTimeStampDay(wd),
-			'w3-text-gray':!basicCalendar.gui.isWorkTimeStampMonth(wd)}"
-			class=" w3-hover-gray">
-			{{basicCalendar.gui.workTimeStampWeekDay(wd)|date:'EEE d.M'}}</td>
-	</tr>
+	<col width="1%">
+	<col width="10%" ng-repeat="d in basicCalendar.gui.daysOfWeek" />
 	<tr ng-repeat="h in basicCalendar.gui.hoursOfWork"
-	>
-		<td class="w3-tiny w3-right w3-hover-gray"
-			ng-class="{'am-b':basicCalendar.gui.isWorkTimeStampHour(h)}">{{h}}
-		</td>
+		ng-init="h_index=$index">
+		<td class="w3-tiny w3-hover-gray"
+			ng-class="{
+			'am-b':basicCalendar.gui.isWorkTimeStampHour(h),
+			'w3-display-container':h_index==0,
+			}">
+			<div class="w3-tiny w3-display-topmiddle" ng-if="h_index==0">
+				<sup> гг:хх</sup>
+			</div> {{h}}</td>
 		<td ng-repeat="wd in basicCalendar.gui.daysOfWeek"
 			ng-click="basicCalendar.gui.setWorkTimeStampDayHour(wd,h)"
-			ng-class="{'w3-border-blue':
-			basicCalendar.gui.isWorkTimeStampDayHour(wd,h)
+			ng-class="{
+			'w3-border-blue' : basicCalendar.gui.isWorkTimeStampDayHour(wd,h),
+			'w3-display-container' : h_index==0,
+			'w3-topbar' : h_index==0 && basicCalendar.gui.isWorkTimeStampDay(wd),
+			'w3-leftbar' : $index==0 && basicCalendar.gui.isWorkTimeStampHour(h),
 			}"
-			class="w3-border w3-hover-shadow  w3-dropdown-click">
+			class="w3-border w3-hover-shadow w3-dropdown-click">
+			<div class="w3-tiny" ng-if="h_index==0">
+				<div class="w3-display-topmiddle"
+					ng-class="{
+				'am-b':h_index==0 && basicCalendar.gui.isWorkTimeStampDay(wd),
+				'w3-text-black':!($index>=5),
+        'w3-text-red':$index>=5,
+				}">
+					{{basicCalendar.gui.workTimeStampWeekDay(wd)|date:'EEE'}}</div>
+				<div class="w3-display-topleft">
+					{{basicCalendar.gui.workTimeStampWeekDay(wd)|date:'dd'}}</div>
+				<div class="w3-display-topright"
+					ng-if="basicCalendar.gui.isLastMonthDay(wd)==1">
+					{{basicCalendar.gui.workTimeStampWeekDay(wd)|date:'MMM'}}</div>
+			</div>
+
+			<div ng-include="include.registry_calendar_data"></div>
+
 			<div class="w3-dropdown-content w3-border w3-card-4"
 				ng-class="{'w3-show':basicCalendar.gui.editDialogOpen 
     && basicCalendar.gui.isWorkTimeStampDayHour(wd,h)}"
 				ng-if="basicCalendar.gui.editDialogOpen
-    && basicCalendar.gui.isWorkTimeStampDayHour(wd,h)">a1</div>
+    && basicCalendar.gui.isWorkTimeStampDayHour(wd,h)"
+				ng-include="include.calendar_dialog"></div>
+
 		</td>
 	</tr>
 </table>
