@@ -2,7 +2,8 @@
 	<i class="fa fa-calendar-o"></i>
 </div>
 <div ng-switch-when="creat_date"
-	title="{{row.created | date : 'longDate'}}/{{row.updated | date : 'short'}}">
+	title="{{row.created | date : 'longDate'
+	}} {{row.created | date : 'hh:mm'}}/{{row.updated | date : 'short'}}">
 	{{row.created|date:'dd.MM'}} <span class="w3-tiny"
 		title="{{row.family_name}} {{
               row.first_name}} {{

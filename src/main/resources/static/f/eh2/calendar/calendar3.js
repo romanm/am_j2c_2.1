@@ -1,10 +1,10 @@
 
-init_am_directive.init_physician_calendar = function($scope, $http, $filter){
+init_am_directive.init_physician_calendar = function($scope, $http, $filter, $route){
 	console.log('------init_physician_calendar---2--------------')
 	init_am_directive.init_registry_calendar($scope, $http, $filter)
 }
 
-init_am_directive.init_registry_calendar = function($scope, $http, $filter){
+init_am_directive.init_registry_calendar = function($scope, $http, $filter, $route){
 	console.log('------init_registry_calendar---7--------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 	$scope.basicCalendar = new BasicCalendar($scope, $http, $filter)
@@ -61,15 +61,6 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter){
 				delete response.data.add_columns
 				delete response.data['sql2.j2c_table.selectByIdDesc']
 				$scope.icpc2_nakaz74.data = response.data
-
-				/*
-				console.log(response.data)
-				$scope.icpc2_nakaz74.list = response.data.list
-				$scope.icpc2_nakaz74.list_0 = response.data.list_0
-				$scope.icpc2_nakaz74.col_alias = response.data.col_alias
-				$scope.icpc2_nakaz74.col_keys = response.data.col_keys
-				 * */
-				console.log($scope.icpc2_nakaz74)
 				$scope.icpc2_nakaz74.mapDate = {}
 				angular.forEach($scope.icpc2_nakaz74.data.list,function(v){
 					var mapDateKey = $filter('date')(v.created, 'shortDate'),
@@ -81,9 +72,6 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter){
 					if(!mapDateValue.hours[h])
 						mapDateValue.hours[h] = []
 					mapDateValue.hours[h].push(v)
-					
-					console.log(mapDateKey)
-//					console.log(v)
 				})
 				console.log($scope.icpc2_nakaz74.mapDate)
 			}
@@ -115,6 +103,31 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter){
 		$scope.editRow = $scope.icpc2_nakaz74.data.list[row_k];
 		console.log($scope.editRow)
 	}
+	
+	$scope.progr_am.fn.openAppointmentDialog = function(row){
+		$scope.editRow = row;
+		$scope.basicCalendar.gui.editDialogOpen=true
+	}
+	
+	$scope.progr_am.fn.setAppointment = function(){
+		console.log('-----120----------------')
+		var data = {
+			sql:sql2.sql2_created_update(), 
+			created:$scope.basicCalendar.gui.workTimeStamp.toISOString(), 
+			doctimestamp_id:$scope.editRow.row_id,
+		}
+
+		exe_fn.httpPost
+		({	url:'/r/url_sql_update2',
+			then_fn:function(response) {
+				$scope.editRow.created = $scope.basicCalendar.gui.workTimeStamp
+				location.reload();
+			},
+			data:data,
+		})
+
+	}
+
 	$scope.progr_am.fn.isEditRow = function(row){
 		return $scope.editRow 
 		&& row.row_id == $scope.editRow.row_id
@@ -171,18 +184,10 @@ console.log($scope.progr_am)
 		},
 		setWorkTimeStampDayHour:function(wd,h){
 			var addDay = wd-this.workTimeStamp.getDay()+1
-			console.log(addDay+'/'+h)
 			var dd = this.workTimeStamp.getDate(),
 				mm = this.workTimeStamp.getMonth(),
 				hh = $filter('date')(this.workTimeStamp, 'H')
-			console.log(addDay)
-
-			console.log(this.workTimeStamp)
 			this.workTimeStamp.setHours(h)
-						console.log(this.workTimeStamp)
-
-			console.log(this.workTimeStamp.getDate())
-
 			this.workTimeStamp.setDate(
 				this.workTimeStamp.getDate()
 				+ addDay
@@ -257,6 +262,9 @@ console.log($scope.progr_am)
 			}
 			return is
 		},
+		isWorkTimeStampBeforeToday:function(){
+			return this.todayDate.getTime()>this.workTimeStamp.getTime()
+		},
 		isToday:function(dt){
 			var d = new Date(dt)
 			return true
@@ -282,8 +290,8 @@ console.log($scope.progr_am)
 				= workTimeStampWeekDay.setDate(
 					workTimeStampWeekDay.getDate() - workTimeStampWeekDayNr + weekDay);
 			return workTimeStampWeekDay
-		}
-		,dayOfMonthOfWeekMonth:function(w,d){
+		},
+		dayOfMonthOfWeekMonth:function(w,d){
 			var addDay = this.dayOfWeekMonth(w,d);
 			var d1 = new Date(this.firstDateOfMonthFirstWeek());
 			d1 = d1.setDate(d1.getDate() + addDay);

@@ -488,9 +488,13 @@ var sql2 = {
 	sql2_docbody_selectById:function(){
 		return "SELECT * FROM docbody WHERE docbody_id=:docbody_id"
 	},
+	sql2_created_update:function(){
+		return "UPDATE doctimestamp SET created=:created " +
+		" WHERE doctimestamp_id=:doctimestamp_id"
+	},
 	sql2_docbody_updateById:function(){
 		return "UPDATE docbody SET docbody=:docbody " +
-				" WHERE docbody_id=:docbody_id"
+		" WHERE docbody_id=:docbody_id"
 	},
 }
 
