@@ -8,12 +8,12 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 	console.log('------init_registry_calendar---7--------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 	$scope.basicCalendar = new BasicCalendar($scope, $http, $filter)
+	$scope.progr_am.basicCalendar= $scope.basicCalendar
 	$scope.basicCalendar.gui.init();
-	console.log($scope.basicCalendar)
 	$scope.progr_am.viewes={
 		calendar:{
 			//ngInclude:,
-			dataName:'jsonTemplate',
+			dataName:'basicCalendar',
 			heightProcent:65,
 			setNgInclude:function(calendarViewPart){
 				this.ngInclude = 
@@ -44,7 +44,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 */
 	
 	$scope.$watch('basicCalendar.gui.workTimeStamp',function(newValue, oldValue){
-		if(newValue.getTime()!=oldValue.getTime()){
+		if(newValue && newValue.getTime()!=oldValue.getTime()){
 			console.log(newValue+' changed '+oldValue)
 		}
 	});
@@ -103,10 +103,14 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		$scope.editRow = $scope.icpc2_nakaz74.data.list[row_k];
 		console.log($scope.editRow)
 	}
-	
-	$scope.progr_am.fn.openAppointmentDialog = function(row){
-		$scope.editRow = row;
-		$scope.basicCalendar.gui.editDialogOpen=true
+	$scope.progr_am.appointmentDialog= {}
+	$scope.progr_am.appointmentDialog.close = function(){
+		console.log($scope.basicCalendar.gui.editDialogOpen)
+		$scope.basicCalendar.gui.editDialogOpen = false
+	}
+	$scope.progr_am.appointmentDialog.open = function(row){
+		$scope.editRow = row
+		$scope.basicCalendar.gui.editDialogOpen = true
 	}
 	
 	$scope.progr_am.fn.setAppointment = function(){
@@ -132,6 +136,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		return $scope.editRow 
 		&& row.row_id == $scope.editRow.row_id
 	}
+
 }
 
 var BasicCalendar = function($scope, $http, $filter){
@@ -196,8 +201,11 @@ console.log($scope.progr_am)
 			&& 	mm == this.workTimeStamp.getMonth()
 			&& 	hh == $filter('date')(this.workTimeStamp, 'H')
 			){
-				$scope.basicCalendar.gui.editDialogOpen
-				=! $scope.basicCalendar.gui.editDialogOpen
+				console.log($scope.basicCalendar.gui.editDialogOpen)
+				if(!$scope.basicCalendar.gui.editDialogOpen){
+					$scope.basicCalendar.gui.editDialogOpen
+					=! $scope.basicCalendar.gui.editDialogOpen
+				}
 			}
 		},
 		isWorkTimeStampHour:function(h){
@@ -214,12 +222,14 @@ console.log($scope.progr_am)
 				mm = this.workTimeStamp.getMonth()
 			this.workTimeStamp.setMonth(d1.getMonth())
 			this.workTimeStamp.setDate(d1.getDate())
+/*
 			if(	dd == this.workTimeStamp.getDate() 
 			&&	mm == this.workTimeStamp.getMonth()
 			){
 				$scope.basicCalendar.gui.editDialogOpen
 					=! $scope.basicCalendar.gui.editDialogOpen
 			}
+ */
 		},
 		getWorkTimeStampWeekDay:function(wd){
 			var d1 = new Date(this.workTimeStamp)

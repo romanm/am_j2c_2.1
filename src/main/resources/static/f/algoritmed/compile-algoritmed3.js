@@ -8,6 +8,7 @@ app.controller('ControllerApp1', function($scope, $http, $filter, $route) {
 
 //	console.log('-------ControllerApp1--------');
 	console.log($scope)
+	console.log($scope.data)
 	
 //	console.log(request)
 	init_am_directive.init_programRuns($scope, $http, $filter, $route);
@@ -62,13 +63,15 @@ var Exe_fn = function($scope, $http){
 		console.log('-----Exe_fn-----run_progr_am--------')
 		var exe_fn = this;
 		if($scope.progr_am.fn)
-		if($scope.progr_am.fn.init_onLoad)
-			$scope.progr_am.fn.init_onLoad()
+			if($scope.progr_am.fn.init_onLoad)
+				$scope.progr_am.fn.init_onLoad()
 
 		angular.forEach($scope.progr_am, function(v, k){
 			if('viewes|fn'.indexOf(k)>=0){}else
 			{
-				$scope[k] = {}
+				console.log(k)
+				if(!$scope[k])
+					$scope[k] = {}
 				$scope.data[k]=$scope[k]
 				$scope.data[k].fn=$scope.progr_am[k].fn
 

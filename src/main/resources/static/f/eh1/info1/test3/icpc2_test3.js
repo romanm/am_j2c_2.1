@@ -198,7 +198,7 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 				}
 			}else{
 				var row = icpc2_nakaz74.data.list[row_k];
-				icpc2_nakaz74.selectedCell={row_k:row_k, col_k:col_k, row_id:row.row_id}
+				icpc2_nakaz74.selectedCell = {row_k:row_k, col_k:col_k, row_id:row.row_id}
 			}
 		}
 	}

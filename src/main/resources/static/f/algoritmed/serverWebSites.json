@@ -257,7 +257,13 @@
     "title": "відділ кадрів",
     "parent": "home"
 },
-"icpc2_test3":{
+"icpc2_test4":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh1/info1/test4/icpc2_test4.html'",
+    "script": "/f/eh1/info1/test4/icpc2_test4.js",
+    "title": "ICPC2 тест4 звітів",
+    "parent": "home"
+},"icpc2_test3":{
     "th_template": "template2",
     "ng_template": "'/f/eh1/info1/test3/icpc2_test3.html'",
     "script": "/f/eh1/info1/test3/icpc2_test3.js",

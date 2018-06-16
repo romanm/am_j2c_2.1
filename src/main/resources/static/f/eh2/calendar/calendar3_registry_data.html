@@ -5,13 +5,14 @@
 			ng-repeat="row in icpc2_nakaz74.mapDate
       [(basicCalendar.gui.getWorkTimeStampWeekDay(wd)|date:'dd.MM.yy')]
       .hours[h]"
-      ng-click="progr_am.fn.openAppointmentDialog(row);"
-      class="w3-hover-shadow"
+			ng-click="progr_am.appointmentDialog.open(row);"
+			class="w3-hover-shadow"
 			ng-class="{
       'am-b':progr_am.fn.isEditRow(row)
       }">
-       {{row.created|date:'HH:mm'}} 
-			 {{row.col_10766.split('тел.')[0]}}</div>
+			<a href="#"> {{row.created|date:'HH:mm'}}
+				{{row.col_10766.split('тел.')[0]}} </a>
+		</div>
 	</div>
 	<div ng-if="'month'==basicCalendar.gui.calendarViewPart.item">
 		{{icpc2_nakaz74.mapDate[(basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'dd.MM.yy')].list.length}}

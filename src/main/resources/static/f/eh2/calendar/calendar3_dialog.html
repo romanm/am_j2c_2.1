@@ -1,13 +1,13 @@
 <div style="max-width: 400px; width: 300px">
 	<div ng-if="!editRow">
-		<div class="w3-tiny w3-gray">Вибрати пацієнта із записаних на
-			цей день</div>
-			&nbsp;
+		<div ng-include="'/f/eh2/calendar/calendar3_dialog_head.html'"
+			ng-init="head='Вибрати пацієнта із записаних на цей день'"></div>
+		&nbsp;
 		<div
 			ng-repeat="row in icpc2_nakaz74.mapDate
       [(basicCalendar.gui.getWorkTimeStampWeekDay(wd)|date:'dd.MM.yy')]
       .hours[h]"
-			ng-click="progr_am.fn.openAppointmentDialog(row);" 
+			ng-click="progr_am.appointmentDialog.open(row);" 
 			class="w3-hover-shadow"
 			ng-class="{
       'am-b':progr_am.fn.isEditRow(row)
@@ -18,7 +18,9 @@
 		&nbsp;
 	</div>
 	<div ng-if="editRow">
-		<div class="w3-tiny w3-gray">Перенести запис на?</div>
+	<div ng-include="'/f/eh2/calendar/calendar3_dialog_head.html'"
+      ng-init="head='Перенести запис на?'"></div>
+		
 		<div class="w3-container">
 			<div class="w3-text-red w3-tiny"
 				ng-if="basicCalendar.gui.isWorkTimeStampBeforeToday()">Обрана
@@ -32,6 +34,7 @@
 			&nbsp;
 			<div>
 				<button ng-click="progr_am.fn.setAppointment()" class="w3-border">ОК</button>
+				<button ng-click="progr_am.appointmentDialog.close()" class="w3-border">Закрити</button>
 			</div>
 		</div>
 	</div>
