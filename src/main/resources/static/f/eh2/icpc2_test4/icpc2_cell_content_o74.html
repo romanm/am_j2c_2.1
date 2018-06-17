@@ -1,0 +1,63 @@
+<div on="col_k_content" ng-switch>
+	<div ng-switch-default ng-if="col_k_content.indexOf('head_')!=0"
+		on="col_k_content" ng-switch>
+
+		<div class="w3-dropdown-click">
+			<a href="#" class="am-j2c"
+				ng-keyup="keys_use.keyUp($event, view.dataName)"><div
+					ng-switch-default>{{progr_am[view.dataName].getColValue(row,
+					col_k)}}</div>
+				<div ng-switch-when="col_9775|col_9776|col_10900"
+					ng-switch-when-separator="|">
+					{{row[col_k]}}<span ng-if="row[col_k]">:{{
+						icpc2_nakaz74.col_values[col_k][row[col_k]]}} </span>
+				</div> <span ng-if="!progr_am[view.dataName].getColValue(row, col_k)"
+				class="w3-tiny">
+					&lt;{{icpc2_nakaz74.data.col_keys[col_k]}}&gt; </span> </a>
+
+			<div class="w3-dropdown-content w3-border w3-card-4"
+				ng-style="dropdown_data.ngStyle(col_k)"
+				ng-if="progr_am[view.dataName].isCellSelect(row_k, col_k, row)"
+				ng-class="{'w3-show':progr_am[view.dataName].isCellSelect(row_k, col_k, row)}"
+				on="col_k" ng-switch>
+
+				<div class="w3-tiny w3-gray" title=" — {{col_k}}">
+					{{icpc2_nakaz74.data.col_keys[col_k]}}</div>
+				<i ng-click="progr_am[view.dataName].closeDropdown()"
+					class="fa fa-window-close-o w3-display-topright w3-hover-shadow"
+					aria-hidden="true"></i>
+
+				<div ng-switch-default>???</div>
+				<div ng-switch-when="col_10766|col_10771|col_10807|col_10777"
+					ng-switch-when-separator="|">
+					<div
+						ng-include="include.icpc2_cell_dropdown_content"></div>
+				</div>
+				<div ng-switch-when="col_9775|col_9776|col_10900"
+					ng-switch-when-separator="|">
+					<div ng-repeat="(value,name) in icpc2_nakaz74.col_values[col_k]"
+						ng-class="{'w3-light-green':row[col_k]==value}"
+						class="w3-hover-light-gray"
+						ng-click="icpc2_nakaz74.col_save(value,row,col_k)">
+						<a href="#" ng-keyup="keys_use.keyUp($event)">{{value}}</a>:
+						{{name}}
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div ng-switch-when="head_creat_date">
+		<i class="fa fa-calendar-o"></i>
+	</div>
+	<div ng-switch-when="creat_date"
+		title="{{row.created | date : 'longDate'
+	}} {{row.created | date : 'hh:mm'}}/{{row.updated | date : 'short'}}">
+		{{row.created|date:'dd.MM'}} <span class="w3-tiny"
+			title="{{row.family_name}} {{
+              row.first_name}} {{
+              row.second_name}}">
+			{{row.family_name.substring(0,1)}}{{
+			row.first_name.substring(0,1)}}{{ row.second_name.substring(0,1)}} </span>
+	</div>
+</div>

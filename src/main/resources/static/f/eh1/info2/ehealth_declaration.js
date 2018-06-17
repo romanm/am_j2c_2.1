@@ -411,6 +411,22 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		})
 		return r
 	}
+
+	$scope.keys_use = {}
+	$scope.keys_use.keyUp = function($event, dataName){
+//		console.log($event.key)
+		if('Escape'==$event.key){
+			if($scope.modal && $scope.modal.physicianChoose)
+				$scope.modal.physicianChoose.display={}
+			if($scope.progr_am[dataName]){
+				console.log($scope.progr_am[dataName].selectedCell)
+				if($scope.progr_am[dataName].selectedCell){
+					delete $scope.progr_am[dataName].selectedCell.col_k
+				}
+			}
+		}
+	}
+
 }
 
 adaptTemplateToData = function(data, template){

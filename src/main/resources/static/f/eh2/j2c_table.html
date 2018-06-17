@@ -5,7 +5,7 @@
 				<th style="background: white;"
 					ng-include="'/f/eh1/lib/table_menu.html'"></th>
 				<th ng-repeat="col_k in data.col_sort" title="{{col_k}}"
-					ng-init="head_col_k='head_'+col_k">
+					ng-init="col_k_content='head_'+col_k">
 					<div ng-include="
               data.include_cols" on="head_col_k"
 						ng-switch></div> {{data.data.col_keys[col_k]}}
@@ -13,7 +13,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="row in data.data.list" ng-init="row_k=$index"
+			<tr ng-repeat="row in data.data.list" 
+			ng-init="row_k=$index
+			"
 				class="w3-hover-light-gray">
 				<td class="w3-small" 
 				ng-class="{
@@ -21,6 +23,7 @@
 				}">{{row_k}}
 				</td>
 				<td ng-repeat="col_k in data.col_sort"
+				ng-init="col_k_content=col_k"
 					ng-click="progr_am[view.dataName].selectCell(row_k, col_k)"
 					class="w3-border-bottom w3-hover-shadow"
 					ng-class="{
@@ -29,8 +32,10 @@
 					'w3-leftbar':0==$index && progr_am[view.dataName].isEditRow(row),
 					 'w3-border-left':(0==$index && !progr_am[view.dataName].isEditRow(row)),
 					}">
+					
 					<div ng-include="include.j2c_table_content"></div>
-				</td>
+					
+					</td>
 			</tr>
 		</tbody>
 	</table>

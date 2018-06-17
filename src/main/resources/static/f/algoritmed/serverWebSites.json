@@ -259,7 +259,7 @@
     "parent": "home"
 },
 "icpc2_test4":{
-    "th_template": "template3",
+    "th_template": "template4",
     "ng_template": "'/f/eh2/group_view_template.html'",
     "script": "/f/eh2/icpc2_test4/icpc2_test4.js",
     "title": "ICPC2 тест4 звітів",
