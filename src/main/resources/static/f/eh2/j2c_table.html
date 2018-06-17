@@ -20,7 +20,7 @@
 				'w13-gray am-b':progr_am[view.dataName].isEditRow(row),
 				}">{{row_k}}
 				</td>
-				<td ng-repeat="col_k in data.col_sort" on="col_k" ng-switch
+				<td ng-repeat="col_k in data.col_sort"
 					ng-click="progr_am[view.dataName].selectCell(row_k, col_k)"
 					class="w3-border-bottom w3-hover-shadow"
 					ng-class="{
@@ -29,24 +29,7 @@
 					'w3-leftbar':0==$index && progr_am[view.dataName].isEditRow(row),
 					 'w3-border-left':(0==$index && !progr_am[view.dataName].isEditRow(row)),
 					}">
-					<div ng-switch-default>
-						<div
-							ng-bind-html="highlight(row[col_k] + data.fn_col[col_k](row), progr_am.viewes.hrm_menu.seek)">
-						</div>
-						<div ng-include="
-							data.include_cols" on="col_k" ng-switch></div>
-					</div>
-					<div ng-switch-when="person_id" on="request.viewKey" ng-switch>
-						<a ng-switch-when="hrm_cards2" href="?person_id={{row[col_k]}}">
-							{{row[col_k]}} </a> <a ng-switch-when="declaration|declaration3"
-							ng-switch-when-separator="|"
-							href="?person_id={{row[col_k]}}&declaration={{row.declaration}}&seek={{progr_am.viewes.hrm_menu.seek}}">
-							{{row[col_k]}} </a>
-					</div> <a ng-switch-when="division_id" href="?division_id={{row[col_k]}}">
-						{{row[col_k]}} </a> <a ng-switch-when="pip_phisician"
-					href="?declaration={{row.declaration}}&seek={{progr_am.viewes.hrm_menu.seek}}"
-					ng-bind-html="highlight(row[col_k] + data.fn_col[col_k](row), progr_am.viewes.hrm_menu.seek)">
-				</a>
+					<div ng-include="include.j2c_table_content"></div>
 				</td>
 			</tr>
 		</tbody>

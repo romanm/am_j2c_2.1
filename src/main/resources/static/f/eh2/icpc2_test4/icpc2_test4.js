@@ -1,9 +1,11 @@
 init_am_directive.init_icpc2_test4 = function($scope, $http){
 	console.log('-----init_icpc2_test4-----------------');
 	init_am_directive.ehealth_declaration($scope, $http);
-
+	$scope.include = {
+		j2c_table_content:'/f/eh2/icpc2_test4/j2c_table_content.html'
+	}
 	$scope.progr_am.viewes = {
-		j2c_table:{ngInclude:'/f/eh1/info2/hrm_cards/j2c_table.html',
+		j2c_table:{ngInclude:'/f/eh2/j2c_table.html',
 			dataName:'icpc2_nakaz74',
 		},
 	},

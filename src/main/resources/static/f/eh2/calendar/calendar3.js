@@ -10,6 +10,12 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 	$scope.basicCalendar = new BasicCalendar($scope, $http, $filter)
 	$scope.progr_am.basicCalendar= $scope.basicCalendar
 	$scope.basicCalendar.gui.init();
+	$scope.include = {
+		topbar_page_group:'/f/eh2/calendar/calendar3_top_page.html',
+		registry_calendar_data:'/f/eh2/calendar/calendar3_registry_data.html',
+		calendar_dialog:'/f/eh2/calendar/calendar3_dialog.html',
+		j2c_table_content:'/f/eh2/calendar/j2c_table_content.html'
+	}
 	$scope.progr_am.viewes={
 		calendar:{
 			//ngInclude:,
@@ -31,11 +37,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 	$scope.progr_am.viewes.calendar.setNgInclude(
 		$scope.basicCalendar.gui.calendarViewPart.item		
 	)
-	$scope.include = {
-		topbar_page_group:'/f/eh2/calendar/calendar3_top_page.html',
-		registry_calendar_data:'/f/eh2/calendar/calendar3_registry_data.html',
-		calendar_dialog:'/f/eh2/calendar/calendar3_dialog.html',
-	}
+
 
 /*
 	$scope.$watch('basicCalendar.gui.calendarViewPart.item',function(newValue, oldValue){
