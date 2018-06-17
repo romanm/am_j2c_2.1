@@ -8,14 +8,16 @@
 },
 "registry_calendar":{
     "th_template": "template3",
-    "ng_template": "'/f/eh2/calendar/calendar3.html'",
+    "ng_template": "'/f/eh1/lib/group_view_template.html'",
+    "n1g_template": "'/f/eh2/calendar/calendar3.html'",
     "script": "/f/eh2/calendar/calendar3.js",
     "title": "development declaration",
     "parent": "home"
 },
 "physician_calendar":{
     "th_template": "template3",
-    "ng_template": "'/f/eh2/calendar/calendar3.html'",
+    "ng_template": "'/f/eh1/lib/group_view_template.html'",
+    "n1g_template": "'/f/eh2/calendar/calendar3.html'",    
     "script": "/f/eh2/calendar/calendar3.js",
     "title": "development declaration",
     "parent": "home"
@@ -161,7 +163,6 @@
 	,"parent":"home"
 	,"alias":"Новий співробітник"
 }
-
 ,"hf_data":{
 	"th_template":"eh1_index1"
 	,"ng_template":"'/f/eh1/hf1/hf_data.html'"
@@ -259,7 +260,7 @@
 },
 "icpc2_test4":{
     "th_template": "template3",
-    "ng_template": "'/f/eh1/info1/test4/icpc2_test4.html'",
+    "ng_template": "'/f/eh1/lib/group_view_template.html'",
     "script": "/f/eh1/info1/test4/icpc2_test4.js",
     "title": "ICPC2 тест4 звітів",
     "parent": "home"

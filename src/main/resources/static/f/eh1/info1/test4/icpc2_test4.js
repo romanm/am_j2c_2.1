@@ -26,7 +26,8 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 						2:'село',
 					},
 				},
-				col_sort:['col_10766','col_9775', 'col_10771', 'col_10777','col_10807'
+				include_cols:'/f/eh1/info1/test3/icpc2_test3_cols.html',
+				col_sort:['creat_date', 'col_10766','col_9775', 'col_10771', 'col_10777','col_10807'
 					,'col_9776','col_10900'],
 			},
 			httpGet:{

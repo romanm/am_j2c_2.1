@@ -375,7 +375,10 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			msp_data3:'данні',
 			msp_registry3:'реєстрація',
 			msp_division3:'підрозділи',
-		},	
+		},
+		dev:{parent:{name:'DEVELOPMENT', url:'info3' },
+			icpc2_test4:'ICPC2 таблиця c.v.3.0.1',
+		},
 	}
 	$scope.pageGroup.eHealth = {
 		msp:{parent:{name:'ЛЗ', url:'info2' },
