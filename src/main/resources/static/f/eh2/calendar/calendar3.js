@@ -23,7 +23,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		menu:{ngInclude:'/f/eh1/info2/hrm_cards/hrm_menu.html',
 			seek:null,
 		},
-		j2c_table:{ngInclude:'/f/eh1/info2/hrm_cards/j2c_table.html',
+		j2c_table:{ngInclude:'/f/eh2/j2c_table.html',
 			dataName:'icpc2_nakaz74',
 			heightProcent:22,
 		},
@@ -103,6 +103,11 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		$scope.editRow = $scope.icpc2_nakaz74.data.list[row_k];
 		console.log($scope.editRow)
 	}
+	$scope.progr_am.icpc2_nakaz74.isEditRow = function(row){
+		return $scope.editRow 
+		&& row.row_id == $scope.editRow.row_id
+	}
+
 	$scope.progr_am.appointmentDialog= {}
 	$scope.progr_am.appointmentDialog.close = function(){
 		console.log($scope.basicCalendar.gui.editDialogOpen)
@@ -130,11 +135,6 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 			data:data,
 		})
 
-	}
-
-	$scope.progr_am.fn.isEditRow = function(row){
-		return $scope.editRow 
-		&& row.row_id == $scope.editRow.row_id
 	}
 
 }
