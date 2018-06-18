@@ -54,6 +54,7 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 	console.log($scope.progr_am)
 
 	var init_ngClick = function(icpc2_nakaz74){
+
 		icpc2_nakaz74.selectCell=function(row_k, col_k){
 			if(icpc2_nakaz74.selectedCell 
 			&& icpc2_nakaz74.selectedCell.col_k==col_k 
@@ -71,6 +72,7 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 			}
 			console.log(icpc2_nakaz74.selectedCell)
 		}
+
 		icpc2_nakaz74.isCellSelect=function(row_k, col_k, row){
 			if(icpc2_nakaz74.selectedCell && !icpc2_nakaz74.selectedCell.close){
 				if(icpc2_nakaz74.selectedCell.row_id==row.row_id)
@@ -78,10 +80,12 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 						&& icpc2_nakaz74.selectedCell.col_k==col_k
 			}
 		}
+
 		icpc2_nakaz74.closeDropdown=function(){
 			if(icpc2_nakaz74.selectedCell)
 				icpc2_nakaz74.selectedCell.close=true;
 		}
+
 		icpc2_nakaz74.getColValue=function(row,col_key){
 			if(row[col_key]){
 				if('col_9775|col_9776|col_10900'.indexOf(col_key)>=0)
@@ -92,6 +96,93 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 					return row[col_key]
 			}
 		}
+
+		icpc2_nakaz74.clickToSave={}
+		icpc2_nakaz74.clickToSave.add_row=function(){
+			var r0 = icpc2_nakaz74.data.list[0]
+			console.log(r0)
+			if($scope.physicianData)
+				$scope.f74_physician_id = $scope.physicianData.person_id;
+			var data={
+				sql:'sql2.j2c.insertRow2',
+				tbl_id:r0.tbl_id,
+				reference2:$scope.f74_physician_id,
+			}
+			console.log(data);
+			$http.post('/r/update2_sql_with_param', data).then(function(response) {
+				console.log(response.data);
+				response.data.row_id = response.data.nextDbId1
+				console.log(response.data.nextDbId1);
+				icpc2_nakaz74.data.list.unshift(response.data);
+				icpc2_nakaz74.selectedCell = {row_k:0, row_id:response.data.row_id}
+			});
+		}
+
+		icpc2_nakaz74.clickToSave.col_10766=function(row){//Patient
+			console.log(row)
+			var data={
+				reference2:row.row_id,
+				cell_value : row.col_9766+', '+row.col_9767
+			}
+			icpc2_nakaz74.clickToSave.ref2Cell(data, 
+				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+		}
+
+		icpc2_nakaz74.clickToSave.col_10777=function(row){//ICD10
+			console.log(row)
+			var data={
+				reference2:row.doc_id,
+				cell_value : row.icd_code+':'+row.icd_name
+			}
+			icpc2_nakaz74.clickToSave.ref2Cell(data, 
+			'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+		}
+
+		icpc2_nakaz74.clickToSave.col_10807=function(row){//ICPC2 process
+			var data={
+				reference2:row.doc_id,
+				cell_value : row.code+':'+row.value
+			}
+			icpc2_nakaz74.clickToSave.ref2Cell(data, 
+				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+		}
+
+		icpc2_nakaz74.clickToSave.col_10771=function(row){//ICPC2
+			var data={
+				reference2:row.doc_id,
+				cell_value : row.code+':'+row.value
+			}
+			icpc2_nakaz74.clickToSave.ref2Cell(data, 
+				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+		}
+
+		icpc2_nakaz74.clickToSave.ref2Cell=function(data, sqlInsertUpdate){
+
+			var editObj = icpc2_nakaz74.data.list[icpc2_nakaz74.selectedCell.row_k]
+			var cell_id = editObj[icpc2_nakaz74.selectedCell.col_k+'_id']
+			if(cell_id){
+				data.sql = sqlInsertUpdate.split('|')[1]
+					data.doc_id = cell_id 
+					$http.post('/r/update2_sql_with_param', data).then(function(response) {
+						editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = data.reference2 // cell_id
+						editObj[icpc2_nakaz74.selectedCell.col_k] = data.cell_value
+						delete icpc2_nakaz74.selectedCell.col_k
+					});
+			}else{ // insert
+				data.sql = sqlInsertUpdate.split('|')[0]
+					data.parent_id = editObj.row_id
+					var col_id = icpc2_nakaz74.selectedCell.col_k.split('_')[1] 
+				data.reference = col_id
+				$http.post('/r/update2_sql_with_param', data).then(function(response) {
+					editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = response.data.nextDbId1 // cell_id
+					editObj[icpc2_nakaz74.selectedCell.col_k] = data.cell_value
+					delete icpc2_nakaz74.selectedCell.col_k
+				});
+			}
+		}
+
+
+
 	}
 
 	$scope.$watch('dropdown_data.seek.col_10777',function(seek){if(seek){

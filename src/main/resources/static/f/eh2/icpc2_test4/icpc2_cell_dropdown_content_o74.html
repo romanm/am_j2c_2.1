@@ -16,7 +16,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="row in dropdown_data.list"
-					ng-click="icpc2_nakaz74.clickToSave[progr_am[view.dataName].selectedCell.col_k](row)"
+					ng-click="progr_am[view.dataName].clickToSave[progr_am[view.dataName].selectedCell.col_k](row)"
 					class="w3-hover-light-gray">
 					<td ng-repeat="(col_k,v) in dropdown_data.col_keys" ng-switch
 						on="col_k">
