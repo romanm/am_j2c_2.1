@@ -39,7 +39,7 @@
 						ng-class="{'w3-light-green':row[col_k]==value}"
 						class="w3-hover-light-gray"
 						ng-click="icpc2_nakaz74.col_save(value,row,col_k)">
-						<a href="#" ng-keyup="keys_use.keyUp($event)">{{value}}</a>:
+						<a href="#" ng-keyup="keys_use.keyUp($event, view.dataName)">{{value}}</a>:
 						{{name}}
 					</div>
 				</div>

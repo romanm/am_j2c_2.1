@@ -3,7 +3,7 @@
 		<thead>
 			<tr class="w3-tiny w3-gray">
 				<th style="background: white;"
-					ng-include="'/f/eh1/lib/table_menu.html'"></th>
+					ng-include="'/f/eh2/table_menu.html'"></th>
 				<th ng-repeat="col_k in data.col_sort" title="{{col_k}}"
 					ng-init="col_k_content='head_'+col_k">
 					<div ng-include="
@@ -19,7 +19,7 @@
 				class="w3-hover-light-gray">
 				<td class="w3-small" 
 				ng-class="{
-				'w13-gray am-b':progr_am[view.dataName].isEditRow(row),
+				'am-b':row_k==progr_am[view.dataName].selectedCell.row_k,
 				}">{{row_k}}
 				</td>
 				<td ng-repeat="col_k in data.col_sort"
@@ -41,3 +41,22 @@
 	</table>
 </div>
 
+<div class="w3-modal" ng-style="dropdown_data.ask_confirm_delete"
+  >
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <span ng-click="dropdown_data.ask_confirm_delete={display:'none'}"
+        class="w3-button w3-display-topright">&times;</span>
+      <p>&nbsp;</p>
+      <p>Підтвердіть видаленя</p>
+      <p>&nbsp;</p>
+      <span class="w3-btn w3-border w3-red"
+        title="стерти обраний запис  з форми 74"
+        ng-click="dropdown_data.deleteRow()">видалити</span> <span
+        ng-click="dropdown_data.ask_confirm_delete={display:'none'}"
+        class="w3-display-bottomright"> <span
+        class="w3-button w3-border">не видаляти</span>
+      </span>
+    </div>
+  </div>
+</div>
