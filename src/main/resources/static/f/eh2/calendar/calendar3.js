@@ -76,6 +76,9 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 					mapDateValue.hours[h].push(v)
 				})
 				console.log($scope.icpc2_nakaz74.mapDate)
+				$scope.progr_am.icpc2_nakaz74.data
+					= $scope.icpc2_nakaz74.data
+				init_ngClick($scope.progr_am.icpc2_nakaz74)
 			}
 		},
 		init_data:{
@@ -100,6 +103,11 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 				,'col_9776', 'col_10900'],
 		},
 	}
+
+	var init_ngClick = function(icpc2_nakaz74){
+		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
+	}
+
 	//exe_fn.)
 	$scope.progr_am.icpc2_nakaz74.selectCell=function(row_k, col_k){
 		$scope.editRow = $scope.icpc2_nakaz74.data.list[row_k];

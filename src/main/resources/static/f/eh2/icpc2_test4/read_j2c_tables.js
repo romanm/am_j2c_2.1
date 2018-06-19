@@ -1,4 +1,41 @@
 console.log("----------read_j2c_tables.js------")
+
+init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
+	console.log('-----init_f74_ngClick-----------------------')
+
+	$scope.f74_physician_id = 183;
+
+	icpc2_nakaz74.clickToSave={}
+	icpc2_nakaz74.clickToSave.add_row=function(){
+		var r0 = icpc2_nakaz74.data.list[0]
+		console.log(r0)
+		if($scope.physicianData)
+			$scope.f74_physician_id = $scope.physicianData.person_id;
+		var data={
+			sql:'sql2.j2c.insertRow2',
+			tbl_id:r0.tbl_id,
+			reference2:$scope.f74_physician_id,
+		}
+		console.log(data);
+		$http.post('/r/update2_sql_with_param', data).then(function(response) {
+			console.log(response.data);
+			response.data.row_id = response.data.nextDbId1
+			console.log(response.data.nextDbId1);
+			icpc2_nakaz74.data.list.unshift(response.data);
+			icpc2_nakaz74.data.list[0].created = response.data.list2[0].created
+			icpc2_nakaz74.data.list[0].last_name = response.data.list2[0].last_name
+			icpc2_nakaz74.data.list[0].first_name = response.data.list2[0].first_name
+			icpc2_nakaz74.data.list[0].second_name = response.data.list2[0].second_name
+				
+			console.log(icpc2_nakaz74.data.list);
+			icpc2_nakaz74.selectedCell = {
+				row_k:0, 
+				row_id:response.data.row_id,
+			}
+		});
+	}
+}
+
 init2_read_f74_tables = function($scope, $http){
 	console.log("--init2_read_f74_tables-----")
 		$scope.table = {row_indexs:{},

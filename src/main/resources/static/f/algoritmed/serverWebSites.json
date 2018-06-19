@@ -7,7 +7,7 @@
     "parent": "home"
 },
 "registry_calendar":{
-    "th_template": "template3",
+    "th_template": "template4",
     "ng_template": "'/f/eh2/group_view_template.html'",
     "n1g_template": "'/f/eh2/calendar/calendar3.html'",
     "script": "/f/eh2/calendar/calendar3.js",

@@ -55,11 +55,13 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 
 	var init_ngClick = function(icpc2_nakaz74){
 
+		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
+
 		icpc2_nakaz74.selectCell=function(row_k, col_k){
 			if(icpc2_nakaz74.selectedCell 
 			&& icpc2_nakaz74.selectedCell.col_k==col_k 
-			&& icpc2_nakaz74.selectedCell.row_k==row_k)
-			{
+			&& icpc2_nakaz74.selectedCell.row_k==row_k
+			){
 				if('col_10766|col_10771|col_10807|col_10777'.indexOf(col_k)>=0){
 					if(icpc2_nakaz74.selectedCell.close)
 						delete icpc2_nakaz74.selectedCell
@@ -70,7 +72,9 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 				var row = icpc2_nakaz74.data.list[row_k];
 				icpc2_nakaz74.selectedCell = {row_k:row_k, col_k:col_k, row_id:row.row_id}
 			}
+
 			console.log(icpc2_nakaz74.selectedCell)
+
 		}
 
 		icpc2_nakaz74.isCellSelect=function(row_k, col_k, row){
@@ -97,27 +101,24 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 			}
 		}
 
-		$scope.f74_physician_id = 183;
-
-		icpc2_nakaz74.clickToSave={}
-		icpc2_nakaz74.clickToSave.add_row=function(){
-			var r0 = icpc2_nakaz74.data.list[0]
-			console.log(r0)
-			if($scope.physicianData)
-				$scope.f74_physician_id = $scope.physicianData.person_id;
-			var data={
-				sql:'sql2.j2c.insertRow2',
-				tbl_id:r0.tbl_id,
-				reference2:$scope.f74_physician_id,
+		icpc2_nakaz74.clickToSave.col_save=function(value,row,col_k){
+			var data={ value:value }
+			if(row[col_k+'_id']){
+				data.sql='sql2.integer.updateCellById';
+				data.data_id=row[col_k+'_id'];
+				$http.post('/r/update2_sql_with_param', data).then(function(response) {
+					row[col_k]=response.data.value
+				});
+			}else{
+				data.sql='sql2.integer.insertCellId';
+				data.row_id=row.row_id;
+				var cln_id = col_k.split('_')[1]
+				data.cln_id = cln_id;
+				$http.post('/r/update2_sql_with_param', data).then(function(response) {
+					row[col_k+'_id'] = response.data.nextDbId1;
+					row[col_k]=response.data.value
+				});
 			}
-			console.log(data);
-			$http.post('/r/update2_sql_with_param', data).then(function(response) {
-				console.log(response.data);
-				response.data.row_id = response.data.nextDbId1
-				console.log(response.data.nextDbId1);
-				icpc2_nakaz74.data.list.unshift(response.data);
-				icpc2_nakaz74.selectedCell = {row_k:0, row_id:response.data.row_id}
-			});
 		}
 
 		icpc2_nakaz74.clickToSave.col_10766=function(row){//Patient
@@ -183,8 +184,6 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 			}
 		}
 
-
-
 	}
 
 	$scope.$watch('dropdown_data.seek.col_10777',function(seek){if(seek){
@@ -193,6 +192,20 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 	}})
 
 	var url_read2_sql_with_param = '/r/read2_sql_with_param'
+	fn_lib.read_data_col_10766=function(){ // Пацієнт
+		console.log('--------read----dropdown--Пацієнт-------')
+		var params={seekPatient:'%%'}
+		if($scope.dropdown_data.seek.col_10766){
+			params.seekPatient = '%'+$scope.dropdown_data.seek.col_10766+'%'
+		}
+		params.sql='sql2.table.select_seekPatient'
+		params.table_id=9765
+		$http.get(url_read2_sql_with_param, {params:params}).then(function(response) {
+			$scope.dropdown_data.list=response.data.list
+			$scope.dropdown_data.col_keys=response.data.col_keys
+			console.log($scope.dropdown_data)
+		})
+	}
 	fn_lib.read_data_col_10777=function(){ // ICD10
 		console.log('--------read----dropdown--ICD10-------')
 		var params={seek:'%%',doctype: 89}
@@ -210,7 +223,12 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 		})
 	}
 
-	$scope.$watch('dropdown_data.seek.col_10771',function(seekIcpc2){if(seekIcpc2){
+	$scope.$watch('dropdown_data.seek.col_10766',function(seek){if(seek){
+		console.log(seek)
+		fn_lib.read_data_col_10766()
+	}})
+
+	$scope.$watch('dropdown_data.seek.col_10771',function(seekIcpc2){if(seekIcpc2){ // ICPC2
 		console.log(seekIcpc2)
 		fn_lib.read_data_col_10771()
 	}})
