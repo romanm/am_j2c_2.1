@@ -14,7 +14,9 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		topbar_page_group:'/f/eh2/calendar/calendar3_top_page.html',
 		registry_calendar_data:'/f/eh2/calendar/calendar3_registry_data.html',
 		calendar_dialog:'/f/eh2/calendar/calendar3_dialog.html',
-		j2c_table_content:'/f/eh2/calendar/j2c_table_content.html'
+		j2c_table_content:'/f/eh2/calendar/calendar_j2c_table_content.html',
+		icpc2_cell_dropdown_content:
+			'/f/eh2/icpc2_test4/icpc2_cell_dropdown_content_o74.html',
 	}
 	$scope.progr_am.viewes={
 		calendar:{
@@ -98,7 +100,8 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 					2:'село',
 				},
 			},
-			include_cols:'/f/eh1/info1/test3/icpc2_test3_cols.html',
+			include_cols:'/f/eh2/calendar/calendar_j2c_table_content.html',
+			i1nclude_cols:'/f/eh1/info1/test3/icpc2_test3_cols.html',
 			col_sort:['creat_date', 'col_10766', 'col_9775', 'col_10771', 'col_10777', 'col_10807'
 				,'col_9776', 'col_10900'],
 		},

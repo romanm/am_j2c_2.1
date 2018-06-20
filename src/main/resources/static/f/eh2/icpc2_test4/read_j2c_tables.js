@@ -3,12 +3,38 @@ console.log("----------read_j2c_tables.js------")
 init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	console.log('-----init_f74_ngClick-----------------------')
 
+
+	icpc2_nakaz74.closeDropdown=function(){
+		if(icpc2_nakaz74.selectedCell)
+			icpc2_nakaz74.selectedCell.close=true;
+	}
+	
+	icpc2_nakaz74.isCellSelect=function(row_k, col_k, row){
+		if(icpc2_nakaz74.selectedCell && !icpc2_nakaz74.selectedCell.close){
+			if(icpc2_nakaz74.selectedCell.row_id==row.row_id)
+				return icpc2_nakaz74.selectedCell.row_k==row_k 
+					&& icpc2_nakaz74.selectedCell.col_k==col_k
+		}
+	}
+													
+	icpc2_nakaz74.getColValue=function(row,col_key){
+		if(row[col_key]){
+			if('col_9775|col_9776|col_10900'.indexOf(col_key)>=0)
+				return row[col_key]+':'
+				+$scope.icpc2_nakaz74
+				.col_values[col_key][row[col_key]]
+			else
+				return row[col_key]
+		}
+	}
+
+	
 	icpc2_nakaz74.isRegistryDeleteAllowed = function(){
 		if(icpc2_nakaz74.clickToSave.ask_confirm_delete.display == 'block'){
 			var isRegistryDeleteAllowed = true
 			var row = icpc2_nakaz74.data.list[icpc2_nakaz74.selectedCell.row_k]
 			console.log(row)
-			var cols = 'col_10766|col_9775|col_10771|col_10777|col_10807|col_9776|col_10900'
+			var cols = 'col_9775|col_10771|col_10777|col_10807|col_9776|col_10900'
 			angular.forEach(cols.split('|'), function(k){
 				if(row[k]){
 					console.log(k)
@@ -40,6 +66,68 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	$scope.f74_physician_id = 183;
 
 	icpc2_nakaz74.clickToSave = {}
+	$scope.dropdown_data = {seek:{},}
+	$scope.dropdown_data
+	.seek_placeholder = {
+		col_10766:'знайти Пацієнта',
+		col_10777:'знайти МКХ10',
+		col_10771:'знайти ICPC2',
+		col_10807:'знайти процес ICPC2',
+	},
+	$scope.dropdown_data.ngStyle = function(col_k){
+		var style={}
+		if('col_10777'==col_k){
+			style.left='-150px';
+			style['min-width']='450px';
+		}else if('col_10766'==col_k){
+			style['min-width']='400px';
+		}else if('col_10807'==col_k){
+			style.left='-150px';
+		}else if('col_10900'==col_k){
+			style.left='-90px';
+		}else if('col_10771'==col_k){
+			style.left='-150px';
+		}
+		return style;
+	},
+	
+	$scope.$watch('progr_am.icpc2_nakaz74.selectedCell.col_k',function(col_k){if(col_k){
+		console.log(col_k)
+		if(fn_lib['read_data_'+col_k])
+			fn_lib['read_data_'+col_k]()
+	}})
+
+	$scope.$watch('dropdown_data.seek.col_10766',function(seek){if(seek){
+		console.log(seek)
+		fn_lib.read_data_col_10766()
+	}})
+	
+	var url_read2_sql_with_param = '/r/read2_sql_with_param'
+	fn_lib.read_data_col_10766=function(){ // Пацієнт
+		console.log('--------read----dropdown--Пацієнт-------')
+		var params={seekPatient:'%%'}
+		if($scope.dropdown_data.seek.col_10766){
+			params.seekPatient = '%'+$scope.dropdown_data.seek.col_10766+'%'
+		}
+		params.sql='sql2.table.select_seekPatient'
+		params.table_id=9765
+		$http.get(url_read2_sql_with_param, {params:params}).then(function(response) {
+			$scope.dropdown_data.list=response.data.list
+			$scope.dropdown_data.col_keys=response.data.col_keys
+			console.log($scope.dropdown_data)
+		})
+	}
+	
+	icpc2_nakaz74.clickToSave.col_10766=function(row){//Patient
+		console.log(row)
+		var data={
+			reference2:row.row_id,
+			cell_value : row.col_9766+', '+row.col_9767
+		}
+		icpc2_nakaz74.clickToSave.ref2Cell(data, 
+			'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+	}
+	
 	icpc2_nakaz74.clickToSave.ask_confirm_delete = {display:'none'}
 	icpc2_nakaz74.clickToSave.deleteRow = function(){
 		var selectedCell =$scope.progr_am.icpc2_nakaz74.selectedCell; 
