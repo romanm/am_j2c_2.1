@@ -109,7 +109,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 	}
 
 	//exe_fn.)
-	$scope.progr_am.icpc2_nakaz74.selectCell=function(row_k, col_k){
+	$scope.progr_am.icpc2_nakaz74.s1electCell=function(row_k, col_k){
 		$scope.editRow = $scope.icpc2_nakaz74.data.list[row_k];
 		console.log($scope.editRow)
 	}

@@ -3,7 +3,8 @@
 		<thead>
 			<tr class="w3-tiny w3-gray">
 				<th style="background: white;"
-					ng-include="'/f/eh2/table_menu.html'"></th>
+					ng-include="'/f/eh2/table_menu.html'">
+					</th>
 				<th ng-repeat="col_k in data.col_sort" title="{{col_k}}"
 					ng-init="col_k_content='head_'+col_k">
 					<div ng-include="
@@ -40,21 +41,43 @@
 	</table>
 </div>
 
-<div class="w3-modal" ng-style="dropdown_data.ask_confirm_delete">
-  <div class="w3-modal-content">
-    <div class="w3-container">
-      <span ng-click="dropdown_data.ask_confirm_delete={display:'none'}"
-        class="w3-button w3-display-topright">&times;</span>
-      <p>&nbsp;</p>
-      <p>Підтвердіть видаленя</p>
-      <p>&nbsp;</p>
-      <span class="w3-btn w3-border w3-red"
-        title="стерти обраний запис  з форми 74"
-        ng-click="dropdown_data.deleteRow()">видалити</span> <span
-        ng-click="dropdown_data.ask_confirm_delete={display:'none'}"
-        class="w3-display-bottomright"> <span
-        class="w3-button w3-border">не видаляти</span>
-      </span>
-    </div>
-  </div>
+<div class="w3-modal"
+	ng-style="progr_am[view.dataName].clickToSave.ask_confirm_delete">
+	<div class="w3-modal-content">
+		<div class="w3-container">
+			<span
+				ng-click="progr_am[view.dataName].ask_confirm_delete={display:'none'}"
+				class="w3-button w3-display-topright">&times;</span>
+			<p>&nbsp;</p>
+			<p>Підтвердіть видаленя запису:</p>
+			<div class="w3-card">
+				<b> Пацієнт: </b>
+				{{data.data.list[progr_am[view.dataName].selectedCell.row_k].col_10766}}
+				<div>
+					{{data.data.list[progr_am[view.dataName].selectedCell.row_k].created
+					| date : 'hh:mm'}}</div>
+				<div>
+					{{data.data.list[progr_am[view.dataName].selectedCell.row_k].created
+					| date : 'longDate' }}</div>
+				<b> Лікар: </b>
+				{{data.data.list[progr_am[view.dataName].selectedCell.row_k].family_name}}
+				{{data.data.list[progr_am[view.dataName].selectedCell.row_k].first_name}}
+				{{data.data.list[progr_am[view.dataName].selectedCell.row_k].second_name}}
+			</div>
+			&nbsp;
+			<div class="w3-red"
+				ng-if="!progr_am[view.dataName].isRegistryDeleteAllowed()">
+				Запис має дані внесені лікарем. Видаленя запису регістратором
+				недозволено.</div>
+			<p>&nbsp;</p>
+			<span class="w3-btn w3-border w3-red"
+				title="стерти обраний запис  з форми 74"
+				ng-click="progr_am[view.dataName].clickToSave.deleteRow()">видалити</span>
+			<span
+				ng-click="progr_am[view.dataName].clickToSave.ask_confirm_delete={display:'none'}"
+				class="w3-display-bottomright"> <span
+				class="w3-button w3-border">не видаляти</span>
+			</span>
+		</div>
+	</div>
 </div>

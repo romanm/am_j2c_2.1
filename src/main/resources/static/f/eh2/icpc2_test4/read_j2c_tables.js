@@ -3,9 +3,77 @@ console.log("----------read_j2c_tables.js------")
 init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	console.log('-----init_f74_ngClick-----------------------')
 
+	icpc2_nakaz74.isRegistryDeleteAllowed = function(){
+		if(icpc2_nakaz74.clickToSave.ask_confirm_delete.display == 'block'){
+			var isRegistryDeleteAllowed = true
+			var row = icpc2_nakaz74.data.list[icpc2_nakaz74.selectedCell.row_k]
+			console.log(row)
+			var cols = 'col_10766|col_9775|col_10771|col_10777|col_10807|col_9776|col_10900'
+			angular.forEach(cols.split('|'), function(k){
+				if(row[k]){
+					console.log(k)
+					isRegistryDeleteAllowed = false
+				}
+			})
+			return isRegistryDeleteAllowed
+		}
+	}
+	
+	icpc2_nakaz74.selectCell=function(row_k, col_k){
+		if(icpc2_nakaz74.selectedCell 
+				&& icpc2_nakaz74.selectedCell.col_k==col_k 
+				&& icpc2_nakaz74.selectedCell.row_k==row_k
+		){
+			if('col_10766|col_10771|col_10807|col_10777'.indexOf(col_k)>=0){
+				if(icpc2_nakaz74.selectedCell.close)
+					delete icpc2_nakaz74.selectedCell
+			}else{
+				delete icpc2_nakaz74.selectedCell
+			}
+		}else{
+			var row = icpc2_nakaz74.data.list[row_k];
+			icpc2_nakaz74.selectedCell = {row_k:row_k, col_k:col_k, row_id:row.row_id}
+		}
+		console.log(icpc2_nakaz74.selectedCell)
+	}
+
 	$scope.f74_physician_id = 183;
 
-	icpc2_nakaz74.clickToSave={}
+	icpc2_nakaz74.clickToSave = {}
+	icpc2_nakaz74.clickToSave.ask_confirm_delete = {display:'none'}
+	icpc2_nakaz74.clickToSave.deleteRow = function(){
+		var selectedCell =$scope.progr_am.icpc2_nakaz74.selectedCell; 
+		console.log(selectedCell)
+		var row = $scope.icpc2_nakaz74.data.list[selectedCell.row_k]
+		console.log(row)
+		var data={
+			sql:'sql2.j2c.deleteRowId2',
+			row_id:row.row_id,
+		}
+		console.log(data);
+		$http.post('/r/update2_sql_with_param', data).then(function(response) {
+			console.log(response.data)
+			$scope.icpc2_nakaz74.data.list.splice(selectedCell.row_k, 1)
+			icpc2_nakaz74.clickToSave.ask_confirm_delete = {display:'none'}
+		});
+	}
+
+	icpc2_nakaz74.clickToSave.ngStyleAskDelete = function(){
+		console.log(icpc2_nakaz74)
+		console.log(icpc2_nakaz74.selectedCell)
+		console.log(this.ask_confirm_delete)
+
+		if(icpc2_nakaz74.selectedCell){
+			console.log(1)
+			if(icpc2_nakaz74.selectedCell.row_k>=0){
+				console.log(2)
+				this.ask_confirm_delete={display:'block'}
+				console.log(this.ask_confirm_delete)
+
+			}
+		}
+	}
+
 	icpc2_nakaz74.clickToSave.add_row=function(){
 		var r0 = icpc2_nakaz74.data.list[0]
 		console.log(r0)

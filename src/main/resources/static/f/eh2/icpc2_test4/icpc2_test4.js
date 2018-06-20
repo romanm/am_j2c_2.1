@@ -57,26 +57,6 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 
 		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
 
-		icpc2_nakaz74.selectCell=function(row_k, col_k){
-			if(icpc2_nakaz74.selectedCell 
-			&& icpc2_nakaz74.selectedCell.col_k==col_k 
-			&& icpc2_nakaz74.selectedCell.row_k==row_k
-			){
-				if('col_10766|col_10771|col_10807|col_10777'.indexOf(col_k)>=0){
-					if(icpc2_nakaz74.selectedCell.close)
-						delete icpc2_nakaz74.selectedCell
-				}else{
-					delete icpc2_nakaz74.selectedCell
-				}
-			}else{
-				var row = icpc2_nakaz74.data.list[row_k];
-				icpc2_nakaz74.selectedCell = {row_k:row_k, col_k:col_k, row_id:row.row_id}
-			}
-
-			console.log(icpc2_nakaz74.selectedCell)
-
-		}
-
 		icpc2_nakaz74.isCellSelect=function(row_k, col_k, row){
 			if(icpc2_nakaz74.selectedCell && !icpc2_nakaz74.selectedCell.close){
 				if(icpc2_nakaz74.selectedCell.row_id==row.row_id)
@@ -272,31 +252,6 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 	}
 
 	$scope.dropdown_data = {
-		ask_confirm_delete:{display:'none'},
-		deleteRow:function(){
-			var selectedCell =$scope.progr_am.icpc2_nakaz74.selectedCell; 
-			console.log(selectedCell)
-			var row = $scope.icpc2_nakaz74.data.list[selectedCell.row_k]
-			console.log(row)
-			var data={
-				sql:'sql2.j2c.deleteRowId2',
-				row_id:row.row_id,
-			}
-			console.log(data);
-			$http.post('/r/update2_sql_with_param', data).then(function(response) {
-				console.log(response.data)
-				$scope.icpc2_nakaz74.data.list.splice(selectedCell.row_k, 1)
-				$scope.dropdown_data.ask_confirm_delete = {display:'none'}
-			});
-		},
-		ngStyleAskDelete:function(){
-			console.log($scope.progr_am.icpc2_nakaz74)
-			console.log($scope.progr_am.icpc2_nakaz74.selectedCell)
-
-			if($scope.progr_am.icpc2_nakaz74.selectedCell)
-				if($scope.progr_am.icpc2_nakaz74.selectedCell.row_k>=0)
-					this.ask_confirm_delete={display:'block'}
-		},
 		ngStyle:function(col_k){
 			var style={}
 			if('col_10777'==col_k){
