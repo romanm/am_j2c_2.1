@@ -12,7 +12,8 @@
 				<sup> гг:хх</sup>
 			</div> {{h}}</td>
 		<td ng-repeat="wd in basicCalendar.gui.daysOfWeek"
-			ng-click="basicCalendar.gui.setWorkTimeStampDayHour(wd,h)"
+			ng-click="basicCalendar.gui.selectCell.week(wd,h)"
+			n1g-click="basicCalendar.gui.setWorkTimeStampDayHour(wd,h)"
 			ng-class="{
 			'w3-border-blue' : basicCalendar.gui.isWorkTimeStampDayHour(wd,h),
 			'w3-display-container' : h_index==0,
@@ -38,10 +39,8 @@
 			<div ng-include="include.registry_calendar_data"></div>
 
 			<div class="w3-dropdown-content w3-border w3-card-4"
-				ng-class="{'w3-show':basicCalendar.gui.editDialogOpen 
-    && basicCalendar.gui.isWorkTimeStampDayHour(wd,h)}"
-				ng-if="basicCalendar.gui.editDialogOpen
-    && basicCalendar.gui.isWorkTimeStampDayHour(wd,h)"
+				ng-class="{'w3-show':basicCalendar.gui.isSelectedCellDialogOpen(wd,h)}"
+				ng-if="basicCalendar.gui.isSelectedCellDialogOpen(wd,h)"
 				ng-include="include.calendar_dialog"></div>
 
 		</td>

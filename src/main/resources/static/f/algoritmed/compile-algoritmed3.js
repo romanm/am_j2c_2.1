@@ -71,9 +71,9 @@ var Exe_fn = function($scope, $http){
 			{
 				console.log(k)
 				if(!$scope[k])
-					$scope[k] = {}
+					$scope[k] = $scope.progr_am[k] //{}
 				$scope.data[k]=$scope[k]
-				$scope.data[k].fn=$scope.progr_am[k].fn
+//				$scope.data[k].fn=$scope.progr_am[k].fn
 
 				angular.forEach(v, function(v1, k1){
 					if(exe_fn[k1])

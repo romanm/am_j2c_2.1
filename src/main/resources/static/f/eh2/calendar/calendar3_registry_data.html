@@ -1,20 +1,20 @@
-<div>
-	<div ng-if="'week'==basicCalendar.gui.calendarViewPart.item"
-		class="w3-tiny">
+<div on="basicCalendar.gui.calendarViewPart.item" ng-switch>
+	<div ng-switch-when="week" class="w3-tiny">
 		<div
 			ng-repeat="row in icpc2_nakaz74.mapDate
       [(basicCalendar.gui.getWorkTimeStampWeekDay(wd)|date:'dd.MM.yy')]
       .hours[h]"
-			ng-click="progr_am.appointmentDialog.open(row);"
+			ng-click="progr_am.appointmentDialog.open(row, icpc2_nakaz74);"
 			class="w3-hover-shadow"
 			ng-class="{
-      'am-b':progr_am.fn.isEditRow(row)
+      'am-b':basicCalendar.record.isEditRecord(row, icpc2_nakaz74)
       }">
-			<a href="#"> {{row.created|date:'HH:mm'}}
-				{{row.col_10766.split('тел.')[0]}} </a>
+			<a href="#" 
+			>
+				{{row.created|date:'HH:mm'}} {{row.col_10766.split('тел.')[0]}} </a>
 		</div>
 	</div>
-	<div ng-if="'month'==basicCalendar.gui.calendarViewPart.item">
+	<div ng-switch-when="month">
 		{{icpc2_nakaz74.mapDate[(basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'dd.MM.yy')].list.length}}
 	</div>
 </div>

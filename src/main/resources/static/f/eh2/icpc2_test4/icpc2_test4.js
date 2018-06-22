@@ -106,31 +106,6 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
 		}
 
-		icpc2_nakaz74.clickToSave.ref2Cell=function(data, sqlInsertUpdate){
-
-			var editObj = icpc2_nakaz74.data.list[icpc2_nakaz74.selectedCell.row_k]
-			var cell_id = editObj[icpc2_nakaz74.selectedCell.col_k+'_id']
-			if(cell_id){
-				data.sql = sqlInsertUpdate.split('|')[1]
-					data.doc_id = cell_id 
-					$http.post('/r/update2_sql_with_param', data).then(function(response) {
-						editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = data.reference2 // cell_id
-						editObj[icpc2_nakaz74.selectedCell.col_k] = data.cell_value
-						delete icpc2_nakaz74.selectedCell.col_k
-					});
-			}else{ // insert
-				data.sql = sqlInsertUpdate.split('|')[0]
-					data.parent_id = editObj.row_id
-					var col_id = icpc2_nakaz74.selectedCell.col_k.split('_')[1] 
-				data.reference = col_id
-				$http.post('/r/update2_sql_with_param', data).then(function(response) {
-					editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = response.data.nextDbId1 // cell_id
-					editObj[icpc2_nakaz74.selectedCell.col_k] = data.cell_value
-					delete icpc2_nakaz74.selectedCell.col_k
-				});
-			}
-		}
-
 	}
 
 	$scope.$watch('dropdown_data.seek.col_10777',function(seek){if(seek){
@@ -171,12 +146,6 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 		)
 	}
 	
-	$scope.$watch('progr_am.icpc2_nakaz74.selectedCell.col_k',function(col_k){if(col_k){
-		console.log(col_k)
-		if(fn_lib['read_data_'+col_k])
-			fn_lib['read_data_'+col_k]()
-	}})
-
 	fn_lib.read_data_ICPC2=function(sql, seek){ // ICPC2
 		var params={seek:'%%'}
 		if(seek)

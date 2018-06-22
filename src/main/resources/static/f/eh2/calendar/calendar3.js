@@ -64,6 +64,10 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 				delete response.data.add_joins
 				delete response.data.add_columns
 				delete response.data['sql2.j2c_table.selectByIdDesc']
+				/*
+				console.log($scope.icpc2_nakaz74)
+				console.log($scope.progr_am.icpc2_nakaz74)
+				 * */
 				$scope.icpc2_nakaz74.data = response.data
 				$scope.icpc2_nakaz74.mapDate = {}
 				angular.forEach($scope.icpc2_nakaz74.data.list,function(v){
@@ -109,6 +113,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 
 	var init_ngClick = function(icpc2_nakaz74){
 		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
+
 	}
 
 	//exe_fn.)
@@ -116,20 +121,19 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		$scope.editRow = $scope.icpc2_nakaz74.data.list[row_k];
 		console.log($scope.editRow)
 	}
-	$scope.progr_am.icpc2_nakaz74.isEditRow = function(row){
-		return $scope.editRow 
-		&& row.row_id == $scope.editRow.row_id
-	}
+
 
 	$scope.progr_am.appointmentDialog= {}
+	$scope.progr_am.appointmentDialog.open = function(row, icpc2_nakaz74){
+console.log(row)
+console.log(icpc2_nakaz74)
+	}
+	/*
 	$scope.progr_am.appointmentDialog.close = function(){
 		console.log($scope.basicCalendar.gui.editDialogOpen)
 		$scope.basicCalendar.gui.editDialogOpen = false
 	}
-	$scope.progr_am.appointmentDialog.open = function(row){
-		$scope.editRow = row
-		$scope.basicCalendar.gui.editDialogOpen = true
-	}
+	 * */
 	
 	$scope.progr_am.fn.setAppointment = function(){
 		console.log('-----120----------------')
@@ -147,13 +151,15 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 			},
 			data:data,
 		})
-
 	}
-
 }
 
 var BasicCalendar = function($scope, $http, $filter){
-console.log($scope.progr_am)
+	this.record = {
+		isEditRecord:function(row, icpc2_nakaz74){
+			return icpc2_nakaz74.isEditRow(row)
+		}
+	}
 	this.gui = {
 		calendarViewPart:{
 			list:['day','week','month','4day','termin'],
@@ -200,6 +206,44 @@ console.log($scope.progr_am)
 			this.workTimeStamp.setDate(this.workTimeStamp.getDate()+addDay);
 			this.calendarViewPart.setItem('week')
 		},
+		isWorkTimeStampHour:function(h){
+			var hh = $filter('date')(this.workTimeStamp, 'H')
+			return hh==h
+		},
+		isWorkTimeStampDayHour:function(wd, h){
+			var isMyDay = this.isWorkTimeStampDay(wd)
+			return this.isWorkTimeStampHour(h) && isMyDay
+		},
+		isSelectedCellDialogOpen:function(wd, h){
+			if(this.selectedCell.selectedCellDialogClose<0) return false
+			if('week'==this.calendarViewPart.item){
+				return this.isWorkTimeStampDayHour(wd, h)
+			}
+			return false
+		},
+		closeDropdown:function(){
+			console.log(this.selectedCell)
+			if(this.selectedCell)
+				this.selectedCell.selectedCellDialogClose=-2;
+		},
+		selectedCell:{
+			selectedCellDialogClose:0,
+		},
+		selectCell:{
+			parent:this,
+			month:function(w, d){
+			},
+			week:function(wd, h){
+				this.parent.gui.selectedCell.wd=wd
+				this.parent.gui.selectedCell.h=h
+				this.parent.gui.setWorkTimeStampDayHour(wd,h)
+				console.log(this.parent.gui.selectedCell.selectedCellDialogClose)
+				//if(this.parent.gui.selectedCell.selectedCellDialogClose)
+					this.parent.gui.selectedCell.selectedCellDialogClose++;
+			},
+			day:function(){
+			},
+		},
 		setWorkTimeStampDayHour:function(wd,h){
 			var addDay = wd-this.workTimeStamp.getDay()+1
 			var dd = this.workTimeStamp.getDate(),
@@ -210,6 +254,9 @@ console.log($scope.progr_am)
 				this.workTimeStamp.getDate()
 				+ addDay
 			)
+			this.selectedCell.workTimeStamp = this.workTimeStamp
+			console.log(this.selectedCell)
+			/*
 			if(	dd == this.workTimeStamp.getDate() 
 			&& 	mm == this.workTimeStamp.getMonth()
 			&& 	hh == $filter('date')(this.workTimeStamp, 'H')
@@ -220,14 +267,7 @@ console.log($scope.progr_am)
 					=! $scope.basicCalendar.gui.editDialogOpen
 				}
 			}
-		},
-		isWorkTimeStampHour:function(h){
-			var hh = $filter('date')(this.workTimeStamp, 'H')
-			return hh==h
-		},
-		isWorkTimeStampDayHour:function(wd, h){
-			var isMyDay = this.isWorkTimeStampDay(wd)
-			return this.isWorkTimeStampHour(h) && isMyDay
+			 * */
 		},
 		setWorkTimeStampDay:function(w, d){
 			var d1 = this.getWorkTimeStampDay(w, d)

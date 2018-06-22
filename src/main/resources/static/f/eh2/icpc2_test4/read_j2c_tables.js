@@ -8,14 +8,6 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		if(icpc2_nakaz74.selectedCell)
 			icpc2_nakaz74.selectedCell.close=true;
 	}
-	
-	icpc2_nakaz74.isCellSelect=function(row_k, col_k, row){
-		if(icpc2_nakaz74.selectedCell && !icpc2_nakaz74.selectedCell.close){
-			if(icpc2_nakaz74.selectedCell.row_id==row.row_id)
-				return icpc2_nakaz74.selectedCell.row_k==row_k 
-					&& icpc2_nakaz74.selectedCell.col_k==col_k
-		}
-	}
 													
 	icpc2_nakaz74.getColValue=function(row,col_key){
 		if(row[col_key]){
@@ -45,6 +37,20 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		}
 	}
 	
+	icpc2_nakaz74.isEditRow = function(row){
+		return icpc2_nakaz74.selectedCell &&
+		icpc2_nakaz74.selectedCell.row_id==row.row_id
+//		return $scope.editRow && row.row_id == $scope.editRow.row_id
+	}
+
+	icpc2_nakaz74.isCellSelect=function(row_k, col_k, row){
+		if(icpc2_nakaz74.selectedCell && !icpc2_nakaz74.selectedCell.close){
+			if(icpc2_nakaz74.selectedCell.row_id==row.row_id)
+				return icpc2_nakaz74.selectedCell.row_k==row_k 
+				&& icpc2_nakaz74.selectedCell.col_k==col_k
+		}
+	}
+	
 	icpc2_nakaz74.selectCell=function(row_k, col_k){
 		if(icpc2_nakaz74.selectedCell 
 				&& icpc2_nakaz74.selectedCell.col_k==col_k 
@@ -59,6 +65,8 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		}else{
 			var row = icpc2_nakaz74.data.list[row_k];
 			icpc2_nakaz74.selectedCell = {row_k:row_k, col_k:col_k, row_id:row.row_id}
+			console.log(icpc2_nakaz74)
+			console.log(icpc2_nakaz74.isEditRow(row))
 		}
 		console.log(icpc2_nakaz74.selectedCell)
 	}
@@ -128,6 +136,30 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 			'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
 	}
 	
+	icpc2_nakaz74.clickToSave.ref2Cell=function(data, sqlInsertUpdate){
+		var editObj = icpc2_nakaz74.data.list[icpc2_nakaz74.selectedCell.row_k]
+		var cell_id = editObj[icpc2_nakaz74.selectedCell.col_k+'_id']
+		if(cell_id){
+			data.sql = sqlInsertUpdate.split('|')[1]
+			data.doc_id = cell_id 
+			$http.post('/r/update2_sql_with_param', data).then(function(response) {
+				editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = data.reference2 // cell_id
+				editObj[icpc2_nakaz74.selectedCell.col_k] = data.cell_value
+				delete icpc2_nakaz74.selectedCell.col_k
+			});
+		}else{ // insert
+			data.sql = sqlInsertUpdate.split('|')[0]
+			data.parent_id = editObj.row_id
+			var col_id = icpc2_nakaz74.selectedCell.col_k.split('_')[1] 
+			data.reference = col_id
+			$http.post('/r/update2_sql_with_param', data).then(function(response) {
+				editObj[icpc2_nakaz74.selectedCell.col_k+'_id'] = response.data.nextDbId1 // cell_id
+				editObj[icpc2_nakaz74.selectedCell.col_k] = data.cell_value
+				delete icpc2_nakaz74.selectedCell.col_k
+			});
+		}
+	}
+
 	icpc2_nakaz74.clickToSave.ask_confirm_delete = {display:'none'}
 	icpc2_nakaz74.clickToSave.deleteRow = function(){
 		var selectedCell =$scope.progr_am.icpc2_nakaz74.selectedCell; 

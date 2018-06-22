@@ -14,14 +14,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="row in data.data.list" 
-			ng-init="row_k=$index
-			"
+			<tr ng-repeat="row in data.data.list" ng-init="row_k=$index"
 				class="w3-hover-light-gray">
-				<td class="w3-small" 
-				ng-class="{
-				'am-b':row_k==progr_am[view.dataName].selectedCell.row_k,
-				}">{{row_k}}
+				<td class="w3-small"
+					ng-class="{'am-b':progr_am[view.dataName].isEditRow(row),}"
+					n1g-class="{'am-b':row_k==progr_am[view.dataName].selectedCell.row_k,}"
+					>{{row_k}}
 				</td>
 				<td ng-repeat="col_k in data.col_sort" ng-init="col_k_content=col_k"
 					ng-click="progr_am[view.dataName].selectCell(row_k, col_k)"

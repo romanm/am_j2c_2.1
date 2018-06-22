@@ -7,7 +7,7 @@
 			ng-repeat="row in icpc2_nakaz74.mapDate
       [(basicCalendar.gui.getWorkTimeStampWeekDay(wd)|date:'dd.MM.yy')]
       .hours[h]"
-			ng-click="progr_am.appointmentDialog.open(row);" 
+			ng-click="progr_am.appointmentDialog.open(row);"
 			class="w3-hover-shadow"
 			ng-class="{
       'am-b':progr_am.fn.isEditRow(row)
@@ -18,7 +18,8 @@
 		&nbsp;
 	</div>
 	<div ng-if="editRow">
-	<div ng-include="'/f/eh2/calendar/calendar3_dialog_head.html'"
+	<div 
+	ng-include="'/f/eh2/calendar/calendar3_dialog_head.html'"
       ng-init="head='Перенести запис на?'"></div>
 		
 		<div class="w3-container">
@@ -34,7 +35,7 @@
 			&nbsp;
 			<div>
 				<button ng-click="progr_am.fn.setAppointment()" class="w3-border">ОК</button>
-				<button ng-click="progr_am.appointmentDialog.close()" class="w3-border">Закрити</button>
+				<button ng-click="basicCalendar.gui.selectedCell.selectedCellDialogClose=true" class="w3-border">Закрити</button>
 			</div>
 		</div>
 	</div>
