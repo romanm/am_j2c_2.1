@@ -12,8 +12,7 @@
 				<sup> гг:хх</sup>
 			</div> {{h}}</td>
 		<td ng-repeat="wd in basicCalendar.gui.daysOfWeek"
-			ng-click="basicCalendar.gui.selectCell.week(wd,h)"
-			n1g-click="basicCalendar.gui.setWorkTimeStampDayHour(wd,h)"
+			ng-click="basicCalendar.edit_dialog.selectCell.week(wd,h)"
 			ng-class="{
 			'w3-border-blue' : basicCalendar.gui.isWorkTimeStampDayHour(wd,h),
 			'w3-display-container' : h_index==0,
@@ -31,18 +30,23 @@
 					{{basicCalendar.gui.workTimeStampWeekDay(wd)|date:'EEE'}}</div>
 				<div class="w3-display-topleft">
 					{{basicCalendar.gui.workTimeStampWeekDay(wd)|date:'dd'}}</div>
-				<div class="w3-display-topright"
-					ng-if="basicCalendar.gui.isLastMonthDay(wd)==1">
-					{{basicCalendar.gui.workTimeStampWeekDay(wd)|date:'MMM'}}</div>
+				<div class="w3-display-topright">
+					<span ng-if="basicCalendar.gui.isLastMonthDay(wd)==1">
+						{{basicCalendar.gui.workTimeStampWeekDay(wd)|date:'MMM'}} </span> <i
+						title="Сьогодні"
+						ng-if="basicCalendar.gui.isToday(basicCalendar.gui.workTimeStampWeekDay(wd))"
+						class="fa fa-calendar-times-o"></i>
+				</div>
 			</div>
 
 			<div ng-include="include.registry_calendar_data"></div>
 
 			<div class="w3-dropdown-content w3-border w3-card-4"
-				ng-class="{'w3-show':basicCalendar.gui.isSelectedCellDialogOpen(wd,h)}"
-				ng-if="basicCalendar.gui.isSelectedCellDialogOpen(wd,h)"
+				ng-class="{'w3-show':basicCalendar.edit_dialog.isSelectedCellDialogOpen(wd,h)}"
+				ng-if="basicCalendar.edit_dialog.isSelectedCellDialogOpen(wd,h)"
 				ng-include="include.calendar_dialog"></div>
 
 		</td>
 	</tr>
 </table>
+

@@ -4,7 +4,8 @@
 			ng-repeat="row in icpc2_nakaz74.mapDate
       [(basicCalendar.gui.getWorkTimeStampWeekDay(wd)|date:'dd.MM.yy')]
       .hours[h]"
-			ng-click="progr_am.appointmentDialog.open(row, icpc2_nakaz74);"
+			ng-click="
+			basicCalendar.edit_dialog.open_record_dialog(row, icpc2_nakaz74);"
 			class="w3-hover-shadow"
 			ng-class="{
       'am-b':basicCalendar.record.isEditRecord(row, icpc2_nakaz74)

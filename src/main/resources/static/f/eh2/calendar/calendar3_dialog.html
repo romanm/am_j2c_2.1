@@ -1,13 +1,20 @@
 <div style="max-width: 400px; width: 300px">
-	<div ng-if="!editRow">
+	<div ng-if="'record' != basicCalendar.edit_dialog.selectedCell.dialog_type">
 		<div ng-include="'/f/eh2/calendar/calendar3_dialog_head.html'"
 			ng-init="head='Вибрати пацієнта із записаних на цей день'"></div>
+
+		<div ng-if="icpc2_nakaz74.selectedCell.row"
+			ng-click="basicCalendar.edit_dialog.open_record_dialog(
+		icpc2_nakaz74.selectedCell.row, icpc2_nakaz74);"
+			class="w3-hover-shadow">
+			{{icpc2_nakaz74.selectedCell.row.col_10766}}</div>
+
 		&nbsp;
 		<div
 			ng-repeat="row in icpc2_nakaz74.mapDate
       [(basicCalendar.gui.getWorkTimeStampWeekDay(wd)|date:'dd.MM.yy')]
       .hours[h]"
-			ng-click="progr_am.appointmentDialog.open(row);"
+			ng-click="basicCalendar.edit_dialog.open_record_dialog(row, icpc2_nakaz74);"
 			class="w3-hover-shadow"
 			ng-class="{
       'am-b':progr_am.fn.isEditRow(row)
@@ -17,26 +24,38 @@
 		</div>
 		&nbsp;
 	</div>
-	<div ng-if="editRow">
-	<div 
-	ng-include="'/f/eh2/calendar/calendar3_dialog_head.html'"
-      ng-init="head='Перенести запис на?'"></div>
-		
+	<div
+		ng-if="'record' == basicCalendar.edit_dialog.selectedCell.dialog_type">
+		<div ng-include="'/f/eh2/calendar/calendar3_dialog_head.html'"
+			ng-init="head='Перенести запис на прийом:'"></div>
+
 		<div class="w3-container">
-			<div class="w3-text-red w3-tiny"
-				ng-if="basicCalendar.gui.isWorkTimeStampBeforeToday()">Обрана
-				дата знаходиться в минулому.</div>
-			&nbsp;
+			<div class="am-b">
+				{{icpc2_nakaz74.selectedCell.row.col_10766}}</div>
 			<div class="w3-card">
-				{{basicCalendar.gui.workTimeStamp|date:'fullDate'}}
-				<div>{{basicCalendar.gui.workTimeStamp|date:'shortTime'}}</div>
-				<div class="w13-border am-b">{{editRow.col_10766}}</div>
+				<b>на</b> {{basicCalendar.gui.workTimeStamp|date:'HH:mm'}}
+				<input style="width: 50px" class="w3-border"
+				 min="0" max="59"
+				ng-change="basicCalendar.record.setNewRecordMinutes(); $event.stopPropagation();"
+				ng-model="basicCalendar.record.newRecordMinutes" type="number">
+				<div>{{basicCalendar.gui.workTimeStamp|date:'fullDate'}}</div>
 			</div>
-			&nbsp;
-			<div>
-				<button ng-click="progr_am.fn.setAppointment()" class="w3-border">ОК</button>
-				<button ng-click="basicCalendar.gui.selectedCell.selectedCellDialogClose=true" class="w3-border">Закрити</button>
+			<div class="w3-card w3-tiny"
+			style="margin-top: 10px;"
+			>
+				<b>з</b>
+				{{icpc2_nakaz74.selectedCell.row.created|date:'shortTime'}}
+        <div>{{icpc2_nakaz74.selectedCell.row.created|date:'fullDate'}}</div>
+			</div>
+			<div
+			style="margin-top: 10px;"
+			>
+				<button
+					ng-click="basicCalendar.edit_dialog.save_record_timestamp(icpc2_nakaz74);"
+					class="w3-border">ОК</button>
 			</div>
 		</div>
 	</div>
+	<button ng-click="basicCalendar.edit_dialog.closeDropdown()"
+          class="w3-border w3-display-bottomright">Закрити</button>
 </div>

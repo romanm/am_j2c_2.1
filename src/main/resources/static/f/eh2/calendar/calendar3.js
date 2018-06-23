@@ -104,7 +104,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 					2:'село',
 				},
 			},
-			include_cols:'/f/eh2/calendar/calendar_j2c_table_content.html',
+			include_cols:'/f/eh2/icpc2_test4/icpc2_cell_content_o74.html',
 			i1nclude_cols:'/f/eh1/info1/test3/icpc2_test3_cols.html',
 			col_sort:['creat_date', 'col_10766', 'col_9775', 'col_10771', 'col_10777', 'col_10807'
 				,'col_9776', 'col_10900'],
@@ -122,45 +122,89 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		console.log($scope.editRow)
 	}
 
-
-	$scope.progr_am.appointmentDialog= {}
-	$scope.progr_am.appointmentDialog.open = function(row, icpc2_nakaz74){
-console.log(row)
-console.log(icpc2_nakaz74)
-	}
-	/*
-	$scope.progr_am.appointmentDialog.close = function(){
-		console.log($scope.basicCalendar.gui.editDialogOpen)
-		$scope.basicCalendar.gui.editDialogOpen = false
-	}
-	 * */
-	
-	$scope.progr_am.fn.setAppointment = function(){
-		console.log('-----120----------------')
-		var data = {
-			sql:sql2.sql2_created_update(), 
-			created:$scope.basicCalendar.gui.workTimeStamp.toISOString(), 
-			doctimestamp_id:$scope.editRow.row_id,
-		}
-
-		exe_fn.httpPost
-		({	url:'/r/url_sql_update2',
-			then_fn:function(response) {
-				$scope.editRow.created = $scope.basicCalendar.gui.workTimeStamp
-				location.reload();
-			},
-			data:data,
-		})
-	}
 }
 
 var BasicCalendar = function($scope, $http, $filter){
 	this.record = {
+		newRecordMinutes:null,
+		setNewRecordMinutes:function(){
+			if(Number.isInteger(this.newRecordMinutes))
+				this.parent.gui.workTimeStamp.setMinutes(this.newRecordMinutes)
+		},
 		isEditRecord:function(row, icpc2_nakaz74){
 			return icpc2_nakaz74.isEditRow(row)
-		}
+		},
+		parent:this,
+	}
+	this.edit_dialog = {
+		parent:this,
+		save_record_timestamp:function(icpc2_nakaz74){
+			console.log('--------save_record_timestamp-----------')
+			var data = {
+				sql:sql2.sql2_created_update(), 
+				created:$scope.basicCalendar.gui.workTimeStamp.toISOString(), 
+				doctimestamp_id:icpc2_nakaz74.selectedCell.row_id,
+			}
+
+			exe_fn.httpPost
+			({	url:'/r/url_sql_update2',
+				then_fn:function(response) {
+//					icpc2_nakaz74.selectedCell.row.created = $scope.basicCalendar.gui.workTimeStamp
+					location.reload();
+				},
+				data:data,
+			})
+
+		},
+		open_record_dialog:function(row, icpc2_nakaz74){
+			if(!icpc2_nakaz74.selectedCell)
+				icpc2_nakaz74.selectedCell = {}
+			icpc2_nakaz74.selectedCell.row_id = row.row_id
+			icpc2_nakaz74.selectedCell.row = row
+			this.selectedCell.dialog_type = 'record'
+			console.log(this.selectedCell)
+			console.log(this.parent.gui.workTimeStamp)
+
+			var d = new Date(this.parent.gui.workTimeStamp)
+			console.log(d)
+
+			var mm = d.getMinutes() //$filter('date')(this.selectedCell.workTimeStamp, 'm')
+			console.log(mm)
+			this.parent.record.newRecordMinutes = mm
+			console.log(this.parent.record)
+		},
+		isSelectedCellDialogOpen:function(wd, h){
+			if(this.selectedCell.selectedCellDialogClose<0) return false
+			if('week'==this.parent.gui.calendarViewPart.item){
+				return this.parent.gui.isWorkTimeStampDayHour(wd, h)
+			}
+			return false
+		},
+		closeDropdown:function(){
+			console.log(this.selectedCell)
+			if(this.selectedCell)
+				this.selectedCell.selectedCellDialogClose=-2;
+		},
+		selectedCell:{
+			selectedCellDialogClose:-1,
+		},
+		selectCell:{
+			parent:this,
+			month:function(w, d){
+			},
+			week:function(wd, h){
+				this.parent.edit_dialog.selectedCell.wd=wd
+				this.parent.edit_dialog.selectedCell.h=h
+				this.parent.gui.setWorkTimeStampDayHour(wd,h)
+//				console.log(this.parent.edit_dialog.selectedCell.selectedCellDialogClose)
+				this.parent.edit_dialog.selectedCell.selectedCellDialogClose++;
+			},
+			day:function(){
+			},
+		},
 	}
 	this.gui = {
+		parent:this,
 		calendarViewPart:{
 			list:['day','week','month','4day','termin'],
 			item:'week',
@@ -176,8 +220,20 @@ var BasicCalendar = function($scope, $http, $filter){
 		hoursOfWork:[],
 		daysOfWeek:[0,1,2,3,4,5,6],
 		monthWeek:[0,1,2,3,4],
-		todayDate:new Date(),
 		workTimeStamp:null,
+		todayDate:new Date(),
+		isToday:function(d){
+			var todayYear = this.todayDate.getYear(),
+			todayDayOfMonth = this.todayDate.getDate(),
+			todayMonthOfYear = this.todayDate.getMonth()
+			
+			if(
+				todayYear == d.getYear() &&
+				todayDayOfMonth == d.getDate() &&
+				todayMonthOfYear == d.getMonth()
+			)
+				return true
+		},
 		goNext:function(){
 			var d1 = new Date(this.workTimeStamp)
 			if('month'==this.calendarViewPart.item)
@@ -214,36 +270,6 @@ var BasicCalendar = function($scope, $http, $filter){
 			var isMyDay = this.isWorkTimeStampDay(wd)
 			return this.isWorkTimeStampHour(h) && isMyDay
 		},
-		isSelectedCellDialogOpen:function(wd, h){
-			if(this.selectedCell.selectedCellDialogClose<0) return false
-			if('week'==this.calendarViewPart.item){
-				return this.isWorkTimeStampDayHour(wd, h)
-			}
-			return false
-		},
-		closeDropdown:function(){
-			console.log(this.selectedCell)
-			if(this.selectedCell)
-				this.selectedCell.selectedCellDialogClose=-2;
-		},
-		selectedCell:{
-			selectedCellDialogClose:0,
-		},
-		selectCell:{
-			parent:this,
-			month:function(w, d){
-			},
-			week:function(wd, h){
-				this.parent.gui.selectedCell.wd=wd
-				this.parent.gui.selectedCell.h=h
-				this.parent.gui.setWorkTimeStampDayHour(wd,h)
-				console.log(this.parent.gui.selectedCell.selectedCellDialogClose)
-				//if(this.parent.gui.selectedCell.selectedCellDialogClose)
-					this.parent.gui.selectedCell.selectedCellDialogClose++;
-			},
-			day:function(){
-			},
-		},
 		setWorkTimeStampDayHour:function(wd,h){
 			var addDay = wd-this.workTimeStamp.getDay()+1
 			var dd = this.workTimeStamp.getDate(),
@@ -254,20 +280,8 @@ var BasicCalendar = function($scope, $http, $filter){
 				this.workTimeStamp.getDate()
 				+ addDay
 			)
-			this.selectedCell.workTimeStamp = this.workTimeStamp
-			console.log(this.selectedCell)
-			/*
-			if(	dd == this.workTimeStamp.getDate() 
-			&& 	mm == this.workTimeStamp.getMonth()
-			&& 	hh == $filter('date')(this.workTimeStamp, 'H')
-			){
-				console.log($scope.basicCalendar.gui.editDialogOpen)
-				if(!$scope.basicCalendar.gui.editDialogOpen){
-					$scope.basicCalendar.gui.editDialogOpen
-					=! $scope.basicCalendar.gui.editDialogOpen
-				}
-			}
-			 * */
+			this.parent.edit_dialog.selectedCell.workTimeStamp = this.workTimeStamp
+//			console.log(this.parent.edit_dialog.selectedCell)
 		},
 		setWorkTimeStampDay:function(w, d){
 			var d1 = this.getWorkTimeStampDay(w, d)
@@ -275,14 +289,8 @@ var BasicCalendar = function($scope, $http, $filter){
 				mm = this.workTimeStamp.getMonth()
 			this.workTimeStamp.setMonth(d1.getMonth())
 			this.workTimeStamp.setDate(d1.getDate())
-/*
-			if(	dd == this.workTimeStamp.getDate() 
-			&&	mm == this.workTimeStamp.getMonth()
-			){
-				$scope.basicCalendar.gui.editDialogOpen
-					=! $scope.basicCalendar.gui.editDialogOpen
-			}
- */
+		},
+		isEditRecord:function(wd){
 		},
 		getWorkTimeStampWeekDay:function(wd){
 			var d1 = new Date(this.workTimeStamp)
