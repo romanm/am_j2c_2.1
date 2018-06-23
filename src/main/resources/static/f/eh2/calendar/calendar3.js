@@ -175,6 +175,9 @@ var BasicCalendar = function($scope, $http, $filter){
 		},
 		isSelectedCellDialogOpen:function(wd, h){
 			if(this.selectedCell.selectedCellDialogClose<0) return false
+			if('month'==this.parent.gui.calendarViewPart.item){
+				return this.parent.gui.isWorkTimeStampDay(wd,h)
+			}else
 			if('week'==this.parent.gui.calendarViewPart.item){
 				return this.parent.gui.isWorkTimeStampDayHour(wd, h)
 			}

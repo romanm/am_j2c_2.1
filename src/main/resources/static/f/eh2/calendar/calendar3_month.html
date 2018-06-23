@@ -42,8 +42,8 @@
 			</div>
 			<div ng-include="include.registry_calendar_data"></div>
 			<div class="w3-dropdown-content w3-border w3-card-4"
-				ng-class="{'w3-show':basicCalendar.gui.editDialogOpen && basicCalendar.gui.isWorkTimeStampDay(w,d)}"
-				ng-if="basicCalendar.gui.editDialogOpen && basicCalendar.gui.isWorkTimeStampDay(w,d)"
+				ng-class="{'w3-show':basicCalendar.edit_dialog.isSelectedCellDialogOpen(w,d)}"
+				ng-if="basicCalendar.edit_dialog.isSelectedCellDialogOpen(w,d)"
 				ng-include="include.calendar_dialog"></div>
 			<p>&nbsp;</p>
 		</td>
