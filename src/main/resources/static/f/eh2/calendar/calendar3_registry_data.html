@@ -16,6 +16,17 @@
 		</div>
 	</div>
 	<div ng-switch-when="month">
-		{{icpc2_nakaz74.mapDate[(basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'dd.MM.yy')].list.length}}
+		<span
+			ng-if="icpc2_nakaz74.mapDate[(basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'dd.MM.yy')].list"
+			class="w3-circle w3-border w3-padding-small w3-tiny w3-hover-shadow">{{icpc2_nakaz74.mapDate[(basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'dd.MM.yy')].list.length
+			}}</span> <span class="w3-small"
+			ng-repeat="(dh_k,dh_records) in icpc2_nakaz74.mapDate[(basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'dd.MM.yy')].hours">
+			<span ng-repeat="(h_k, h_records) in dh_records"> <a
+				href="#" class="w3-hover-shadow"
+				ng-click="
+      basicCalendar.edit_dialog.open_record_dialog(h_records, icpc2_nakaz74);">
+					{{h_records.created|date:'HH:mm'}}</a>,
+		</span>
+		</span>
 	</div>
 </div>

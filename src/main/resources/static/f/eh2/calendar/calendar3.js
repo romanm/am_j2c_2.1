@@ -40,7 +40,6 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		$scope.basicCalendar.gui.calendarViewPart.item		
 	)
 
-
 /*
 	$scope.$watch('basicCalendar.gui.calendarViewPart.item',function(newValue, oldValue){
 		console.log(newValue+' changed '+oldValue)
@@ -175,11 +174,14 @@ var BasicCalendar = function($scope, $http, $filter){
 		},
 		isSelectedCellDialogOpen:function(wd, h){
 			if(this.selectedCell.selectedCellDialogClose<0) return false
-			if('month'==this.parent.gui.calendarViewPart.item){
-				return this.parent.gui.isWorkTimeStampDay(wd,h)
+
+			if('month'== this.parent.gui.calendarViewPart.item){
+				var isOpen = this.parent.gui.isWorkTimeStampDay(wd,h)
+				return  isOpen
 			}else
 			if('week'==this.parent.gui.calendarViewPart.item){
-				return this.parent.gui.isWorkTimeStampDayHour(wd, h)
+				var isOpen = this.parent.gui.isWorkTimeStampDayHour(wd, h)
+				return  isOpen
 			}
 			return false
 		},
@@ -194,12 +196,15 @@ var BasicCalendar = function($scope, $http, $filter){
 		selectCell:{
 			parent:this,
 			month:function(w, d){
+				this.parent.edit_dialog.selectedCell.w=w
+				this.parent.edit_dialog.selectedCell.d=d
+				this.parent.gui.setWorkTimeStampDay(w,d)
+				this.parent.edit_dialog.selectedCell.selectedCellDialogClose++;
 			},
 			week:function(wd, h){
 				this.parent.edit_dialog.selectedCell.wd=wd
 				this.parent.edit_dialog.selectedCell.h=h
 				this.parent.gui.setWorkTimeStampDayHour(wd,h)
-//				console.log(this.parent.edit_dialog.selectedCell.selectedCellDialogClose)
 				this.parent.edit_dialog.selectedCell.selectedCellDialogClose++;
 			},
 			day:function(){
@@ -210,7 +215,7 @@ var BasicCalendar = function($scope, $http, $filter){
 		parent:this,
 		calendarViewPart:{
 			list:['day','week','month','4day','termin'],
-			item:'week',
+			item:'month',
 			itemNames_ua:['День','Неділя','Місяць','4 дні','Терміни'],
 			weekDay_uaEEE:['пн','вт','ср','чт','пт','сб','нд'],
 			setItem:function(calendarViewPart){
@@ -287,8 +292,8 @@ var BasicCalendar = function($scope, $http, $filter){
 //			console.log(this.parent.edit_dialog.selectedCell)
 		},
 		setWorkTimeStampDay:function(w, d){
-			var d1 = this.getWorkTimeStampDay(w, d)
-			var dd = this.workTimeStamp.getDate(),
+			var d1 = this.getWorkTimeStampDay(w, d),
+				dd = this.workTimeStamp.getDate(),
 				mm = this.workTimeStamp.getMonth()
 			this.workTimeStamp.setMonth(d1.getMonth())
 			this.workTimeStamp.setDate(d1.getDate())

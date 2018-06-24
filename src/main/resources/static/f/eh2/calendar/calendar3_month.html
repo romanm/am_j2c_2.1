@@ -20,14 +20,14 @@
 			ng-class="{'w3-border-black w3-light-gray':
 			basicCalendar.gui.isToday(basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)),
 			'w3-border-blue':basicCalendar.gui.isWorkTimeStampDay(w,d)}"
-			ng-click="basicCalendar.gui.setWorkTimeStampDay(w,d)">
+			ng-click="basicCalendar.edit_dialog.selectCell.month(w,d)">
 			<div class="w3-tiny">
 				<div ng-if="w==0" class="w3-display-topmiddle"
 					ng-class="{
           'w3-text-black':!(d>=5),
           'w3-text-red':d>=5,
           'am-b':
-      (basicCalendar.gui.dayOfMonthOfWeekMonth(0,d)|date:'EEE')
+          (basicCalendar.gui.dayOfMonthOfWeekMonth(0,d)|date:'EEE')
       == (basicCalendar.gui.workTimeStamp|date:'EEE')}
       ">
 					{{basicCalendar.gui.dayOfMonthOfWeekMonth(w,d)|date:'EEE'}}</div>
