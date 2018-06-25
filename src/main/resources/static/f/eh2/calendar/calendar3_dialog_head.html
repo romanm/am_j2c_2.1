@@ -1,6 +1,14 @@
-<div class="w3-tiny w3-gray w13-display-container">{{head}}</div>
+<div class="
+w3-tiny w3-gray w13-display-container"
+	style="padding-left: 28px;">{{head}}</div>
 <i ng-click="basicCalendar.edit_dialog.closeDropdown()"
 	class="fa fa-window-close-o w3-hover-shadow w3-display-topright"></i>
-<div class="w3-text-red w3-tiny"
-	ng-if="basicCalendar.gui.isWorkTimeStampBeforeToday()">Обрана
-	дата знаходиться в минулому.</div>
+
+<div class="
+w3-display-topleft
+w3-small" ng-include="include.calendar_record_data"></div>
+
+<div class="w3-tiny " style="padding-left: 28px;">
+	<span ng-if="basicCalendar.gui.isWorkTimeStampBeforeToday()"
+		class="w3-text-red"> Обрана дата знаходиться в минулому.</span> &nbsp;
+</div>

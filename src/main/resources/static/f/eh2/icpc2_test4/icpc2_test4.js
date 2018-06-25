@@ -31,6 +31,7 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 				},
 			},
 			include_cols:'/f/eh2/icpc2_test4/icpc2_cell_content_o74.html',
+			include_table_menu:'/f/eh2/table_menu.html',
 			col_sort:['creat_date', 'col_10766','col_9775', 'col_10771', 'col_10777','col_10807'
 				,'col_9776','col_10900'],
 		},

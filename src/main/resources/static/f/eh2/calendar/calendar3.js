@@ -14,6 +14,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		topbar_page_group:'/f/eh2/calendar/calendar3_top_page.html',
 		registry_calendar_data:'/f/eh2/calendar/calendar3_registry_data.html',
 		calendar_dialog:'/f/eh2/calendar/calendar3_dialog.html',
+		calendar_record_data:'/f/eh2/calendar/calendar3_record_menu.html',
 		j2c_table_content:'/f/eh2/calendar/calendar_j2c_table_content.html',
 		icpc2_cell_dropdown_content:
 			'/f/eh2/icpc2_test4/icpc2_cell_dropdown_content_o74.html',
@@ -104,6 +105,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 				},
 			},
 			include_cols:'/f/eh2/icpc2_test4/icpc2_cell_content_o74.html',
+			include_table_menu:'/f/eh2/calendar/calendar3_record_menu.html',
 			i1nclude_cols:'/f/eh1/info1/test3/icpc2_test3_cols.html',
 			col_sort:['creat_date', 'col_10766', 'col_9775', 'col_10771', 'col_10777', 'col_10807'
 				,'col_9776', 'col_10900'],
@@ -135,6 +137,24 @@ var BasicCalendar = function($scope, $http, $filter){
 		},
 		parent:this,
 	}
+	this.edit_dialog_add_patient = {
+		add_patientDialogClose:0,
+		isAdd_patientDialogOpen:function(){
+			return this.add_patientDialogClose>0
+		},
+		closeAdd_patientDialog:function(){
+			this.add_patientDialogClose=0
+		},
+		openAdd_patientDialog:function(){
+			if(this.add_patientDialogClose>0)
+				this.add_patientDialogClose=0
+			else{
+				this.add_patientDialogClose++
+				$scope.progr_am.icpc2_nakaz74.selectedCell.col_k='col_10766'
+				console.log($scope.progr_am.icpc2_nakaz74.selectedCell )
+			}
+		},
+	}
 	this.edit_dialog = {
 		parent:this,
 		save_record_timestamp:function(icpc2_nakaz74){
@@ -144,7 +164,6 @@ var BasicCalendar = function($scope, $http, $filter){
 				created:$scope.basicCalendar.gui.workTimeStamp.toISOString(), 
 				doctimestamp_id:icpc2_nakaz74.selectedCell.row_id,
 			}
-
 			exe_fn.httpPost
 			({	url:'/r/url_sql_update2',
 				then_fn:function(response) {
@@ -186,7 +205,6 @@ var BasicCalendar = function($scope, $http, $filter){
 			return false
 		},
 		closeDropdown:function(){
-			console.log(this.selectedCell)
 			if(this.selectedCell)
 				this.selectedCell.selectedCellDialogClose=-2;
 		},
@@ -215,7 +233,7 @@ var BasicCalendar = function($scope, $http, $filter){
 		parent:this,
 		calendarViewPart:{
 			list:['day','week','month','4day','termin'],
-			item:'month',
+			item:'week',
 			itemNames_ua:['День','Неділя','Місяць','4 дні','Терміни'],
 			weekDay_uaEEE:['пн','вт','ср','чт','пт','сб','нд'],
 			setItem:function(calendarViewPart){

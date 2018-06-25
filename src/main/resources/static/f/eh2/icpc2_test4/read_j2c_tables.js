@@ -3,10 +3,10 @@ console.log("----------read_j2c_tables.js------")
 init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	console.log('-----init_f74_ngClick-----------------------')
 
-
 	icpc2_nakaz74.closeDropdown=function(){
 		if(icpc2_nakaz74.selectedCell)
 			icpc2_nakaz74.selectedCell.close=true;
+console.log(icpc2_nakaz74.selectedCell)
 	}
 													
 	icpc2_nakaz74.getColValue=function(row,col_key){
@@ -20,7 +20,6 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		}
 	}
 
-	
 	icpc2_nakaz74.isRegistryDeleteAllowed = function(){
 		if(icpc2_nakaz74.clickToSave.ask_confirm_delete.display == 'block'){
 			var isRegistryDeleteAllowed = true
@@ -57,10 +56,10 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 				&& icpc2_nakaz74.selectedCell.row_k==row_k
 		){
 			if('col_10766|col_10771|col_10807|col_10777'.indexOf(col_k)>=0){
-				if(icpc2_nakaz74.selectedCell.close)
-					delete icpc2_nakaz74.selectedCell
+//				if(icpc2_nakaz74.selectedCell.close)
+//					delete icpc2_nakaz74.selectedCell
 			}else{
-				delete icpc2_nakaz74.selectedCell
+//				delete icpc2_nakaz74.selectedCell
 			}
 		}else{
 			var row = icpc2_nakaz74.data.list[row_k];

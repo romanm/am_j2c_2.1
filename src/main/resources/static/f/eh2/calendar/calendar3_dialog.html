@@ -30,26 +30,31 @@
 			ng-init="head='Перенести запис на прийом:'"></div>
 
 		<div class="w3-container">
-			<div class="am-b">
-				{{icpc2_nakaz74.selectedCell.row.col_10766}}</div>
+			<div>
+				<span class="am-b">
+					{{icpc2_nakaz74.selectedCell.row.col_10766}} </span>
+				<div class="w3-dropdown-click">
+					<a href="#" ng-if="!icpc2_nakaz74.selectedCell.row.col_10766"
+						ng-click="basicCalendar.edit_dialog_add_patient.openAdd_patientDialog()">
+						< Оберіть пацієнта > </a>
+					<div class="w3-dropdown-content w3-card"
+						ng-class="{'w3-show':basicCalendar.edit_dialog_add_patient.isAdd_patientDialogOpen()}">
+						<div ng-include="include.icpc2_cell_dropdown_content"></div>
+					</div>
+				</div>
+			</div>
 			<div class="w3-card">
-				<b>на</b> {{basicCalendar.gui.workTimeStamp|date:'HH:mm'}}
-				<input style="width: 50px" class="w3-border"
-				 min="0" max="59"
-				ng-change="basicCalendar.record.setNewRecordMinutes(); $event.stopPropagation();"
-				ng-model="basicCalendar.record.newRecordMinutes" type="number">
+				<b>на</b> {{basicCalendar.gui.workTimeStamp|date:'HH:mm'}} <input
+					style="width: 50px" class="w3-border" min="0" max="59"
+					ng-change="basicCalendar.record.setNewRecordMinutes(); $event.stopPropagation();"
+					ng-model="basicCalendar.record.newRecordMinutes" type="number">
 				<div>{{basicCalendar.gui.workTimeStamp|date:'fullDate'}}</div>
 			</div>
-			<div class="w3-card w3-tiny"
-			style="margin-top: 10px;"
-			>
-				<b>з</b>
-				{{icpc2_nakaz74.selectedCell.row.created|date:'shortTime'}}
-        <div>{{icpc2_nakaz74.selectedCell.row.created|date:'fullDate'}}</div>
+			<div class="w3-card w3-tiny" style="margin-top: 10px;">
+				<b>з</b> {{icpc2_nakaz74.selectedCell.row.created|date:'shortTime'}}
+				<div>{{icpc2_nakaz74.selectedCell.row.created|date:'fullDate'}}</div>
 			</div>
-			<div
-			style="margin-top: 10px;"
-			>
+			<div style="margin-top: 10px;">
 				<button
 					ng-click="basicCalendar.edit_dialog.save_record_timestamp(icpc2_nakaz74);"
 					class="w3-border">ОК</button>
