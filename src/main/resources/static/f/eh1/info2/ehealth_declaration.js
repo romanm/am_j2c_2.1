@@ -58,18 +58,18 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		})
 	}
 
-	
 	exe_fn.jsonEditorRead = function(jsonEditorReadParams){
-
+				console.log(jsonEditorReadParams)
 		exe_fn.httpGet({url:jsonEditorReadParams.url_template, //read template
 			then_fn:function(response) {
-//					console.log(response.data)
+				console.log(response.data)
 				$scope.data.jsonTemplate=response.data
 				exe_fn.httpGet({url:'/r/url_sql_read2', //read data
 					params:{
 						sql:sql2.sql2_docbody_selectById(),
 						docbody_id:jsonEditorReadParams.docbody_id},
 						then_fn:function(response) {
+							console.log(response.data)
 							if(response.data.list[0]){
 								var docbody = JSON.parse(response.data.list[0].docbody);
 								$scope.editDoc = docbody
@@ -82,7 +82,7 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 								$scope.progr_am.fn.calcEditDoc_CRC32()
 								$scope.data.jsonTemplateBody
 									= $scope.data.jsonTemplate[jsonEditorReadParams.doc_type+'_request']
-								//console.log($scope.data.jsonTemplateBody)
+								console.log($scope.data.jsonTemplateBody)
 								adaptTemplateToData($scope.editDoc, $scope.data.jsonTemplateBody)
 							}
 						}
@@ -350,14 +350,14 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 	$scope.pageGroup = {
 		saveButtonPages:[
 				'declaration','msp_division','msp_data','hrm_cards2',
-				'declaration3', 'msp_division3', 'new_patient'
+				'declaration3', 'msp_division3', 'newpatient'
 			]
 	}
 	$scope.pageGroup.misAlgoritmed3 = {
 		registry:{parent:{name:'Регістратура', url:'info3' },
 			reception:'запис на прийом',
 			queue:'черга',
-			new_patient:'новий пацієнт',
+			newpatient:'новий пацієнт',
 			registry_calendar:'календар',
 
 		},
@@ -455,6 +455,9 @@ var sql2 = {
 				"\n ) x WHERE " +
 				" LOWER(pip_patient) LIKE LOWER(:seek) " +
 				" OR LOWER(pip_phisician) LIKE LOWER(:seek)"
+	},
+	sql2_patient_lists:function(){
+		return "SELECT * FROM person p, doc d WHERE doc_id=person_id AND doctype=1"
 	},
 	sql2_patient_and_declaration:function(){
 		return "SELECT pip_patient, person_id, d.* FROM (\n" + 

@@ -1,5 +1,6 @@
 init_am_directive.init_hrm_cards2 = function($scope, $http){
 	init_am_directive.ehealth_declaration($scope, $http);
+	console.log($scope.progr_am.viewes.j2c_table)
 	
 	$scope.progr_am.fn.init_principal = function(){
 		if($scope.principal.msp_id){
@@ -73,11 +74,11 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 				sql:'sql.msp_employee.list',msp_id:exe_fn.msp.msp_id //188
 			},
 			then_fn:function(response) {
-//					console.log(response.data)
+//			console.log(response.data)
 				$scope.hrm_cards.data=response.data
 				delete $scope.hrm_cards[$scope.hrm_cards.sql]
 				delete $scope.hrm_cards.sql
-//					console.log($scope.hrm_cards)
+//			console.log($scope.hrm_cards)
 				$scope.hrm_cards.data
 				.col_keys={
 						person_id:'ІН',
@@ -87,7 +88,6 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 			}
 		},
 	}
-
 
 	$scope.progr_am.fn.row_key='person_id',
 	$scope.progr_am.viewes.j2c_table.dataName='hrm_cards'

@@ -1,0 +1,96 @@
+{
+  "first_name": "",
+  "last_name": "",
+  "second_name": "",
+  "birth_date": "",
+  "birth_country": "",
+  "birth_settlement": "",
+  "gender": "",
+  "email": "",
+  "tax_id": "",
+  "secret": "",
+  "documents": [
+    {
+      "type": "",
+      "number": "",
+      "issued_by": "",
+      "issued_at": ""
+    }
+  ],
+  "addresses": [
+    {
+      "type": "",
+      "country": "",
+      "area": "",
+      "region": "",
+      "settlement": "",
+      "settlement_type": "",
+      "settlement_id": "",
+      "street_type": "",
+      "street": "",
+      "building": "",
+      "apartment": "",
+      "zip": ""
+    }
+  ],
+  "phones": [
+    {
+      "type": "",
+      "number": ""
+    }
+  ],
+  "authentication_methods": [
+    {
+      "type": "",
+      "phone_number": ""
+    }
+  ],
+  "preferred_way_communication": "",
+  "emergency_contact": {
+    "first_name": "",
+    "last_name": "",
+    "second_name": "",
+    "phones": [
+      {
+        "type": "",
+        "number": ""
+      }
+    ]
+  },
+  "confidant_person": [
+    {
+      "relation_type": "",
+      "first_name": "",
+      "last_name": "",
+      "second_name": "",
+      "birth_date": "",
+      "birth_country": "",
+      "birth_settlement": "",
+      "gender": "",
+      "tax_id": "",
+      "secret": "",
+      "documents_person": [
+        {
+          "type": "",
+          "number": "",
+          "issued_by": "",
+          "issued_at": ""
+        }
+      ],
+      "documents_relationship": [
+        {
+          "type": "",
+          "number": "",
+          "issued_by": "",
+          "issued_at": ""
+        }
+      ],
+      "phones": [
+        {
+          "type": "",
+          "number": ""
+        }
+      ]
+    }
+  ]
+}

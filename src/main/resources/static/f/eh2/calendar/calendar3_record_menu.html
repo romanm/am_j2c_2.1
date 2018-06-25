@@ -1,0 +1,23 @@
+<div ng-click="icpc2_nakaz74.closeDropdown()" class="w3-dropdown-hover">
+	<div class="w3-button  w3-padding-small ">
+		<i class="fa fa-bars" aria-hidden="true"></i>
+	</div>
+	<div class="w3-dropdown-content w3-bar-block w3-border">
+		<a href="#" class="w3-bar-item w3-button"
+			ng-click="progr_am[view.dataName].clickToSave.add_row()">
+			+
+			Додати запис </a> 
+		<a href="#" class="w3-bar-item w3-button"
+			ng-class="{'w3-disabled':!(progr_am[view.dataName].selectedCell.row_k>=0)}"
+			ng-click="progr_am[view.dataName].clickToSave.ngStyleAskDelete()"
+			> - Видалити запис </a> 
+		<a href="#" class="w3-bar-item w3-button" 
+			ng-click="basicCalendar.gui.calendarViewPart.setItem('week')">
+			Неділя
+		</a>
+		<a href="#" class="w3-bar-item w3-button" 
+      ng-click="basicCalendar.gui.calendarViewPart.setItem('month')">
+      Місяць
+    </a>
+	</div>
+</div>
