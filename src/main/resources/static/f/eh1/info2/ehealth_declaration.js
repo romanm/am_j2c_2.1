@@ -48,7 +48,7 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			}
 		},
 	}
-	
+
 	exe_fn.msp.DataRead = function(){
 		var docbody_id = 723
 		exe_fn.jsonEditorRead({

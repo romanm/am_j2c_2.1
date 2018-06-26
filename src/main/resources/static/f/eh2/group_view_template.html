@@ -4,5 +4,5 @@
 </div>
 
 <div ng-repeat="(k,view) in progr_am.viewes"
-  ng-init="data=data[view.dataName]" ng-if="view.ngInclude"
+  ng-init="data=data[view.dataName];o=data" ng-if="view.ngInclude"
   ng-include="view.ngInclude"></div>

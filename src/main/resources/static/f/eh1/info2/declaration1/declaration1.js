@@ -1,6 +1,8 @@
 init_am_directive.init_declaration3 = function($scope, $http){
 	console.log('------init_declaration3---2--------------')
 	init_am_directive.init_declaration($scope, $http)
+	console.log($scope.progr_am.viewes.j2c_table)
+	console.log($scope.progr_am)
 }
 
 init_am_directive.init_declaration = function($scope, $http){

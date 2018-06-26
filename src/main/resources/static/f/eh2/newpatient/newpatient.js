@@ -49,5 +49,4 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 			docbody_id:$scope.request.parameters.person_id,
 		})
 	}
-
 }
