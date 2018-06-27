@@ -9,9 +9,8 @@ init_am_directive.init_declaration = function($scope, $http){
 	console.log('------init_declaration--7---------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 
-	exe_fn.init_j2c_table_seek({
-		sql:sql2.sql2_physician_declaration_seek(), 
-	})
+	exe_fn.init_j2c_table_seek('sql2_patient_and_declaration')
+	//exe_fn.init_j2c_table_seek('sql2_physician_declaration')
 
 	exe_fn.httpGet_j2c_table_params = function(params){
 		return exe_fn.httpGet_j2c_table_params_then_fn(
@@ -63,14 +62,6 @@ init_am_directive.init_declaration = function($scope, $http){
 		}
 	}
 	
-	$scope.progr_am.viewes.hrm_menu.seekClean = function(){
-		console.log('---interface---progr_am.viewes.hrm_menu.seekClean---')
-		$scope.progr_am.viewes.hrm_menu.seek = null
-		exe_fn.httpGet(exe_fn.httpGet_j2c_table_params({
-			sql:sql2.sql2_patient_and_declaration(),
-		}))
-	}
-
 	$scope.progr_am.fn.isEditRow = function(row){
 		if($scope.request.parameters.declaration){
 			if(row.declaration == $scope.request.parameters.declaration){

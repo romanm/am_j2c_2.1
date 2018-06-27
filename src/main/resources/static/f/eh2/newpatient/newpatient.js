@@ -9,9 +9,7 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 	$scope.progr_am.viewes.j2c_table.dataName = 'patient_lists'
 	$scope.progr_am.viewes.j2c_table.ngInclude= '/f/eh2/j2c_table.html'
 
-	exe_fn.init_j2c_table_seek({
-		sql:sql2.sql2_patient_lists_seek(), 
-	})
+	exe_fn.init_j2c_table_seek('sql2_patient_lists')
 	exe_fn.httpGet_j2c_table_params = function(params){
 		return exe_fn.httpGet_j2c_table_params_then_fn(
 		params,

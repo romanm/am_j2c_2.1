@@ -349,9 +349,19 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		$scope.$watch('progr_am.viewes.hrm_menu.seek', function(newValue){ if(newValue){
 			console.log('---progr_am.viewes.hrm_menu.seek----');
 			console.log(newValue)
-			params.seek = '%'+newValue+'%'
-			exe_fn.httpGet(exe_fn.httpGet_j2c_table_params(params))
+			exe_fn.httpGet(exe_fn.httpGet_j2c_table_params({
+				sql:sql2[params+'_seek'](),
+				seek:'%'+newValue+'%',
+			}))
 		} });
+	$scope.progr_am.viewes.hrm_menu.seekClean = function(){
+		console.log('---interface---progr_am.viewes.hrm_menu.seekClean---')
+		$scope.progr_am.viewes.hrm_menu.seek = null
+		exe_fn.httpGet(exe_fn.httpGet_j2c_table_params({
+			sql:sql2[params](),
+		}))
+	}
+
 	}
 
 	exe_fn.httpGet_j2c_table_params_then_fn = function(params, then_fn){
@@ -467,13 +477,6 @@ adaptTemplateToData = function(data, template){
 }
 
 var sql2 = {
-	sql2_physician_declaration_seek:function(){
-		return "SELECT * FROM ( \n" +
-				this.sql2_patient_and_declaration() +
-				"\n ) x WHERE " +
-				" LOWER(pip_patient) LIKE LOWER(:seek) " +
-				" OR LOWER(pip_phisician) LIKE LOWER(:seek)"
-	},
 	sql2_patient_lists_seek:function(){
 		return "SELECT * FROM ( \n" +
 				this.sql2_patient_persons() +
@@ -482,6 +485,14 @@ var sql2 = {
 	},
 	sql2_patient_lists:function(){
 		return this.sql2_patient_persons()
+	},
+	//sql2_physician_declaration_seek:function(){
+	sql2_patient_and_declaration_seek:function(){
+		return "SELECT * FROM ( \n" +
+				this.sql2_patient_and_declaration() +
+				"\n ) x WHERE " +
+				" LOWER(pip_patient) LIKE LOWER(:seek) " +
+				" OR LOWER(pip_phisician) LIKE LOWER(:seek)"
 	},
 	sql2_patient_and_declaration:function(){
 		return "SELECT pip_patient, person_id, d.* FROM (\n" + 
