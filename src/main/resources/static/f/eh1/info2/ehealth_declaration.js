@@ -343,15 +343,33 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			dataName:'j2c_table-dataName-h123rm_cards',
 			heightProcent:22,
 		},
-	},
+	}
+
+	exe_fn.init_j2c_table_seek = function(params){
+		$scope.$watch('progr_am.viewes.hrm_menu.seek', function(newValue){ if(newValue){
+			console.log('---progr_am.viewes.hrm_menu.seek----');
+			console.log(newValue)
+			params.seek = '%'+newValue+'%'
+			exe_fn.httpGet(exe_fn.httpGet_j2c_table_params(params))
+		} });
+	}
+
+	exe_fn.httpGet_j2c_table_params_then_fn = function(params, then_fn){
+		return {
+			url : '/r/url_sql_read2',
+			params : params,
+			then_fn : then_fn,
+		}
+	}
+	
 	$scope.progr_am.viewes.hrm_menu.seekClean = function(){
 		console.log('---interface---progr_am.viewes.hrm_menu.seekClean---')
 	}
 	$scope.pageGroup = {
 		saveButtonPages:[
-				'declaration','msp_division','msp_data','hrm_cards2',
-				'declaration3', 'msp_division3', 'newpatient'
-			]
+			'declaration','msp_division','msp_data','hrm_cards2',
+			'declaration3', 'msp_division3', 'newpatient'
+		]
 	}
 	$scope.pageGroup.misAlgoritmed3 = {
 		registry:{parent:{name:'Регістратура', url:'info3' },
@@ -456,8 +474,14 @@ var sql2 = {
 				" LOWER(pip_patient) LIKE LOWER(:seek) " +
 				" OR LOWER(pip_phisician) LIKE LOWER(:seek)"
 	},
+	sql2_patient_lists_seek:function(){
+		return "SELECT * FROM ( \n" +
+				this.sql2_patient_persons() +
+				"\n ) x WHERE " +
+				" LOWER(pip_patient) LIKE LOWER(:seek) "
+	},
 	sql2_patient_lists:function(){
-		return "SELECT * FROM person p, doc d WHERE doc_id=person_id AND doctype=1"
+		return this.sql2_patient_persons()
 	},
 	sql2_patient_and_declaration:function(){
 		return "SELECT pip_patient, person_id, d.* FROM (\n" + 

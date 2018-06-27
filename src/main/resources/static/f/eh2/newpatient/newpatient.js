@@ -8,38 +8,35 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 	}
 	$scope.progr_am.viewes.j2c_table.dataName = 'patient_lists'
 	$scope.progr_am.viewes.j2c_table.ngInclude= '/f/eh2/j2c_table.html'
+
+	exe_fn.init_j2c_table_seek({
+		sql:sql2.sql2_patient_lists_seek(), 
+	})
+	exe_fn.httpGet_j2c_table_params = function(params){
+		return exe_fn.httpGet_j2c_table_params_then_fn(
+		params,
+		function(response) {
+			console.log(response.data)
+			$scope.patient_lists.data = response.data
+			$scope.patient_lists.data
+			.col_keys = {
+				person_id : 'ІН',
+				pip_patient : 'ПІП',
+				birth_date : 'дата народженя',
+				email: 'e-mail'
+			}
+		})
+	}
+	var params = { sql : sql2.sql2_patient_lists(), }
+
 	$scope.progr_am.patient_lists = {
-		init_data : {
-			col_sort : [ 'doc_id', 'last_name', ],
+		init_data:{
+			col_sort:['person_id',  'pip_patient', 'birth_date', 'email'],
 			include_table_menu:'/f/eh2/table_menu.html',
 		},
-		httpGet : {
-			url : '/r/url_sql_read2',
-			params : {
-				sql : sql2.sql2_patient_lists(),
-			},
-			then_fn : function(response) {
-				console.log(response.data)
-				$scope.patient_lists.data = response.data
-				$scope.patient_lists.data
-				.col_keys = {
-					doc_id : 'ІН',
-					last_name : 'Фамілія',
-					/*
-					pip_patient : 'ПІП',
-					birth_date : 'дата народженя',
-					pip_phisician : 'декларація з лікарем',
-					 * */
-				}
-				/*
-				 * $scope.declaration.data=response.data $scope.declaration.data
-				 * .col_keys={ person_id:'ІН', pip_patient:'ПІП',
-				 * birth_date:'дата народженя', pip_phisician:'декларація з
-				 * лікарем', }
-				 */
-			}
-		},
+		httpGet : exe_fn.httpGet_j2c_table_params(params),
 	}
+
 	console.log($scope.progr_am.viewes.j2c_table)
 	if ($scope.request.parameters.person_id) {
 		console.log('-------45--------------------')

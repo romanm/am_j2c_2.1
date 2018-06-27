@@ -1,8 +1,13 @@
 <div on="col_k_content" ng-switch>
 	<div ng-switch-default ng-if="col_k_content.indexOf('head_')!=0"
 		on="col_k_content" ng-switch>
-		<a ng-switch-when="doc_id" href="?person_id={{row[col_k]}}">
-			{{row[col_k]}} </a>
+		<div ng-switch-when="pip_patient"
+		ng-bind-html="highlight(row.pip_patient, 
+      progr_am.viewes.hrm_menu.seek
+      )"
+		></div>
+		<a ng-switch-when="person_id" href="?person_id={{row.person_id}}">
+			{{row.person_id}} </a>
 		<div ng-switch-default>
 			{{row[col_k]}} {{progr_am[view.dataName].getColValue(row, col_k)}} <span
 				ng-if="!row[col_k]" class="w3-tiny">

@@ -31,7 +31,8 @@
 					}">
 					<div ng-switch-default>
 						<div
-							ng-bind-html="highlight(row[col_k] + data.fn_col[col_k](row), progr_am.viewes.hrm_menu.seek)">
+							ng-bind-html="highlight(row[col_k] + data.fn_col[col_k](row), 
+							progr_am.viewes.hrm_menu.seek)">
 						</div>
 						<div ng-include="
 							data.include_cols" on="col_k" ng-switch></div>
