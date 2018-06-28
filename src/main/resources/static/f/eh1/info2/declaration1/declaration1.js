@@ -50,7 +50,6 @@ init_am_directive.init_declaration = function($scope, $http){
 			seek:'%'+$scope.progr_am.viewes.hrm_menu.seek+'%'
 		}
 	}
-	console.log(params)
 
 	$scope.progr_am.declaration={
 		init_data:{

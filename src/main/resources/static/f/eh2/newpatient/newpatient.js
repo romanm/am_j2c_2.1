@@ -23,8 +23,21 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 				birth_date : 'дата народженя',
 				email: 'e-mail'
 			}
+			init_ngClick($scope.patient_lists)
+			console.log($scope.patient_lists)
 		})
 	}
+
+	var init_ngClick = function(icpc2_nakaz74){
+		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
+		if($scope.request.parameters.person_id){
+			console.log($scope.patient_lists.selectedCell)
+			$scope.patient_lists.selectedCell={
+				row_id:$scope.request.parameters.person_id
+			}
+		}
+	}
+
 	var params = { sql : sql2.sql2_patient_lists(), }
 	if($scope.request.parameters.person_id){
 		var seek = $scope.request.parameters.seek?$scope.request.parameters.seek:''

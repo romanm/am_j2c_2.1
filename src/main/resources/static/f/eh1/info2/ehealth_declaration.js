@@ -481,11 +481,13 @@ adaptTemplateToData = function(data, template){
 
 var sql2 = {
 	sql2_patient_lists_seek_withId:function(){
-		return "SELECT * FROM (" +
+		return "SELECT * FROM ( SELECT 0 sort, x.* FROM (" +
 			this.sql2_patient_persons() +" \n" +
-			") WHERE person_id = :id \n" +
+			") x WHERE person_id = :id \n" +
 			"UNION \n" +
-			this.sql2_patient_lists_seek()
+			"SELECT 1 sort, x.* FROM (\n" +
+			this.sql2_patient_lists_seek() +
+			" ) x ) ORDER BY sort"
 	},
 	sql2_patient_lists_seek:function(){
 		return "SELECT * FROM ( \n" +
@@ -503,9 +505,7 @@ var sql2 = {
 				"UNION \n" +
 				"SELECT 1 sort, x.* FROM (\n" +
 				this.sql2_patient_and_declaration_seek() + 
-				" ) x" +
-				") ORDER BY sort" +
-				""
+				" ) x ) ORDER BY sort"
 	},
 	sql2_patient_and_declaration_seek:function(){
 		//sql2_physician_declaration_seek:function(){
@@ -529,7 +529,7 @@ var sql2 = {
 				"WHERE dd.doc_id=de.parent_id AND dd.doctype=14 AND de.doctype=13 AND p.person_id=de.reference "
 	},
 	sql2_patient_persons:function(){
-		return "SELECT last_name||' '||first_name||' '||second_name pip_patient, p.* \n" +
+		return "SELECT last_name||' '||first_name||' '||second_name pip_patient, person_id row_id, p.* \n" +
 				"FROM person p,doc d WHERE doc_id=person_id AND doctype=1 "
 	},
 	sql2_hrmCard_insert:function(){ 

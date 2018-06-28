@@ -6,7 +6,7 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	icpc2_nakaz74.closeDropdown=function(){
 		if(icpc2_nakaz74.selectedCell)
 			icpc2_nakaz74.selectedCell.close=true;
-console.log(icpc2_nakaz74.selectedCell)
+		console.log(icpc2_nakaz74.selectedCell)
 	}
 													
 	icpc2_nakaz74.getColValue=function(row,col_key){
