@@ -59,17 +59,14 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 	}
 
 	exe_fn.jsonEditorRead = function(jsonEditorReadParams){
-				console.log(jsonEditorReadParams)
 		exe_fn.httpGet({url:jsonEditorReadParams.url_template, //read template
 			then_fn:function(response) {
-				console.log(response.data)
 				$scope.data.jsonTemplate=response.data
 				exe_fn.httpGet({url:'/r/url_sql_read2', //read data
 					params:{
 						sql:sql2.sql2_docbody_selectById(),
 						docbody_id:jsonEditorReadParams.docbody_id},
 						then_fn:function(response) {
-							console.log(response.data)
 							if(response.data.list[0]){
 								var docbody = JSON.parse(response.data.list[0].docbody);
 								$scope.editDoc = docbody
@@ -77,12 +74,10 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 									$scope.editDoc = $scope.editDoc.data
 								if(!$scope.editDoc.doc_id)
 									$scope.editDoc.doc_id = response.data.docbody_id
-								console.log($scope.editDoc)
 								
 								$scope.progr_am.fn.calcEditDoc_CRC32()
 								$scope.data.jsonTemplateBody
 									= $scope.data.jsonTemplate[jsonEditorReadParams.doc_type+'_request']
-								console.log($scope.data.jsonTemplateBody)
 								adaptTemplateToData($scope.editDoc, $scope.data.jsonTemplateBody)
 							}
 						}
@@ -96,7 +91,6 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 				angular.forEach(response.data.data, function(v, k){
 					$scope.eh_dictionaries.ehMap[v.name]=v;
 				});
-				console.log($scope.eh_dictionaries.ehMap)
 				
 				$scope.eh_dictionaries.getValues = function(k, k_parent){
 					if(k_parent){
@@ -143,9 +137,12 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		if(!dataObj){//create empty object
 			var kkk = this.clearPathToObj(k_parent)	
 			var jsonTemplateObj = $scope.data.jsonTemplateBody
+			console.log(jsonTemplateObj)
 
 			var dataObj = $scope.editDoc
+			console.log(kkk)
 			kkk.forEach(function(k){
+console.log(k)
 				jsonTemplateObj = jsonTemplateObj[k]
 
 				if(!dataObj[k]){

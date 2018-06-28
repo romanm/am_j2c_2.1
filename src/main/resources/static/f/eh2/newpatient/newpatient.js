@@ -2,7 +2,6 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 	console.log('------init_newpatient---3--------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 	console.log($scope.progr_am)
-	console.log($scope.progr_am.viewes.j2c_table)
 	$scope.include = {
 		j2c_table_content:'/f/eh2/newpatient/patient_list_j2c_table_content.html',
 	}
@@ -14,7 +13,6 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 		return exe_fn.httpGet_j2c_table_params_then_fn(
 		params,
 		function(response) {
-			console.log(response.data)
 			$scope.patient_lists.data = response.data
 			$scope.patient_lists.data
 			.col_keys = {
@@ -24,14 +22,12 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 				email: 'e-mail'
 			}
 			init_ngClick($scope.patient_lists)
-			console.log($scope.patient_lists)
 		})
 	}
 
 	var init_ngClick = function(icpc2_nakaz74){
 		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
 		if($scope.request.parameters.person_id){
-			console.log($scope.patient_lists.selectedCell)
 			$scope.patient_lists.selectedCell={
 				row_id:$scope.request.parameters.person_id
 			}
@@ -56,11 +52,10 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 		httpGet : exe_fn.httpGet_j2c_table_params(params),
 	}
 
-	console.log($scope.progr_am.viewes.j2c_table)
 	if ($scope.request.parameters.person_id) {
 		console.log('-------45--------------------')
 		exe_fn.jsonEditorRead({
-			url_template : '/f/mvp/person_template2.json',
+			url_template : '/f/mvp/party_template2.json',
 			doc_type:'party',
 			docbody_id:$scope.request.parameters.person_id,
 		})
