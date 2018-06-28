@@ -9,7 +9,7 @@ init_am_directive.init_declaration = function($scope, $http){
 	console.log('------init_declaration--7---------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 
-	exe_fn.init_j2c_table_seek('sql2_patient_and_declaration')
+	exe_fn.init_j2c_table_seek('sql2_patient_and_declaration', $scope.request.parameters.person_id)
 	//exe_fn.init_j2c_table_seek('sql2_physician_declaration')
 
 	exe_fn.httpGet_j2c_table_params = function(params){
@@ -32,6 +32,15 @@ init_am_directive.init_declaration = function($scope, $http){
 		sql:sql2.sql2_patient_and_declaration(),
 	}
 
+	if($scope.request.parameters.person_id){
+		$scope.progr_am.viewes.hrm_menu.seek
+			= decodeURIComponent($scope.request.parameters.seek)
+		var params = { 
+			sql : sql2.sql2_patient_and_declaration_seek_withId(), 
+			id:$scope.request.parameters.person_id,
+			seek:'%'+$scope.progr_am.viewes.hrm_menu.seek+'%'
+		}
+	}else
 	if($scope.request.parameters.seek){
 		$scope.progr_am.viewes.hrm_menu.seek
 			= decodeURIComponent($scope.request.parameters.seek)
@@ -41,6 +50,7 @@ init_am_directive.init_declaration = function($scope, $http){
 			seek:'%'+$scope.progr_am.viewes.hrm_menu.seek+'%'
 		}
 	}
+	console.log(params)
 
 	$scope.progr_am.declaration={
 		init_data:{

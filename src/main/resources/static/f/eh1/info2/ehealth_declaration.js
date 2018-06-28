@@ -345,22 +345,25 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		},
 	}
 
-	exe_fn.init_j2c_table_seek = function(params){
+	exe_fn.init_j2c_table_seek = function(params, id){
 		$scope.$watch('progr_am.viewes.hrm_menu.seek', function(newValue){ if(newValue){
 			console.log('---progr_am.viewes.hrm_menu.seek----');
 			console.log(newValue)
+			var withId = id?'_withId':''
+			console.log(withId)
 			exe_fn.httpGet(exe_fn.httpGet_j2c_table_params({
-				sql:sql2[params+'_seek'](),
+				sql:sql2[params+'_seek'+withId](),
 				seek:'%'+newValue+'%',
+				id:id,
 			}))
 		} });
-	$scope.progr_am.viewes.hrm_menu.seekClean = function(){
-		console.log('---interface---progr_am.viewes.hrm_menu.seekClean---')
-		$scope.progr_am.viewes.hrm_menu.seek = null
-		exe_fn.httpGet(exe_fn.httpGet_j2c_table_params({
-			sql:sql2[params](),
-		}))
-	}
+		$scope.progr_am.viewes.hrm_menu.seekClean = function(){
+			console.log('---interface---progr_am.viewes.hrm_menu.seekClean---')
+			$scope.progr_am.viewes.hrm_menu.seek = null
+			exe_fn.httpGet(exe_fn.httpGet_j2c_table_params({
+				sql:sql2[params](),
+			}))
+		}
 
 	}
 
@@ -477,6 +480,13 @@ adaptTemplateToData = function(data, template){
 }
 
 var sql2 = {
+	sql2_patient_lists_seek_withId:function(){
+		return "SELECT * FROM (" +
+			this.sql2_patient_persons() +" \n" +
+			") WHERE person_id = :id \n" +
+			"UNION \n" +
+			this.sql2_patient_lists_seek()
+	},
 	sql2_patient_lists_seek:function(){
 		return "SELECT * FROM ( \n" +
 				this.sql2_patient_persons() +
@@ -486,8 +496,19 @@ var sql2 = {
 	sql2_patient_lists:function(){
 		return this.sql2_patient_persons()
 	},
-	//sql2_physician_declaration_seek:function(){
+	sql2_patient_and_declaration_seek_withId:function(){
+		return "SELECT * FROM ( SELECT 0 sort, x.* FROM (" +
+				this.sql2_patient_and_declaration() +
+				") x WHERE person_id = :id \n" +
+				"UNION \n" +
+				"SELECT 1 sort, x.* FROM (\n" +
+				this.sql2_patient_and_declaration_seek() + 
+				" ) x" +
+				") ORDER BY sort" +
+				""
+	},
 	sql2_patient_and_declaration_seek:function(){
+		//sql2_physician_declaration_seek:function(){
 		return "SELECT * FROM ( \n" +
 				this.sql2_patient_and_declaration() +
 				"\n ) x WHERE " +

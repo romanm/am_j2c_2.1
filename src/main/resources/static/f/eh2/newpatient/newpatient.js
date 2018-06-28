@@ -9,7 +9,7 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 	$scope.progr_am.viewes.j2c_table.dataName = 'patient_lists'
 	$scope.progr_am.viewes.j2c_table.ngInclude= '/f/eh2/j2c_table.html'
 
-	exe_fn.init_j2c_table_seek('sql2_patient_lists')
+	exe_fn.init_j2c_table_seek('sql2_patient_lists', $scope.request.parameters.person_id)
 	exe_fn.httpGet_j2c_table_params = function(params){
 		return exe_fn.httpGet_j2c_table_params_then_fn(
 		params,
@@ -26,6 +26,14 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 		})
 	}
 	var params = { sql : sql2.sql2_patient_lists(), }
+	if($scope.request.parameters.person_id){
+		var seek = $scope.request.parameters.seek?$scope.request.parameters.seek:''
+		var params = { 
+			sql : sql2.sql2_patient_lists_seek_withId(), 
+			id:$scope.request.parameters.person_id,
+			seek:'%'+seek+'%'
+		}
+	}
 
 	$scope.progr_am.patient_lists = {
 		init_data:{
