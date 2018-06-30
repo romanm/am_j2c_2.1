@@ -258,10 +258,11 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 //	console.log(docbody)
 		console.log($scope.editDoc)
 		var docbody_id = $scope.editDoc.docbody_id
-		if(!docbody_id)
+		if(!docbody_id){
 			docbody_id = $scope.editDoc.doc_id
-			var data = {sql:sql2.sql2_docbody_updateById(), docbody:docbody, docbody_id:docbody_id}
-		if($scope.progr_am.fn.saveAddData{
+		}
+		var data = {sql:sql2.sql2_docbody_updateById(), docbody:docbody, docbody_id:docbody_id}
+		if($scope.progr_am.fn.saveAddData){
 			$scope.progr_am.fn.saveAddData(data)
 		}
 //		console.log(data)
