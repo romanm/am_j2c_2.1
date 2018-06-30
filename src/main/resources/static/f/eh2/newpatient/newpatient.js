@@ -74,10 +74,8 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 					}
 				})
 				var e = $scope.editDoc,
-					r = $scope.patient_lists.selectedCell.row;
-				personCols.forEach(function(k){
-					e[k]=r[k]
-				})
+					r = $scope.patient_lists.selectedCell.row
+				personCols.forEach(function(k){ e[k]=r[k] })
 			}
 		}
 	});
@@ -92,9 +90,23 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 		})
 		data.sql=sql2.sql2_docbodyPerson_updateById()
 		data.dataAfterSave = function(response){
-			console.log(response.data)
-		}
+			var e = response.data.list2[0],
+				r = $scope.patient_lists.selectedCell.row
+			r.pip_patient = e.pip_patient
+			/*
+			angular.forEach($scope.patient_lists.data.list,function(v){
+				if(v.row_id==r.person_id){
+					console.log(v)
 
+					personCols.forEach(function(k){ 
+						console.log(e[k])
+//						r[k]=e[k]
+						v[k]=e[k]
+					})
+				}
+			})
+			 * */
+		}
 	}
 
 }

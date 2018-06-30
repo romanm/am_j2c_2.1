@@ -51,9 +51,19 @@ public class EhCommonRest  extends Db2Common{
 		executeSqlBlock.updateNewIds(sql, data, env);
 		int i = 0;
 		for (String sql_command : sql.split(";")) {
-			System.err.println(sql_command);
-			int update = db2ParamJdbcTemplate.update(sql_command, data);
-			data.put("update_"+ ++i, update);			
+			System.err.println(i);
+			String sql2 = sql_command.trim();
+			System.err.println(sql2);
+			String first_word = sql2.split(" ")[0];
+			if("SELECT".equals(first_word)) {
+				List<Map<String, Object>> list = db2ParamJdbcTemplate.queryForList(sql2, data);
+				data.put("list"+i, list);
+			}else {
+				int update = db2ParamJdbcTemplate.update(sql2, data);
+				data.put("update_"+ i, update);			
+			}
+			i++;
+			
 		}
 			return data;
 	}

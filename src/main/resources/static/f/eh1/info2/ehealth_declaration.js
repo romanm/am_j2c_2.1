@@ -488,7 +488,7 @@ var sql2 = {
 			"UNION \n" +
 			"SELECT 1 sort, x.* FROM (\n" +
 			this.sql2_patient_lists_seek() +
-			" ) x ) ORDER BY sort"
+			" ) x WHERE person_id != :id) ORDER BY sort"
 	},
 	sql2_patient_lists_seek:function(){
 		return "SELECT * FROM ( \n" +
@@ -506,7 +506,7 @@ var sql2 = {
 				"UNION \n" +
 				"SELECT 1 sort, x.* FROM (\n" +
 				this.sql2_patient_and_declaration_seek() + 
-				" ) x ) ORDER BY sort"
+				" ) x WHERE person_id != :id) ORDER BY sort"
 	},
 	sql2_patient_and_declaration_seek:function(){
 		//sql2_physician_declaration_seek:function(){
@@ -574,7 +574,8 @@ var sql2 = {
 	sql2_docbodyPerson_updateById:function(){
 		return this.sql2_docbody_updateById()+";" +
 		"UPDATE person SET last_name=:last_name, first_name=:first_name, second_name=:second_name \n" +
-		"WHERE person_id=:docbody_id;"
+		"WHERE person_id=:docbody_id; \n" +
+		"SELECT * FROM ("+this.sql2_patient_and_declaration()+") WHERE person_id=:docbody_id;"
 	},
 	sql2_docbody_updateById:function(){
 		return "UPDATE docbody SET docbody=:docbody " +
