@@ -140,9 +140,7 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			console.log(jsonTemplateObj)
 
 			var dataObj = $scope.editDoc
-			console.log(kkk)
 			kkk.forEach(function(k){
-console.log(k)
 				jsonTemplateObj = jsonTemplateObj[k]
 
 				if(!dataObj[k]){
@@ -255,14 +253,17 @@ console.log(k)
 		console.log('-----save------79-------')
 		$scope.progr_am.fn.calcEditDoc_CRC32()
 		console.log($scope.editDoc_CRC32)
-//		console.log($scope.editDoc)
+//	console.log($scope.editDoc)
 		var docbody = JSON.stringify($scope.editDoc)
-//		console.log(docbody)
+//	console.log(docbody)
 		console.log($scope.editDoc)
 		var docbody_id = $scope.editDoc.docbody_id
 		if(!docbody_id)
 			docbody_id = $scope.editDoc.doc_id
-		var data = {sql:sql2.sql2_docbody_updateById(), docbody:docbody, docbody_id:docbody_id}
+			var data = {sql:sql2.sql2_docbody_updateById(), docbody:docbody, docbody_id:docbody_id}
+		if($scope.progr_am.fn.saveAddData{
+			$scope.progr_am.fn.saveAddData(data)
+		}
 //		console.log(data)
 		exe_fn.httpPost
 		({	url:'/r/url_sql_update2',
@@ -566,6 +567,11 @@ var sql2 = {
 	sql2_created_update:function(){
 		return "UPDATE doctimestamp SET created=:created " +
 		" WHERE doctimestamp_id=:doctimestamp_id"
+	},
+	sql2_docbodyPerson_updateById:function(){
+		return this.sql2_docbody_updateById()+";" +
+		"UPDATE person SET last_name=:last_name, first_name=:first_name, second_name=:second_name" +
+		"WHERE person_id=:docbody_id;"
 	},
 	sql2_docbody_updateById:function(){
 		return "UPDATE docbody SET docbody=:docbody " +

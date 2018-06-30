@@ -41,17 +41,12 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		$scope.basicCalendar.gui.calendarViewPart.item		
 	)
 
-/*
-	$scope.$watch('basicCalendar.gui.calendarViewPart.item',function(newValue, oldValue){
-		console.log(newValue+' changed '+oldValue)
-	})
-*/
-	
 	$scope.$watch('basicCalendar.gui.workTimeStamp',function(newValue, oldValue){
 		if(newValue && newValue.getTime()!=oldValue.getTime()){
 			console.log(newValue+' changed '+oldValue)
 		}
 	});
+
 	$scope.basicCalendar.gui.editDialogOpen = false
 	
 	$scope.progr_am.icpc2_nakaz74={

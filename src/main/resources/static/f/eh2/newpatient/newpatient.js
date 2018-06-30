@@ -60,4 +60,37 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 			docbody_id:$scope.request.parameters.person_id,
 		})
 	}
+
+	$scope.initDocToPerson = false
+	$scope.$watchGroup(['editDoc', 'patient_lists.selectedCell'],
+	function(newValue, oldValue){
+		if(newValue[0]&&newValue[1]&&!$scope.initDocToPerson){
+			$scope.initDocToPerson = true;
+			console.log(newValue)
+			if($scope.request.parameters.person_id){
+				angular.forEach($scope.patient_lists.data.list,function(v){
+					if(v.row_id==$scope.request.parameters.person_id){
+						$scope.patient_lists.selectedCell.row=v
+					}
+				})
+				var e = $scope.editDoc,
+					r = $scope.patient_lists.selectedCell.row;
+				personCols.forEach(function(k){
+					e[k]=r[k]
+				})
+			}
+		}
+	});
+	
+	var personCols = ['last_name','first_name', 'second_name'];
+
+	$scope.progr_am.fn.saveAddData=function(data){
+		console.log('-----------------------')
+		console.log(data)
+		personCols.forEach(function(k){
+			data[k]=$scope.editDoc[k]
+		})
+
+	}
+
 }
