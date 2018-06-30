@@ -270,6 +270,8 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		({	url:'/r/url_sql_update2',
 			then_fn:function(response) {
 //				console.log(response.data)
+				if(data.dataAfterSave)
+				data.dataAfterSave(response)
 			},
 			data:data,
 		})
@@ -571,7 +573,7 @@ var sql2 = {
 	},
 	sql2_docbodyPerson_updateById:function(){
 		return this.sql2_docbody_updateById()+";" +
-		"UPDATE person SET last_name=:last_name, first_name=:first_name, second_name=:second_name" +
+		"UPDATE person SET last_name=:last_name, first_name=:first_name, second_name=:second_name \n" +
 		"WHERE person_id=:docbody_id;"
 	},
 	sql2_docbody_updateById:function(){

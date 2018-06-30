@@ -90,6 +90,10 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 		personCols.forEach(function(k){
 			data[k]=$scope.editDoc[k]
 		})
+		data.sql=sql2.sql2_docbodyPerson_updateById()
+		data.dataAfterSave = function(response){
+			console.log(response.data)
+		}
 
 	}
 
