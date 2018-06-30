@@ -21,17 +21,8 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 				birth_date : 'дата народженя',
 				email: 'e-mail'
 			}
-			init_ngClick($scope.patient_lists)
+			init_f74_ngClick($scope.patient_lists, $scope, $http);
 		})
-	}
-
-	var init_ngClick = function(icpc2_nakaz74){
-		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
-		if($scope.request.parameters.person_id){
-			$scope.patient_lists.selectedCell={
-				row_id:$scope.request.parameters.person_id
-			}
-		}
 	}
 
 	var params = { sql : sql2.sql2_patient_lists(), }
@@ -42,6 +33,11 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 			id:$scope.request.parameters.person_id,
 			seek:'%'+seek+'%'
 		}
+		exe_fn.jsonEditorRead({
+			url_template : '/f/mvp/party_template2.json',
+			doc_type:'party',
+			docbody_id:$scope.request.parameters.person_id,
+		})
 	}
 
 	$scope.progr_am.patient_lists = {
@@ -52,24 +48,19 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 		httpGet : exe_fn.httpGet_j2c_table_params(params),
 	}
 
-	if ($scope.request.parameters.person_id) {
-		console.log('-------45--------------------')
-		exe_fn.jsonEditorRead({
-			url_template : '/f/mvp/party_template2.json',
-			doc_type:'party',
-			docbody_id:$scope.request.parameters.person_id,
-		})
-	}
-
 	$scope.initDocToPerson = false
-	$scope.$watchGroup(['editDoc', 'patient_lists.selectedCell'],
+	$scope.$watchGroup(['editDoc', 'patient_lists.data'],
 	function(newValue, oldValue){
 		if(newValue[0]&&newValue[1]&&!$scope.initDocToPerson){
 			$scope.initDocToPerson = true;
 			console.log(newValue)
 			if($scope.request.parameters.person_id){
+				$scope.patient_lists.selectedCell={
+					row_id:$scope.request.parameters.person_id,
+				}
+
 				angular.forEach($scope.patient_lists.data.list,function(v){
-					if(v.row_id==$scope.request.parameters.person_id){
+					if(v.row_id==$scope.request.patient_lists.selectedCell.row_id){
 						$scope.patient_lists.selectedCell.row=v
 					}
 				})
@@ -93,19 +84,6 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 			var e = response.data.list2[0],
 				r = $scope.patient_lists.selectedCell.row
 			r.pip_patient = e.pip_patient
-			/*
-			angular.forEach($scope.patient_lists.data.list,function(v){
-				if(v.row_id==r.person_id){
-					console.log(v)
-
-					personCols.forEach(function(k){ 
-						console.log(e[k])
-//						r[k]=e[k]
-						v[k]=e[k]
-					})
-				}
-			})
-			 * */
 		}
 	}
 
