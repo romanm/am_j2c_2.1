@@ -60,7 +60,7 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 				}
 
 				angular.forEach($scope.patient_lists.data.list,function(v){
-					if(v.row_id==$scope.request.patient_lists.selectedCell.row_id){
+					if(v.row_id==$scope.patient_lists.selectedCell.row_id){
 						$scope.patient_lists.selectedCell.row=v
 					}
 				})
