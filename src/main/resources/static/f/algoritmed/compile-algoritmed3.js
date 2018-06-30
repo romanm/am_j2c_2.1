@@ -5,27 +5,20 @@ var exe_fn
 app.controller('ControllerApp1', function($scope, $http, $filter, $route) {
 	$scope.data={}
 	$scope.progr_am={fn:{}}
-
-//	console.log('-------ControllerApp1--------');
 	console.log($scope)
 	console.log($scope.data)
 	
-//	console.log(request)
 	init_am_directive.init_programRuns($scope, $http, $filter, $route);
 });
 
 init_am_directive.init_programRuns=function($scope, $http, $filter, $route){
-//	console.log('-------init_am_directive.init_programRuns--------');
-//	console.log(request.viewKey)
 	exe_fn = new Exe_fn($scope, $http)
 	onLoadPage($scope);
 	if(init_am_directive['init_'+request.viewKey])
 		init_am_directive['init_'+request.viewKey]($scope, $http, $filter, $route);
 	$http.get('/r/principal').then(function(response) {
-		console.log(response.data)
 		$scope.principalResponse = true;
 		$scope.principal = response.data;
-//		$scope.principal = response.data.principal;
 		$scope.principalUser = response.data.user;
 
 		if($scope.principal.principal){
@@ -54,13 +47,10 @@ var Exe_fn = function($scope, $http){
 		.then(progr_am.then_fn)
 	}
 	this.httpGet=function(progr_am){
-//		console.log('-----Exe_fn-----httpGet--------')
-//		console.log(progr_am)
 		$http.get(progr_am.url, {params:progr_am.params})
 		.then(progr_am.then_fn)
 	}
 	this.run_progr_am=function(){
-		console.log('-----Exe_fn-----run_progr_am--------')
 		var exe_fn = this;
 		if($scope.progr_am.fn)
 			if($scope.progr_am.fn.init_onLoad)
@@ -69,7 +59,7 @@ var Exe_fn = function($scope, $http){
 		angular.forEach($scope.progr_am, function(v, k){
 			if('viewes|fn'.indexOf(k)>=0){}else
 			{
-				console.log(k)
+				console.log('---Exe_fn.run_progr_am--- ' + k)
 				if(!$scope[k])
 					$scope[k] = $scope.progr_am[k] //{}
 				$scope.data[k]=$scope[k]
@@ -128,7 +118,6 @@ function onLoadPage($scope){
 			request.parameters[par[0]] = par[1];
 		});
 	}
-//	console.log(request);
 	request.viewKey = window.location.pathname.split('/v/')[1];
 	if(!request.viewKey){
 		var splitHtml = window.location.pathname.split('.')

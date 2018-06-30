@@ -1,7 +1,5 @@
 init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
-	console.log('------init_newpatient---3--------------')
 	init_am_directive.ehealth_declaration($scope, $http);
-	console.log($scope.progr_am)
 	$scope.include = {
 		j2c_table_content:'/f/eh2/newpatient/patient_list_j2c_table_content.html',
 	}
@@ -53,7 +51,6 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 	function(newValue, oldValue){
 		if(newValue[0]&&newValue[1]&&!$scope.initDocToPerson){
 			$scope.initDocToPerson = true;
-			console.log(newValue)
 			if($scope.request.parameters.person_id){
 				$scope.patient_lists.selectedCell={
 					row_id:$scope.request.parameters.person_id,
@@ -74,8 +71,6 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 	var personCols = ['last_name','first_name', 'second_name'];
 
 	$scope.progr_am.fn.saveAddData=function(data){
-		console.log('-----------------------')
-		console.log(data)
 		personCols.forEach(function(k){
 			data[k]=$scope.editDoc[k]
 		})

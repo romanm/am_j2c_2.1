@@ -5,7 +5,6 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 //	$scope.data.jsonTemplate={x:'y'}
 
 	$scope.$watch('principal',function(){ if($scope.principal){
-		console.log('---watch-principal------8------');
 		if($scope.progr_am.fn.init_principal)
 			$scope.progr_am.fn.init_principal()
 		exe_fn.run_progr_am()

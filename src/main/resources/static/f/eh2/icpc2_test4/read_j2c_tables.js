@@ -1,5 +1,3 @@
-console.log("----------read_j2c_tables.js------")
-
 init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	console.log('-----init_f74_ngClick-----------------------')
 

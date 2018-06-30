@@ -1,4 +1,3 @@
-console.log("----------read_j2c_tables.js------")
 init2_read_f74_tables = function($scope, $http){
 	console.log("--init2_read_f74_tables-----")
 		$scope.table = {row_indexs:{},
