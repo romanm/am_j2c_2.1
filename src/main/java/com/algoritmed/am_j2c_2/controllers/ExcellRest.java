@@ -54,6 +54,7 @@ public class ExcellRest {
 	
 	private void addPhysician(Sheet sheet , Map<String, Object> excelData) {
 		if(excelData.containsKey("physician")) {
+			@SuppressWarnings("unchecked")
 			Map<String, Object> physician = (Map<String, Object>) excelData.get("physician");
 			int rowNr = Integer.parseInt(""+physician.get("r"));
 			int cellNr = Integer.parseInt(""+physician.get("c"));
@@ -73,11 +74,13 @@ public class ExcellRest {
 				createHelper.createDataFormat().getFormat("dd mmm. yyyy"));
 		Sheet sheet = wb.getSheetAt(0);
 		addPhysician(sheet,excelData);
+		@SuppressWarnings("unchecked")
 		Map<String, Object> rcData = (Map<String, Object>) excelData.get("rcData");
 		System.err.println(rcData);
 		for (String keyR : (Set<String>) rcData.keySet()) {
 			int rowNr = Integer.parseInt(keyR);
 			Row row = sheet.createRow(rowNr);
+			@SuppressWarnings("unchecked")
 			Map<String, Object> cells = (Map<String, Object>)rcData.get(keyR);
 			for (String keyC : cells.keySet()) {
 				int cellNr = Integer.parseInt(keyC);
@@ -132,6 +135,7 @@ public class ExcellRest {
 
 	private @Value("${config.server.data_files}") String serverDataFiles;
 	String filePath = "excel_file_sample.xlsx";
+	@SuppressWarnings("unused")
 	private InputStream buildExcel(HttpServletResponse response) throws FileNotFoundException {
 		response.setHeader("Content-disposition", "attachment; filename=excel_file_sample_"+123+".xlsx");
 		InputStream inp = new FileInputStream(serverDataFiles+filePath);
@@ -139,8 +143,9 @@ public class ExcellRest {
 	}
 
 	@Autowired protected	ObjectMapper objectMapper;
+	@SuppressWarnings("unchecked")
 	protected Map<String, Object> stringToMap(String protocolDoc) {
-		Map map = null;
+		Map<String, Object> map = null;
 		try {
 			map = objectMapper.readValue(protocolDoc, Map.class);
 		} catch (IOException e) {

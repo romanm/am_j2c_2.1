@@ -54,6 +54,7 @@ public class DbCommonSql {
 	protected void mapSqlJoins(Map<String, Object> map, List<Map<String, Object>> listColumns) {
 //			addListWithName("joinColumnsSelect", sqlJoinColumnsSelect, map);
 		String joins = "", columns = "";
+		@SuppressWarnings("unchecked")
 		Map<Integer, Object> col_aliasMap	= (Map<Integer, Object>) map.get("col_alias");
 		if(null==col_aliasMap) {
 			col_aliasMap = new HashMap<Integer, Object>();
@@ -79,8 +80,9 @@ public class DbCommonSql {
 	}
 	
 	@Autowired protected	ObjectMapper objectMapper;
+	@SuppressWarnings("unchecked")
 	protected Map<String, Object> stringToMap(String protocolDoc) {
-		Map map = null;
+		Map<String, Object> map = null;
 		try {
 			map = objectMapper.readValue(protocolDoc, Map.class);
 		} catch (IOException e) {
