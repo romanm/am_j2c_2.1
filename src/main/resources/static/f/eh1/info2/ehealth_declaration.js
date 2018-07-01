@@ -175,8 +175,8 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 		}
 
 		$scope.oToEdit = {k_parent:k_parent,k:k,o:o,dataObj:dataObj};
-		
 		$scope.oToEdit.editFormType = $scope.progr_am.fn.editFormType(dataObj, k)
+
 	}
 	
 	$scope.progr_am.fn.editFormType=function(dataObj, k){

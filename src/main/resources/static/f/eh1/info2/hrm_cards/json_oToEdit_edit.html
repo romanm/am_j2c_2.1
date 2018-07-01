@@ -12,7 +12,7 @@
 	</div>
 	<div ng-switch on="oToEdit.editFormType">
 		<div ng-switch-when="isGroupToEdit">
-			<div ng-repeat="(k,v) in oToEdit.o" n
+			<div ng-repeat="(k,v) in oToEdit.o" 
 				ng-click="progr_am.fn.openObjectToEdit(v,oToEdit.k_parent+'|'+k,k)"
 				class="w3-border-bottom w3-hover-shadow">
 				<a href="#" class="w3-btn"> {{progr_am.fn.keyTranslate(k)}}</a>
