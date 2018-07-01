@@ -125,7 +125,8 @@
     "parent": "home"
 },
 "registry1":{
-    "th_template": "template1",
+    "th_template": "template4",
+    "t1h_template": "template1",
     "ng_template": "'/f/pis1-am-1/registry1/registry1.html'",
     "script": "/f/pis1-am-1/registry1/registry1.js",
     "title": "Регістрація",
