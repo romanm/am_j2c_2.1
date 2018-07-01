@@ -46,14 +46,14 @@
 				<div ng-switch-when="birth_date">
 					<b class="w3-tiny" title="{{k}}">
 						{{progr_am.fn.keyTranslate(k)}} </b> 
+					{{oToEdit.support['d_'+k]|date:'mediumDate'}}
 					<input
 					style="width: 100%;"
-						ng-model="registry.data.birth_date1"
-						ng-blur="dateControlle('birth_date1',registry)"
+						ng-model="oToEdit.support[k]"
+						ng-blur="progr_am.fn.v.validator_date(k,oToEdit)"
 						placeholder="дд-мм-рррр дата народженя" class="w3-border">
-					{{registry.data.bd|date:'mediumDate'}}
-					<div class="w3-red w3-small" ng-if="registry.error.birth_date">
-						{{registry.error.birth_date}}</div>
+					<div class="w3-red w3-small" ng-if="oToEdit.error[k]">
+						{{oToEdit.error[k]}}</div>
 				</div>
 				<div ng-switch-default ng-if="!v.isObject()">
 					<b class="w3-tiny" title="{{k}}">

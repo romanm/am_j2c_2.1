@@ -1,5 +1,5 @@
 //console.log('----ehealth_declaration.js------------')
-init_am_directive.ehealth_declaration = function($scope, $http){
+init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 //	console.log('----init_am_directive.ehealth_declaration------------')
 	
 //	$scope.data.jsonTemplate={x:'y'}
@@ -174,11 +174,63 @@ init_am_directive.ehealth_declaration = function($scope, $http){
 			}
 		}
 
-		$scope.oToEdit = {k_parent:k_parent,k:k,o:o,dataObj:dataObj};
+		$scope.oToEdit = {k_parent:k_parent,k:k,o:o,dataObj:dataObj,error:{},support:{}};
 		$scope.oToEdit.editFormType = $scope.progr_am.fn.editFormType(dataObj, k)
 
+		console.log(dataObj)
+		console.log($scope.data.jsonTemplateBody)
+		angular.forEach($scope.data.jsonTemplateBody, function(v1, k1){
+			if($scope.progr_am.fn.date_names.indexOf(k1)>=0){
+				var d = new Date()
+				if(dataObj[k1])
+					d = Date.parse(dataObj[k1])
+				var mapDateKey = $filter('date')(d, 'shortDate')
+				$scope.oToEdit.support[k1] = mapDateKey
+				$scope.oToEdit.support['d_'+k1] = d
+				console.log($scope.oToEdit.support)
+			}
+		})
+	}
+	$scope.progr_am.fn.date_names = 'birth_date|'
+	$scope.progr_am.fn.v = {}
+	$scope.progr_am.fn.v.validator_date = function(key, oToEdit){
+		console.log(oToEdit)
+		var dateString = oToEdit.support[key];
+		
+		var d1 = new Date();
+		var y = d1.getFullYear()-2000;
+		var m = dateString.match(/([1-9]|1\d|2\d|3[01])([-|,|.| |\/]+)([1-9]|1[012]|0[1-9])([-|,|.| |\/]+)(19|20)(\d{2})/)
+		if(m){
+			y = m[5]*100+m[6]*1;
+		}else{
+			m = dateString.match(/([1-9]|1\d|2\d|3[01])([-|,|.| |\/]+)([1-9]|1[012]|0[1-9])([-|,|.| |\/]+)(\d{1,2})/)
+			if(m){
+				var y0 = m[5]*1;
+				y = (y0>y?1900:2000) + y0
+			}
+		}
+		console.log(m)
+		if(m){
+			d1.setMonth(m[3]*1-1);
+			d1.setDate(m[1]);
+			d1.setFullYear(y);
+			set_ddmmyyy_param_from_date(key, d1, oToEdit);
+			delete oToEdit.error[key];
+		}else{
+			oToEdit.error[key]='Введіть дату в форматі "день-місяць-рік", розділяючі символи між цифрами -/., або пробіл.';
+		}
 	}
 	
+	var set_ddmmyyy_param_from_date=function(key, d1, oToEdit){
+		var mm = d1.getMonth()+1;
+		var ddmmyyyy = (d1.getDate()<10?'0':'')+d1.getDate()
+			+'-'+(mm<10?'0':'')+mm+'-'+d1.getFullYear();
+		console.log(ddmmyyyy)
+		oToEdit.dataObj[key] = d1;
+		oToEdit.support[key] = ddmmyyyy;
+		oToEdit.support['d_'+key] = d1;
+	}
+
 	$scope.progr_am.fn.editFormType=function(dataObj, k){
 		var editFormType
 		if($scope.progr_am.fn.isGroupToEdit())	editFormType = 'isGroupToEdit'
@@ -572,7 +624,8 @@ var sql2 = {
 	},
 	sql2_docbodyPerson_updateById:function(){
 		return this.sql2_docbody_updateById()+";" +
-		"UPDATE person SET last_name=:last_name, first_name=:first_name, second_name=:second_name \n" +
+		"UPDATE person SET last_name=:last_name, first_name=:first_name, second_name=:second_name, " +
+		"birth_date=:birth_date \n" +
 		"WHERE person_id=:docbody_id; \n" +
 		"SELECT * FROM ("+this.sql2_patient_and_declaration()+") WHERE person_id=:docbody_id;"
 	},
