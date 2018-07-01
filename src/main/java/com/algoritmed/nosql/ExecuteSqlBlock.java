@@ -101,12 +101,14 @@ public class ExecuteSqlBlock {
 			System.err.println(sql_from_env);
 		}
 		if(data.containsKey("docbodyMap")) {
+			@SuppressWarnings("unchecked")
 			Map<String,Object> docbodyMap = (Map<String, Object>) data.get("docbodyMap");
 //			String docbody = objectToString(docbodyMap);
 //			data.put("docbody", docbody);
 			data.put("docbodyMap", docbodyMap);
 		}
 		if(data.containsKey("replace_param")) {
+			@SuppressWarnings("unchecked")
 			Map<String,String> replace_param = (Map<String, String>) data.get("replace_param");
 			for (String key : replace_param.keySet()) {
 //				System.err.println(key);
@@ -187,8 +189,9 @@ public class ExecuteSqlBlock {
 	}
 	
 	@Autowired protected	ObjectMapper objectMapper;
+	@SuppressWarnings("unchecked")
 	protected Map<String, Object> stringToMap(String protocolDoc) {
-		Map map = null;
+		Map<String, Object> map = null;
 		try {
 			map = objectMapper.readValue(protocolDoc, Map.class);
 		} catch (IOException e) {

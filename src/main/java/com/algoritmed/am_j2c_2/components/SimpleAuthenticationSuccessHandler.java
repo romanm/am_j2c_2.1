@@ -20,8 +20,8 @@ implements AuthenticationSuccessHandler, LogoutSuccessHandler{
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication arg2)
 			throws IOException, ServletException {
-		String url = request.getRequestURL().toString();
-		String queryString = request.getQueryString();
+//		String url = request.getRequestURL().toString();
+//		String queryString = request.getQueryString();
 		String pageKey = (String) request.getSession().getAttribute("pageKey");
 		String redirectUrl = "/";
 		if(pageKey!=null&&!pageKey.equals(""))

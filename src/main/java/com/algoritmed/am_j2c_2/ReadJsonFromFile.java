@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Component("readJsonFromFile")
 public class ReadJsonFromFile {
 
-	private static final Logger logger = LoggerFactory.getLogger(ReadJsonFromFile.class);
+//	private static final Logger logger = LoggerFactory.getLogger(ReadJsonFromFile.class);
 	
 	private @Value("${config.serverWebSites}") String serverWebSites;
 	Map<String, Object> configWebSitesMap=null;
@@ -34,6 +32,7 @@ public class ReadJsonFromFile {
 		return configWebSitesMap;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> readJsonFromFullFileName(File file) {
 		Map<String, Object> readJsonFileToJavaObject = null;
 		try {

@@ -44,6 +44,7 @@ public class CommonRest {
 
 	private Object getModelAttribute(String page1, String attribute) {
 		Map<String, Object> configWebSite = readJsonFromFile.readConfigWebSite();
+		@SuppressWarnings("unchecked")
 		Map<String, Object> pageConfig = (Map<String, Object>) configWebSite.get(page1);
 		Object ngController = null;
 		if(pageConfig != null){
