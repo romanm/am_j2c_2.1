@@ -193,6 +193,24 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 	}
 	$scope.progr_am.fn.date_names = 'birth_date|'
 	$scope.progr_am.fn.v = {}
+	$scope.progr_am.fn.v.validator_email = function(key, oToEdit){
+		var email = oToEdit.dataObj[key]
+		var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		var isEmail = re.test(email)
+		if(isEmail)
+		{
+			delete oToEdit.error[key];
+		}
+		else
+		{
+			oToEdit.error[key]='email виглядає не дійсним';
+		}
+		//https://www.w3resource.com/javascript/form/email-validation.php
+		//https://www.sitepoint.com/javascript-validate-email-address-regex/
+//		var re = /[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/igm;
+		//https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+	}
+		
 	$scope.progr_am.fn.v.validator_date = function(key, oToEdit){
 		console.log(oToEdit)
 		var dateString = oToEdit.support[key];

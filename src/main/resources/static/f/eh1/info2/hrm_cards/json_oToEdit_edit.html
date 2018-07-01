@@ -43,21 +43,22 @@
 		</div>
 		<div ng-switch-default>
 			<div ng-repeat="(k,v) in oToEdit.o" ng-switch on="k">
-				<div ng-switch-when="birth_date">
 					<b class="w3-tiny" title="{{k}}">
-						{{progr_am.fn.keyTranslate(k)}} </b> 
-					{{oToEdit.support['d_'+k]|date:'mediumDate'}}
-					<input
-					style="width: 100%;"
-						ng-model="oToEdit.support[k]"
+						{{progr_am.fn.keyTranslate(k)}} </b>
+				<span ng-switch-when="birth_date">
+					{{oToEdit.support['d_'+k]|date:'mediumDate'}} <input
+						style="width: 100%;" ng-model="oToEdit.support[k]"
 						ng-blur="progr_am.fn.v.validator_date(k,oToEdit)"
 						placeholder="дд-мм-рррр дата народженя" class="w3-border">
-					<div class="w3-red w3-small" ng-if="oToEdit.error[k]">
-						{{oToEdit.error[k]}}</div>
+				</span>
+				<div  ng-switch-when="email">
+				<input
+						style="width: 100%;" ng-model="oToEdit.dataObj[k]"
+						ng-blur="progr_am.fn.v.validator_email(k,oToEdit)"
+						placeholder="електронна@пош.та" class="w3-border">
 				</div>
 				<div ng-switch-default ng-if="!v.isObject()">
-					<b class="w3-tiny" title="{{k}}">
-						{{progr_am.fn.keyTranslate(k)}} </b> <input
+					 <input
 						ng-if="!eh_dictionaries.getValues(k, oToEdit.k_parent)"
 						style="width: 100%;" ng-if="!v.isObject()"
 						ng-model="oToEdit.dataObj[k]" class="w3-border"> <select
@@ -69,6 +70,8 @@
 							value="{{k1}}">{{v1}}</option>
 					</select>
 				</div>
+				<div class="w3-red w3-small" ng-if="oToEdit.error[k]">
+						{{oToEdit.error[k]}}</div>
 			</div>
 		</div>
 	</div>
