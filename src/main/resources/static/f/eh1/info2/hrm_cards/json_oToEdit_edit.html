@@ -42,8 +42,20 @@
 			</div>
 		</div>
 		<div ng-switch-default>
-			<div ng-repeat="(k,v) in oToEdit.o">
-				<div ng-if="!v.isObject()">
+			<div ng-repeat="(k,v) in oToEdit.o" ng-switch on="k">
+				<div ng-switch-when="birth_date">
+					<b class="w3-tiny" title="{{k}}">
+						{{progr_am.fn.keyTranslate(k)}} </b> 
+					<input
+					style="width: 100%;"
+						ng-model="registry.data.birth_date1"
+						ng-blur="dateControlle('birth_date1',registry)"
+						placeholder="дд-мм-рррр дата народженя" class="w3-border">
+					{{registry.data.bd|date:'mediumDate'}}
+					<div class="w3-red w3-small" ng-if="registry.error.birth_date">
+						{{registry.error.birth_date}}</div>
+				</div>
+				<div ng-switch-default ng-if="!v.isObject()">
 					<b class="w3-tiny" title="{{k}}">
 						{{progr_am.fn.keyTranslate(k)}} </b> <input
 						ng-if="!eh_dictionaries.getValues(k, oToEdit.k_parent)"

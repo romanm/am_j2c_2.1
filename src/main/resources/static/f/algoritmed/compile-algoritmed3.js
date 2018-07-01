@@ -73,10 +73,8 @@ var Exe_fn = function($scope, $http){
 						angular.forEach(v1, function(v2, k2){
 							$scope[k][k2] = v2
 						})
-
 						//if(!$scope[k].fn)
 						// $scope[k].fn={}
-
 						/*
 						$scope[k].fn.row_key=v1.row_key
 						$scope[k].fn.isEditRow = function(row){
@@ -180,8 +178,9 @@ init_am_directive.initObj_registry= function($scope, $http){
 		this.data.bd = d1;
 	}
 
-	$scope.registry.dateControlle=function(key){
-		var dateString = this.data[key];
+	$scope.dateControlle = function(key, dataObj){
+		console.log(dataObj)
+		var dateString = dataObj.data[key];
 		
 		var d1 = new Date();
 		var y = d1.getFullYear()-2000;
@@ -201,9 +200,9 @@ init_am_directive.initObj_registry= function($scope, $http){
 			d1.setDate(m[1]);
 			d1.setFullYear(y);
 			$scope.registry.set_ddmmyyy_param_from_date(key, d1);
-			delete this.error.birth_date;
+			delete dataObj.error.birth_date;
 		}else{
-			this.error.birth_date='Введіть дату в форматі "день-місяць-рік", розділяючі символи між цифрами -/., або пробіл.';
+			dataObj.error.birth_date='Введіть дату в форматі "день-місяць-рік", розділяючі символи між цифрами -/., або пробіл.';
 		}
 	}
 
