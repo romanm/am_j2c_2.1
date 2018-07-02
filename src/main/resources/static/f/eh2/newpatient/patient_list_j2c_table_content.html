@@ -8,6 +8,7 @@
 		<a ng-switch-when="person_id" href="?person_id={{row.person_id}}">
 			{{row.person_id}} </a>
 		<div ng-switch-when="birth_date">{{row[col_k] | date : 'shortDate'}}</div>
+		<div ng-switch-when="email">{{row[col_k]}}</div>
 		<div ng-switch-default>
 			{{row[col_k]}} {{progr_am[view.dataName].getColValue(row, col_k)}} <span
 				ng-if="!row[col_k]" class="w3-tiny">

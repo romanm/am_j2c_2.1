@@ -68,14 +68,15 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 		}
 	});
 	
-	var personCols = ['last_name','first_name', 'second_name', 'birth_date'];
+	var personCols = ['last_name','first_name', 'second_name', 'email', 'birth_date'];
 
 	$scope.progr_am.fn.saveAddData=function(data){
 		personCols.forEach(function(k){
 			data[k]=$scope.editDoc[k]
 			if($scope.progr_am.fn.date_names.indexOf(k)>=0){
-				data[k]=
-					$scope.editDoc[k].toISOString().split('T')[0]
+				var d = new Date($scope.editDoc[k])
+				console.log(d)
+				data[k] = d.toISOString().split('T')[0]
 			}
 		})
 		data.sql=sql2.sql2_docbodyPerson_updateById()
@@ -85,6 +86,7 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 				console.log(e)
 			r.pip_patient	= e.pip_patient
 			r.birth_date	= $scope.editDoc.birth_date
+			r.email			= $scope.editDoc.email
 		}
 	}
 

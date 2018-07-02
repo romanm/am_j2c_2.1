@@ -643,7 +643,7 @@ var sql2 = {
 	sql2_docbodyPerson_updateById:function(){
 		return this.sql2_docbody_updateById()+";" +
 		"UPDATE person SET last_name=:last_name, first_name=:first_name, second_name=:second_name, " +
-		"birth_date=:birth_date \n" +
+		"birth_date=:birth_date, email=:email \n" +
 		"WHERE person_id=:docbody_id; \n" +
 		"SELECT * FROM ("+this.sql2_patient_and_declaration()+") WHERE person_id=:docbody_id;"
 	},
