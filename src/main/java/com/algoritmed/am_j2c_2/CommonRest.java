@@ -31,7 +31,9 @@ public class CommonRest {
 		setModelAtribute(model, page1, "script");
 		String th_template = (String) 
 				setModelAtribute(model, page1, "th_template");
-		logger.info(" \n\n--34-- --viewPage1-- /v/{page1} "+page1+"\n th_template = "+th_template+"\n "+map);
+		logger.info(" \n\n--34-- --viewPage1-- /v/{page1} "
+				+page1+"\n th_template = "
+				+th_template+"\n "+map);
 		
 		return th_template;
 	}
@@ -44,8 +46,13 @@ public class CommonRest {
 
 	private Object getModelAttribute(String page1, String attribute) {
 		Map<String, Object> configWebSite = readJsonFromFile.readConfigWebSite();
-		@SuppressWarnings("unchecked")
+		System.err.println("-49- "+page1);
+		System.err.println("-50- "+attribute);
+
+//		@SuppressWarnings("unchecked")
 		Map<String, Object> pageConfig = (Map<String, Object>) configWebSite.get(page1);
+		System.err.println(pageConfig);
+
 		Object ngController = null;
 		if(pageConfig != null){
 			if(pageConfig.containsKey(attribute))

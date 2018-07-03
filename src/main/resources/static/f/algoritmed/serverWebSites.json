@@ -133,7 +133,7 @@
     "parent": "home"
 },
  "registry2":{
-    "th_template": "template1",
+    "th_template": "template4",
     "ng_template": "'/f/pis1-am-1/registry1/registry2.html'",
     "script": "/f/pis1-am-1/registry1/registry1.js",
     "title": "Активація аккаунта",
