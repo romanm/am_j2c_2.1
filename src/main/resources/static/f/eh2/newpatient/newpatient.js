@@ -19,10 +19,29 @@ init_am_directive.init_newpatient = function($scope, $http, $filter, $route) {
 				birth_date : 'дата народженя',
 				email: 'e-mail'
 			}
-			init_f74_ngClick($scope.patient_lists, $scope, $http);
+			init_ngClick($scope.patient_lists);
 		})
 	}
 
+	var init_ngClick = function(icpc2_nakaz74){
+		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
+		icpc2_nakaz74.clickToSave.add_row=function(){
+			console.log('-------clickToSave------add_row:w-----------')
+			exe_fn.httpPost
+			({	url:'/r/url_sql_update2',
+				then_fn:function(response) {
+					console.log(response.data)
+					window.location.replace(
+							'?person_id=' + response.data.nextDbId1		
+					)
+				},
+				data:{
+					sql:sql2.sql2_patient_insert(), 
+				},
+			})
+		}
+	}
+	
 	var params = { sql : sql2.sql2_patient_lists(), }
 	if($scope.request.parameters.person_id){
 		var seek = $scope.request.parameters.seek?$scope.request.parameters.seek:''

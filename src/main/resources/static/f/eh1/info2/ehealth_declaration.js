@@ -603,7 +603,7 @@ var sql2 = {
 				"FROM person p,doc d WHERE doc_id=person_id AND doctype=1 "
 	},
 	sql2_hrmCard_insert:function(){ 
-	return 	"INSERT INTO doc (doc_id, doctype) \n" +
+		return 	"INSERT INTO doc (doc_id, doctype) \n" +
 			"VALUES (:nextDbId1, :doctypeEmployee); \n" +
 			"INSERT INTO doc (parent_id, reference,  doctype) \n" +
 			"VALUES (:nextDbId1, :msp_id, :doctypeMsp); \n" +
@@ -639,6 +639,14 @@ var sql2 = {
 	sql2_created_update:function(){
 		return "UPDATE doctimestamp SET created=:created " +
 		" WHERE doctimestamp_id=:doctimestamp_id"
+	},
+	sql2_patient_insert:function(){
+		return 	"INSERT INTO doc (doc_id, doctype) \n" +
+		"VALUES (:nextDbId1, 1); \n" +
+		"INSERT INTO person (person_id) \n" +
+		"VALUES (:nextDbId1); \n" +
+		"INSERT INTO docbody (docbody_id, docbody) \n" +
+		"VALUES (:nextDbId1,  '{}')"
 	},
 	sql2_docbodyPerson_updateById:function(){
 		return this.sql2_docbody_updateById()+";" +

@@ -109,7 +109,6 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 
 	var init_ngClick = function(icpc2_nakaz74){
 		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
-
 	}
 
 	//exe_fn.)
