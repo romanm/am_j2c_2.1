@@ -1,16 +1,14 @@
 <div class="w3-topbar w3-blue-gray w3-card">
-	меню: <a href="#"
-	ng-click="progr_am.viewes.hrm_menu.seekClean()"
-	class="w3-btn w3-padding-small"
-	><i class="fa fa-filter fa-3"></i></a> <input class="w3-border"
-		ng-model="progr_am.viewes.hrm_menu.seek"
-		placeholder="{{progr_am.viewes.hrm_menu.seek_placeholder}}">
-		
-		<button
-		class="w3-border"
-  ng-if="request.viewKey=='declaration'
+	меню: <a href="#" ng-click="progr_am.viewes.hrm_menu.seekClean()"
+		class="w3-btn w3-padding-small"><i class="fa fa-filter fa-3"></i></a>
+	<input class="w3-border" ng-model="progr_am.viewes.hrm_menu.seek"
+		placeholder="{{progr_am.viewes.hrm_menu.seek_placeholder}}"> 
+	<span
+		ng-include="include.add_j2c_menu"></span>
+
+	<button class="w3-border"
+		ng-if="request.viewKey=='declaration'
 && !request.parameters.declaration
 ">
-  Скласти - Декларацію з лікарем</button>
-		
+		Скласти - Декларацію з лікарем</button>
 </div>

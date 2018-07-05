@@ -456,22 +456,21 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 	}
 	$scope.pageGroup.misAlgoritmed3 = {
 		registry:{parent:{name:'Регістратура', url:'info3' },
-			reception:'запис на прийом',
-			queue:'черга',
+			registry_calendar:'запис на прийом календар',
 			newpatient:'новий пацієнт',
-			registry_calendar:'календар',
-
+//			reception:'запис на прийом',
+//			queue:'черга',
 		},
 		physician:{parent:{name:'Кабінет лікаря', url:'info3' },
-			ak:'амб-на картка №025/о',
+			abk:'амб-на к. ф.№025/о',
+			physician_calendar:'візит календар',
 			declaration3:'декларація',
-			physician_calendar:'календар',
 		},
-		analytics:{parent:{name:'Аналітіка', url:'info3' },
+		analytics:{parent:{name:'Статистика'/*Аналітіка*/, url:'info3' },
 			icpc2_test3:'ф.074/о', //f074
 			icpc2_test2_report:'ф.039/о',//f039
 		},
-		msp:{parent:{name:'ЛЗ', url:'info3' },
+		msp:{parent:{name:'Головний лікар'/*ЛЗ*/, url:'info3' },
 			msp_page3:'сторінка ЛЗ',
 			msp_data3:'данні',
 			msp_registry3:'реєстрація',
@@ -527,6 +526,9 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 			}
 		}
 	}
+
+if(init_am_directive.ehealth_declaration_pageGroup)
+init_am_directive.ehealth_declaration_pageGroup($scope, $http, $filter);
 
 }
 

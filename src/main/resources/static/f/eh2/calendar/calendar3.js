@@ -1,4 +1,3 @@
-
 init_am_directive.init_physician_calendar = function($scope, $http, $filter, $route){
 	console.log('------init_physician_calendar---2--------------')
 	init_am_directive.init_registry_calendar($scope, $http, $filter)
@@ -6,16 +5,22 @@ init_am_directive.init_physician_calendar = function($scope, $http, $filter, $ro
 
 init_am_directive.init_registry_calendar = function($scope, $http, $filter, $route){
 	console.log('------init_registry_calendar---7--------------')
-	init_am_directive.ehealth_declaration($scope, $http);
+	/*
+	var init_ngClick = function(icpc2_nakaz74){
+		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
+	}
+	 * */
+
+	init_am_directive.ehealth_declaration($scope, $http, $filter);
 	$scope.basicCalendar = new BasicCalendar($scope, $http, $filter)
 	$scope.progr_am.basicCalendar= $scope.basicCalendar
 	$scope.basicCalendar.gui.init();
 	$scope.include = {
+		j2c_table_content:'/f/eh2/calendar/calendar_j2c_table_content.html',
 		topbar_page_group:'/f/eh2/calendar/calendar3_top_page.html',
 		registry_calendar_data:'/f/eh2/calendar/calendar3_registry_data.html',
 		calendar_dialog:'/f/eh2/calendar/calendar3_dialog.html',
 		calendar_record_data:'/f/eh2/calendar/calendar3_record_menu.html',
-		j2c_table_content:'/f/eh2/calendar/calendar_j2c_table_content.html',
 		icpc2_cell_dropdown_content:
 			'/f/eh2/icpc2_test4/icpc2_cell_dropdown_content_o74.html',
 	}
@@ -29,93 +34,38 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 				'/f/eh2/calendar/calendar3_'+ calendarViewPart +'.html'	
 			}
 		},
-		menu:{ngInclude:'/f/eh1/info2/hrm_cards/hrm_menu.html',
-			seek:null,
-		},
-		j2c_table:{ngInclude:'/f/eh2/j2c_table.html',
-			dataName:'icpc2_nakaz74',
-			heightProcent:22,
-		},
-	},
+	}
+	addViews_abk_MenuJ2c()
+	
+	
 	$scope.progr_am.viewes.calendar.setNgInclude(
 		$scope.basicCalendar.gui.calendarViewPart.item		
 	)
 
-	$scope.$watch('basicCalendar.gui.workTimeStamp',function(newValue, oldValue){
-		if(newValue && newValue.getTime()!=oldValue.getTime()){
-			console.log(newValue+' changed '+oldValue)
-		}
-	});
-
 	$scope.basicCalendar.gui.editDialogOpen = false
 	
-	$scope.progr_am.icpc2_nakaz74={
-		httpGet:{
-			url:'/r/read2_sql_with_param',
-			params:{
-				sql:'sql2.j2c_table.selectByIdDesc',msp_id:188,table_id:9774
-			},
-			then_fn:function(response) {
-				delete response.data.add_joins
-				delete response.data.add_columns
-				delete response.data['sql2.j2c_table.selectByIdDesc']
-				/*
-				console.log($scope.icpc2_nakaz74)
-				console.log($scope.progr_am.icpc2_nakaz74)
-				 * */
-				$scope.icpc2_nakaz74.data = response.data
-				$scope.icpc2_nakaz74.mapDate = {}
-				angular.forEach($scope.icpc2_nakaz74.data.list,function(v){
-					var mapDateKey = $filter('date')(v.created, 'shortDate'),
-						h = $filter('date')(v.created, 'H')
-					if(!$scope.icpc2_nakaz74.mapDate[mapDateKey])
-						$scope.icpc2_nakaz74.mapDate[mapDateKey]= {list:[],hours:{}}
-					var mapDateValue = $scope.icpc2_nakaz74.mapDate[mapDateKey]
-					mapDateValue.list.push(v)
-					if(!mapDateValue.hours[h])
-						mapDateValue.hours[h] = []
-					mapDateValue.hours[h].push(v)
-				})
-				console.log($scope.icpc2_nakaz74.mapDate)
-				$scope.progr_am.icpc2_nakaz74.data
-					= $scope.icpc2_nakaz74.data
-				init_ngClick($scope.progr_am.icpc2_nakaz74)
-			}
-		},
-		init_data:{
-			col_values:{
-				col_9776:{
-					1:'амбулаторно',
-					2:'вдома',
-					3:'по телефону',
-				},
-				col_9775:{
-					1:'первинне',
-					2:'повторне',
-					3:'зевершення епізоду',
-				},
-				col_10900:{
-					1:'місто',
-					2:'село',
-				},
-			},
-			include_cols:'/f/eh2/icpc2_test4/icpc2_cell_content_o74.html',
-			include_table_menu:'/f/eh2/calendar/calendar3_record_menu.html',
-			i1nclude_cols:'/f/eh1/info1/test3/icpc2_test3_cols.html',
-			col_sort:['creat_date', 'col_10766', 'col_9775', 'col_10771', 'col_10777', 'col_10807'
-				,'col_9776', 'col_10900'],
-		},
-	}
+	console.log('-------------------45--------------------')
+//	$scope.progr_am.icpc2_nakaz74={}
+	console.log(	$scope.progr_am.icpc2_nakaz74)
+	
+	$scope.progr_am.icpc2_nakaz74.init_data.include_table_menu 
+		= '/f/eh2/calendar/calendar3_record_menu.html'
+	
 
-	var init_ngClick = function(icpc2_nakaz74){
-		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
-	}
 
 	//exe_fn.)
 	$scope.progr_am.icpc2_nakaz74.s1electCell=function(row_k, col_k){
 		$scope.editRow = $scope.icpc2_nakaz74.data.list[row_k];
 		console.log($scope.editRow)
 	}
+
+	/*
+	$scope.$watch('basicCalendar.gui.workTimeStamp',function(newValue, oldValue){
+		if(newValue && newValue.getTime()!=oldValue.getTime()){
+			console.log(newValue+' changed '+oldValue)
+		}
+	});
+	 * */
 
 }
 

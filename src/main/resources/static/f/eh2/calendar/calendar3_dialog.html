@@ -3,6 +3,9 @@
 		<div ng-include="'/f/eh2/calendar/calendar3_dialog_head.html'"
 			ng-init="head='Вибрати пацієнта із записаних на цей день'"></div>
 
+<button ng-click="basicCalendar.edit_dialog.closeDropdown()"
+			class="w3-border w3-display-bottomright">Закрити</button>
+
 		<div ng-if="icpc2_nakaz74.selectedCell.row"
 			ng-click="basicCalendar.edit_dialog.open_record_dialog(
 		icpc2_nakaz74.selectedCell.row, icpc2_nakaz74);"
@@ -28,6 +31,9 @@
 		ng-if="'record' == basicCalendar.edit_dialog.selectedCell.dialog_type">
 		<div ng-include="'/f/eh2/calendar/calendar3_dialog_head.html'"
 			ng-init="head='Перенести запис на прийом:'"></div>
+
+		<button ng-click="basicCalendar.edit_dialog.closeDropdown()"
+			class="w3-border w3-display-bottomright">Закрити</button>
 
 		<div class="w3-container">
 			<div>
@@ -61,6 +67,5 @@
 			</div>
 		</div>
 	</div>
-	<button ng-click="basicCalendar.edit_dialog.closeDropdown()"
-          class="w3-border w3-display-bottomright">Закрити</button>
+	
 </div>

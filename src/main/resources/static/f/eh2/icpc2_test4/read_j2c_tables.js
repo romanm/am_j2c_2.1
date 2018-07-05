@@ -33,12 +33,6 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 			return isRegistryDeleteAllowed
 		}
 	}
-	
-	icpc2_nakaz74.isEditRow = function(row){
-		return icpc2_nakaz74.selectedCell &&
-		icpc2_nakaz74.selectedCell.row_id==row.row_id
-//		return $scope.editRow && row.row_id == $scope.editRow.row_id
-	}
 
 	icpc2_nakaz74.isCellSelect=function(row_k, col_k, row){
 		if(icpc2_nakaz74.selectedCell && !icpc2_nakaz74.selectedCell.close){
@@ -48,10 +42,10 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		}
 	}
 	
-	icpc2_nakaz74.selectCell=function(row_k, col_k, row){
+	icpc2_nakaz74.selectCell = function(row_k, col_k, row){
 		if(icpc2_nakaz74.selectedCell 
-				&& icpc2_nakaz74.selectedCell.col_k==col_k 
-				&& icpc2_nakaz74.selectedCell.row_k==row_k
+			&& icpc2_nakaz74.selectedCell.col_k==col_k 
+			&& icpc2_nakaz74.selectedCell.row_k==row_k
 		){
 			if('col_10766|col_10771|col_10807|col_10777'.indexOf(col_k)>=0){
 //				if(icpc2_nakaz74.selectedCell.close)
@@ -530,5 +524,84 @@ var sql3= {
 				"WHERE d1.doc_id=d2.parent_id AND d1.doctype=57 AND s2.string_id=d2.doc_id AND s1.string_id=d1.doc_id AND c2.code_id=d2.doc_id AND c1.code_id=d1.doc_id \n" +
 				") x " +
 				"WHERE LOWER(value) LIKE LOWER(:seek) OR LOWER(code) LIKE LOWER(:seek) ";
+	},
+	read_f74_select1:function(){
+		return " SELECT * FROM (SELECT rws.parent_id tbl_id, rws.doc_id row_id \n" +
+				" , col_9775_id, col_9775 , col_9776_id, col_9776 , col_9777_id, col_9777 , col_10766_id, col_10766 , col_10771_id, col_10771 , col_10777_id, col_10777 , col_10807_id, col_10807 , col_10900_id, col_10900 \n" +
+				"FROM doc tbl, doc rws \n" +
+				"LEFT JOIN (SELECT doc_id col_9775_id, value col_9775, parent_id col_9775_row, reference column_9775_id  FROM doc cd, integer cv \n" +
+				" WHERE cd.doc_id=cv.integer_id AND doctype=10) col_9775 ON column_9775_id=9775 AND col_9775_row=rws.doc_id \n" +
+				"LEFT JOIN (SELECT doc_id col_9776_id, value col_9776, parent_id col_9776_row, reference column_9776_id  FROM doc cd, integer cv \n" +
+				" WHERE cd.doc_id=cv.integer_id AND doctype=10) col_9776 ON column_9776_id=9776 AND col_9776_row=rws.doc_id \n" +
+				"LEFT JOIN (SELECT doc_id col_9777_id, value col_9777, parent_id col_9777_row, reference column_9777_id  FROM doc cd, integer cv \n" +
+				" WHERE cd.doc_id=cv.integer_id AND doctype=10) col_9777 ON column_9777_id=9777 AND col_9777_row=rws.doc_id \n" +
+				"LEFT JOIN (SELECT \n" +
+				" cell.doc_id col_10766_id \n" +
+				", col_9766||', тел.'||col_9767 col_10766 \n" +
+				", cell.parent_id col_10766_row \n" +
+				", cell.reference column_10766_id \n" +
+				"  FROM ( \n" +
+				"SELECT rws.parent_id tbl_id, rws.doc_id row_id \n" +
+				" , col_9766_id, col_9766 , col_9767_id, col_9767 \n" +
+				"FROM doc tbl, doc rws \n" +
+				"LEFT JOIN (SELECT doc_id col_9766_id, value col_9766, parent_id col_9766_row, reference column_9766_id  FROM doc cd, string cv \n" +
+				" WHERE cd.doc_id=cv.string_id AND doctype=10) col_9766 ON column_9766_id=9766 AND col_9766_row=rws.doc_id \n" +
+				"LEFT JOIN (SELECT doc_id col_9767_id, value col_9767, parent_id col_9767_row, reference column_9767_id  FROM doc cd, string cv \n" +
+				" WHERE cd.doc_id=cv.string_id AND doctype=10) col_9767 ON column_9767_id=9767 AND col_9767_row=rws.doc_id \n" +
+				"WHERE tbl.doc_id=9765 AND tbl.doc_id=rws.parent_id AND rws.doctype=9 \n" +
+				") x, doc cell where cell.reference2=x.row_id) col_10766 ON column_10766_id=10766 AND col_10766_row=rws.doc_id \n" +
+				"LEFT JOIN (SELECT \n" +
+				"cell.reference column_10771_id \n" +
+				", x.code||':'||x.value col_10771 \n" +
+				",  cell.doc_id col_10771_id \n" +
+				", cell.parent_id col_10771_row \n" +
+				"FROM ( \n" +
+				"SELECT c1.code||c2.code code, s2.value, d2.doc_id, d2.parent_id, s1.value part, d2.doctype \n" +
+				"FROM string s2, doc d1, doc d2, string s1, code c2, code c1 \n" +
+				"WHERE d1.doc_id=d2.parent_id AND d1.doctype=57 \n" +
+				"AND s2.string_id=d2.doc_id \n" +
+				"AND s1.string_id=d1.doc_id \n" +
+				"AND c2.code_id=d2.doc_id \n" +
+				"AND c1.code_id=d1.doc_id \n" +
+				") x, doc cell WHERE cell.reference2=x.doc_id) col_10771 ON column_10771_id=10771 AND col_10771_row=rws.doc_id \n" +
+				"LEFT JOIN (SELECT \n" +
+				"  cell.doc_id col_10777_id \n" +
+				", cell.reference column_10777_id \n" +
+				", cell.parent_id col_10777_row \n" +
+				", x.icd_code||':'||x.icd_name col_10777 \n" +
+				"  FROM ( \n" +
+				"SELECT d.doc_id, i.* FROM icd i, doc d, icd10uatree t \n" +
+				"where i.icd_id=icd10uatree_id and t.doc_id=d.doc_id and  doctype in (89,91) \n" +
+				") x , doc cell WHERE cell.reference2=x.doc_id) col_10777 ON column_10777_id=10777 AND col_10777_row=rws.doc_id \n" +
+				"LEFT JOIN (SELECT \n" +
+				"cell.reference column_10807_id \n" +
+				", x.code||':'||x.value col_10807 \n" +
+				",  cell.doc_id col_10807_id \n" +
+				", cell.parent_id col_10807_row \n" +
+				"FROM ( \n" +
+				"SELECT c1.code||c2.code code, s2.value, d2.doc_id, d2.parent_id, s1.value part, d2.doctype \n" +
+				"FROM string s2, doc d1, doc d2, string s1, code c2, code c1 \n" +
+				"WHERE d1.doc_id=d2.parent_id AND d1.doctype=57 \n" +
+				"AND s2.string_id=d2.doc_id \n" +
+				"AND s1.string_id=d1.doc_id \n" +
+				"AND c2.code_id=d2.doc_id \n" +
+				"AND c1.code_id=d1.doc_id \n" +
+				") x, doc cell WHERE cell.reference2=x.doc_id) col_10807 ON column_10807_id=10807 AND col_10807_row=rws.doc_id \n" +
+				"LEFT JOIN (SELECT doc_id col_10900_id, value col_10900, parent_id col_10900_row, reference column_10900_id  FROM doc cd, integer cv \n" +
+				" WHERE cd.doc_id=cv.integer_id AND doctype=10) col_10900 ON column_10900_id=10900 AND col_10900_row=rws.doc_id \n" +
+				"WHERE tbl.doc_id=:table_id AND tbl.doc_id=rws.parent_id AND NOT rws.removed AND rws.doctype=9 \n" +
+				") x, doctimestamp , (SELECT doc_id r2r_id, reference2, p.* FROM doc,person p WHERE person_id=reference2) p WHERE row_id=doctimestamp_id AND p.r2r_id=row_id \n" +
+				"AND reference2 in (SELECT distinct parent_id FROM doc, person where parent_id=person_id  and reference=:msp_id) \n" +
+				"" //+"ORDER BY row_id DESC"
+	},
+	f74_read_allpatient_records:function(){
+		return this.read_f74_select1() + 
+		" ORDER BY row_id DESC"
+	},
+	f74_read_patient_records:function(){
+		return "SELECT x.* FROM ( " + 
+		this.read_f74_select1() + 
+		" ) x, doc d, doc d2 WHERE col_10766_id=d.doc_id AND d.reference2=d2.reference2 AND d2.doc_id=:row_patient_cell_id \n" +
+		"ORDER BY row_id DESC"
 	},
 }

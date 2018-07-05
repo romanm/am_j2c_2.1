@@ -7,7 +7,7 @@
     "parent": "home"
 },
 "registry_calendar":{
-    "th_template": "template4",
+    "th_template": "template5",
     "ng_template": "'/f/eh2/group_view_template.html'",
     "n1g_template": "'/f/eh2/calendar/calendar3.html'",
     "script": "/f/eh2/calendar/calendar3.js",
@@ -21,8 +21,16 @@
     "title": "новий пацієнт",
     "parent": "home"
 },
+"abk":{
+	"th_template": "template5",
+	"n1g_template": "'/f/eh2/abk1/abk1.html'",
+  "ng_template": "'/f/eh2/group_view_template.html'",
+	"script": "/f/eh2/abk1/abk.js",
+	"title": "амб-на картка №025/о",
+	"parent": "home"
+},
 "physician_calendar":{
-    "th_template": "template3",
+    "th_template": "template5",
     "ng_template": "'/f/eh2/group_view_template.html'",
     "n1g_template": "'/f/eh2/calendar/calendar3.html'",    
     "script": "/f/eh2/calendar/calendar3.js",
@@ -267,7 +275,7 @@
     "parent": "home"
 },
 "icpc2_test4":{
-    "th_template": "template4",
+    "th_template": "template5",
     "ng_template": "'/f/eh2/group_view_template.html'",
     "script": "/f/eh2/icpc2_test4/icpc2_test4.js",
     "title": "ICPC2 тест4 звітів",
