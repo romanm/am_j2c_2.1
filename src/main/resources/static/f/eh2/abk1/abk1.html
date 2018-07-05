@@ -1,0 +1,23 @@
+<div ng-style="progr_am.fn.ngStyle('json_form')">
+	<div class="w3-topbar w3-border-bottom w3-border-blue-gray ">
+		<span class="am-b">Картка:</span>
+		{{icpc2_nakaz74.selectedCell.row.col_10766}}
+		{{!icpc2_nakaz74.selectedCell.row.col_10766?'
+		<ПІП , тел.>':''}} 
+	</div>
+	{{view.dataName}}
+	<div ng-if="isPatientSelected">
+		<div ng-repeat="r in icpc2_nakaz74.data.list">
+			<div class="am-b w3-small">{{r.created | date : 'shortTime'}},
+				{{r.created | date : 'longDate'}}</div>
+			<span ng-repeat="k_f74 in ['col_10771','col_10777','col_10807']">
+				<span class="am-b w3-small">
+					{{icpc2_nakaz74.data.col_keys[k_f74]}}:</span> {{r[k_f74]}}
+				{{!r[k_f74]?'______________________':''}}
+			</span>
+			<div class="am-b w3-small w3-hover-shadow w3-hover-border-blue-gray w3-border w3-border-white">
+				<a ng-click="work_abk_record()" href="#"> Запис а.к.: </a>
+			</div>
+		</div>
+	</div>
+</div>
