@@ -290,7 +290,7 @@ var sql2= {
 				"WHERE LOWER(value) LIKE LOWER(:seek) OR LOWER(code) LIKE LOWER(:seek) LIMIT 20";
 	},
 	f74_icpc2_seekProcess__select:function(){
-		return "::f74_icpc2_seek2__select AND parent_id=857  LIMIT 20";
+		return "::f74_icpc2_seek2__select AND parent_id=58  LIMIT 20";
 	},
 	f74_icpc2_seek3__select:function(){
 		return "::f74_icpc2_seek2__select  LIMIT 20";

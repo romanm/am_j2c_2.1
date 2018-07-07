@@ -527,6 +527,9 @@ var sql3= {
 	f74_icpc2_seekSymptom__select:function(){
 		return "::f74_icpc2_seek2__select  AND doctype=59  LIMIT 20";
 	},
+	f74_icpc2_seekProcess__select:function(){
+		return "::f74_icpc2_seek2__select  AND doctype IN (57)  LIMIT 20";
+	},
 	f74_icpc2_seekDiagnose__select:function(){
 		return "::f74_icpc2_seek2__select  AND doctype IN (60,92,93,94,95)  LIMIT 20";
 	},
