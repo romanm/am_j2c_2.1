@@ -80,9 +80,10 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	$scope.dropdown_data
 	.seek_placeholder = {
 		col_10766:'знайти Пацієнта',
-		col_10777:'знайти МКХ10',
-		col_10771:'знайти ICPC2',
-		col_10807:'знайти процес ICPC2',
+		col_10771:'знайти ICPC2 симптом',
+		col_10807:'знайти ICPC2 процес',
+		col_11327:'знайти ICPC2 діагноз',
+		col_10777:'знайти МКХ10 діагноз',
 	},
 	$scope.dropdown_data.ngStyle = function(col_k){
 		var style={}
@@ -91,13 +92,14 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 			style['min-width']='450px';
 		}else if('col_10766'==col_k){
 			style['min-width']='400px';
-		}else if('col_10807'==col_k){
-			style.left='-150px';
 		}else if('col_10900'==col_k){
 			style.left='-90px';
-		}else if('col_10771'==col_k){
+		}else if('col_10807|col_10771|col_11327'.indexOf(col_k)>=0){
 			style.left='-150px';
 			style['min-width']='410px';
+		}
+		if('col_10807'.indexOf(col_k)>=0){
+			style.left='-185px';
 		}
 		return style;
 	},
