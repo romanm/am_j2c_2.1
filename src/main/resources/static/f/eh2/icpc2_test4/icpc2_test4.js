@@ -11,7 +11,11 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 			dataName:'icpc2_nakaz74',
 		},
 	},
-
+	
+	$scope.progr_am.viewes.j2c_table.heightProcent = 90
+	console.log($scope.progr_am.viewes)
+	
+	
 	$scope.progr_am.icpc2_nakaz74={
 		init_data:{
 			col_values:{
@@ -33,7 +37,7 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 			include_cols:'/f/eh2/icpc2_test4/icpc2_cell_content_o74.html',
 			include_table_menu:'/f/eh2/table_menu.html',
 			col_sort:['creat_date', 'col_10766','col_9775', 'col_10771', 'col_10777','col_10807'
-				,'col_9776','col_10900'],
+				,'col_9776'],
 		},
 		httpGet:{
 			url:'/r/read2_sql_with_param',
@@ -78,17 +82,6 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 			}
 		}
 
-
-		icpc2_nakaz74.clickToSave.col_10777=function(row){//ICD10
-			console.log(row)
-			var data={
-				reference2:row.doc_id,
-				cell_value : row.icd_code+':'+row.icd_name
-			}
-			icpc2_nakaz74.clickToSave.ref2Cell(data, 
-			'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
-		}
-
 		icpc2_nakaz74.clickToSave.col_10807=function(row){//ICPC2 process
 			var data={
 				reference2:row.doc_id,
@@ -106,17 +99,31 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 			icpc2_nakaz74.clickToSave.ref2Cell(data, 
 				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
 		}
-
+		icpc2_nakaz74.clickToSave.col_10777=function(row){//ICD10
+			console.log(row)
+			var data={
+				reference2:row.doc_id,
+				cell_value : row.code+':'+row.value
+			}
+			icpc2_nakaz74.clickToSave.ref2Cell(data, 
+			'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+		}
+		icpc2_nakaz74.clickToSave.c111ol_10777=function(row){//ICD10
+			console.log(row)
+			var data={
+				reference2:row.doc_id,
+				cell_value : row.icd_code+':'+row.icd_name
+			}
+			icpc2_nakaz74.clickToSave.ref2Cell(data, 
+			'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+		}
 	}
 
-	$scope.$watch('dropdown_data.seek.col_10777',function(seek){if(seek){
-		console.log(seek)
-		fn_lib.read_data_col_10777()
-	}})
 
 	var url_read2_sql_with_param = '/r/read2_sql_with_param'
 
-	fn_lib.read_data_col_10777=function(){ // ICD10
+
+	fn_lib.r1ead_data_col_10777=function(){ // ICD10
 		console.log('--------read----dropdown--ICD10-------')
 		var params={seek:'%%',doctype: 89}
 		if($scope.dropdown_data.seek.col_10777)
@@ -133,27 +140,40 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 		})
 	}
 
-
-	$scope.$watch('dropdown_data.seek.col_10771',function(seekIcpc2){if(seekIcpc2){ // ICPC2
+	$scope.$watch('dropdown_data.seek.col_10777',function(seek){if(seek){
+		console.log(seek)
+		fn_lib.read_data_col_10777()
+	}})
+	fn_lib.read_data_col_10777=function(){ // ICD10
+		console.log('--------read----dropdown--ICPC2-------')
+		fn_lib.read_data_ICPC2(
+			'f74_icpc2_seekDiagnose__select',
+			$scope.dropdown_data.seek.col_10777
+		)
+		
+	}
+	$scope.$watch('dropdown_data.seek.col_10771',function(seekIcpc2, oldSeekIcpc2){if(seekIcpc2){ // ICPC2
 		console.log(seekIcpc2)
+		fn_lib.read_data_col_10771()
+	}else if(oldSeekIcpc2){
 		fn_lib.read_data_col_10771()
 	}})
 
 	fn_lib.read_data_col_10771=function(){ // ICPC2
 		console.log('--------read----dropdown--ICPC2-------')
 		fn_lib.read_data_ICPC2(
-			'f74_icpc2_seek3__select',
+			'f74_icpc2_seekSymptom__select',
 			$scope.dropdown_data.seek.col_10771
 		)
 	}
 	
-	fn_lib.read_data_ICPC2=function(sql, seek){ // ICPC2
+	fn_lib.read_data_ICPC2 = function(sql, seek){ // ICPC2
 		var params={seek:'%%'}
 		if(seek)
 			params.seek = '%'+seek+'%'
 		params.sql = sql3[sql]();
 		params.sql = composeSql(params.sql)
-//		console.log(params.sql)
+		console.log(params.sql)
 		params.sql = spaceClean(params.sql)
 //		console.log(params)
 		$http.get(url_sql_read,{params:params}).then(function(response) {
@@ -163,12 +183,12 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 			$scope.dropdown_data.col_keys={
 					code:'Код',
 					value:'Назва',
-					doc_id:'ІН',
-					part:'Група',
-					doctype:'zГрупа',
 			}
+//			doc_id:'ІН',
+//			doctype:'zГрупа',
+//			part:'Група',
 			console.log($scope.dropdown_data)
 		})
 	}
-
+	$scope.include.copyright = '/f/eh2/abk1/copyright_icpc2.html'
 }

@@ -1,6 +1,7 @@
 init_am_directive.init_physician_calendar = function($scope, $http, $filter, $route){
 	console.log('------init_physician_calendar---2--------------')
 	init_am_directive.init_registry_calendar($scope, $http, $filter)
+	$scope.include.copyright = '/f/eh2/abk1/copyright_icpc2.html'
 }
 
 init_am_directive.init_registry_calendar = function($scope, $http, $filter, $route){

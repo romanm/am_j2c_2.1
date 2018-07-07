@@ -11,7 +11,8 @@ init_am_directive.init_abk = function($scope, $http, $filter, $route) {
 	}
 	addViews_abk_MenuJ2c()
 	$scope.include.add_j2c_menu = '/f/eh2/abk1/add_j2c_menu.html'
-	
+	$scope.include.copyright = '/f/eh2/abk1/copyright_icpc2.html'
+
 	$scope.progr_am.abk = {}
 	init_f74_ngClick($scope.progr_am.abk, $scope, $http)
 	console.log($scope.progr_am.abk)
@@ -40,8 +41,7 @@ init_am_directive.init_abk = function($scope, $http, $filter, $route) {
 		console.log('-------- read patient racords --------------')
 		console.log($scope.progr_am.icpc2_nakaz74.selectedCell)
 		$scope.read_patient_records()
-	}
-	})
+	}})
 	
 	$scope.isPatientSelected = false;
 	

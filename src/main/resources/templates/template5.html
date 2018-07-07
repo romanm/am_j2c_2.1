@@ -23,7 +23,9 @@
 <body class="w3-container" ng-controller="ControllerApp1">
 	<div class="w3-container w3-border-bottom">
 		<div th:attr="ng-include=${ng_template}"></div>
-		<span class="w3-tiny"> > </span>
+		<span class="w3-tiny"> > 
+		<span ng-include="include.copyright"></span>
+		</span>
 	</div>
 </body>
 </html>

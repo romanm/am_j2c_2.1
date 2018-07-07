@@ -3,8 +3,27 @@
 		<i class="fa fa-filter fa-3"></i> <input
 			ng-keyup="keys_use.keyUp($event, view.dataName)"
 			ng-model="dropdown_data.seek[progr_am[view.dataName].selectedCell.col_k]"
-			placeholder="{{dropdown_data.seek_placeholder[progr_am[view.dataName].selectedCell.col_k]}}">
-		-3-
+			placeholder="{{dropdown_data.seek_placeholder[progr_am[view.dataName].selectedCell.col_k]}}"> 
+			<!-- 
+			 -3- {{icpc2_nakaz74.selectedCell.col_k}}
+			 -->
+		<div on="icpc2_nakaz74.selectedCell.col_k" ng-switch>
+			<div ng-switch-when="col_10771">
+				<!-- f074/o 9 Причина звернення -->
+				<span class="w3-hover-shadow"
+					ng-click="icpc2_nakaz74.selectedCell.ICPC_chapter_k=null;
+					dropdown_data.seek[progr_am[view.dataName].selectedCell.col_k]=null
+					">
+					{{icpc2_nakaz74.selectedCell.ICPC_chapter_k}}
+					{{!icpc2_nakaz74.selectedCell.ICPC_chapter_k?'*':''}} </span> | <span
+					ng-click="icpc2_nakaz74.selectedCell.ICPC_chapter_k=ICPC_chapter_k;
+					dropdown_data.seek[progr_am[view.dataName].selectedCell.col_k]=ICPC_chapter_k
+					"
+					class="w3-hover-shadow"
+					ng-repeat="ICPC_chapter_k in 'A B D F H K L N P R S T U W X Y Z'.split(' ')">
+					{{ICPC_chapter_k}} </span>
+			</div>
+		</div>
 	</div>
 	<div style="height: 200px; overflow: auto;">
 		<table style="">
@@ -17,14 +36,21 @@
 			<tbody>
 				<tr ng-repeat="row in dropdown_data.list"
 					ng-click="progr_am[view.dataName].clickToSave[progr_am[view.dataName].selectedCell.col_k](row)"
+						ng-class="{
+					'w3-pale-green':row.doctype==59,
+					'w3-amber':row.doctype==60,
+					'w3-red':row.doctype==93,
+					'w3-aqua':row.doctype==92,
+					'w3-indigo':row.doctype==94,
+					'w3-purple':row.doctype==95,
+					}"
 					class="w3-hover-light-gray">
-					<td ng-repeat="(col_k,v) in dropdown_data.col_keys" ng-switch
-						on="col_k">
+					<td ng-repeat="(col_k,v) in dropdown_data.col_keys"
+						ng-switch on="col_k">
 						<div ng-switch-default
 							ng-bind-html="highlight(row[col_k], 
 							dropdown_data.seek[progr_am[view.dataName].selectedCell.col_k])"></div>
-						<a ng-switch-when="code|icd_code" 
-						ng-switch-when-separator="|"
+						<a ng-switch-when="code|icd_code" ng-switch-when-separator="|"
 						href="#"
 						ng-bind-html="highlight(row[col_k],
 						dropdown_data.seek[progr_am[view.dataName].selectedCell.col_k])"></a>

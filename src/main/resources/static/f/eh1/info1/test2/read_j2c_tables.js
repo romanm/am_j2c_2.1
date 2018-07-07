@@ -301,6 +301,6 @@ var sql2= {
 				"FROM string s2, doc d1, doc d2, string s1, code c2, code c1 \n" +
 				"WHERE d1.doc_id=d2.parent_id AND d1.doctype=57 AND s2.string_id=d2.doc_id AND s1.string_id=d1.doc_id AND c2.code_id=d2.doc_id AND c1.code_id=d1.doc_id \n" +
 				") x " +
-				"WHERE LOWER(value) LIKE LOWER(:seek) OR LOWER(code) LIKE LOWER(:seek) ";
+				"WHERE (LOWER(value) LIKE LOWER(:seek) OR LOWER(code) LIKE LOWER(:seek)) ";
 	},
 }

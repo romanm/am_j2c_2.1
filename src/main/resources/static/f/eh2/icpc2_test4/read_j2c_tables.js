@@ -66,6 +66,12 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		}
 		console.log(icpc2_nakaz74.selectedCell)
 	}
+	
+	icpc2_nakaz74.isEditRow = function(row){
+		return icpc2_nakaz74.selectedCell &&
+		icpc2_nakaz74.selectedCell.row_id==row.row_id
+//		return $scope.editRow && row.row_id == $scope.editRow.row_id
+	}
 
 	$scope.f74_physician_id = 183;
 
@@ -91,6 +97,7 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 			style.left='-90px';
 		}else if('col_10771'==col_k){
 			style.left='-150px';
+			style['min-width']='410px';
 		}
 		return style;
 	},
@@ -517,13 +524,20 @@ var sql3= {
 	f74_icpc2_seek3__select:function(){
 		return "::f74_icpc2_seek2__select  LIMIT 20";
 	},
+	f74_icpc2_seekSymptom__select:function(){
+		return "::f74_icpc2_seek2__select  AND doctype=59  LIMIT 20";
+	},
+	f74_icpc2_seekDiagnose__select:function(){
+		return "::f74_icpc2_seek2__select  AND doctype IN (60,92,93,94,95)  LIMIT 20";
+	},
 	f74_icpc2_seek2__select:function(){
+		//"SELECT c1.code||c2.code code, s2.value, d2.doc_id, d2.parent_id, s1.value part, d2.doctype \n" +
 		return "SELECT * FROM ( \n" +
-				"SELECT c1.code||c2.code code, s2.value, d2.doc_id, d2.parent_id, s1.value part, d2.doctype \n" +
+				"SELECT c1.code||c2.code code, s2.value, d2.doc_id, d2.parent_id, d2.doctype \n" +
 				"FROM string s2, doc d1, doc d2, string s1, code c2, code c1 \n" +
 				"WHERE d1.doc_id=d2.parent_id AND d1.doctype=57 AND s2.string_id=d2.doc_id AND s1.string_id=d1.doc_id AND c2.code_id=d2.doc_id AND c1.code_id=d1.doc_id \n" +
 				") x " +
-				"WHERE LOWER(value) LIKE LOWER(:seek) OR LOWER(code) LIKE LOWER(:seek) ";
+				"WHERE (LOWER(value) LIKE LOWER(:seek) OR LOWER(code) LIKE LOWER(:seek)) ";
 	},
 	read_f74_select1:function(){
 		return " SELECT * FROM (SELECT rws.parent_id tbl_id, rws.doc_id row_id \n" +
