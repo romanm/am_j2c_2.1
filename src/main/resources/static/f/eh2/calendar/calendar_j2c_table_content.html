@@ -38,12 +38,15 @@
 		<div ng-switch-when="creat_date"
 			title="{{row.created | date : 'longDate'
   }} {{row.created | date : 'hh:mm'}}/{{row.updated | date : 'short'}}">
-			{{row.created|date:'HH:mm'}} <span class="w3-small">
-				{{row.created|date:'dd.MM'}} </span> <span class="w3-tiny"
+			 <a href="?row_id={{row.row_id}}"> {{row.created|date:'HH:mm'}}
+				<span class="w3-small"> {{row.created|date:'dd.MM'}} </span> <span
+				class="w3-tiny"
 				title="{{row.family_name}} {{
               row.first_name}} {{
               row.second_name}}">
-				{{row.last_name.substring(0,1)}}{{ row.first_name.substring(0,1)}}{{
-				row.second_name.substring(0,1)}} </span>
+					{{row.last_name.substring(0,1)}}{{
+					row.first_name.substring(0,1)}}{{ row.second_name.substring(0,1)}}
+			</span>
+			</a>
 		</div>
 	</div>

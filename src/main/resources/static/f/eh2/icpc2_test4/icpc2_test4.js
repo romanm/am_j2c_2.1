@@ -120,7 +120,6 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 		}
 	}
 
-
 	var url_read2_sql_with_param = '/r/read2_sql_with_param'
 
 	$scope.$watch('dropdown_data.seek.col_10777',function(seekIcpc2, oldSeekIcpc2){

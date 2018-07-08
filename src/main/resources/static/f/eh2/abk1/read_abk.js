@@ -47,6 +47,9 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 				if(!mapDateValue.hours[h])
 					mapDateValue.hours[h] = []
 				mapDateValue.hours[h].push(v)
+				if($scope.request.parameters.row_id==v.row_id){
+					$scope.icpc2_nakaz74.selectedCell = {row:v, row_id:v.row_id}
+				}
 			})
 			console.log($scope.icpc2_nakaz74.mapDate)
 			$scope.progr_am.icpc2_nakaz74.data
