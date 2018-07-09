@@ -7,26 +7,41 @@
 	</div>
 	{{view.dataName}}
 	<div ng-if="isPatientSelected">
-		<div ng-repeat="r in icpc2_nakaz74.data.list">
+		<table class="am-table-va">
+			<tbody ng-repeat="r in icpc2_nakaz74.data.list"
+				ng-init="r_index=$index">
+				<tr ng-if="r.dayDate">
+					<td class="am-b w3-small" colspan="2">{{r.dayDate}}</td>
+				</tr>
+				<tr>
+					<td>{{r.created | date : 'shortTime'}}</td>
+					<td class="w3-border-bottom"
+						ng-repeat="k_f74 in ['col_10771','col_11327','col_10807']"><span
+						ng-if="r[k_f74]!=icpc2_nakaz74.data.list[r_index-1][k_f74] || r.dayDate">
+							{{r[k_f74]}} </span> <span class="w3-small">
+							{{!r[k_f74]?('<'+icpc2_nakaz74.data.col_keys[k_f74]+'>'):''}} </span></td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- 
+		<div ng-repeat="r in icpc2_nakaz74.data.list" ng-init="r_index=$index">
 			<div class="am-b w3-small">
-				<!-- 
-				{{r.created | date : 'longDate'}},
-			 -->
 				{{r.dayDate}}
 			</div>
 			{{r.created | date : 'shortTime'}} <span
-				ng-repeat="k_f74 in ['col_10771','col_11327','col_10807']"> <!-- 
-				<span class="am-b w3-small">
-					{{icpc2_nakaz74.data.col_keys[k_f74]}}:</span> 
-			 --> {{r[k_f74]}}<span class="w3-small">
+				ng-repeat="k_f74 in ['col_10771','col_11327','col_10807']">  
+			 <span
+				ng-if="r[k_f74]!=icpc2_nakaz74.data.list[r_index-1][k_f74]">
+					{{r[k_f74]}} </span> <span class="w3-small">
 					{{!r[k_f74]?('<'+icpc2_nakaz74.data.col_keys[k_f74]+'>'):''}} </span>
 				{{$last?'.':','}}
 			</span>
+		</div>
+		 -->
 			<!-- 
 			<div class="am-b w3-small w3-hover-shadow w3-hover-border-blue-gray w3-border w3-border-white">
 				<a ng-click="work_abk_record()" href="#"> Запис а.к.: </a>
 			</div>
 			 -->
-		</div>
 	</div>
 </div>
