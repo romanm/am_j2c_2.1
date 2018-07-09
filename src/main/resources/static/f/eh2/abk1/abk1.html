@@ -8,16 +8,29 @@
 	{{view.dataName}}
 	<div ng-if="isPatientSelected">
 		<div ng-repeat="r in icpc2_nakaz74.data.list">
-			<div class="am-b w3-small">{{r.created | date : 'shortTime'}},
-				{{r.created | date : 'longDate'}}</div>
-			<span ng-repeat="k_f74 in ['col_10771','col_10777','col_10807']">
+			<div class="am-b w3-small">
+			<!-- 
+				{{r.created | date : 'longDate'}},
+			 -->
+				{{r.dayDate}}
+				</div>
+			{{r.created | date : 'shortTime'}}
+			<span ng-repeat="k_f74 in ['col_10771','col_11327','col_10807']">
+			<!-- 
 				<span class="am-b w3-small">
-					{{icpc2_nakaz74.data.col_keys[k_f74]}}:</span> {{r[k_f74]}}
-				{{!r[k_f74]?'______________________':''}}
+					{{icpc2_nakaz74.data.col_keys[k_f74]}}:</span> 
+			 -->
+					
+					{{r[k_f74]}}
+					<span class="w3-small">
+				{{!r[k_f74]?('<'+icpc2_nakaz74.data.col_keys[k_f74]+'>'):''}}
+					</span>
 			</span>
+			<!-- 
 			<div class="am-b w3-small w3-hover-shadow w3-hover-border-blue-gray w3-border w3-border-white">
 				<a ng-click="work_abk_record()" href="#"> Запис а.к.: </a>
 			</div>
+			 -->
 		</div>
 	</div>
 </div>

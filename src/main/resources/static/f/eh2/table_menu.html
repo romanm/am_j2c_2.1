@@ -7,6 +7,10 @@
 			ng-click="progr_am[view.dataName].clickToSave.add_row()"> +
 			Додати запис </a> 
 		<a href="#"
+			ng-class="{'w3-disabled':!(progr_am[view.dataName].selectedCell.row)}"
+			ng-click="progr_am[view.dataName].clickToSave.copy_row()"
+			class="w3-bar-item w3-button"> + Копія запису	</a>
+		<a href="#"
 			ng-class="{'w3-disabled':!(progr_am[view.dataName].selectedCell.row_k>=0)}"
 			ng-click="progr_am[view.dataName].clickToSave.ngStyleAskDelete()"
 			class="w3-bar-item w3-button"> - Видалити запис	</a>

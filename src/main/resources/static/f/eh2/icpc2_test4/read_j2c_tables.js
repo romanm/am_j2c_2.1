@@ -199,6 +199,10 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		}
 	}
 
+	icpc2_nakaz74.clickToSave.copy_row=function(){
+		console.log(icpc2_nakaz74.selectedCell)
+	}
+
 	icpc2_nakaz74.clickToSave.add_row=function(){
 		var r0 = icpc2_nakaz74.data.list[0]
 		console.log(r0)
@@ -527,17 +531,20 @@ var sql3= {
 		return "::f74_icpc2_seek2__select  LIMIT 20";
 	},
 	f74_icpc2_seekSymptom__select:function(){
-		return "::f74_icpc2_seek2__select  AND doctype=59  LIMIT 20";
+		return "::f74_icpc2_seek2__select   LIMIT 20";
+//		return "::f74_icpc2_seek2__select  AND doctype=59  LIMIT 20";
 	},
 	f74_icpc2_seekProcess__select:function(){
-		return "::f74_icpc2_seek2__select  AND doctype IN (57)  LIMIT 20";
+		return "::f74_icpc2_seek2__select  LIMIT 20";
+//		return "::f74_icpc2_seek2__select  AND doctype IN (57)  LIMIT 20";
 	},
 	f74_icpc2_seekDiagnose__select:function(){
-		return "::f74_icpc2_seek2__select  AND doctype IN (60,92,93,94,95)  LIMIT 20";
+		return "::f74_icpc2_seek2__select  LIMIT 20";
+//		return "::f74_icpc2_seek2__select  AND doctype IN (60,92,93,94,95)  LIMIT 20";
 	},
 	f74_icpc2_seek2__select:function(){
 		//"SELECT c1.code||c2.code code, s2.value, d2.doc_id, d2.parent_id, s1.value part, d2.doctype \n" +
-		return "SELECT * FROM ( \n" +
+		return "SELECT  * FROM ( \n" +
 				"SELECT c1.code||c2.code code, s2.value, d2.doc_id, d2.parent_id, d2.doctype \n" +
 				"FROM string s2, doc d1, doc d2, string s1, code c2, code c1 \n" +
 				"WHERE d1.doc_id=d2.parent_id AND d1.doctype=57 AND s2.string_id=d2.doc_id AND s1.string_id=d1.doc_id AND c2.code_id=d2.doc_id AND c1.code_id=d1.doc_id \n" +
@@ -545,8 +552,8 @@ var sql3= {
 				"WHERE (LOWER(value) LIKE LOWER(:seek) OR LOWER(code) LIKE LOWER(:seek)) ";
 	},
 	read_f74_select1:function(){
-		return " SELECT * FROM (SELECT rws.parent_id tbl_id, rws.doc_id row_id \n" +
-				" , col_9775_id, col_9775 , col_9776_id, col_9776 , col_9777_id, col_9777 , col_10766_id, col_10766 , col_10771_id, col_10771 , col_10777_id, col_10777 , col_10807_id, col_10807 , col_10900_id, col_10900 \n" +
+		return " SELECT DAY_OF_YEAR(created) dayOfYear,  * FROM (SELECT rws.parent_id tbl_id, rws.doc_id row_id \n" +
+				" , col_9775_id, col_9775 , col_9776_id, col_9776 , col_9777_id, col_9777 , col_10766_id, col_10766 , col_10771_id, col_10771 , col_10777_id, col_10777 , col_10807_id, col_10807 , col_10900_id, col_10900 , col_11327_id, col_11327 \n" +
 				"FROM doc tbl, doc rws \n" +
 				"LEFT JOIN (SELECT doc_id col_9775_id, value col_9775, parent_id col_9775_row, reference column_9775_id  FROM doc cd, integer cv \n" +
 				" WHERE cd.doc_id=cv.integer_id AND doctype=10) col_9775 ON column_9775_id=9775 AND col_9775_row=rws.doc_id \n" +
@@ -608,6 +615,20 @@ var sql3= {
 				") x, doc cell WHERE cell.reference2=x.doc_id) col_10807 ON column_10807_id=10807 AND col_10807_row=rws.doc_id \n" +
 				"LEFT JOIN (SELECT doc_id col_10900_id, value col_10900, parent_id col_10900_row, reference column_10900_id  FROM doc cd, integer cv \n" +
 				" WHERE cd.doc_id=cv.integer_id AND doctype=10) col_10900 ON column_10900_id=10900 AND col_10900_row=rws.doc_id \n" +
+				"LEFT JOIN (SELECT \n" +
+				"cell.reference column_11327_id \n" +
+				", x.code||':'||x.value col_11327 \n" +
+				",  cell.doc_id col_11327_id \n" +
+				", cell.parent_id col_11327_row \n" +
+				"FROM ( \n" +
+				"SELECT c1.code||c2.code code, s2.value, d2.doc_id, d2.parent_id, s1.value part, d2.doctype \n" +
+				"FROM string s2, doc d1, doc d2, string s1, code c2, code c1 \n" +
+				"WHERE d1.doc_id=d2.parent_id AND d1.doctype=57 \n" +
+				"AND s2.string_id=d2.doc_id \n" +
+				"AND s1.string_id=d1.doc_id \n" +
+				"AND c2.code_id=d2.doc_id \n" +
+				"AND c1.code_id=d1.doc_id \n" +
+				") x, doc cell WHERE cell.reference2=x.doc_id) col_11327 ON column_11327_id=11327 AND col_11327_row=rws.doc_id \n" +
 				"WHERE tbl.doc_id=:table_id AND tbl.doc_id=rws.parent_id AND NOT rws.removed AND rws.doctype=9 \n" +
 				") x, doctimestamp , (SELECT doc_id r2r_id, reference2, p.* FROM doc,person p WHERE person_id=reference2) p WHERE row_id=doctimestamp_id AND p.r2r_id=row_id \n" +
 				"AND reference2 in (SELECT distinct parent_id FROM doc, person where parent_id=person_id  and reference=:msp_id) \n" +
@@ -621,6 +642,8 @@ var sql3= {
 		return "SELECT x.* FROM ( " + 
 		this.read_f74_select1() + 
 		" ) x, doc d, doc d2 WHERE col_10766_id=d.doc_id AND d.reference2=d2.reference2 AND d2.doc_id=:row_patient_cell_id \n" +
-		"ORDER BY row_id DESC"
+		"ORDER BY dayOfYear DESC, row_id ASC"
+//		"ORDER BY row_id DESC"
+
 	},
 }

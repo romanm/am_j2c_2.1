@@ -61,6 +61,17 @@ init_am_directive.init_abk = function($scope, $http, $filter, $route) {
 		function(response) {
 			$scope.icpc2_nakaz74.data.list
 				= response.data.list
+				var lastDay = ''
+				angular.forEach($scope.icpc2_nakaz74.data.list,function(v, key){
+					console.log(key)
+					var mapDateKey = $filter('date')(v.created, 'longDate')
+					if(lastDay!=mapDateKey){
+						lastDay=mapDateKey
+						console.log(mapDateKey)
+						v.dayDate = mapDateKey
+					}
+
+				})
 			/*
 				console.log($scope.icpc2_nakaz74)
 				console.log($scope.icpc2_nakaz74.data.list)

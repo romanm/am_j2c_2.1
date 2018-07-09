@@ -135,7 +135,6 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 		seekJ2C_table(seekIcpc2, oldSeekIcpc2, 'col_11327')
 	})
 	var seekJ2C_table = function(seekIcpc2, oldSeekIcpc2, col_key){
-		console.log(seekIcpc2)
 		if(seekIcpc2||oldSeekIcpc2)
 			fn_lib['read_data_'+col_key]()
 	}
@@ -189,7 +188,7 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 		params.sql = spaceClean(params.sql)
 //		console.log(params)
 		$http.get(url_sql_read,{params:params}).then(function(response) {
-//			console.log(response.data)
+			console.log(response.data)
 			$scope.dropdown_data.list=response.data.list
 			//if(!$scope.dropdown_data.seekIcpc2)
 			$scope.dropdown_data.col_keys={

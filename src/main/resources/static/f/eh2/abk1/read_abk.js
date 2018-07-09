@@ -37,7 +37,7 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 			 * */
 			$scope.icpc2_nakaz74.data = response.data
 			$scope.icpc2_nakaz74.mapDate = {}
-			angular.forEach($scope.icpc2_nakaz74.data.list,function(v){
+			angular.forEach($scope.icpc2_nakaz74.data.list,function(v, key){
 				var mapDateKey = $filter('date')(v.created, 'shortDate'),
 				h = $filter('date')(v.created, 'H')
 				if(!$scope.icpc2_nakaz74.mapDate[mapDateKey])
@@ -89,7 +89,7 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 		},
 		include_cols:'/f/eh2/icpc2_test4/icpc2_cell_content_o74.html',
 		i1nclude_cols:'/f/eh1/info1/test3/icpc2_test3_cols.html',
-		col_sort:['creat_date', 'col_10766', 'col_9775', 'col_10771', 'col_10777', 'col_10807' ,'col_9776'],
+		col_sort:['creat_date', 'col_10766', 'col_9775', 'col_10771', 'col_11327', 'col_10777', 'col_10807' ,'col_9776'],
 	}
 
 	$scope.progr_am.icpc2_nakaz74.init_data.include_table_menu 

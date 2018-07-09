@@ -6,8 +6,8 @@ app.controller('ControllerApp1', function($scope, $http, $filter, $route) {
 	$scope.data={}
 	$scope.progr_am={fn:{}}
 	console.log($scope)
-	console.log($scope.progr_am.fn)
-	console.log($scope.data)
+	console.log($scope.progr_am)
+//	console.log($scope.data)
 	
 	init_am_directive.init_programRuns($scope, $http, $filter, $route);
 });
