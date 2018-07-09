@@ -642,8 +642,9 @@ var sql3= {
 		return "SELECT x.* FROM ( " + 
 		this.read_f74_select1() + 
 		" ) x, doc d, doc d2 WHERE col_10766_id=d.doc_id AND d.reference2=d2.reference2 AND d2.doc_id=:row_patient_cell_id \n" +
-		"ORDER BY dayOfYear DESC, row_id ASC"
+		"ORDER BY created ASC"
 //		"ORDER BY row_id DESC"
+//		"ORDER BY dayOfYear DESC, row_id ASC"
 
 	},
 }

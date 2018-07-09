@@ -11,27 +11,11 @@ pre {
   tab-size: 2; /* Set tab size to 2 spaces */
   -moz-tab-size:2;
 }
-a.am-j2c:link{
-	text-decoration: none;
-}
-.am-width-100pr{
-  width: 100%;
-}
-table.am-table-va th{
-  vertical-align: bottom;	
-}
-table.am-table-va td{
-  vertical-align: top;
- }
-.am-nowrap{
-	white-space: nowrap;
-}
-.am-normal {
-    font-weight: normal;
-}
-.am-b{
-	font-weight:bold;
-}
-.am-u{
-	text-decoration: underline;
-}
+a.am-j2c:link{ text-decoration: none; }
+.am-width-100pr{ width: 100%; }
+table.am-table-va th{ vertical-align: bottom;	}
+table.am-table-va td{ vertical-align: top; }
+.am-b{ font-weight:bold; }
+.am-nowrap{ white-space: nowrap; }
+.am-normal { font-weight: normal; }
+.am-u{ text-decoration: underline; }
