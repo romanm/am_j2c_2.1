@@ -4,7 +4,6 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	icpc2_nakaz74.closeDropdown=function(){
 		if(icpc2_nakaz74.selectedCell)
 			icpc2_nakaz74.selectedCell.close=true;
-		console.log(icpc2_nakaz74.selectedCell)
 	}
 													
 	icpc2_nakaz74.getColValue=function(row,col_key){
@@ -201,6 +200,14 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 
 	icpc2_nakaz74.clickToSave.copy_row=function(){
 		console.log(icpc2_nakaz74.selectedCell)
+		var data = {sql:sql3.j2c_row__copy(), row_id:icpc2_nakaz74.selectedCell.row.row_id}
+		exe_fn.httpPost
+		({	url:'/r/url_sql_update2',
+			then_fn:function(response) {
+				console.log(response.data)
+			},
+			data:data,
+		})
 	}
 
 	icpc2_nakaz74.clickToSave.add_row=function(){
@@ -452,6 +459,14 @@ var sql3= {
 				"::j2c_column_row__select2 \n" +
 				") x  " +
 				"GROUP BY :column_to_group"
+	},
+	j2c_row__copy:function(){
+		return "INSERT INTO doc (doc_id, doctype, parent_id, reference2) \n" +
+				"SELECT :nextDbId1, doctype, parent_id, reference2 FROM doc WHERE doc_id = :row_id; \n" +
+				"INSERT INTO doctimestamp (doctimestamp_id, created, updated) \n" +
+				"SELECT :nextDbId1, created, updated FROM doctimestamp WHERE doctimestamp_id = :row_id; \n" +
+				"INSERT INTO doc (doctype, parent_id, reference, reference2) \n" +
+				"SELECT doctype, :nextDbId1, reference, reference2 FROM doc WHERE parent_id = :row_id"
 	},
 	j2c_column_row__select2:function(){
 		return "SELECT cell.*,row.* FROM (:select_cells_to_group)  cell,(\n" +
