@@ -5,21 +5,49 @@
 		{{!icpc2_nakaz74.selectedCell.row.col_10766?'
 		<ПІП , тел.>':''}} 
 	</div>
-	{{view.dataName}}
-	<div ng-if="isPatientSelected">
+ 	<div ng-if="isPatientSelected">
 		<table class="am-table-va">
-			<tbody ng-repeat="r in icpc2_nakaz74.data.list"
-				ng-init="r_index=$index">
-				<tr ng-if="r.dayDate">
-					<td class="am-b w3-small" colspan="2">{{r.dayDate}}</td>
+			<tbody ng-repeat="row in icpc2_nakaz74.data.list"
+				ng-init="row_k=$index">
+				<tr ng-if="row.dayDate">
+					<td class="am-b w3-small" colspan="2">{{row.dayDate}}</td>
 				</tr>
 				<tr>
-					<td>{{r.created | date : 'shortTime'}}</td>
-					<td class="w3-border-bottom"
-						ng-repeat="k_f74 in ['col_10771','col_11327','col_10807']"><span
-						ng-if="r[k_f74]!=icpc2_nakaz74.data.list[r_index-1][k_f74] || r.dayDate">
-							{{r[k_f74]}} </span> <span class="w3-small">
-							{{!r[k_f74]?('<'+icpc2_nakaz74.data.col_keys[k_f74]+'>'):''}} </span></td>
+					<td
+						ng-click="progr_am[view.dataName].selectCell(row_k, 'created', row)">
+						<div class="w3-dropdown-click">
+							<a href="#" ng-keyup="keys_use.keyUp($event, view.dataName)">
+								{{row.created | date : 'shortTime'}} </a>
+							<div class="w3-dropdown-content w3-border w3-card-4"
+								ng-style="dropdown_data.ngStyle(col_k)"
+								ng-if="progr_am[view.dataName].isCellSelect(row_k, 'created', row)"
+								ng-class="{'w3-show':progr_am[view.dataName].isCellSelect(row_k, 'created', row)}"
+								on="col_k" ng-switch>a1</div>
+						</div>
+					</td>
+					<td class="w3-border-bottom w3-hover-shadow"
+						ng-click="progr_am[view.dataName].selectCell(row_k, col_k, row)"
+						ng-repeat="col_k in ['col_10771','col_11327','col_10807']"
+						ng-init="no_equal_record=(row[col_k]!=icpc2_nakaz74.data.list[row_k-1][col_k] || row.dayDate);
+						equal_record=!no_equal_record
+						">
+						<div class="w3-dropdown-click">
+							<a href="#" ng-keyup="keys_use.keyUp($event, view.dataName)">
+								<span ng-if="no_equal_record"> {{row[col_k]}} </span>
+								<div ng-if="equal_record && col_k=='col_10807'">- -</div> <span
+								class="w3-small" ng-if="!row[col_k]">
+									<{{icpc2_nakaz74.data.col_keys[col_k]}}> </span>
+							</a>
+							<div class="w3-dropdown-content w3-border w3-card-4"
+								ng-style="dropdown_data.ngStyle(col_k)"
+								ng-if="progr_am[view.dataName].isCellSelect(row_k, col_k, row)"
+								ng-class="{'w3-show':progr_am[view.dataName].isCellSelect(row_k, col_k, row)}"
+								on="col_k" ng-switch>
+								a1
+								<div ng-include="include.icpc2_cell_dropdown_content"></div>
+							</div>
+						</div>
+					</td>
 				</tr>
 			</tbody>
 		</table>

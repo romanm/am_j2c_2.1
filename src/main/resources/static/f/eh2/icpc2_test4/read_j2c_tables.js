@@ -39,9 +39,12 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 				return icpc2_nakaz74.selectedCell.row_k==row_k 
 				&& icpc2_nakaz74.selectedCell.col_k==col_k
 		}
+		return false
 	}
 	
 	icpc2_nakaz74.selectCell = function(row_k, col_k, row){
+		console.log($scope.progr_am.abk)
+		console.log(icpc2_nakaz74)
 		if(icpc2_nakaz74.selectedCell 
 			&& icpc2_nakaz74.selectedCell.col_k==col_k 
 			&& icpc2_nakaz74.selectedCell.row_k==row_k
@@ -63,9 +66,8 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 			console.log(icpc2_nakaz74)
 			console.log(icpc2_nakaz74.isEditRow(row))
 		}
-		console.log(icpc2_nakaz74.selectedCell)
 	}
-	
+
 	icpc2_nakaz74.isEditRow = function(row){
 		return icpc2_nakaz74.selectedCell &&
 		icpc2_nakaz74.selectedCell.row_id==row.row_id
@@ -652,6 +654,14 @@ var sql3= {
 	f74_read_allpatient_records:function(){
 		return this.read_f74_select1() + 
 		" ORDER BY row_id DESC"
+	},
+	f74_read_patient_records2:function(){
+		return "SELECT x.* FROM ( " + 
+		this.read_f74_select1() + 
+		" ) x, (SELECT d_cell.doc_id FROM doc d_person, doc d_patient, doc d_cell \n" +
+		"WHERE d_cell.reference2=d_patient.doc_id AND d_patient.doc_id=d_person.parent_id AND d_person.doc_id=:person_id \n" +
+		") y WHERE col_10766_id=y.doc_id \n" +
+		"ORDER BY created ASC "
 	},
 	f74_read_patient_records:function(){
 		return "SELECT x.* FROM ( " + 

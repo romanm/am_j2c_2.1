@@ -64,22 +64,24 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 				exe_fn.httpGet({url:'/r/url_sql_read2', //read data
 					params:{
 						sql:sql2.sql2_docbody_selectById(),
-						docbody_id:jsonEditorReadParams.docbody_id},
-						then_fn:function(response) {
-							if(response.data.list[0]){
-								var docbody = JSON.parse(response.data.list[0].docbody);
-								$scope.editDoc = docbody
-								if($scope.editDoc.data)
-									$scope.editDoc = $scope.editDoc.data
-								if(!$scope.editDoc.doc_id)
-									$scope.editDoc.doc_id = response.data.docbody_id
-								
-								$scope.progr_am.fn.calcEditDoc_CRC32()
-								$scope.data.jsonTemplateBody
-									= $scope.data.jsonTemplate[jsonEditorReadParams.doc_type+'_request']
-								adaptTemplateToData($scope.editDoc, $scope.data.jsonTemplateBody)
-							}
+						docbody_id:jsonEditorReadParams.docbody_id
+					},
+					then_fn:function(response) {
+						console.log(response.data)
+						if(response.data.list[0]){
+							var docbody = JSON.parse(response.data.list[0].docbody);
+							$scope.editDoc = docbody
+							if($scope.editDoc.data)
+								$scope.editDoc = $scope.editDoc.data
+							if(!$scope.editDoc.doc_id)
+								$scope.editDoc.doc_id = response.data.docbody_id
+							
+							$scope.progr_am.fn.calcEditDoc_CRC32()
+							$scope.data.jsonTemplateBody
+								= $scope.data.jsonTemplate[jsonEditorReadParams.doc_type+'_request']
+							adaptTemplateToData($scope.editDoc, $scope.data.jsonTemplateBody)
 						}
+					}
 				})
 			}
 		})
@@ -462,9 +464,10 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 //			queue:'черга',
 		},
 		physician:{parent:{name:'Кабінет лікаря', url:'info3' },
-			abk:'амб-на к. ф.№025/о',
+			ambk:'амб-на к. ф.№025/о',
 			physician_calendar:'візит календар',
 			declaration3:'декларація',
+			abk:'амб-на к. ф.№025/о',
 		},
 		analytics:{parent:{name:'Статистика'/*Аналітіка*/, url:'info3' },
 			icpc2_test3:'ф.074/о', //f074

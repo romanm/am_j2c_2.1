@@ -1,4 +1,113 @@
-console.log('---read_abk.js---')
+init_am_directive.patient_doc = function($scope, $http, $filter){
+	console.log('---init_am_directive.patient_doc ---')
+	init_am_directive.ehealth_declaration($scope, $http, $filter);
+	$scope.include = {
+		j2c_table_content:'/f/eh2/newpatient/patient_list_j2c_table_content.html',
+	}
+	$scope.progr_am.viewes.j2c_table.dataName = 'patient_lists'
+	$scope.progr_am.viewes.j2c_table.ngInclude= '/f/eh2/j2c_table.html'
+
+	exe_fn.init_j2c_table_seek('sql2_patient_lists', $scope.request.parameters.person_id)
+	exe_fn.httpGet_j2c_table_params = function(params){
+		return exe_fn.httpGet_j2c_table_params_then_fn(
+		params,
+		function(response) {
+			$scope.patient_lists.data = response.data
+			$scope.patient_lists.data
+			.col_keys = {
+				person_id : 'ІН',
+				pip_patient : 'ПІП',
+				birth_date : 'дата народженя',
+				email: 'e-mail'
+			}
+			init_ngClick($scope.patient_lists);
+		})
+	}
+
+	var init_ngClick = function(icpc2_nakaz74){
+		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
+		icpc2_nakaz74.clickToSave.add_row=function(){
+			console.log('-------clickToSave------add_row:w-----------')
+			exe_fn.httpPost
+			({	url:'/r/url_sql_update2',
+				then_fn:function(response) {
+					console.log(response.data)
+					window.location.replace(
+							'?person_id=' + response.data.nextDbId1		
+					)
+				},
+				data:{
+					sql:sql2.sql2_patient_insert(), 
+				},
+			})
+		}
+	}
+	
+	var params = { sql : sql2.sql2_patient_lists(), }
+	if($scope.request.parameters.person_id){
+		var seek = $scope.request.parameters.seek?$scope.request.parameters.seek:''
+		var params = { 
+			sql : sql2.sql2_patient_lists_seek_withId(), 
+			id:$scope.request.parameters.person_id,
+			seek:'%'+seek+'%'
+		}
+	}
+
+	$scope.progr_am.patient_lists = {
+		init_data:{
+			col_sort:['person_id',  'pip_patient', 'birth_date', 'email'],
+			include_table_menu:'/f/eh2/table_menu.html',
+		},
+		httpGet : exe_fn.httpGet_j2c_table_params(params),
+	}
+
+	$scope.initDocToPerson = false
+
+	$scope.$watchGroup(['editDoc', 'patient_lists.data'],
+	function(newValue, oldValue){
+		if(newValue[0]&&newValue[1]&&!$scope.initDocToPerson){
+			$scope.initDocToPerson = true;
+			if($scope.request.parameters.person_id){
+				$scope.patient_lists.selectedCell={
+					row_id:$scope.request.parameters.person_id,
+				}
+
+				angular.forEach($scope.patient_lists.data.list,function(v){
+					if(v.row_id==$scope.patient_lists.selectedCell.row_id){
+						$scope.patient_lists.selectedCell.row=v
+					}
+				})
+				var e = $scope.editDoc,
+					r = $scope.patient_lists.selectedCell.row
+				personCols.forEach(function(k){ e[k]=r[k] })
+			}
+		}
+	});
+	
+	var personCols = ['last_name','first_name', 'second_name', 'email', 'birth_date'];
+
+	$scope.progr_am.fn.saveAddData=function(data){
+		personCols.forEach(function(k){
+			data[k]=$scope.editDoc[k]
+			if($scope.progr_am.fn.date_names.indexOf(k)>=0){
+				var d = new Date($scope.editDoc[k])
+				console.log(d)
+				data[k] = d.toISOString().split('T')[0]
+			}
+		})
+		data.sql=sql2.sql2_docbodyPerson_updateById()
+		data.dataAfterSave = function(response){
+			var e = response.data.list2[0],
+				r = $scope.patient_lists.selectedCell.row
+				console.log(e)
+			r.pip_patient	= e.pip_patient
+			r.birth_date	= $scope.editDoc.birth_date
+			r.email			= $scope.editDoc.email
+		}
+	}
+}
+
+
 init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filter){
 	console.log('---read_abk.js---ehealth_declaration_pageGroup---')
 	$scope.include = {
@@ -8,6 +117,7 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 	}
 
 	addViews_abk_MenuJ2c = function(){
+		console.log()
 		$scope.progr_am.viewes.menu = {
 			ngInclude:'/f/eh1/info2/hrm_cards/hrm_menu.html',
 			seek:null,
@@ -22,6 +132,7 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 	console.log('-------------------5--------------------')
 	$scope.progr_am.icpc2_nakaz74={}
 
+	/*
 	$scope.progr_am.icpc2_nakaz74.httpGet = {
 		url:'/r/read2_sql_with_param',
 		params:{
@@ -31,10 +142,6 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 			delete response.data.add_joins
 			delete response.data.add_columns
 			delete response.data['sql2.j2c_table.selectByIdDesc']
-			/*
-				console.log($scope.icpc2_nakaz74)
-				console.log($scope.progr_am.icpc2_nakaz74)
-			 * */
 			$scope.icpc2_nakaz74.data = response.data
 			$scope.icpc2_nakaz74.mapDate = {}
 			angular.forEach($scope.icpc2_nakaz74.data.list,function(v, key){
@@ -51,7 +158,6 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 					$scope.icpc2_nakaz74.selectedCell = {row:v, row_id:v.row_id}
 				}
 			})
-			console.log($scope.icpc2_nakaz74.mapDate)
 			$scope.progr_am.icpc2_nakaz74.data
 			= $scope.icpc2_nakaz74.data
 			console.log('-------------------75--------------------')
@@ -59,6 +165,8 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 			init_f74_ngClick($scope.progr_am.icpc2_nakaz74, $scope, $http);
 		}
 	}
+	 * */
+
 	
 	init0_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		icpc2_nakaz74.isEditRow = function(row){
@@ -94,5 +202,4 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 
 	$scope.progr_am.icpc2_nakaz74.init_data.include_table_menu 
 		= '/f/eh2/table_menu.html'
-	console.log($scope.progr_am.icpc2_nakaz74)
 }

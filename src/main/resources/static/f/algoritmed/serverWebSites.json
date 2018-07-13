@@ -15,10 +15,17 @@
     "parent": "home"
 },
 "newpatient":{
-    "th_template": "template4",
+    "th_template": "template5",
     "ng_template": "'/f/eh2/group_view_template.html'",
     "script": "/f/eh2/newpatient/newpatient.js",
     "title": "новий пацієнт",
+    "parent": "home"
+},
+"ambk":{
+    "th_template": "template5",
+    "ng_template": "'/f/eh2/group_view_template.html'",
+    "script": "/f/eh2/ambk1/ambk1.js",
+    "title": "амб-на картка №025/о",
     "parent": "home"
 },
 "abk":{
