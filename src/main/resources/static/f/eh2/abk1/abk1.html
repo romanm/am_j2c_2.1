@@ -13,16 +13,21 @@
 					<td class="am-b w3-small" colspan="2">{{row.dayDate}}</td>
 				</tr>
 				<tr>
-					<td
+					<td class="w3-tiny "
 						ng-click="progr_am[view.dataName].selectCell(row_k, 'created', row)">
-						<div class="w3-dropdown-click">
+						<div class="w3-dropdown-hover w3-white w3-hover-shadow">
 							<a href="#" ng-keyup="keys_use.keyUp($event, view.dataName)">
 								{{row.created | date : 'shortTime'}} </a>
-							<div class="w3-dropdown-content w3-border w3-card-4"
+							<div class="w3-dropdown-content w3-border w3-card-4 "
 								ng-style="dropdown_data.ngStyle(col_k)"
-								ng-if="progr_am[view.dataName].isCellSelect(row_k, 'created', row)"
-								ng-class="{'w3-show':progr_am[view.dataName].isCellSelect(row_k, 'created', row)}"
-								on="col_k" ng-switch>a1</div>
+								n1g-if="progr_am[view.dataName].isCellSelect(row_k, 'created', row)"
+								n1g-class="{'w3-show':progr_am[view.dataName].isCellSelect(row_k, 'created', row)}"
+								on="col_k" ng-switch>
+								<a href="#"
+									ng-class="{'w3-disabled':!(progr_am[view.dataName].selectedCell.row)}"
+									ng-click="progr_am[view.dataName].clickToSave.copy_row()"
+									class="w3-bar-item w3-button"> + Копія запису </a>
+							</div>
 						</div>
 					</td>
 					<td class="w3-border-bottom w3-hover-shadow"
