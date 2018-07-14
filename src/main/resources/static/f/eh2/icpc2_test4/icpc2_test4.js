@@ -83,32 +83,6 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 			}
 		}
 
-		icpc2_nakaz74.clickToSave.col_10807=function(row){//ICPC2 process
-			var data={
-				reference2:row.doc_id,
-				cell_value : row.code+':'+row.value
-			}
-			icpc2_nakaz74.clickToSave.ref2Cell(data, 
-				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
-		}
-
-		icpc2_nakaz74.clickToSave.col_10771=function(row){//ICPC2 symptom
-			var data={
-				reference2:row.doc_id,
-				cell_value : row.code+':'+row.value
-			}
-			icpc2_nakaz74.clickToSave.ref2Cell(data, 
-				'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
-		}
-		icpc2_nakaz74.clickToSave.col_11327=function(row){//ICPC2 diagnose
-			console.log(row)
-			var data={
-				reference2:row.doc_id,
-				cell_value : row.code+':'+row.value
-			}
-			icpc2_nakaz74.clickToSave.ref2Cell(data, 
-			'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
-		}
 		icpc2_nakaz74.clickToSave.col_10777=function(row){//ICD10 diagnose
 			console.log(row)
 			var data={
@@ -125,42 +99,7 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 	$scope.$watch('dropdown_data.seek.col_10777',function(seekIcpc2, oldSeekIcpc2){
 		seekJ2C_table(seekIcpc2, oldSeekIcpc2, 'col_10777')
 	})
-	$scope.$watch('dropdown_data.seek.col_10807',function(seekIcpc2, oldSeekIcpc2){// ICPC2 process
-		seekJ2C_table(seekIcpc2, oldSeekIcpc2, 'col_10807')
-	})
-	$scope.$watch('dropdown_data.seek.col_10771',function(seekIcpc2, oldSeekIcpc2){// ICPC2 symptom
-		seekJ2C_table(seekIcpc2, oldSeekIcpc2, 'col_10771')
-	})
-	$scope.$watch('dropdown_data.seek.col_11327',function(seekIcpc2, oldSeekIcpc2){// ICPC2 symptom
-		seekJ2C_table(seekIcpc2, oldSeekIcpc2, 'col_11327')
-	})
-	var seekJ2C_table = function(seekIcpc2, oldSeekIcpc2, col_key){
-		if(seekIcpc2||oldSeekIcpc2)
-			fn_lib['read_data_'+col_key]()
-	}
 	
-
-	fn_lib.read_data_col_10807 = function(){ // ICPC2 process
-		console.log('--------read----dropdown--ICPC2-------')
-		fn_lib.read_data_ICPC2(
-			'f74_icpc2_seekProcess__select',
-			$scope.dropdown_data.seek.col_10807
-		)
-	}
-	fn_lib.read_data_col_10771 = function(){ // ICPC2
-		console.log('--------read----dropdown--ICPC2-------')
-		fn_lib.read_data_ICPC2(
-			'f74_icpc2_seekSymptom__select',
-			$scope.dropdown_data.seek.col_10771
-		)
-	}
-	fn_lib.read_data_col_11327 = function(){ // ICPC2 diagnose
-		console.log('--------read----dropdown--ICPC2-------')
-		fn_lib.read_data_ICPC2(
-			'f74_icpc2_seekDiagnose__select',
-			$scope.dropdown_data.seek.col_11327
-		)
-	}
 	fn_lib.read_data_col_10777 = function(){ // ICD10 diagnose
 		console.log('--------read----dropdown--ICD10-------')
 		var params={seek:'%%',doctype: 89}
@@ -170,7 +109,7 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 		console.log(params)
 		$http.get(url_read2_sql_with_param, {params:params}).then(function(response) {
 			$scope.dropdown_data.list=response.data.list
-			$scope.dropdown_data.col_keys={
+			$scope.dropdown_data.col_keys = {
 				icd_code:'Код',
 				icd_name:'Назва',
 			}

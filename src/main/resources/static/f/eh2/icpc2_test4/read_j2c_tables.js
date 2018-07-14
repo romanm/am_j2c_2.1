@@ -1,4 +1,69 @@
 init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
+	console.log(icpc2_nakaz74)
+	$scope.$watch('progr_am.icpc2_nakaz74.selectedCell.col_k',function(col_k){if(col_k){
+		console.log(col_k)
+		console.log(fn_lib['read_data_'+col_k])
+		if(fn_lib['read_data_'+col_k])
+			fn_lib['read_data_'+col_k]()
+	}})
+	$scope.$watch('dropdown_data.seek.col_10807',function(seekIcpc2, oldSeekIcpc2){// ICPC2 process
+		seekJ2C_table(seekIcpc2, oldSeekIcpc2, 'col_10807')
+	})
+	$scope.$watch('dropdown_data.seek.col_10771',function(seekIcpc2, oldSeekIcpc2){// ICPC2 symptom
+		seekJ2C_table(seekIcpc2, oldSeekIcpc2, 'col_10771')
+	})
+	$scope.$watch('dropdown_data.seek.col_11327',function(seekIcpc2, oldSeekIcpc2){// ICPC2 symptom
+		seekJ2C_table(seekIcpc2, oldSeekIcpc2, 'col_11327')
+	})
+
+	var seekJ2C_table = function(seekIcpc2, oldSeekIcpc2, col_key){
+		if(seekIcpc2||oldSeekIcpc2)
+			fn_lib['read_data_'+col_key]()
+	}
+	fn_lib.read_data_ICPC2 = function(sql, seek){ // ICPC2
+		var params={seek:'%%'}
+		if(seek)
+			params.seek = '%'+seek+'%'
+		console.log(seek)
+		params.sql = sql3[sql]();
+		params.sql = composeSql(params.sql)
+		//console.log(params.sql)
+		params.sql = spaceClean(params.sql)
+//		console.log(params)
+		$http.get(url_sql_read,{params:params}).then(function(response) {
+			$scope.dropdown_data.list=response.data.list
+			//if(!$scope.dropdown_data.seekIcpc2)
+			$scope.dropdown_data.col_keys={
+					code:'Код',
+					value:'Назва',
+			}
+//			doc_id:'ІН',
+//			doctype:'zГрупа',
+//			part:'Група',
+			console.log($scope.dropdown_data)
+		})
+	}
+	fn_lib.read_data_col_11327 = function(){ // ICPC2 diagnose
+		console.log('--------read----dropdown--ICPC2-------')
+		fn_lib.read_data_ICPC2(
+			'f74_icpc2_seekDiagnose__select',
+			$scope.dropdown_data.seek.col_11327
+		)
+	}
+	fn_lib.read_data_col_10771 = function(){ // ICPC2
+		console.log('--------read----dropdown--ICPC2-------')
+		fn_lib.read_data_ICPC2(
+			'f74_icpc2_seekSymptom__select',
+			$scope.dropdown_data.seek.col_10771
+		)
+	}
+	fn_lib.read_data_col_10807 = function(){ // ICPC2 process
+		console.log('--------read----dropdown--ICPC2-------')
+		fn_lib.read_data_ICPC2(
+			'f74_icpc2_seekProcess__select',
+			$scope.dropdown_data.seek.col_10807
+		)
+	}
 	console.log('-----init_f74_ngClick-----------------------')
 
 	icpc2_nakaz74.closeDropdown=function(){
@@ -42,9 +107,8 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		return false
 	}
 	
+
 	icpc2_nakaz74.selectCell = function(row_k, col_k, row){
-		console.log($scope.progr_am.abk)
-		console.log(icpc2_nakaz74)
 		if(icpc2_nakaz74.selectedCell 
 			&& icpc2_nakaz74.selectedCell.col_k==col_k 
 			&& icpc2_nakaz74.selectedCell.row_k==row_k
@@ -63,8 +127,6 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 				row_id:row.row_id,
 				row:row,
 			}
-			console.log(icpc2_nakaz74)
-			console.log(icpc2_nakaz74.isEditRow(row))
 		}
 	}
 
@@ -105,11 +167,6 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		return style;
 	},
 	
-	$scope.$watch('progr_am.icpc2_nakaz74.selectedCell.col_k',function(col_k){if(col_k){
-		console.log(col_k)
-		if(fn_lib['read_data_'+col_k])
-			fn_lib['read_data_'+col_k]()
-	}})
 
 	$scope.$watch('dropdown_data.seek.col_10766',function(seek){if(seek){
 		console.log(seek)
@@ -132,6 +189,31 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		})
 	}
 	
+	icpc2_nakaz74.clickToSave.col_10771=function(row){//ICPC2 symptom
+		var data={
+			reference2:row.doc_id,
+			cell_value : row.code+':'+row.value
+		}
+		icpc2_nakaz74.clickToSave.ref2Cell(data, 
+			'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+	}
+	icpc2_nakaz74.clickToSave.col_11327=function(row){//ICPC2 diagnose
+		console.log(row)
+		var data={
+			reference2:row.doc_id,
+			cell_value : row.code+':'+row.value
+		}
+		icpc2_nakaz74.clickToSave.ref2Cell(data, 
+		'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+	}
+	icpc2_nakaz74.clickToSave.col_10807=function(row){//ICPC2 process
+		var data={
+			reference2:row.doc_id,
+			cell_value : row.code+':'+row.value
+		}
+		icpc2_nakaz74.clickToSave.ref2Cell(data, 
+			'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
+	}
 	icpc2_nakaz74.clickToSave.col_10766=function(row){//Patient
 		console.log(row)
 		var data={
@@ -144,7 +226,9 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	
 	icpc2_nakaz74.clickToSave.ref2Cell=function(data, sqlInsertUpdate){
 		var editObj = icpc2_nakaz74.data.list[icpc2_nakaz74.selectedCell.row_k]
+		console.log(editObj)
 		var cell_id = editObj[icpc2_nakaz74.selectedCell.col_k+'_id']
+		console.log(cell_id)
 		if(cell_id){
 			data.sql = sqlInsertUpdate.split('|')[1]
 			data.doc_id = cell_id 
