@@ -735,6 +735,10 @@ var sql3= {
 				"AND reference2 in (SELECT distinct parent_id FROM doc, person where parent_id=person_id  and reference=:msp_id) \n" +
 				"" //+"ORDER BY row_id DESC"
 	},
+	f74_read_allpatientvisit_records:function(){
+		return "SELECT p.*,dt.*,doc_id row_id, d.* FROM doc d, person p, doctimestamp dt \n" +
+				"WHERE parent_id=:msp_id AND doctype=98 AND reference=person_id AND doc_id=doctimestamp_id"
+	},
 	f74_read_allpatient_records:function(){
 		return this.read_f74_select1() + 
 		" ORDER BY row_id DESC"

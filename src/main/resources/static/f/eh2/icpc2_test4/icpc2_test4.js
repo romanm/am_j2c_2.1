@@ -10,12 +10,11 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 		j2c_table:{ngInclude:'/f/eh2/j2c_table.html',
 			dataName:'icpc2_nakaz74',
 		},
-	},
-	
+	}
+
 	$scope.progr_am.viewes.j2c_table.heightProcent = 90
 	console.log($scope.progr_am.viewes)
-	
-	
+
 	$scope.progr_am.icpc2_nakaz74={
 		init_data:{
 			col_values:{
@@ -92,6 +91,7 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 			icpc2_nakaz74.clickToSave.ref2Cell(data, 
 			'sql2.j2c.insertCellWithConstraint|sql2.j2c.updateCellWithConstraint')
 		}
+
 	}
 
 	var url_read2_sql_with_param = '/r/read2_sql_with_param'

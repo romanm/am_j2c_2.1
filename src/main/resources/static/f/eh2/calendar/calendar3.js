@@ -1,7 +1,7 @@
 init_am_directive.init_physician_calendar = function($scope, $http, $filter, $route){
 	console.log('------init_physician_calendar---2--------------')
 	init_am_directive.init_registry_calendar($scope, $http, $filter)
-	$scope.include.copyright = '/f/eh2/abk1/copyright_icpc2.html'
+//	$scope.include.copyright = '/f/eh2/abk1/copyright_icpc2.html'
 }
 
 init_am_directive.init_registry_calendar = function($scope, $http, $filter, $route){
@@ -38,7 +38,6 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 	}
 	addViews_abk_MenuJ2c()
 	
-	
 	$scope.progr_am.viewes.calendar.setNgInclude(
 		$scope.basicCalendar.gui.calendarViewPart.item		
 	)
@@ -51,8 +50,20 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 	
 	$scope.progr_am.icpc2_nakaz74.init_data.include_table_menu 
 		= '/f/eh2/calendar/calendar3_record_menu.html'
-	
 
+	var params = {
+		sql:sql3.f74_read_allpatientvisit_records(),
+		msp_id:188,
+	}
+	exe_fn.httpGet(exe_fn.httpGet_j2c_table_params_then_fn(
+	params,
+	function(response) {
+		$scope.icpc2_nakaz74 = $scope.progr_am.icpc2_nakaz74
+		$scope.icpc2_nakaz74.data = {}
+		$scope.icpc2_nakaz74.data.list
+			= response.data.list
+		console.log($scope.icpc2_nakaz74)
+	}))
 
 	//exe_fn.)
 	$scope.progr_am.icpc2_nakaz74.s1electCell=function(row_k, col_k){
