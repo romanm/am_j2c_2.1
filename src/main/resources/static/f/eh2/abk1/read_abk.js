@@ -117,7 +117,6 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 	}
 
 	addViews_abk_MenuJ2c = function(){
-		console.log()
 		$scope.progr_am.viewes.menu = {
 			ngInclude:'/f/eh1/info2/hrm_cards/hrm_menu.html',
 			seek:null,

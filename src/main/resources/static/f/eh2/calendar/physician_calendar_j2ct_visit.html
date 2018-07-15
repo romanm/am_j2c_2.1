@@ -1,0 +1,15 @@
+<div on="col_k_content" ng-switch>
+	<div ng-switch-when="head_visit">
+		<i class="fa fa-calendar-o"></i>
+	</div>
+	<div ng-switch-when="pip_physician" title="{{row.pip_physician}}">
+		<span ng-repeat="n in row.pip_physician.split(' ')">{{n.substring(0,1)}}</span>
+	</div>
+	<div ng-switch-when="visit">
+		<a href="?row_id={{row.row_id}}"> <span class="w3-small">
+				{{row.created|date:'dd.MM'}} </span> {{row.created|date:'HH:mm'}}
+		</a>
+	</div>
+	<div ng-switch-default ng-if="col_k_content.indexOf('head_')!=0"
+		on="col_k_content" ng-switch>{{row[col_k_content]}}</div>
+</div>

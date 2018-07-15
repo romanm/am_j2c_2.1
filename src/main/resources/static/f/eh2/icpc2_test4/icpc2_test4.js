@@ -2,7 +2,7 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 	console.log('-----init_icpc2_test4-----------------');
 	init_am_directive.ehealth_declaration($scope, $http);
 	$scope.include = {
-		j2c_table_content:'/f/eh2/icpc2_test4/icpc2_cell_content_o74.html',
+//		j2c_table_content:'/f/eh2/icpc2_test4/icpc2_cell_content_o74.html',
 		icpc2_cell_dropdown_content:
 			'/f/eh2/icpc2_test4/icpc2_cell_dropdown_content_o74.html',
 	}
@@ -48,6 +48,9 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 				delete response.data.add_joins
 				delete response.data.add_columns
 				delete response.data['sql2.j2c_table.selectByIdDesc']
+				$scope.icpc2_nakaz74.include = {
+					j2c_table_content:'/f/eh2/icpc2_test4/icpc2_cell_content_o74.html',
+				}
 				$scope.icpc2_nakaz74.data = response.data
 				$scope.progr_am.icpc2_nakaz74.data
 					= $scope.icpc2_nakaz74.data
@@ -96,7 +99,10 @@ init_am_directive.init_icpc2_test4 = function($scope, $http){
 
 	var url_read2_sql_with_param = '/r/read2_sql_with_param'
 
+	console.log(99)
+	var seekJ2C_table = null
 	$scope.$watch('dropdown_data.seek.col_10777',function(seekIcpc2, oldSeekIcpc2){
+		if(seekJ2C_table)
 		seekJ2C_table(seekIcpc2, oldSeekIcpc2, 'col_10777')
 	})
 	

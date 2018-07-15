@@ -6,15 +6,6 @@ init_am_directive.init_ambk = function($scope, $http, $filter, $route) {
 	$scope.progr_am.viewes.json_form.ngInclude = '/f/eh2/abk1/abk1.html'
 	$scope.progr_am.viewes.json_form.dataName  = 'icpc2_nakaz74'
 
-		/*
-	$scope.$watch('progr_am.icpc2_nakaz74.selectedCell.col_k',function(col_k){if(col_k){
-		console.log(col_k)
-		console.log(fn_lib['read_data_'+col_k])
-		if(fn_lib['read_data_'+col_k])
-			fn_lib['read_data_'+col_k]()
-	}})
-		 * */
-
 	$scope.include.icpc2_cell_dropdown_content =
 			'/f/eh2/icpc2_test4/icpc2_cell_dropdown_content_o74.html'
 	

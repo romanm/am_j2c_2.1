@@ -1,0 +1,6 @@
+<div class="w3-row w3-border">
+	<div class="w3-twothird" ng-include="'/f/eh2/j2c_table.html'"></div>
+	<div class="w3-third" ng-repeat="view in [{dataName:'physician_list'}]"
+		ng-init="data=data2[view.dataName];o=data"
+	 ng-include="'/f/eh2/j2c_table.html'"></div>
+</div>

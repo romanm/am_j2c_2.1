@@ -1,8 +1,8 @@
 <div class="w3-border-bottom w3-display-container no-print"
-  ng-repeat="group_v in [pageGroup.thisPageGroup()]">
-  <div ng-include="'/f/eh1/lib/topbar_page_group.html'"></div>
+	ng-repeat="group_v in [pageGroup.thisPageGroup()]">
+	<div ng-include="'/f/eh1/lib/topbar_page_group.html'"></div>
 </div>
 
 <div ng-repeat="(k,view) in progr_am.viewes"
-  ng-init="data=data[view.dataName];o=data" ng-if="view.ngInclude"
-  ng-include="view.ngInclude"></div>
+	ng-init="data=data[view.dataName];o=data" ng-if="view.ngInclude"
+	ng-include="view.ngInclude"></div>

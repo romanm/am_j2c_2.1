@@ -5,6 +5,7 @@
 				<th style="background: white;"
 					ng-include="data.include_table_menu">
 					</th>
+				<th class="w3-white" ng-if="!data.include_table_menu"></th>
 				<th ng-repeat="col_k in data.col_sort" title="{{col_k}}"
 					ng-init="col_k_content='head_'+col_k">
 					<div ng-include="include.j2c_table_content"
@@ -32,7 +33,7 @@
 					'w3-leftbar':0==$index && progr_am[view.dataName].isEditRow(row),
 					 'w3-border-left':(0==$index && !progr_am[view.dataName].isEditRow(row)),
 					}">
-					<div ng-include="include.j2c_table_content"></div>
+					<div ng-include="data.include.j2c_table_content"></div>
 				</td>
 			</tr>
 		</tbody>

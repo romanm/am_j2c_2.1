@@ -15,7 +15,8 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	$scope.$watch('dropdown_data.seek.col_11327',function(seekIcpc2, oldSeekIcpc2){// ICPC2 symptom
 		seekJ2C_table(seekIcpc2, oldSeekIcpc2, 'col_11327')
 	})
-
+	
+console.log(19)
 	var seekJ2C_table = function(seekIcpc2, oldSeekIcpc2, col_key){
 		if(seekIcpc2||oldSeekIcpc2)
 			fn_lib['read_data_'+col_key]()
@@ -107,7 +108,6 @@ init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 		return false
 	}
 	
-
 	icpc2_nakaz74.selectCell = function(row_k, col_k, row){
 		if(icpc2_nakaz74.selectedCell 
 			&& icpc2_nakaz74.selectedCell.col_k==col_k 
@@ -735,10 +735,17 @@ var sql3= {
 				"AND reference2 in (SELECT distinct parent_id FROM doc, person where parent_id=person_id  and reference=:msp_id) \n" +
 				"" //+"ORDER BY row_id DESC"
 	},
+	f74_read_msp_physicians:function(){
+		return "SELECT person_id row_id, p.* FROM person p, doc d1, doc d2, msp \n" +
+				"WHERE d2.reference=:msp_id AND d1.doc_id=person_id AND d1.doctype=13 \n" +
+				"AND d2.parent_id=d1.doc_id AND msp_id=d2.reference"
+	},
 	f74_read_allpatientvisit_records:function(){
-		return "SELECT p.*,dt.*,doc_id row_id, last_name||' '||first_name||' '||second_name pip_patient \n" +
-				"FROM doc d, person p, doctimestamp dt \n" +
-				"WHERE parent_id=:msp_id AND doctype=98 AND reference=person_id AND doc_id=doctimestamp_id \n" +
+		return "SELECT l.person_id physician_id, p.person_id patient_id, p.email, dt.*,doc_id row_id \n" +
+				", p.last_name||' '||p.first_name||' '||p.second_name pip_patient \n" +
+				", l.last_name||' '||l.first_name||' '||l.second_name pip_physician \n" +
+				"FROM doc d, person l, person p, doctimestamp dt \n" +
+				"WHERE parent_id=:msp_id AND doctype=98 AND reference=p.person_id AND doc_id=doctimestamp_id AND l.person_id=reference2 \n" +
 				"ORDER BY created DESC"
 	},
 	f74_read_allpatient_records:function(){

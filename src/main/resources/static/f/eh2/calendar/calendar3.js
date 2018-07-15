@@ -1,16 +1,10 @@
 init_am_directive.init_physician_calendar = function($scope, $http, $filter, $route){
 	console.log('------init_physician_calendar---2--------------')
 	init_am_directive.init_registry_calendar($scope, $http, $filter)
-//	$scope.include.copyright = '/f/eh2/abk1/copyright_icpc2.html'
 }
 
 init_am_directive.init_registry_calendar = function($scope, $http, $filter, $route){
 	console.log('------init_registry_calendar---7--------------')
-	/*
-	var init_ngClick = function(icpc2_nakaz74){
-		init_f74_ngClick(icpc2_nakaz74, $scope, $http);
-	}
-	 * */
 
 	init_am_directive.ehealth_declaration($scope, $http, $filter);
 	$scope.basicCalendar = new BasicCalendar($scope, $http, $filter)
@@ -32,11 +26,23 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 			heightProcent:65,
 			setNgInclude:function(calendarViewPart){
 				this.ngInclude = 
-				'/f/eh2/calendar/calendar3_'+ calendarViewPart +'.html'	
+					'/f/eh2/calendar/calendar3_'+ calendarViewPart +'.html'	
 			}
 		},
+		menu : {
+			ngInclude:'/f/eh2/calendar/calendar_menu.html',
+			seek:null,
+			seek_placeholder:'пошук візит/пацієнт',
+			seek2:null,
+			seek2_placeholder:'пошук лікаря',
+		},
+		j2c_table : {
+			ngInclude:'/f/eh2/calendar/j2c_table_visit.html',
+			dataName:'icpc2_nakaz74',
+			dataName_2:'physician_list',
+			heightProcent:22,
+		},
 	}
-	addViews_abk_MenuJ2c()
 	
 	$scope.progr_am.viewes.calendar.setNgInclude(
 		$scope.basicCalendar.gui.calendarViewPart.item		
@@ -75,31 +81,91 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 				birth_date : 'дата народженя',
 				email: 'e-mail',
 				pip_physician : 'Лікар',
-			}
+			},
 		}
-		$scope.include.j2c_table_content = '/f/eh2/calendar/calendar_j2c_table_content.html'
-		$scope.include.j2c_table_content = '/f/eh2/calendar/physician_calendar_j2ct_visit.html'
+//		$scope.include.j2c_table_content = '/f/eh2/calendar/calendar_j2c_table_content.html'
+		
+		$scope.icpc2_nakaz74.include = {
+			j2c_table_content : '/f/eh2/calendar/physician_calendar_j2ct_visit.html',
+		}
 		$scope.icpc2_nakaz74.data.list
 			= response.data.list
 		console.log($scope.icpc2_nakaz74)
 		console.log($scope.progr_am.icpc2_nakaz74)
 		console.log($scope.data)
+		init_j2ct_fn($scope.icpc2_nakaz74, 'Init_j2ct_fn')
+//		init_j2ct_fn($scope.icpc2_nakaz74, $scope, $http)
 	}))
 
+	exe_fn.httpGet(exe_fn.httpGet_j2c_table_params_then_fn(
+	{
+		sql:sql3.f74_read_msp_physicians(),
+		msp_id:188,
+	},
+	function(response){
+		console.log(response.data)
+		$scope.data2 = {physician_list:{}}
+		$scope.progr_am.physician_list = $scope.data2.physician_list;
+		$scope.data2.physician_list.col_sort = [
+			'pip_physician',
+			'physician',
+		]
+		$scope.data2.physician_list.data = {
+			col_keys : {
+				pip_physician : 'ПІП',
+				physician : 'Лікар',
+			},
+		}
+		$scope.data2.physician_list.include = {
+			j2c_table_content : '/f/eh2/calendar/physician_calendar_j2ct_physicians.html',
+		}
+		$scope.data2.physician_list.data.list
+			= response.data.list
+		init_j2ct_fn($scope.data2.physician_list, 'Init_j2ct_fn')
+	}))
 	//exe_fn.)
 	$scope.progr_am.icpc2_nakaz74.s1electCell=function(row_k, col_k){
 		$scope.editRow = $scope.icpc2_nakaz74.data.list[row_k];
 		console.log($scope.editRow)
 	}
-
-	/*
-	$scope.$watch('basicCalendar.gui.workTimeStamp',function(newValue, oldValue){
-		if(newValue && newValue.getTime()!=oldValue.getTime()){
-			console.log(newValue+' changed '+oldValue)
+	var init_j2ct_fn = function(o,key){
+		var init_j2ct_fn = new exe_fn[key]($scope, $http)
+		angular.forEach(init_j2ct_fn, function(v, k){ o[k]= v })
+	}
+	exe_fn.Init_j2ct_fn = function($scope, $http){
+		this.selectedCell = {}
+		this.selectCell = function(row_k, col_k, row){
+			if(	this.selectedCell.col_k==col_k 
+					&&	this.selectedCell.row_k==row_k
+			){
+			}else{
+				var row = this.data.list[row_k];
+				this.selectedCell = {
+						row_k:row_k, 
+						col_k:col_k, 
+						row_id:row.row_id,
+						row:row,
+				}
+			}
+			console.log(this.selectedCell)
+			this.isEditRow2(row)
 		}
-	});
-	 * */
-
+		this.isCellSelect=function(row_k, col_k, row){
+			if(this.selectedCell && !this.selectedCell.close){
+				if(this.selectedCell.row_id==row.row_id)
+					return this.selectedCell.row_k==row_k 
+					&& this.selectedCell.col_k==col_k
+			}
+			return false
+		}
+		this.isEditRow2 = function(row){
+			console.log(row.row_id)
+			return this.selectedCell && this.selectedCell.row_id==row.row_id
+		}
+		this.isEditRow = function(row){
+			return this.selectedCell && this.selectedCell.row_id==row.row_id
+		}
+	}
 }
 
 var BasicCalendar = function($scope, $http, $filter){
