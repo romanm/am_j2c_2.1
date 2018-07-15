@@ -736,8 +736,10 @@ var sql3= {
 				"" //+"ORDER BY row_id DESC"
 	},
 	f74_read_allpatientvisit_records:function(){
-		return "SELECT p.*,dt.*,doc_id row_id, d.* FROM doc d, person p, doctimestamp dt \n" +
-				"WHERE parent_id=:msp_id AND doctype=98 AND reference=person_id AND doc_id=doctimestamp_id"
+		return "SELECT p.*,dt.*,doc_id row_id, last_name||' '||first_name||' '||second_name pip_patient \n" +
+				"FROM doc d, person p, doctimestamp dt \n" +
+				"WHERE parent_id=:msp_id AND doctype=98 AND reference=person_id AND doc_id=doctimestamp_id \n" +
+				"ORDER BY created DESC"
 	},
 	f74_read_allpatient_records:function(){
 		return this.read_f74_select1() + 

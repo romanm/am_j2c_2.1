@@ -17,7 +17,6 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 	$scope.progr_am.basicCalendar= $scope.basicCalendar
 	$scope.basicCalendar.gui.init();
 	$scope.include = {
-		j2c_table_content:'/f/eh2/calendar/calendar_j2c_table_content.html',
 		topbar_page_group:'/f/eh2/calendar/calendar3_top_page.html',
 		registry_calendar_data:'/f/eh2/calendar/calendar3_registry_data.html',
 		calendar_dialog:'/f/eh2/calendar/calendar3_dialog.html',
@@ -25,6 +24,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		icpc2_cell_dropdown_content:
 			'/f/eh2/icpc2_test4/icpc2_cell_dropdown_content_o74.html',
 	}
+	
 	$scope.progr_am.viewes={
 		calendar:{
 			//ngInclude:,
@@ -48,6 +48,8 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 //	$scope.progr_am.icpc2_nakaz74={}
 	console.log(	$scope.progr_am.icpc2_nakaz74)
 	
+	if(!$scope.progr_am.icpc2_nakaz74.init_data)
+		$scope.progr_am.icpc2_nakaz74.init_data = {}
 	$scope.progr_am.icpc2_nakaz74.init_data.include_table_menu 
 		= '/f/eh2/calendar/calendar3_record_menu.html'
 
@@ -59,10 +61,29 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 	params,
 	function(response) {
 		$scope.icpc2_nakaz74 = $scope.progr_am.icpc2_nakaz74
-		$scope.icpc2_nakaz74.data = {}
+		$scope.icpc2_nakaz74.col_sort = [
+			'visit',
+//			'row_id',
+			'pip_patient','birth_date','email',
+			'pip_physician',
+		]
+		$scope.icpc2_nakaz74.data = {
+			col_keys : {
+				visit : 'Візит',
+				row_id : 'ІН',
+				pip_patient : 'Пацієнта',
+				birth_date : 'дата народженя',
+				email: 'e-mail',
+				pip_physician : 'Лікар',
+			}
+		}
+		$scope.include.j2c_table_content = '/f/eh2/calendar/calendar_j2c_table_content.html'
+		$scope.include.j2c_table_content = '/f/eh2/calendar/physician_calendar_j2ct_visit.html'
 		$scope.icpc2_nakaz74.data.list
 			= response.data.list
 		console.log($scope.icpc2_nakaz74)
+		console.log($scope.progr_am.icpc2_nakaz74)
+		console.log($scope.data)
 	}))
 
 	//exe_fn.)

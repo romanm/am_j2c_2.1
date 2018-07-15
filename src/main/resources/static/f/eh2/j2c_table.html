@@ -7,7 +7,9 @@
 					</th>
 				<th ng-repeat="col_k in data.col_sort" title="{{col_k}}"
 					ng-init="col_k_content='head_'+col_k">
-					<div ng-include="data.include_cols" on="head_col_k"
+					<div ng-include="include.j2c_table_content"
+					 n1g-include="data.include_cols"
+					 on="head_col_k"
 						ng-switch></div> {{data.data.col_keys[col_k]}}
 				</th>
 			</tr>

@@ -177,7 +177,7 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 	}
 
 	init0_f74_ngClick($scope.progr_am.icpc2_nakaz74, $scope, $http)
-
+/*
 	$scope.progr_am.icpc2_nakaz74.init_data = {
 		col_values:{
 			col_9776:{
@@ -199,7 +199,8 @@ init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filte
 		i1nclude_cols:'/f/eh1/info1/test3/icpc2_test3_cols.html',
 		col_sort:['creat_date', 'col_10766', 'col_9775', 'col_10771', 'col_11327', 'col_10777', 'col_10807' ,'col_9776'],
 	}
-
 	$scope.progr_am.icpc2_nakaz74.init_data.include_table_menu 
 		= '/f/eh2/table_menu.html'
+ * */
+
 }
