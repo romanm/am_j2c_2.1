@@ -2,6 +2,10 @@
 	<div ng-switch-when="head_visit">
 		<i class="fa fa-calendar-o"></i>
 	</div>
+	<div ng-switch-when="pip_patient"
+		ng-bind-html="highlight(row.pip_patient, progr_am.viewes.menu.seek)">
+	</div>
+
 	<div ng-switch-when="pip_physician" title="{{row.pip_physician}}">
 		<span ng-repeat="n in row.pip_physician.split(' ')">{{n.substring(0,1)}}</span>
 	</div>

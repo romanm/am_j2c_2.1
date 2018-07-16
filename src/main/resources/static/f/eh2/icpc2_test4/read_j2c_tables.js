@@ -736,14 +736,24 @@ var sql3= {
 				"" //+"ORDER BY row_id DESC"
 	},
 	f74_read_msp_physicians:function(){
-		return "SELECT person_id row_id, p.* FROM person p, doc d1, doc d2, msp \n" +
+		return "SELECT * FROM ( \n" +
+				"SELECT person_id row_id, p.*, " +
+				"p.last_name||' '||p.first_name||' '||p.second_name physician \n" +
+				"FROM person p, doc d1, doc d2, msp \n" +
 				"WHERE d2.reference=:msp_id AND d1.doc_id=person_id AND d1.doctype=13 \n" +
-				"AND d2.parent_id=d1.doc_id AND msp_id=d2.reference"
+				"AND d2.parent_id=d1.doc_id AND msp_id=d2.reference \n" +
+				") x WHERE LOWER(physician) LIKE LOWER(:seek)"
 	},
 	f74_read_allpatientvisit_records:function(){
-		return "SELECT l.person_id physician_id, p.person_id patient_id, p.email, dt.*,doc_id row_id \n" +
+		return "SELECT * FROM ( \n" +
+				this.f74_read_allpatientvisit_records1() +
+				") x WHERE LOWER(pip_patient) LIKE LOWER(:seek)"
+	},
+	f74_read_allpatientvisit_records1:function(){
+		return "SELECT doc_id row_id , p.person_id patient_id, created, p.email" +
 				", p.last_name||' '||p.first_name||' '||p.second_name pip_patient \n" +
 				", l.last_name||' '||l.first_name||' '||l.second_name pip_physician \n" +
+				", l.person_id physician_id \n" +
 				"FROM doc d, person l, person p, doctimestamp dt \n" +
 				"WHERE parent_id=:msp_id AND doctype=98 AND reference=p.person_id AND doc_id=doctimestamp_id AND l.person_id=reference2 \n" +
 				"ORDER BY created DESC"

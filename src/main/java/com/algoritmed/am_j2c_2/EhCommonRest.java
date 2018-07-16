@@ -29,7 +29,7 @@ public class EhCommonRest  extends Db2Common{
 		map.put("list", list);
 		logger.info("\n\n--24-- --begin-- /url_sql_read2"
 				+ "\n" + sql
-				+ "\n" + map
+				+ "\n\n map = " + map
 				);
 		return map;
 	}

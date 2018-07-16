@@ -31,9 +31,9 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		},
 		menu : {
 			ngInclude:'/f/eh2/calendar/calendar_menu.html',
-			seek:null,
+			seek:'',
 			seek_placeholder:'пошук візит/пацієнт',
-			seek2:null,
+			seek2:'',
 			seek2_placeholder:'пошук лікаря',
 		},
 		j2c_table : {
@@ -59,70 +59,81 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 	$scope.progr_am.icpc2_nakaz74.init_data.include_table_menu 
 		= '/f/eh2/calendar/calendar3_record_menu.html'
 
-	var params = {
-		sql:sql3.f74_read_allpatientvisit_records(),
-		msp_id:188,
+	$scope.icpc2_nakaz74 = $scope.progr_am.icpc2_nakaz74
+	$scope.icpc2_nakaz74.col_sort = [
+		'visit',
+//				'row_id',
+		'pip_patient','birth_date','email',
+		'pip_physician',
+	]
+	$scope.icpc2_nakaz74.data = {
+		col_keys : {
+			visit : 'Візит',
+			row_id : 'ІН',
+			pip_patient : 'Пацієнта',
+			birth_date : 'дата народженя',
+			email: 'e-mail',
+			pip_physician : 'Лікар',
+		},
 	}
-	exe_fn.httpGet(exe_fn.httpGet_j2c_table_params_then_fn(
-	params,
-	function(response) {
-		$scope.icpc2_nakaz74 = $scope.progr_am.icpc2_nakaz74
-		$scope.icpc2_nakaz74.col_sort = [
-			'visit',
-//			'row_id',
-			'pip_patient','birth_date','email',
-			'pip_physician',
+	$scope.icpc2_nakaz74.include = {
+		j2c_table_content : '/f/eh2/calendar/physician_calendar_j2ct_visit.html',
+	}
+			
+	var readDB_visit = function(){
+		var params = {
+				sql:sql3.f74_read_allpatientvisit_records(),
+				msp_id:188,
+				seek:'%'+$scope.progr_am.viewes.menu.seek+'%'
+		}
+		exe_fn.httpGet(exe_fn.httpGet_j2c_table_params_then_fn(
+				params,
+				function(response) {
+					$scope.icpc2_nakaz74.data.list
+					= response.data.list
+					init_j2ct_fn($scope.icpc2_nakaz74, 'Init_j2ct_fn')
+				}))
+	}
+	readDB_visit()
+	$scope.$watch('progr_am.viewes.menu.seek', function(newValue,oldValue){if(newValue||oldValue){
+		console.log(newValue)
+		readDB_visit()
+	}})
+	
+	$scope.data2 = {physician_list:{}}
+	$scope.progr_am.physician_list = $scope.data2.physician_list;
+	$scope.data2.physician_list.col_sort = [
+		'pip_physician',
+		'physician',
 		]
-		$scope.icpc2_nakaz74.data = {
-			col_keys : {
-				visit : 'Візит',
-				row_id : 'ІН',
-				pip_patient : 'Пацієнта',
-				birth_date : 'дата народженя',
-				email: 'e-mail',
-				pip_physician : 'Лікар',
-			},
-		}
-//		$scope.include.j2c_table_content = '/f/eh2/calendar/calendar_j2c_table_content.html'
-		
-		$scope.icpc2_nakaz74.include = {
-			j2c_table_content : '/f/eh2/calendar/physician_calendar_j2ct_visit.html',
-		}
-		$scope.icpc2_nakaz74.data.list
-			= response.data.list
-		console.log($scope.icpc2_nakaz74)
-		console.log($scope.progr_am.icpc2_nakaz74)
-		console.log($scope.data)
-		init_j2ct_fn($scope.icpc2_nakaz74, 'Init_j2ct_fn')
-//		init_j2ct_fn($scope.icpc2_nakaz74, $scope, $http)
-	}))
+	$scope.data2.physician_list.data = {
+		col_keys : {
+			pip_physician : 'ПІП',
+			physician : 'Лікар',
+		},
+	}
+	$scope.data2.physician_list.include = {
+		j2c_table_content : '/f/eh2/calendar/physician_calendar_j2ct_physicians.html',
+	}
 
-	exe_fn.httpGet(exe_fn.httpGet_j2c_table_params_then_fn(
-	{
-		sql:sql3.f74_read_msp_physicians(),
-		msp_id:188,
-	},
-	function(response){
-		console.log(response.data)
-		$scope.data2 = {physician_list:{}}
-		$scope.progr_am.physician_list = $scope.data2.physician_list;
-		$scope.data2.physician_list.col_sort = [
-			'pip_physician',
-			'physician',
-		]
-		$scope.data2.physician_list.data = {
-			col_keys : {
-				pip_physician : 'ПІП',
-				physician : 'Лікар',
-			},
-		}
-		$scope.data2.physician_list.include = {
-			j2c_table_content : '/f/eh2/calendar/physician_calendar_j2ct_physicians.html',
-		}
-		$scope.data2.physician_list.data.list
-			= response.data.list
-		init_j2ct_fn($scope.data2.physician_list, 'Init_j2ct_fn')
-	}))
+	console.log(sql3.f74_read_msp_physicians())
+//	console.log(sql3.f74_read_allpatientvisit_records())
+	var readDB_physician = function(){
+		var seek = '%'+$scope.progr_am.viewes.menu.seek2+'%'
+		exe_fn.httpGet(exe_fn.httpGet_j2c_table_params_then_fn(
+		{ msp_id:188, seek:seek, sql:sql3.f74_read_msp_physicians(), },
+		function(response){
+			$scope.data2.physician_list.data.list
+				= response.data.list
+			init_j2ct_fn($scope.data2.physician_list, 'Init_j2ct_fn')
+		}))
+	}
+	readDB_physician()
+
+	$scope.$watch('progr_am.viewes.menu.seek2', function(newValue,oldValue){if(newValue||oldValue){
+		console.log(newValue)
+		readDB_physician()
+	}})
 	//exe_fn.)
 	$scope.progr_am.icpc2_nakaz74.s1electCell=function(row_k, col_k){
 		$scope.editRow = $scope.icpc2_nakaz74.data.list[row_k];
