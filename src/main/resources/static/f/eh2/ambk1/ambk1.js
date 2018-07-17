@@ -3,6 +3,7 @@ init_am_directive.init_ambk = function($scope, $http, $filter, $route) {
 	$scope.include.copyright = '/f/eh2/abk1/copyright_icpc2.html'
 	console.log($scope.progr_am.icpc2_nakaz74)
 	console.log($scope.progr_am.viewes)
+	console.log($scope.progr_am.patient_lists)
 	$scope.progr_am.viewes.json_form.ngInclude = '/f/eh2/abk1/abk1.html'
 	$scope.progr_am.viewes.json_form.dataName  = 'icpc2_nakaz74'
 

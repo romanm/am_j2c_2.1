@@ -1,9 +1,11 @@
 init_am_directive.patient_doc = function($scope, $http, $filter){
 	console.log('---init_am_directive.patient_doc ---')
 	init_am_directive.ehealth_declaration($scope, $http, $filter);
+/*
 	$scope.include = {
 		j2c_table_content:'/f/eh2/newpatient/patient_list_j2c_table_content.html',
 	}
+*/
 	$scope.progr_am.viewes.j2c_table.dataName = 'patient_lists'
 	$scope.progr_am.viewes.j2c_table.ngInclude= '/f/eh2/j2c_table.html'
 
@@ -57,6 +59,9 @@ init_am_directive.patient_doc = function($scope, $http, $filter){
 		init_data:{
 			col_sort:['person_id',  'pip_patient', 'birth_date', 'email'],
 			include_table_menu:'/f/eh2/table_menu.html',
+		},
+		include : {
+			j2c_table_content:'/f/eh2/newpatient/patient_list_j2c_table_content.html',
 		},
 		httpGet : exe_fn.httpGet_j2c_table_params(params),
 	}

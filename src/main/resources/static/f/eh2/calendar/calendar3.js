@@ -60,9 +60,12 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		= '/f/eh2/calendar/calendar3_record_menu.html'
 
 	$scope.icpc2_nakaz74 = $scope.progr_am.icpc2_nakaz74
+	$scope.icpc2_nakaz74.include = {
+		j2c_table_content : '/f/eh2/calendar/physician_calendar_j2ct_visit.html',
+	}
 	$scope.icpc2_nakaz74.col_sort = [
 		'visit',
-//				'row_id',
+//		'row_id',
 		'pip_patient','birth_date','email',
 		'pip_physician',
 	]
@@ -75,9 +78,6 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 			email: 'e-mail',
 			pip_physician : 'Лікар',
 		},
-	}
-	$scope.icpc2_nakaz74.include = {
-		j2c_table_content : '/f/eh2/calendar/physician_calendar_j2ct_visit.html',
 	}
 			
 	var readDB_visit = function(){
