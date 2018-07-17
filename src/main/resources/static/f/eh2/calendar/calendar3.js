@@ -52,8 +52,8 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 	
 	console.log('-------------------45--------------------')
 //	$scope.progr_am.icpc2_nakaz74={}
-	console.log(	$scope.progr_am.icpc2_nakaz74)
-	
+	console.log($scope.progr_am.icpc2_nakaz74)
+
 	if(!$scope.progr_am.icpc2_nakaz74.init_data)
 		$scope.progr_am.icpc2_nakaz74.init_data = {}
 	$scope.progr_am.icpc2_nakaz74.init_data.include_table_menu 
@@ -82,17 +82,36 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 			
 	var readDB_visit = function(){
 		var params = {
-				sql:sql3.f74_read_allpatientvisit_records(),
-				msp_id:188,
-				seek:'%'+$scope.progr_am.viewes.menu.seek+'%'
+			sql:sql3.f74_read_allpatientvisit_records(),
+			msp_id:188,
+			seek:'%'+$scope.progr_am.viewes.menu.seek+'%'
 		}
 		exe_fn.httpGet(exe_fn.httpGet_j2c_table_params_then_fn(
-				params,
-				function(response) {
-					$scope.icpc2_nakaz74.data.list
-					= response.data.list
-					init_j2ct_fn($scope.icpc2_nakaz74, 'Init_j2ct_fn')
-				}))
+			params,
+			function(response) {
+				$scope.icpc2_nakaz74.data.list
+				= response.data.list
+				mapDate()
+				init_j2ct_fn($scope.icpc2_nakaz74, 'Init_j2ct_fn')
+			}))
+		var mapDate = function(){
+			$scope.icpc2_nakaz74.mapDate = {}
+			console.log($scope.icpc2_nakaz74.mapDate)
+			angular.forEach($scope.icpc2_nakaz74.data.list,function(v, key){
+				var mapDateKey = $filter('date')(v.created, 'shortDate'),
+				h = $filter('date')(v.created, 'H')
+				if(!$scope.icpc2_nakaz74.mapDate[mapDateKey])
+					$scope.icpc2_nakaz74.mapDate[mapDateKey]= {list:[],hours:{}}
+				var mapDateValue = $scope.icpc2_nakaz74.mapDate[mapDateKey]
+				mapDateValue.list.push(v)
+				if(!mapDateValue.hours[h])
+					mapDateValue.hours[h] = []
+				mapDateValue.hours[h].push(v)
+				if($scope.request.parameters.row_id==v.row_id){
+					$scope.icpc2_nakaz74.selectedCell = {row:v, row_id:v.row_id}
+				}
+			})
+		}
 	}
 	readDB_visit()
 	$scope.$watch('progr_am.viewes.menu.seek', function(newValue,oldValue){if(newValue||oldValue){
@@ -116,7 +135,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		j2c_table_content : '/f/eh2/calendar/physician_calendar_j2ct_physicians.html',
 	}
 
-	console.log(sql3.f74_read_msp_physicians())
+//	console.log(sql3.f74_read_msp_physicians())
 //	console.log(sql3.f74_read_allpatientvisit_records())
 	var readDB_physician = function(){
 		var seek = '%'+$scope.progr_am.viewes.menu.seek2+'%'
@@ -152,10 +171,10 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 			}else{
 				var row = this.data.list[row_k];
 				this.selectedCell = {
-						row_k:row_k, 
-						col_k:col_k, 
-						row_id:row.row_id,
-						row:row,
+					row_k:row_k, 
+					col_k:col_k, 
+					row_id:row.row_id,
+					row:row,
 				}
 			}
 			console.log(this.selectedCell)

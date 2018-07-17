@@ -335,11 +335,11 @@ init_am_directive.init_icpc2_test3 = function($scope, $http){
 			$scope.dropdown_data.list=response.data.list
 			//if(!$scope.dropdown_data.seekIcpc2)
 			$scope.dropdown_data.col_keys={
-					code:'Код',
-					value:'Назва',
-					doc_id:'ІН',
-					part:'Група',
-					doctype:'zГрупа',
+				code:'Код',
+				value:'Назва',
+				doc_id:'ІН',
+				part:'Група',
+				doctype:'zГрупа',
 			}
 			console.log($scope.dropdown_data)
 		})
