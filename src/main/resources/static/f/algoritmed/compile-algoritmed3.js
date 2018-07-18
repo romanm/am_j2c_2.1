@@ -40,6 +40,10 @@ init_am_directive.init_programRuns=function($scope, $http, $filter, $route){
 }
 
 var Exe_fn = function($scope, $http){
+	this.import_fn = function(o,key){
+		var import_fn = new exe_fn[key]($scope, $http)
+		angular.forEach(import_fn, function(v, k){ o[k]= v })
+	}
 	this.calcJSON_CRC32=function(jsonObj){
 		return CRC32(JSON.stringify(jsonObj))
 	}

@@ -92,7 +92,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 				$scope.icpc2_nakaz74.data.list
 				= response.data.list
 				mapDate()
-				init_j2ct_fn($scope.icpc2_nakaz74, 'Init_j2ct_fn')
+				exe_fn.import_fn($scope.icpc2_nakaz74, 'Init_j2ct_fn_selectCell')
 			}))
 		var mapDate = function(){
 			$scope.icpc2_nakaz74.mapDate = {}
@@ -139,12 +139,12 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 //	console.log(sql3.f74_read_allpatientvisit_records())
 	var readDB_physician = function(){
 		var seek = '%'+$scope.progr_am.viewes.menu.seek2+'%'
-		exe_fn.httpGet(exe_fn.httpGet_j2c_table_params_then_fn(
+		exe_fn.httpGet( exe_fn.httpGet_j2c_table_params_then_fn(
 		{ msp_id:188, seek:seek, sql:sql3.f74_read_msp_physicians(), },
 		function(response){
 			$scope.data2.physician_list.data.list
 				= response.data.list
-			init_j2ct_fn($scope.data2.physician_list, 'Init_j2ct_fn')
+			exe_fn.import_fn($scope.data2.physician_list, 'Init_j2ct_fn_selectCell')
 		}))
 	}
 	readDB_physician()
@@ -158,44 +158,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 		$scope.editRow = $scope.icpc2_nakaz74.data.list[row_k];
 		console.log($scope.editRow)
 	}
-	var init_j2ct_fn = function(o,key){
-		var init_j2ct_fn = new exe_fn[key]($scope, $http)
-		angular.forEach(init_j2ct_fn, function(v, k){ o[k]= v })
-	}
-	exe_fn.Init_j2ct_fn = function($scope, $http){
-		this.selectedCell = {}
-		this.selectCell = function(row_k, col_k, row){
-			if(	this.selectedCell.col_k==col_k 
-					&&	this.selectedCell.row_k==row_k
-			){
-			}else{
-				var row = this.data.list[row_k];
-				this.selectedCell = {
-					row_k:row_k, 
-					col_k:col_k, 
-					row_id:row.row_id,
-					row:row,
-				}
-			}
-			console.log(this.selectedCell)
-			this.isEditRow2(row)
-		}
-		this.isCellSelect=function(row_k, col_k, row){
-			if(this.selectedCell && !this.selectedCell.close){
-				if(this.selectedCell.row_id==row.row_id)
-					return this.selectedCell.row_k==row_k 
-					&& this.selectedCell.col_k==col_k
-			}
-			return false
-		}
-		this.isEditRow2 = function(row){
-			console.log(row.row_id)
-			return this.selectedCell && this.selectedCell.row_id==row.row_id
-		}
-		this.isEditRow = function(row){
-			return this.selectedCell && this.selectedCell.row_id==row.row_id
-		}
-	}
+	
 }
 
 var BasicCalendar = function($scope, $http, $filter){

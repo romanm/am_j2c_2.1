@@ -61,16 +61,18 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 		exe_fn.httpGet({url:jsonEditorReadParams.url_template, //read template
 			then_fn:function(response) {
 				$scope.data.jsonTemplate=response.data
+				console.log($scope.data.jsonTemplate)
 				exe_fn.httpGet({url:'/r/url_sql_read2', //read data
 					params:{
 						sql:sql2.sql2_docbody_selectById(),
 						docbody_id:jsonEditorReadParams.docbody_id
 					},
 					then_fn:function(response) {
-						console.log(response.data)
+//						console.log(response.data)
 						if(response.data.list[0]){
 							var docbody = JSON.parse(response.data.list[0].docbody);
 							$scope.editDoc = docbody
+							console.log($scope.editDoc)
 							if($scope.editDoc.data)
 								$scope.editDoc = $scope.editDoc.data
 							if(!$scope.editDoc.doc_id)
@@ -452,13 +454,52 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 			then_fn : then_fn,
 		}
 	}
+
+
+	exe_fn.Init_j2ct_fn_selectCell = function($scope, $http){
+		this.selectedCell = {}
+		this.selectCell = function(row_k, col_k, row){
+			if(	this.selectedCell.col_k==col_k 
+					&&	this.selectedCell.row_k==row_k
+			){
+			}else{
+				var row = this.data.list[row_k];
+				this.selectedCell = {
+					row_k:row_k, 
+					col_k:col_k, 
+					row_id:row.row_id,
+					row:row,
+				}
+			}
+			console.log(this.selectedCell)
+			this.isEditRow2(row)
+		}
+		this.isCellSelect=function(row_k, col_k, row){
+			if(this.selectedCell && !this.selectedCell.close){
+				if(this.selectedCell.row_id==row.row_id)
+					return this.selectedCell.row_k==row_k 
+					&& this.selectedCell.col_k==col_k
+			}
+			return false
+		}
+		this.isEditRow2 = function(row){
+			console.log(row.row_id)
+			return this.selectedCell && this.selectedCell.row_id==row.row_id
+		}
+		this.isEditRow = function(row){
+			return this.selectedCell && this.selectedCell.row_id==row.row_id
+		}
+	}
+
+
 	
 	$scope.progr_am.viewes.hrm_menu.seekClean = function(){
 		console.log('---interface---progr_am.viewes.hrm_menu.seekClean---')
 	}
 	$scope.pageGroup = {
 		saveButtonPages:[
-			'declaration','msp_division','msp_data','hrm_cards2',
+			'declaration','msp_division','msp_data',
+			'hrm_cards2', 'hrm_cards3',
 			'declaration3', 'msp_division3', 'newpatient'
 		]
 	}
@@ -484,6 +525,9 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 			msp_data3:'данні',
 			msp_registry3:'реєстрація',
 			msp_division3:'підрозділи',
+		},
+		hrm:{parent:{name:'Відділ кадрів', url:'info3' },
+			hrm_cards3:'карточки',
 		},
 		dev:{parent:{name:'DEVELOPMENT', url:'info3' },
 			icpc2_test4:'ICPC2 таблиця c.v.3.0.1',

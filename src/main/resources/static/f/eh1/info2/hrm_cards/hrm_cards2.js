@@ -21,8 +21,8 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 		data.sql=sql2.sql2_docbodyPerson_updateById()
 		data.dataAfterSave = function(response){
 			var e = response.data.list2[0],
-				r = $scope.patient_lists.selectedCell.row
-				console.log(e)
+			r = $scope.patient_lists.selectedCell.row
+			console.log(e)
 			r.pip_patient	= e.pip_patient
 			r.birth_date	= partyObj.birth_date
 			r.email			= partyObj.email
