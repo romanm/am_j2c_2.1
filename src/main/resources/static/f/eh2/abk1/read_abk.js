@@ -88,30 +88,8 @@ init_am_directive.patient_doc = function($scope, $http, $filter){
 			}
 		}
 	});
-	
-	var personCols = ['last_name','first_name', 'second_name', 'email', 'birth_date'];
 
-	$scope.progr_am.fn.saveAddData=function(data){
-		personCols.forEach(function(k){
-			data[k]=$scope.editDoc[k]
-			if($scope.progr_am.fn.date_names.indexOf(k)>=0){
-				var d = new Date($scope.editDoc[k])
-				console.log(d)
-				data[k] = d.toISOString().split('T')[0]
-			}
-		})
-		data.sql=sql2.sql2_docbodyPerson_updateById()
-		data.dataAfterSave = function(response){
-			var e = response.data.list2[0],
-				r = $scope.patient_lists.selectedCell.row
-				console.log(e)
-			r.pip_patient	= e.pip_patient
-			r.birth_date	= $scope.editDoc.birth_date
-			r.email			= $scope.editDoc.email
-		}
-	}
 }
-
 
 init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filter){
 	console.log('---read_abk.js---ehealth_declaration_pageGroup---')

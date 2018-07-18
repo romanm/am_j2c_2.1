@@ -1,4 +1,3 @@
-
 //console.log('------hrm_cards.js---------------')
 init_am_directive.init_hrm_cards = function($scope, $http){
 //	console.log('----init_am_directive.hrm_cards------------')

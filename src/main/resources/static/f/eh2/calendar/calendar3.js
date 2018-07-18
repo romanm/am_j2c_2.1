@@ -19,7 +19,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 			'/f/eh2/icpc2_test4/icpc2_cell_dropdown_content_o74.html',
 	}
 	
-	$scope.progr_am.viewes={
+	$scope.progr_am.viewes = {
 		calendar:{
 			//ngInclude:,
 			dataName:'basicCalendar',
@@ -124,7 +124,7 @@ init_am_directive.init_registry_calendar = function($scope, $http, $filter, $rou
 	$scope.data2.physician_list.col_sort = [
 		'pip_physician',
 		'physician',
-		]
+	]
 	$scope.data2.physician_list.data = {
 		col_keys : {
 			pip_physician : 'ПІП',

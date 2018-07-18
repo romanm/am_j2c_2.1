@@ -332,7 +332,13 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 		if(!docbody_id){
 			docbody_id = $scope.editDoc.doc_id
 		}
-		var data = {sql:sql2.sql2_docbody_updateById(), docbody:docbody, docbody_id:docbody_id}
+		var data = {
+			sql:sql2.sql2_docbody_updateById(), 
+			docbody:docbody, 
+			docbody_id:docbody_id
+		}
+		console.log($scope.patient_lists)
+		console.log($scope.progr_am.fn.saveAddData)
 		if($scope.progr_am.fn.saveAddData){
 			$scope.progr_am.fn.saveAddData(data)
 		}
@@ -661,7 +667,7 @@ var sql2 = {
 		"SELECT * FROM ("+this.sql2_patient_and_declaration()+") WHERE person_id=:docbody_id;"
 	},
 	sql2_docbody_updateById:function(){
-		return "UPDATE docbody SET docbody=:docbody " +
+		return "UPDATE docbody SET docbody=:docbody \n" +
 		" WHERE docbody_id=:docbody_id"
 	},
 }

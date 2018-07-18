@@ -2,6 +2,33 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 	init_am_directive.ehealth_declaration($scope, $http);
 	console.log($scope.progr_am.viewes.j2c_table)
 	
+	console.log(123)
+
+	var personCols = ['last_name','first_name', 'second_name', 'email', 'birth_date'];
+	$scope.progr_am.fn.saveAddData=function(data){
+		var partyObj = $scope.editDoc.party
+		console.log(partyObj)
+		personCols.forEach(function(k){
+			console.log(k)
+			data[k]=partyObj[k]
+			if($scope.progr_am.fn.date_names.indexOf(k)>=0){
+				var d = new Date(partyObj[k])
+				console.log(d)
+				data[k] = d.toISOString().split('T')[0]
+			}
+			if(!data[k]) data[k]=''
+		})
+		data.sql=sql2.sql2_docbodyPerson_updateById()
+		data.dataAfterSave = function(response){
+			var e = response.data.list2[0],
+				r = $scope.patient_lists.selectedCell.row
+				console.log(e)
+			r.pip_patient	= e.pip_patient
+			r.birth_date	= partyObj.birth_date
+			r.email			= partyObj.email
+		}
+	}
+
 	$scope.progr_am.fn.init_principal = function(){
 		if($scope.principal.msp_id){
 			$scope.progr_am.hrm_cards.httpGet.params.msp_id
@@ -81,9 +108,9 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 //			console.log($scope.hrm_cards)
 				$scope.hrm_cards.data
 				.col_keys={
-						person_id:'ІН',
-						family_name:'Фамілія',
-						pip:'ПІП'
+					person_id:'ІН',
+					family_name:'Фамілія',
+					pip:'ПІП'
 				}
 			}
 		},
