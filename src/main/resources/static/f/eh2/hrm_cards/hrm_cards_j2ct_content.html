@@ -1,0 +1,10 @@
+<div on="col_k_content" ng-switch>
+	<div ng-switch-when="physician"
+	ng-bind-html="highlight(row.physician, progr_am.viewes.menu.seek2)"
+	></div>
+	<div ng-switch-when="person_id">
+		<a href="?peron_id={{row.person_id}}">{{row.person_id}}</a>
+	</div>
+	<div ng-switch-default ng-if="col_k_content.indexOf('head_')!=0"
+		on="col_k_content" ng-switch>{{row[col_k_content]}}</div>
+</div>
