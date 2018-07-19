@@ -617,8 +617,7 @@ var sql2 = {
 	sql2_patient_lists_seek:function(){
 		return "SELECT * FROM ( \n" +
 				this.sql2_patient_persons() +
-				"\n ) x WHERE " +
-				" LOWER(pip_patient) LIKE LOWER(:seek) "
+				"\n ) x WHERE LOWER(pip_patient) LIKE LOWER(:seek) "
 	},
 	sql2_patient_lists:function(){
 		return this.sql2_patient_persons()

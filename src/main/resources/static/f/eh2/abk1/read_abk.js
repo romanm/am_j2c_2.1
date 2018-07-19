@@ -49,7 +49,7 @@ init_am_directive.patient_doc = function($scope, $http, $filter){
 	if($scope.request.parameters.person_id){
 		var seek = $scope.request.parameters.seek?$scope.request.parameters.seek:''
 		var params = { 
-			sql : sql2.sql2_patient_lists_seek_withId(), 
+			sql : sql2.sql2_patient_lists_seek_withId(),
 			id:$scope.request.parameters.person_id,
 			seek:'%'+seek+'%'
 		}

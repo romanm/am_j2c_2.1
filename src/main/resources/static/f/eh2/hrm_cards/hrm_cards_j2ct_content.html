@@ -1,7 +1,6 @@
 <div on="col_k_content" ng-switch>
-	<div ng-switch-when="physician"
-	ng-bind-html="highlight(row.physician, progr_am.viewes.menu.seek2)"
-	></div>
+	<div ng-switch-when="pip_patient"
+		ng-bind-html="highlight(row.pip_patient, progr_am.viewes.menu.seek)"></div>
 	<div ng-switch-when="person_id">
 		<a href="?person_id={{row.person_id}}">{{row.person_id}}</a>
 	</div>

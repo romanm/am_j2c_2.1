@@ -50,27 +50,18 @@ init_am_directive.init_hrm_cards3 = function($scope, $http, $filter, $route) {
 			dataName:'jsonTemplate',
 			heightProcent:65,
 		},
-		hrm_menu:{ngInclude:'/f/eh1/info2/hrm_cards/hrm_menu.html',
-			seek:null,
+		menu:{ngInclude:'/f/eh2/menu_middle.html',
+			seek:'',
 		},
 		j2c_table:{
 			ngInclude:'/f/eh2/j2c_table.html',
-			n1gInclude:'/f/eh1/info2/hrm_cards/j2c_table.html',
 			dataName:'hrm_cards',
 			heightProcent:22,
 		},
 	}
 	
-	if($scope.request.parameters.person_id){
-		exe_fn.jsonEditorRead({
-			url_template:'/f/mvp/employee_template2.json',
-			doc_type:'employee',
-			docbody_id:$scope.request.parameters.person_id,
-		})
-
-	}
-	
 	$scope.progr_am.hrm_cards = {}
+	exe_fn.import_fn($scope.progr_am.hrm_cards, 'Init_j2ct_fn_selectCell')
 	$scope.progr_am.hrm_cards.include = {
 		j2c_table_content : '/f/eh2/hrm_cards/hrm_cards_j2ct_content.html',
 	}
@@ -78,28 +69,49 @@ init_am_directive.init_hrm_cards3 = function($scope, $http, $filter, $route) {
 		'person_id',
 		'pip_patient',
 	]
-	exe_fn.import_fn($scope.progr_am.hrm_cards, 'Init_j2ct_fn_selectCell')
+	$scope.progr_am.hrm_cards.data = {}
+	$scope.progr_am.hrm_cards.data
+	.col_keys={
+		person_id:'ІН',
+		pip_patient:'ПІП',
+	}
 	var msp_id=188
-	console.log(sql_hrm.msp_employee_list())
 	var params = {
-		sql:sql_hrm.msp_employee_list(),
+		sql:sql_hrm.msp_employee_list_seek(),
 		msp_id:msp_id,
 	}
-	exe_fn.httpGet( exe_fn.httpGet_j2c_table_params_then_fn(
-	params,
-	function(response) {
-		$scope.progr_am.hrm_cards.data=response.data
-		delete $scope.progr_am.hrm_cards.sql
-		console.log($scope.progr_am.hrm_cards)
-		$scope.progr_am.hrm_cards.data
-		.col_keys={
-			person_id:'ІН',
-			pip_patient:'ПІП',
-		}
-	}))
+	if($scope.request.parameters.person_id){
+		exe_fn.jsonEditorRead({
+			url_template:'/f/mvp/employee_template2.json',
+			doc_type:'employee',
+			docbody_id:$scope.request.parameters.person_id,
+		})
+	}
+	console.log(sql_hrm.msp_employee_list())
+	var readDB_hrm_cards = function(){
+		params.seek = '%'+$scope.progr_am.viewes.menu.seek+'%'
+		exe_fn.httpGet( exe_fn.httpGet_j2c_table_params_then_fn(
+		params,
+		function(response) {
+			$scope.progr_am.hrm_cards.data.list=response.data.list
+			delete $scope.progr_am.hrm_cards.sql
+			console.log($scope.progr_am.hrm_cards)
+		}))
+	}
+	readDB_hrm_cards()
+	
+	$scope.$watch('progr_am.viewes.menu.seek', function(newValue,oldValue){if(newValue||oldValue){
+		console.log(newValue)
+		readDB_hrm_cards()
+	}})
 }
 
 var sql_hrm = {
+	msp_employee_list_seek:function(){
+		return "SELECT * FROM (" +
+				this.msp_employee_list() +
+				") x WHERE LOWER(pip_patient) LIKE LOWER(:seek)"
+	},
 	msp_employee_list:function(){
 		return "SELECT person_id row_id, \n" +
 				"p.last_name||' '||p.first_name||' '||p.second_name pip_patient, \n" +
