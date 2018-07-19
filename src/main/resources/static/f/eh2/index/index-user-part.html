@@ -1,0 +1,11 @@
+<div>
+	<span class="w3-border-bottom">&nbsp</span> <span
+		ng-repeat="(k,tab_page) in page.head.tabs" class="w3-hover-light-gray"
+		ng-class="{
+    'w3-border-bottom':k!=page.pageKey()
+    ,'w3-border-top w3-border-left w3-border-right':k==page.pageKey()
+    }">
+		&nbsp <a href="/v/{{k}}" ng-bind-html="tab_page.alias"> </a>
+		&nbsp
+	</span>  
+</div>

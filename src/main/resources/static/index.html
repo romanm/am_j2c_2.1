@@ -22,7 +22,13 @@
 	<div class="w3-row-padding">
 		<div class="w3-half ">
 			<div>
-				<a href="/v/info"> Інформаційна сторінка </a>
+				<a href="/v/info3"> Госпітальна інформаційна система </a>
+				<div class="w3-right w3-small">
+				... для лікарів
+				</div>
+			</div>
+			<div>
+				<a href="/v/pis-info">Інформаційна система пацієнтів</a>
 			</div>
 			<p>
 				Login <span ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
@@ -32,7 +38,7 @@
 				{{principal.user.first_name.substr(0,1)}}.{{principal.user.second_name.substr(0,1)}}.
 			</b>
 			<div ng-if="page.getPrincipalRole()"
-				ng-include="'/f/algoritmed/lib/page.head.tabs.html'"></div>
+				ng-include="'/f/eh2/index/index-user-part.html'"></div>
 		</div>
 		<div class="w3-half w13-border-left w13-border-right">
 			<div ng-include="'/f/ehealth-declaration/mis-list.html'"></div>

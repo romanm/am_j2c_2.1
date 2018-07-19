@@ -472,7 +472,6 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 				}
 			}
 			console.log(this.selectedCell)
-			this.isEditRow2(row)
 		}
 		this.isCellSelect=function(row_k, col_k, row){
 			if(this.selectedCell && !this.selectedCell.close){
@@ -482,12 +481,8 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 			}
 			return false
 		}
-		this.isEditRow2 = function(row){
-			console.log(row.row_id)
-			return this.selectedCell && this.selectedCell.row_id==row.row_id
-		}
 		this.isEditRow = function(row){
-			return this.selectedCell && this.selectedCell.row_id==row.row_id
+			return this.selectedCell && this.selectedCell.row.row_id==row.row_id
 		}
 	}
 
@@ -514,7 +509,7 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 			ambk:'амб-на к. ф.№025/о',
 			physician_calendar:'візит календар',
 			declaration3:'декларація',
-			abk:'амб-на к. ф.№025/о',
+//			abk:'амб-на к. ф.№025/о',
 		},
 		analytics:{parent:{name:'Статистика'/*Аналітіка*/, url:'info3' },
 			icpc2_test3:'ф.074/о', //f074
@@ -525,9 +520,10 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 			msp_data3:'данні',
 			msp_registry3:'реєстрація',
 			msp_division3:'підрозділи',
+			msp_nszu:'договори НСЗУ',
 		},
 		hrm:{parent:{name:'Відділ кадрів', url:'info3' },
-			hrm_cards3:'карточки',
+			hrm_cards3:'посадові картки',
 		},
 		dev:{parent:{name:'DEVELOPMENT', url:'info3' },
 			icpc2_test4:'ICPC2 таблиця c.v.3.0.1',

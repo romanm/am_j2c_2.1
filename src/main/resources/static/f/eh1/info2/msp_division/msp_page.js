@@ -1,3 +1,6 @@
+init_am_directive.init_msp_page3 = function($scope, $http){
+	init_am_directive.init_msp_page($scope, $http)	
+}
 init_am_directive.init_msp_page = function($scope, $http){
 	console.log('-------msp_page----2------------')
 	init_am_directive.ehealth_declaration($scope, $http);

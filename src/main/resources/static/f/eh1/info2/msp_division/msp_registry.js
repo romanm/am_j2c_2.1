@@ -1,3 +1,6 @@
+init_am_directive.init_msp_registry3 = function($scope, $http){
+	init_am_directive.init_msp_registry($scope, $http)
+}
 init_am_directive.init_msp_registry = function($scope, $http){
 	console.log('-init_msp_registry----2------------')
 	init_am_directive.ehealth_declaration($scope, $http);
