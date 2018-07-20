@@ -12,24 +12,33 @@
 
 <script th:attr="src=${script}"></script>
 <link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/algoritmed.css">
 <link rel="stylesheet"
 	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body class="w3-container" style="max-width: 950px; margin-left: 10px;"
+<body class="w3-container w3-border-right   w3-light-gray"
+	s1tyle="max-width: 950px; margin-left: 10px;"
 	ng-controller="ControllerApp1">
-	<h1>Медична інформаційна система ALGORITMED</h1>
+	<div class="w3-center w3-blue-gray w3-small">
+		<b>Медична інформаційна система ALGORITMED</b>
+	</div>
+	<div class="w3-row-padding w3-white">
+		<div class="w3-col m5">
+			<div class="w3-right">
+				<a href="/v/info3"> Госпітальна інформаційна система </a> <span
+					class="w3-small"> ... для лікарів </span>
+			</div>
+		</div>
+		<div class="w3-col m2 w3-center">
+			<i class="fa fa-exchange"></i>
+		</div>
+		<div class="w3-col m5">
+			<a href="/v/pis-info">Інформаційна система пацієнтів</a>
+		</div>
+	</div>
 	<div class="w3-row-padding">
-		<div class="w3-half ">
-			<div>
-				<a href="/v/info3"> Госпітальна інформаційна система </a>
-				<div class="w3-right w3-small">
-				... для лікарів
-				</div>
-			</div>
-			<div>
-				<a href="/v/pis-info">Інформаційна система пацієнтів</a>
-			</div>
+		<div class="w3-quarter">
 			<p>
 				Login <span ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
 			</p>
@@ -40,11 +49,12 @@
 			<div ng-if="page.getPrincipalRole()"
 				ng-include="'/f/eh2/index/index-user-part.html'"></div>
 		</div>
-		<div class="w3-half w13-border-left w13-border-right">
+		<div class="w3-half" ng-include="'/f/eh2/index/middle-index.html'">
+		</div>
+		<div class="w3-quarter w13-border-left w13-border-right w3-small">
 			<div ng-include="'/f/ehealth-declaration/mis-list.html'"></div>
 		</div>
 	</div>
-
 
 </body>
 </html>

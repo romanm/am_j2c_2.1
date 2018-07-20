@@ -15,6 +15,7 @@ a.am-j2c:link{ text-decoration: none; }
 .am-width-100pr{ width: 100%; }
 table.am-table-va th{ vertical-align: bottom;	}
 table.am-table-va td{ vertical-align: top; }
+.am-p-5{margin-top: 5px;margin-bottom: 5px;}
 .am-b{ font-weight:bold; }
 .am-nowrap{ white-space: nowrap; }
 .am-normal { font-weight: normal; }
