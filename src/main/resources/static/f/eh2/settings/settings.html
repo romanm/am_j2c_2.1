@@ -1,0 +1,34 @@
+<div>
+	<div class="w3-blue-gray  w3-small" style="text-decoration: overline;">
+		<a class="w3-hover-light-gray w3-hover-shadow" href="/"> <i
+			class="fa fa-home"></i></a> | <span style="text-decoration: underline;">
+			МІС-Алгорітмед</span> | налаштунки
+		<div class="w3-right">
+			Login <span ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
+		</div>
+	</div>
+	<div>
+		<table>
+			<tr class="w3-tiny">
+				<th></th>
+				<th>Посади/ролі/логіни</th>
+			</tr>
+			<tr class="w3-hover-gray"
+				ng-repeat="role in progr_am.roles.data.list"
+				ng-mouseover="progr_am.roles.mouseover_role=role.role_id">
+				<td>{{role.role_sort}}</td>
+				<td ng-class="{'w3-green':progr_am.roles.hasLoginRole2(role)}"
+					title="{{role.role_id}}">{{role.role_note}}
+					</td>
+				<td ng-if="progr_am.roles.mouseover_role==role.role_id"><a
+					class="w3-btn w3-hover-red" title="Додати роль і права доступу"
+					href="#"
+					ng-click="progr_am.roles.fn_plus_role(role)">+</a>
+					<a class="w3-btn w3-hover-red" title="Відняти роль і права доступу"
+					href="#"
+					ng-click="config_msp_all.human_resources_department.fn_minus_role(e, role)">-</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

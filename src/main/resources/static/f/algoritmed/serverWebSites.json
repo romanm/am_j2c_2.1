@@ -1,8 +1,15 @@
 {
 "info3":{
-    "th_template": "template3",
+    "th_template": "template5",
     "ng_template": "'/f/eh2/info/info3.html'",
     "script": "/f/eh1/info2/info2.js",
+    "title": "development declaration",
+    "parent": "home"
+},
+"settings":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh2/settings/settings.html'",
+    "script": "/f/eh2/settings/settings.js",
     "title": "development declaration",
     "parent": "home"
 },

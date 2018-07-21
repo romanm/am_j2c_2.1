@@ -21,7 +21,10 @@
 	s1tyle="max-width: 950px; margin-left: 10px;"
 	ng-controller="ControllerApp1">
 	<div class="w3-center w3-blue-gray w3-small">
-		<b>Медична інформаційна система ALGORITMED</b>
+		<b>Медична інформаційна система ALGORITMED</b> &nbsp; <a
+			title="Налаштунки" class="w3-hover-light-gray w3-hover-shadow"
+			href="/v/settings" ng-if="principal.user"><i
+			class="fa fa-caret-down" aria-hidden="true"></i> </a>
 	</div>
 	<div class="w3-row-padding w3-white">
 		<div class="w3-col m5">
@@ -42,6 +45,7 @@
 			<p>
 				Login <span ng-include="'/f/algoritmed/lib/link-to-login.html'"></span>
 			</p>
+
 			{{page.getPrincipalRole().name}}: <b>
 				{{principal.user.family_name}}
 				{{principal.user.first_name.substr(0,1)}}.{{principal.user.second_name.substr(0,1)}}.

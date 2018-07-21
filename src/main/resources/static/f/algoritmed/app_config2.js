@@ -113,7 +113,7 @@ app_config.fn.pages = function($scope){
 			ROLE_HEAD_MSP:{name:'Гол.Лікар',fns:['C','B','D','I'],page_head_tabs:'hf_admin'},
 			ROLE_ADMIN_REGION:{name:'Адмін. Регіону',fns:['F']},
 			ROLE_ADMIN_APP:{name:'Адмін.програми',fns:['A','B','C','D','E','F','H','I']},
-			ROLE_WAITING_FOR_CONFIRMATION:{name:'Заявка на користування програмою: medic.algoritmed.com',fns:['J']},
+			ROLE_WAITING_FOR_CONFIRMATION:{name:'Заявка на користування МІС-АЛГОРІТМЕД',fns:['J']},
 		},
 		fns:{
 			A:{name:'Заведеня хворого'},
