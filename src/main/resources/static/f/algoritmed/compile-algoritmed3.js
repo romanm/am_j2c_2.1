@@ -5,7 +5,7 @@ var exe_fn
 app.controller('ControllerApp1', function($scope, $http, $filter, $route) {
 	$scope.data={}
 	$scope.progr_am={fn:{}}
-	console.log($scope)
+//	console.log($scope)
 	console.log($scope.progr_am)
 //	console.log($scope.data)
 	

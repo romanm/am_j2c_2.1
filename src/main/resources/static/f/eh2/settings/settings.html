@@ -8,27 +8,64 @@
 		</div>
 	</div>
 	<div>
-		<table>
-			<tr class="w3-tiny">
-				<th></th>
-				<th>Посади/ролі/логіни</th>
-			</tr>
-			<tr class="w3-hover-gray"
-				ng-repeat="role in progr_am.roles.data.list"
-				ng-mouseover="progr_am.roles.mouseover_role=role.role_id">
-				<td>{{role.role_sort}}</td>
-				<td ng-class="{'w3-green':progr_am.roles.hasLoginRole2(role)}"
-					title="{{role.role_id}}">{{role.role_note}}
-					</td>
-				<td ng-if="progr_am.roles.mouseover_role==role.role_id"><a
-					class="w3-btn w3-hover-red" title="Додати роль і права доступу"
-					href="#"
-					ng-click="progr_am.roles.fn_plus_role(role)">+</a>
-					<a class="w3-btn w3-hover-red" title="Відняти роль і права доступу"
-					href="#"
-					ng-click="config_msp_all.human_resources_department.fn_minus_role(e, role)">-</a>
-				</td>
-			</tr>
-		</table>
+		<div class="w3-row">
+			<div class="w3-half">
+				<table>
+					<tr class="w3-tiny">
+						<th></th>
+						<th>Посади/ролі/логіни</th>
+					</tr>
+					<tr class="w3-hover-gray"
+						ng-repeat="role in progr_am.roles.data.list"
+						ng-mouseover="progr_am.roles.mouseover_role=role.role_id">
+						<td>{{role.role_sort}}</td>
+						<td ng-class="{'w3-green':progr_am.roles.hasLoginRole2(role)}"
+							title="{{role.role_id}}">{{role.role_note}}</td>
+						<td ng-if="progr_am.roles.mouseover_role==role.role_id"><a
+							class="w3-btn w3-hover-red" title="Додати роль і права доступу"
+							href="#" ng-click="progr_am.roles.fn_plus_role(role)">+</a> <a
+							class="w3-btn w3-hover-red" title="Відняти роль і права доступу"
+							href="#"
+							ng-click="config_msp_all.human_resources_department.fn_minus_role(e, role)">-</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="w3-half">
+				<div>
+					<div class="w3-row w3-tiny">
+						<div class="w3-col m4 l4 s4 am-b">Змінити пароль:</div>
+						<div class="w3-col m8 l8 s8">
+							{{principal.user.username}}
+						</div>
+					</div>
+					<div class="w3-row">
+						<div class="w3-col m4 l4 s4 ">Пароль:</div>
+						<div class="w3-col m8 l8 s8">
+							<input ng-model="progr_am.passwordChange.data.password" placeholder="Пароль"
+								class="w3-border am-width-100pr" type="password">
+						</div>
+					</div>
+					<div class="w3-row">
+						<div class="w3-col m4 l4 s4 "><span class="w3-tiny">підтвердженя пароля</span> :</div>
+						<div class="w3-col m8 l8 s8">
+							<input ng-model="progr_am.passwordChange.data.password2" placeholder="Пароль"
+							ng-blur="progr_am.passwordChange.p2p1equals()"
+								class="w3-border am-width-100pr" type="password">
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="am-b w3-tiny">Контактні дані</div>
+					<div class="w3-row">
+						<div class="w3-col m4 l4 s4 ">email:</div>
+						<div class="w3-col m8 l8 s8">{{principal.user.email}}</div>
+					</div>
+					<!-- 
+					<div class="w3-code">{{principal.user}}</div>
+					 -->
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

@@ -3,6 +3,13 @@ init_am_directive.init_settings = function($scope, $http){
 	console.log('----init_am_directive.init_settings------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 	
+	$scope.progr_am.passwordChange = {data:{}}
+	$scope.progr_am.passwordChange.p2p1equals = function(){
+		console.log(this)
+		console.log(this.data)
+		console.log(this.data.password)
+		console.log(this.data.password2)
+	}
 	$scope.progr_am.roles = {data:{}}
 	$scope.progr_am.roles.fn_plus_role = function(role){
 		if($scope.principal && $scope.principal.principal){
@@ -21,8 +28,8 @@ init_am_directive.init_settings = function($scope, $http){
 				data:data,
 			})
 		}
-
 	}
+
 	$scope.progr_am.roles.hasLoginRole2 = function(role){
 		var hasLoginRole2 = false
 		if($scope.principal && $scope.principal.principal){
