@@ -6,7 +6,6 @@ init_am_directive.init_settings = function($scope, $http){
 	$scope.progr_am.passwordChange = {data:{},error:{}}
 	console.log($scope.progr_am.passwordChange)
 	$scope.progr_am.passwordChange.save = function(){
-		console.log('------------------')
 		var data = {
 			sql:sql_settings.userpass_add(), 
 			password:'{noop}'+this.data.password,
