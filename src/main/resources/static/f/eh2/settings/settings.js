@@ -3,12 +3,33 @@ init_am_directive.init_settings = function($scope, $http){
 	console.log('----init_am_directive.init_settings------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 	
-	$scope.progr_am.passwordChange = {data:{}}
+	$scope.progr_am.passwordChange = {data:{},error:{}}
+	console.log($scope.progr_am.passwordChange)
+	$scope.progr_am.passwordChange.save = function(){
+		console.log('------------------')
+		var data = {
+			sql:sql_settings.userpass_add(), 
+			password:'{noop}'+this.data.password,
+			user_id:$scope.principal.user.user_id,
+		}
+		console.log(data)
+		exe_fn.httpPost
+		({	url:'/r/url_sql_update2',
+			then_fn:function(response) {
+				location.reload();
+			},
+			data:data,
+		})
+
+	}
 	$scope.progr_am.passwordChange.p2p1equals = function(){
 		console.log(this)
 		console.log(this.data)
-		console.log(this.data.password)
-		console.log(this.data.password2)
+		if(this.data.password != this.data.password2){
+			this.error.password2 = 'Перший пароль не дорівнює другому.'
+		}else{
+			delete this.error.password2
+		}
 	}
 	$scope.progr_am.roles = {data:{}}
 	$scope.progr_am.roles.fn_plus_role = function(role){
@@ -175,6 +196,9 @@ init_am_directive.init_settings = function($scope, $http){
 }
 
 var sql_settings = {
+	userpass_add:function(){
+		return "UPDATE users SET password=:password WHERE user_id=:user_id"
+	},
 	role_add:function(){
 		return "INSERT INTO user_roles (username, role) VALUES (:username, :role_id); \n" +
 				"DELETE FROM user_roles WHERE username=:username AND role='ROLE_WAITING_FOR_CONFIRMATION'"

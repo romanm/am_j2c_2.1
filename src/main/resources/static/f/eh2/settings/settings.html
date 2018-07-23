@@ -34,7 +34,7 @@
 			<div class="w3-half">
 				<div>
 					<div class="w3-row w3-tiny">
-						<div class="w3-col m4 l4 s4 am-b">Змінити пароль:</div>
+						<div class="w3-col m4 l4 s4 am-b">Зміна пароля:</div>
 						<div class="w3-col m8 l8 s8">
 							{{principal.user.username}}
 						</div>
@@ -47,13 +47,19 @@
 						</div>
 					</div>
 					<div class="w3-row">
-						<div class="w3-col m4 l4 s4 "><span class="w3-tiny">підтвердженя пароля</span> :</div>
+						<div class="w3-col m4 l4 s4 ">
+							<span class="w3-tiny">підтвердженя пароля</span> :
+						</div>
 						<div class="w3-col m8 l8 s8">
-							<input ng-model="progr_am.passwordChange.data.password2" placeholder="Пароль"
-							ng-blur="progr_am.passwordChange.p2p1equals()"
+							<input ng-model="progr_am.passwordChange.data.password2"
+								placeholder="Пароль"
+								ng-blur="progr_am.passwordChange.p2p1equals()"
 								class="w3-border am-width-100pr" type="password">
+							<div class="w3-red w3-small ng-scope"
+								ng-if="progr_am.passwordChange.error.password2">{{progr_am.passwordChange.error.password2}}</div>
 						</div>
 					</div>
+					<button class="w3-border" ng-click="progr_am.passwordChange.save()">Змінити пароль</button>
 				</div>
 				<div>
 					<div class="am-b w3-tiny">Контактні дані</div>
