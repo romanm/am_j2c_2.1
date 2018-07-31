@@ -482,7 +482,7 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 			return false
 		}
 		this.isEditRow = function(row){
-			return this.selectedCell && this.selectedCell.row.row_id==row.row_id
+			return this.selectedCell && this.selectedCell.row && this.selectedCell.row.row_id==row.row_id
 		}
 	}
 
