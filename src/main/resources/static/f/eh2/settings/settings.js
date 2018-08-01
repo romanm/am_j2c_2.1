@@ -31,6 +31,24 @@ init_am_directive.init_settings = function($scope, $http){
 		}
 	}
 	$scope.progr_am.roles = {data:{}}
+	$scope.progr_am.roles.add_msp = function(role){
+		console.log(123)
+		if($scope.progr_am.roles.data.msp_name){
+			var data = {
+				user_id:$scope.principal.user_id,
+				msp_name:$scope.progr_am.roles.data.msp_name,
+				sql:sql_settings.add_msp(),
+			}
+			console.log(data)
+			exe_fn.httpPost
+			({	url:'/r/url_sql_update2',
+				then_fn:function(response) {
+					console.log(data)
+				},
+				data:data,
+			})
+		}
+	}
 	$scope.progr_am.roles.fn_plus_role = function(role){
 		if($scope.principal && $scope.principal.principal){
 			console.log($scope.principal.principal.name)
@@ -50,6 +68,17 @@ init_am_directive.init_settings = function($scope, $http){
 		}
 	}
 
+	$scope.progr_am.roles.hasLoginRole3 = function(role){
+		var hasLoginRole3 = false
+		if($scope.principal && $scope.principal.principal){
+			angular.forEach($scope.principal.principal.authorities, function(value, index){
+				if(value.authority == role)
+					hasLoginRole3 = true
+			})
+		}
+		return hasLoginRole3
+		
+	}
 	$scope.progr_am.roles.hasLoginRole2 = function(role){
 		var hasLoginRole2 = false
 		if($scope.principal && $scope.principal.principal){
@@ -195,6 +224,12 @@ init_am_directive.init_settings = function($scope, $http){
 }
 
 var sql_settings = {
+	add_msp:function(){
+		return "INSERT INTO doc (doc_id, doctype) VALUES (:nextDbId1, 23); \n" +
+				"INSERT INTO docbody (docbody_id, docbody) VALUES (:nextDbId1, '{}'); \n" +
+				"INSERT INTO msp (msp_id, msp_name, msp_public_name) VALUES (:nextDbId1, :msp_name, :msp_name); \n" +
+				"INSERT INTO doc (doc_id, parent_id, reference, doctype) VALUES (:nextDbId2, :user_id, :nextDbId1, 23)"
+	},
 	userpass_add:function(){
 		return "UPDATE users SET password=:password WHERE user_id=:user_id"
 	},
