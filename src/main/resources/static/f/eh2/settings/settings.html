@@ -71,12 +71,18 @@
 					<div class="w3-code">{{principal.user}}</div>
 					 -->
 				</div>
-				<div
-					ng-if="progr_am.roles.hasLoginRole3('ROLE_HEAD_MSP') && !principal.user_msp[0]"
-					class="w3-border w3-border-green">
-					<div class="w3-tiny w3-green am-b">Створити лікувальний
+				<div class="w3-border"
+					ng-class="{
+						'w3-border-green':(progr_am.roles.hasLoginRole3('ROLE_HEAD_MSP') && !principal.user_msp[0]),
+				}">
+					<div class="w3-tiny am-b"
+						ng-class="{
+						'w3-green':(progr_am.roles.hasLoginRole3('ROLE_HEAD_MSP') && !principal.user_msp[0]),
+						'w3-light-grey':!(progr_am.roles.hasLoginRole3('ROLE_HEAD_MSP') && !principal.user_msp[0]),
+						}">Лікувальний
 						заклад</div>
-					<div class="w3-row">
+					<div class="w3-row"
+						ng-if="progr_am.roles.hasLoginRole3('ROLE_HEAD_MSP') && !principal.user_msp[0]">
 						<div class="w3-col m4 l4 s4 ">Назва:</div>
 						<div class="w3-col m8 l8 s8">
 							<input ng-model="progr_am.roles.data.msp_name"
@@ -85,9 +91,10 @@
 						</div>
 						<button class="w3-border" ng-click="progr_am.roles.add_msp()">OK</button>
 					</div>
-				</div>
-				<div ng-repeat="msp in principal.user_msp" class="w3-code">
-					<a href="/v/msp_page3?msp_id={{msp.doc_id}}"> {{msp.msp_name}} </a> {{msp}}
+					<div ng-repeat="msp in principal.user_msp" class="">
+						<a href="/v/msp_page3?msp_id={{msp.doc_id}}"> {{msp.msp_name}}
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
