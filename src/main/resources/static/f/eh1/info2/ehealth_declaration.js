@@ -36,9 +36,9 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 				$scope.msp_division.data=response.data
 				$scope.msp_division.data
 				.col_keys={
-					division_id:'ІН',
-					name:'Назва',
-					address:'Адреса',
+						division_id:'ІН',
+						name:'Назва',
+						address:'Адреса',
 				}
 				angular.forEach($scope.msp_division.data.list, function(v){
 					v.docbody = JSON.parse(v.docbody)
@@ -48,8 +48,8 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 		},
 	}
 
-	exe_fn.msp.DataRead = function(){
-		var docbody_id = 723
+	exe_fn.msp.DataRead = function(docbody_id){
+//		var docbody_id = 723
 		exe_fn.jsonEditorRead({
 			url_template:'/f/mvp/legalEntity_new_template.json',
 			doc_type:'msp',
@@ -68,7 +68,7 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 						docbody_id:jsonEditorReadParams.docbody_id
 					},
 					then_fn:function(response) {
-//						console.log(response.data)
+						console.log(response.data)
 						if(response.data.list[0]){
 							var docbody = JSON.parse(response.data.list[0].docbody);
 							$scope.editDoc = docbody

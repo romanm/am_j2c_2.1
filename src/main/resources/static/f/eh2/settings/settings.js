@@ -34,10 +34,16 @@ init_am_directive.init_settings = function($scope, $http){
 	$scope.progr_am.roles.add_msp = function(role){
 		console.log(123)
 		if($scope.progr_am.roles.data.msp_name){
+			var msp_docbody = {
+				name:$scope.progr_am.roles.data.msp_name,
+				short_name:$scope.progr_am.roles.data.msp_name,
+				public_name:$scope.progr_am.roles.data.msp_name,
+			}
 			var data = {
 				user_id:$scope.principal.user_id,
 				msp_name:$scope.progr_am.roles.data.msp_name,
 				sql:sql_settings.add_msp(),
+				msp_docbody:JSON.stringify(msp_docbody),
 			}
 			console.log(data)
 			exe_fn.httpPost
@@ -226,7 +232,7 @@ init_am_directive.init_settings = function($scope, $http){
 var sql_settings = {
 	add_msp:function(){
 		return "INSERT INTO doc (doc_id, doctype) VALUES (:nextDbId1, 23); \n" +
-				"INSERT INTO docbody (docbody_id, docbody) VALUES (:nextDbId1, '{}'); \n" +
+				"INSERT INTO docbody (docbody_id, docbody) VALUES (:nextDbId1, :msp_docbody); \n" +
 				"INSERT INTO msp (msp_id, msp_name, msp_public_name) VALUES (:nextDbId1, :msp_name, :msp_name); \n" +
 				"INSERT INTO doc (doc_id, parent_id, reference, doctype) VALUES (:nextDbId2, :user_id, :nextDbId1, 23)"
 	},
