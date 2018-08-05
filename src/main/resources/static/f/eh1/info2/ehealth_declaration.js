@@ -520,6 +520,7 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 			msp_data3:'данні',
 			msp_registry3:'реєстрація',
 			msp_division3:'підрозділи',
+			msp_division4:'підрозділи',
 			msp_nszu:'договори НСЗУ',
 		},
 		hrm:{parent:{name:'Відділ кадрів', url:'info3' },

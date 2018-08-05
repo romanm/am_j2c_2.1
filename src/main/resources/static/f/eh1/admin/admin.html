@@ -4,15 +4,11 @@
 </div>
 <div>
 	Hello World!
-	<div>
-	{{path_data.backup_db_path}}
-	
-	</div>
+	<div class="w3-border w3-border-red" ng-if="!principal.principal">Backup DB only
+		after login</div>
+	<div>{{path_data.backup_db_path}}</div>
 	{{file_name}}
 	<div>
-		<button
-		ng-click="backupDb()"
-		class="w3-border"
-		>Backup DB</button>
+		<button ng-click="backupDb()" class="w3-border">Backup DB</button>
 	</div>
 </div>

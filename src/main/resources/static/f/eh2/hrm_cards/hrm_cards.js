@@ -1,6 +1,11 @@
 init_am_directive.init_hrm_cards3 = function($scope, $http, $filter, $route) {
 	init_am_directive.ehealth_declaration($scope, $http, $filter);
-	console.log($scope.progr_am.viewes)
+	console.log(123)
+//	console.log($scope.progr_am.viewes)
+	angular.forEach($scope.progr_am.viewes,function(v,k){
+		console.log(k)
+		console.log(v)
+	})
 	$scope.progr_am.viewes={
 		json_form:{ngInclude:'/f/eh1/info2/hrm_cards/json_form1.html',
 			dataName:'jsonTemplate',
