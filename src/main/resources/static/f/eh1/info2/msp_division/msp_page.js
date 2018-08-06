@@ -5,6 +5,12 @@ init_am_directive.init_msp_division4 = function($scope, $http){
 	$scope.progr_am.viewes.j2c_table.dataName  = 'msp_division'
 	init_msp_division_data($scope, $http)
 	if($scope.request.parameters.division_id){
+		$scope.request.parameters.person_id 
+			= $scope.request.parameters.division_id
+		$scope.msp_division.selectedCell.row_id
+			= $scope.request.parameters.division_id
+		console.log($scope.msp_division)
+		console.log($scope.msp_division.selectedCell)
 		exe_fn.jsonEditorRead
 		({	
 			url_template:'/f/mvp/division_template3.json',
@@ -12,9 +18,49 @@ init_am_directive.init_msp_division4 = function($scope, $http){
 			docbody_id:$scope.request.parameters.division_id,
 		})
 	}
+	
+	$scope.progr_am.fn.j2c.remove_row=function(){
+		console.log('-------j2c.remove_row--------16----------')
+		exe_fn.httpPost
+		({	then_fn:function(response) {
+				window.location.replace('?division_id='
+				+ $scope.request.parameters.division_id
+				)
+			},
+			data:{
+				sql:sql2.sql2_docById_delete(), 
+				doc_id:$scope.request.parameters.division_id,
+			},
+			url:'/r/url_sql_update2',
+		})
+	}
+
+	$scope.progr_am.fn.j2c.add_row=function(){
+		console.log('------j2c.add_row--------16----------')
+		var docbody = {name:'<Назва>'}
+		exe_fn.httpPost
+		({	url:'/r/url_sql_update2',
+			data:{
+				sql:sql2.sql2_docDocbody_insert(), 
+				docbody:JSON.stringify(docbody), 
+				doctype:16,//division
+				parent_id:exe_fn.msp.msp_id,
+			},
+			then_fn:function(response) {
+				window.location.replace('?division_id='
+				+ response.data.nextDbId1		
+				)
+			},
+		})
+	}
 }
+
 var init_msp_division_data = function($scope, $http){
 	$scope.msp_division = {}
+	console.log($scope.msp_division)
+	exe_fn.import_fn($scope.msp_division, 'Init_j2ct_fn_selectCell')
+	$scope.progr_am.msp_division = $scope.msp_division
+	console.log($scope.progr_am)
 	$scope.msp_division.include_table_menu = '/f/eh2/table_menu2.html'
 	// /f/eh1/lib/table_menu.html
 //	$scope.progr_am.msp_division.include = {
@@ -43,6 +89,7 @@ var init_msp_division_data = function($scope, $http){
 		exe_fn.httpGet( exe_fn.httpGet_j2c_table_params_then_fn(
 			params,
 			function(response) {
+				
 				$scope.msp_division.data=response.data
 				$scope.data.msp_division = $scope.msp_division
 				$scope.msp_division.

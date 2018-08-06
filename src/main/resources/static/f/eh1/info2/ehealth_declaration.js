@@ -455,12 +455,11 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 		}
 	}
 
-
 	exe_fn.Init_j2ct_fn_selectCell = function($scope, $http){
 		this.selectedCell = {}
 		this.selectCell = function(row_k, col_k, row){
 			if(	this.selectedCell.col_k==col_k 
-					&&	this.selectedCell.row_k==row_k
+				&&	this.selectedCell.row_k==row_k
 			){
 			}else{
 				var row = this.data.list[row_k];
@@ -482,7 +481,8 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 			return false
 		}
 		this.isEditRow = function(row){
-			return this.selectedCell && this.selectedCell.row && this.selectedCell.row.row_id==row.row_id
+			return this.selectedCell && this.selectedCell.row_id==row.row_id
+//			return this.selectedCell && this.selectedCell.row && this.selectedCell.row.row_id==row.row_id
 		}
 	}
 
@@ -681,7 +681,7 @@ var sql2 = {
 		return "DELETE FROM doc WHERE doc_id=:doc_id"
 	},
 	sql2_msp_divisions_select:function(){
-		return "SELECT doc_id division_id, d.*,b.* FROM doc d, docbody b " +
+		return "SELECT doc_id row_id, doc_id division_id, d.*,b.* FROM doc d, docbody b " +
 				"WHERE doc_id=docbody_id AND doctype=16  AND parent_id=:msp_id"
 	},
 	sql2_docbody_selectById:function(){
