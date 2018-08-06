@@ -495,7 +495,9 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 		saveButtonPages:[
 			'declaration','msp_division','msp_data',
 			'hrm_cards2', 'hrm_cards3',
-			'declaration3', 'msp_division3', 'newpatient'
+			'msp_division3', 'msp_division4', 
+			'declaration3', 
+			'newpatient',
 		]
 	}
 	$scope.pageGroup.misAlgoritmed3 = {
