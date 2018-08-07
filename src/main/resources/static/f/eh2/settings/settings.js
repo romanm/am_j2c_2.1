@@ -1,4 +1,8 @@
 console.log('------settings.js---------------')
+init_am_directive.init_hrm_settings3 = function($scope, $http){
+	console.log('----init_am_directive.init_hrm_settings3------------')
+	init_am_directive.init_settings($scope, $http)
+}
 init_am_directive.init_settings = function($scope, $http){
 	console.log('----init_am_directive.init_settings------------')
 	init_am_directive.ehealth_declaration($scope, $http);

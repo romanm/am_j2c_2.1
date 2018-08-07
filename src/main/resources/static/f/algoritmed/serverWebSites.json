@@ -6,6 +6,13 @@
     "title": "development declaration",
     "parent": "home"
 },
+"hrm_settings3":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh2/hrm_cards/hrm_settings3.html'",
+    "script": "/f/eh2/settings/settings.js",
+    "title": "development declaration",
+    "parent": "home"
+},
 "settings":{
     "th_template": "template3",
     "ng_template": "'/f/eh2/settings/settings.html'",
