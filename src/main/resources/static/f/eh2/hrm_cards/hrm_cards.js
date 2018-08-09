@@ -107,7 +107,17 @@ init_am_directive.init_hrm_cards3 = function($scope, $http, $filter, $route) {
 			}
 		}))
 	}
-	readDB_hrm_cards()
+	$scope.$watch('principal',function(){ 
+		if($scope.principal){
+			console.log($scope.principal)
+			if($scope.principal.user_msp){
+				params.msp_id
+					= $scope.principal.user_msp[0].msp_id;
+				console.log(params)
+			}
+			readDB_hrm_cards()
+		}
+	})
 	
 	$scope.$watch('progr_am.viewes.menu.seek', function(newValue,oldValue){if(newValue||oldValue){
 		console.log(newValue)

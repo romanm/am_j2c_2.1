@@ -22,8 +22,11 @@ public class PrincipalRest extends Db2Common{
 
 	@GetMapping(value = "/r/principal/{user_id}")
 	public @ResponseBody Map<String, Object>  usersFromUserId(@PathVariable Integer user_id) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> mapPrincipal = new HashMap<String, Object>(),
+							map = new HashMap<String, Object>();
 		map.put("user_id", user_id);
+		List<Map<String, Object>> authorities = db2ParamJdbcTemplate.queryForList(env.getProperty("sql.db1.user.authorities"), map);
+		map.put("authorities", authorities);
 		Map<String, Object> user = db2ParamJdbcTemplate.queryForMap(env.getProperty("sql.db1.users.fromUserId"), map);
 		addUser(map, user);
 		String name = (String) user.get("username");
@@ -31,7 +34,8 @@ public class PrincipalRest extends Db2Common{
 
 		addUserMsp(map, user_id, name);
 
-		return map;		
+		mapPrincipal.put("principal", map);
+		return mapPrincipal;
 	}
 	
 	@GetMapping("/r/principal")
@@ -102,9 +106,6 @@ public class PrincipalRest extends Db2Common{
 
 		user.remove("password");
 		map.put("user", user);
-
-
-
 
 	}
 	
