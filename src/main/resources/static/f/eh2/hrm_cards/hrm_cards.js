@@ -51,7 +51,10 @@ init_am_directive.init_hrm_cards3 = function($scope, $http, $filter, $route) {
 		personCols.forEach(function(k){
 			data[k]=partyObj[k]
 			if($scope.progr_am.fn.date_names.indexOf(k)>=0){
-				var d = new Date(partyObj[k])
+				var d = new Date()
+				if(partyObj[k])
+					d = new Date(partyObj[k])
+				console.log(d)
 				data[k] = d.toISOString().split('T')[0]
 			}
 			if(!data[k]) data[k]=''

@@ -79,7 +79,14 @@ public class PrincipalRest extends Db2Common{
 
 	private List<?> addUserMsp(Map<String, Object> map, Integer user_id, String name) {
 		List<?> user_msp = read_user_msp(map, user_id);
-		if(user_msp.size()==0) {
+		System.err.println(user_msp);
+		System.err.println(user_msp.size());
+
+//		if(user_msp.size()==0) {
+		if(user_msp.size()>0) {
+			Object user_msp1 = map.get("user_msp");
+			System.err.println(user_msp1);
+
 			String msp_id = mapUtil.getString(map, "user_msp[0]","msp_id");
 			System.err.println(msp_id);
 
