@@ -119,7 +119,7 @@ init_am_directive.init_hrm_cards3 = function($scope, $http, $filter, $route) {
 	$scope.$watch('principal',function(newValue){ 
 		if(newValue){
 			console.log(newValue)
-			if(newValue.user_msp){
+			if(newValue.user_msp && $scope.principal.user_msp[0]){
 				params.msp_id
 					= $scope.principal.user_msp[0].msp_id;
 //				console.log(params)

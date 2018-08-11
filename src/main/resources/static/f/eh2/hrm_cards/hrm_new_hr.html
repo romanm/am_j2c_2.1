@@ -2,4 +2,8 @@
 	ng-repeat="group_v in [pageGroup.thisPageGroup()]">
 	<div ng-include="'/f/eh1/lib/topbar_page_group.html'"></div>
 </div>
+<span class="w3-tiny am-b">Лікувальний заклад:</span>
+<span class="w3-small"> {{principal.user_msp[0].msp_id}}
+- </span>
+ {{principal.user_msp[0].msp_public_name}}
 <div ng-include="'/f/pis1-am-1/registry1/registry3.html'"></div>
