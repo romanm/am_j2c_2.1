@@ -1,4 +1,10 @@
 console.log('------login1.js-----------------');
+init_am_directive.init_hrm_new_hr=function($scope, $http){
+	console.log('------3----------------')
+	init_am_directive.ehealth_declaration($scope, $http);
+	init_am_directive.init_registry1($scope, $http);	
+}
+
 init_am_directive.init_registry2=function($scope, $http){
 	console.log('------init_am_directive.init_registry2-----------------');
 	var data={sql:'sql2.users.activateLogin',uuid:$scope.request.parameters.uuid}
@@ -8,7 +14,7 @@ init_am_directive.init_registry2=function($scope, $http){
 }
 
 init_am_directive.init_registry1=function($scope, $http){
-	
+
 	init_am_directive.initObj_registry($scope, $http);
 	$scope.registry.saveRegistry=function(){
 		console.log('-------14----------------')

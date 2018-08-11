@@ -527,6 +527,7 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 		},
 		hrm:{parent:{name:'Відділ кадрів', url:'info3' },
 			hrm_cards3:'посадові картки',
+			hrm_new_hr:'новий кадр',
 			hrm_settings3:'налаштунки логін',
 		},
 		dev:{parent:{name:'DEVELOPMENT', url:'info3' },

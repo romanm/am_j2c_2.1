@@ -1,6 +1,9 @@
 init_am_directive.init_hrm_cards3 = function($scope, $http, $filter, $route) {
 	init_am_directive.ehealth_declaration($scope, $http, $filter);
 	console.log(123)
+	$scope.read_t2j = function(){
+		location.reload();
+	}
 //	console.log($scope.progr_am.viewes)
 	angular.forEach($scope.progr_am.viewes,function(v,k){
 		console.log(k)
@@ -101,6 +104,9 @@ init_am_directive.init_hrm_cards3 = function($scope, $http, $filter, $route) {
 		params,
 		function(response) {
 			$scope.progr_am.hrm_cards.data.list=response.data.list
+			console.log($scope.progr_am.hrm_cards)
+						console.log($scope.data)
+
 			delete $scope.progr_am.hrm_cards.sql
 			var row = response.data.list[0]
 			if($scope.request.parameters.person_id == row.row_id){
@@ -110,13 +116,13 @@ init_am_directive.init_hrm_cards3 = function($scope, $http, $filter, $route) {
 			}
 		}))
 	}
-	$scope.$watch('principal',function(){ 
-		if($scope.principal){
-			console.log($scope.principal)
-			if($scope.principal.user_msp){
+	$scope.$watch('principal',function(newValue){ 
+		if(newValue){
+			console.log(newValue)
+			if(newValue.user_msp){
 				params.msp_id
 					= $scope.principal.user_msp[0].msp_id;
-				console.log(params)
+//				console.log(params)
 			}
 			readDB_hrm_cards()
 		}

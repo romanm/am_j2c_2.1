@@ -6,13 +6,6 @@
     "title": "development declaration",
     "parent": "home"
 },
-"hrm_settings3":{
-    "th_template": "template3",
-    "ng_template": "'/f/eh2/hrm_cards/hrm_settings3.html'",
-    "script": "/f/eh2/settings/settings.js",
-    "title": "development declaration",
-    "parent": "home"
-},
 "settings":{
     "th_template": "template3",
     "ng_template": "'/f/eh2/settings/settings.html'",
@@ -161,6 +154,20 @@
     "ng_template": "'/f/eh2/group_view_template.html'",
     "script": "/f/eh2/hrm_cards/hrm_cards.js",
     "title": "відділ кадрів",
+    "parent": "home"
+},
+"hrm_new_hr":{
+    "th_template": "template5",
+    "ng_template": "'/f/eh2/hrm_cards/hrm_new_hr.html'",
+    "script": "/f/pis1-am-1/registry1/registry1.js",
+    "title": "новий кадр",
+    "parent": "home"
+},
+"hrm_settings3":{
+    "th_template": "template3",
+    "ng_template": "'/f/eh2/hrm_cards/hrm_settings3.html'",
+    "script": "/f/eh2/settings/settings.js",
+    "title": "development declaration",
     "parent": "home"
 },
 "hrm_cards2":{
