@@ -3,6 +3,32 @@ init_am_directive.init_hrm_settings3 = function($scope, $http){
 	console.log('----init_am_directive.init_hrm_settings3------------')
 	init_am_directive.init_settings($scope, $http)
 }
+
+var init_principal_edit = function($scope, principal_edit){
+	$scope.principal_edit = principal_edit
+	console.log($scope.principal_edit)
+	$scope.add_to_msp = function(msp, user_id){
+		console.log(user_id)
+		console.log(msp)
+		var data = {
+			sql:sql_settings.add_msp_to_user(), 
+			user_id:user_id, 
+			msp_id:msp.msp_id,
+		}
+		console.log(data)
+		exe_fn.httpPost
+		({	url:'/r/url_sql_update2',
+			then_fn:function(response) {
+				location.reload();
+			},
+			data:data,
+		})
+
+			/*
+	 * */
+	}	
+}
+
 init_am_directive.init_settings = function($scope, $http){
 	console.log('----init_am_directive.init_settings------------')
 	init_am_directive.ehealth_declaration($scope, $http);
@@ -91,8 +117,12 @@ init_am_directive.init_settings = function($scope, $http){
 	}
 	$scope.progr_am.roles.hasLoginRole2 = function(role){
 		var hasLoginRole2 = false
-		if($scope.principal && $scope.principal.principal){
-			var my_authority = $scope.principal.principal.authorities[0].authority;
+//		if($scope.principal && $scope.principal.principal){
+//		var my_authority = $scope.principal.principal.authorities[0].authority;
+		if($scope.principal_edit){
+			if(!$scope.principal_edit.authorities)
+				$scope.principal_edit.authorities = $scope.principal.principal.authorities 
+			var my_authority = $scope.principal_edit.authorities[0].authority;
 			hasLoginRole2 = (role.role_id == my_authority)
 		}
 		return hasLoginRole2
@@ -114,8 +144,17 @@ init_am_directive.init_settings = function($scope, $http){
 		$scope.progr_am.roles.data.list
 			= response.data.list
 	}))
-	console.log(123)
-	console.log($scope.page)
+	console.log($scope.request.parameters)
+	if($scope.request.parameters.id){
+		console.log($scope.request.parameters)
+		console.log($scope.request.parameters.id)
+		exe_fn.httpGet({url:'/r/principal/'+$scope.request.parameters.id, //read principal by id
+			then_fn:function(response) {
+				console.log(response.data)
+				init_principal_edit($scope, response.data.principal)
+			}
+		})
+	}
 	$scope.$watch('principal',function(){
 		console.log('----$scope.$watch(principal,function()------118------');
 		if($scope.principal){
@@ -124,6 +163,9 @@ init_am_directive.init_settings = function($scope, $http){
 				console.log(authority)
 				console.log(principal_config.role[authority])
 				$scope.progr_am.roles.hasLoginRole2($scope.progr_am.roles.data.list[0])
+				if(!$scope.request.parameters.id){
+					init_principal_edit($scope, $scope.principal)
+				}
 			}
 		}
 	});
@@ -234,6 +276,9 @@ init_am_directive.init_settings = function($scope, $http){
 }
 
 var sql_settings = {
+	add_msp_to_user:function(){
+		return "INSERT INTO doc (parent_id, doctype, reference) VALUES (:user_id, 23, :msp_id);"
+	},
 	add_msp:function(){
 		return "INSERT INTO doc (doc_id, doctype) VALUES (:nextDbId1, 23); \n" +
 				"INSERT INTO docbody (docbody_id, docbody) VALUES (:nextDbId1, :msp_docbody); \n" +

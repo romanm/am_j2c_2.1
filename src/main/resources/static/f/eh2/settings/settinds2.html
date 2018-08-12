@@ -1,3 +1,7 @@
+ПІП:
+{{principal_edit.user.last_name}}
+{{principal_edit.user.first_name}}
+{{principal_edit.user.second_name}}
 <div class="w3-row">
 	<div class="w3-half">
 		<table>
@@ -25,7 +29,14 @@
 		<div>
 			<div class="w3-row w3-tiny">
 				<div class="w3-col m4 l4 s4 am-b">Зміна пароля:</div>
-				<div class="w3-col m8 l8 s8">{{principal.user.username}}</div>
+				<div class="w3-col m8 l8 s8">
+				{{principal_edit.user.username}}
+				<a href="?id={{principal.user_id}}" class="w3-right">
+				ІН:
+				{{principal.user_id}}
+				</a>
+				
+				</div>
 			</div>
 			<div class="w3-row">
 				<div class="w3-col m4 l4 s4 ">Пароль:</div>
@@ -83,6 +94,16 @@
 			</div>
 			<div ng-repeat="msp in principal.user_msp" class="">
 				<a href="/v/msp_page3?msp_id={{msp.doc_id}}"> {{msp.msp_name}} </a>
+			</div>
+			<div ng-if="!principal_edit.user_msp[0]"
+				class="w3-border w3-border-green">
+				<div class="w3-green">Приеднати працівника до лікувального
+					закладу:</div>
+				<div>
+					<a href="#" ng-click="add_to_msp(principal.user_msp[0], principal_edit.user_id)"
+						title="{{principal.user_msp[0].msp_id}} to {{principal_edit.user_id}}">
+						{{principal.user_msp[0].msp_name}} </a>
+				</div>
 			</div>
 		</div>
 	</div>
