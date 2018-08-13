@@ -447,6 +447,19 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 
 	}
 
+	exe_fn.roles_data_list = function (){
+		exe_fn.httpGet( exe_fn.httpGet_j2c_table_params_then_fn(
+		{sql:sql2.roles_select(), },
+		function(response){
+//			if($scope.progr_am)
+//				$scope.progr_am = {}
+			if(!$scope.progr_am.roles)
+				$scope.progr_am.roles = {data:{}}
+			$scope.progr_am.roles.data.list
+				= response.data.list
+			console.log($scope.progr_am.roles.data.list)
+		}))
+	}
 	exe_fn.httpGet_j2c_table_params_then_fn = function(params, then_fn){
 		return {
 			url : '/r/url_sql_read2',
@@ -606,6 +619,9 @@ adaptTemplateToData = function(data, template){
 }
 
 var sql2 = {
+	roles_select:function(){
+		return "SELECT * FROM roles ORDER BY role_sort"
+	},
 	sql2_patient_lists_seek_withId:function(){
 		return "SELECT * FROM ( SELECT 0 sort, x.* FROM (" +
 			this.sql2_patient_persons() +" \n" +

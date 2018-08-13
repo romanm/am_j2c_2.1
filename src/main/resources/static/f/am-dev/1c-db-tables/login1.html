@@ -42,7 +42,8 @@
 				логін </a>
 		</div>
 		<div class="w3-right w3-small">
-				<a href="/v/registry1">Реєстрація в системі якщо в вас немає власного логін доступу</a>
+			<span ng-if="true || principal.principal"> <a href="/v/settings" >налаштунки</a> |
+			</span> <a href="/v/registry1">Реєстрація в системі якщо в вас немає власного логін доступу</a>
 		</div>
 	</form>
 </div>

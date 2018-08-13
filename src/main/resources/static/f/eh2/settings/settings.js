@@ -138,12 +138,7 @@ init_am_directive.init_settings = function($scope, $http){
 		return hasRole;
 	}
 	console.log($scope.progr_am.roles)
-	exe_fn.httpGet( exe_fn.httpGet_j2c_table_params_then_fn(
-	{sql:sql_settings.roles_select(), },
-	function(response){
-		$scope.progr_am.roles.data.list
-			= response.data.list
-	}))
+	exe_fn.roles_data_list()
 	console.log($scope.request.parameters)
 	if($scope.request.parameters.id){
 		console.log($scope.request.parameters)
@@ -291,9 +286,6 @@ var sql_settings = {
 	role_add:function(){
 		return "INSERT INTO user_roles (username, role) VALUES (:username, :role_id); \n" +
 				"DELETE FROM user_roles WHERE username=:username AND role='ROLE_WAITING_FOR_CONFIRMATION'"
-	},
-	roles_select:function(){
-		return "SELECT * FROM roles ORDER BY role_sort"
 	},
 	user_roles_select:function(){
 		return "SELECT * FROM user_roles"

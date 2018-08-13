@@ -3,6 +3,25 @@ init_am_directive.init_hrm_new_hr=function($scope, $http){
 	console.log('------3----------------')
 	init_am_directive.ehealth_declaration($scope, $http);
 	init_am_directive.init_registry1($scope, $http);	
+	$scope.progr_am.employee_role = 'ROLE_USER'
+	$scope.registry.saveRegistry = function(){
+		console.log('-------14----------------')
+		this.data.sql='sql2.add_user_with_msp'
+		this.data.doctype=13 //employee
+		this.data.role = $scope.progr_am.employee_role
+		this.data.uuid = 'uuid'
+		this.data.msp_id = principal.user_msp[0].msp_id
+		this.data.enable = true
+		
+		this.saveRegistrySql();
+	}
+	$scope.registry.generatePassword = function(){
+		console.log("---------generatePassword------------------")
+		$scope.registry.generatePasswordError = {}
+	}
+
+	exe_fn.roles_data_list()
+
 }
 
 init_am_directive.init_registry2=function($scope, $http){
@@ -16,12 +35,14 @@ init_am_directive.init_registry2=function($scope, $http){
 init_am_directive.init_registry1=function($scope, $http){
 
 	init_am_directive.initObj_registry($scope, $http);
-	$scope.registry.saveRegistry=function(){
+	$scope.registry.saveRegistry = function(){
 		console.log('-------14----------------')
 		this.data.sql='sql2.users.insert'
 		this.data.doctype=13 //employee
 		this.data.role='ROLE_WAITING_FOR_CONFIRMATION'
 		this.data.uuid='uuid'
+		this.data.enable = false
+
 		this.saveRegistrySql();
 	}
 

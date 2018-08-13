@@ -2,8 +2,27 @@
 	ng-repeat="group_v in [pageGroup.thisPageGroup()]">
 	<div ng-include="'/f/eh1/lib/topbar_page_group.html'"></div>
 </div>
-<span class="w3-tiny am-b">Лікувальний заклад:</span>
-<span class="w3-small"> {{principal.user_msp[0].msp_id}}
-- </span>
- {{principal.user_msp[0].msp_public_name}}
+<div class="w3-row">
+	<div class="w3-half">
+		<span class="w3-tiny am-b">Лікувальний заклад:</span> <span
+			class="w3-small"> {{principal.user_msp[0].msp_id}} - </span>
+		{{principal.user_msp[0].msp_public_name}}
+		<div>
+			<a href="#" ng-click="registry.generatePassword()"
+				class="w3-tiny am-b">Згенерувати логін і пароль:</a>
+			<div ng-if="registry.generatePasswordError" class="w3-red">a1</div>
+		</div>
+	</div>
+	<div class="w3-half">
+	<span class="w3-tiny am-b">Посади/ролі/логіни:</span>
+	<select
+	style="width: 100%;"
+			class="w3-btn w3-border"
+			ng-model="progr_am.employee_role">
+			<option ng-repeat="r in progr_am.roles.data.list" value="{{r.role_id}}">
+				{{r.role_note}}</option>
+		</select>
+		
+	</div>
+</div>
 <div ng-include="'/f/pis1-am-1/registry1/registry3.html'"></div>
