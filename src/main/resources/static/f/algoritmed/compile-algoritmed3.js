@@ -185,21 +185,23 @@ init_am_directive.initObj_registry= function($scope, $http){
 
 	$scope.dateControlle = function(key, dataObj){
 		console.log(dataObj)
+		var m
 		var dateString = dataObj.data[key];
-		
-		var d1 = new Date();
-		var y = d1.getFullYear()-2000;
-		var m = dateString.match(/([1-9]|1\d|2\d|3[01])([-|,|.| |\/]+)([1-9]|1[012]|0[1-9])([-|,|.| |\/]+)(19|20)(\d{2})/)
-		if(m){
-			y = m[5]*100+m[6]*1;
-		}else{
-			m = dateString.match(/([1-9]|1\d|2\d|3[01])([-|,|.| |\/]+)([1-9]|1[012]|0[1-9])([-|,|.| |\/]+)(\d{1,2})/)
+		if(dateString){
+			var d1 = new Date();
+			var y = d1.getFullYear()-2000;
+			m = dateString.match(/([1-9]|1\d|2\d|3[01])([-|,|.| |\/]+)([1-9]|1[012]|0[1-9])([-|,|.| |\/]+)(19|20)(\d{2})/)
 			if(m){
-				var y0 = m[5]*1;
-				y = (y0>y?1900:2000) + y0
+				y = m[5]*100+m[6]*1;
+			}else{
+				m = dateString.match(/([1-9]|1\d|2\d|3[01])([-|,|.| |\/]+)([1-9]|1[012]|0[1-9])([-|,|.| |\/]+)(\d{1,2})/)
+				if(m){
+					var y0 = m[5]*1;
+					y = (y0>y?1900:2000) + y0
+				}
 			}
+			console.log(m)
 		}
-		console.log(m)
 		if(m){
 			d1.setMonth(m[3]*1-1);
 			d1.setDate(m[1]);

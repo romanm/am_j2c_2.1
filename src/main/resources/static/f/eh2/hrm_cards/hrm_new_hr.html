@@ -10,7 +10,11 @@
 		<div>
 			<a href="#" ng-click="registry.generatePassword()"
 				class="w3-tiny am-b">Згенерувати логін і пароль:</a>
-			<div ng-if="registry.generatePasswordError" class="w3-red">a1</div>
+			<div ng-if="registry.generatePasswordError" class="w3-red">
+				<b> Невистачає даних для генерації логіна і пароля </b>
+				<div ng-repeat="(k,v) in registry.generatePasswordError">
+					{{v}}</div>
+			</div>
 		</div>
 	</div>
 	<div class="w3-half">
