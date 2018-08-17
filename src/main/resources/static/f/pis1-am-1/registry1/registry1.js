@@ -11,7 +11,7 @@ init_am_directive.init_hrm_new_hr=function($scope, $http){
 		this.data.doctype=13 //employee
 		this.data.role = $scope.progr_am.employee_role
 		this.data.uuid = 'uuid'
-		this.data.msp_id = principal.user_msp[0].msp_id
+		this.data.msp_id = $scope.principal.user_msp[0].msp_id
 		this.data.enable = true
 		
 		this.saveRegistrySql();
