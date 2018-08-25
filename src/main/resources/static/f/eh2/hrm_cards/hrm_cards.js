@@ -23,7 +23,13 @@ init_am_directive.init_hrm_cards3 = function($scope, $http, $filter, $route) {
 			heightProcent:22,
 		},
 	}
+	
+	$scope.progr_am.fn.saveAddData = function(data){
+		console.log('---------------28----------------------')
+		$scope.progr_am.fn.saveAddParty(data, $scope.editDoc.party)
+	}
 
+	/* 
 	$scope.progr_am.fn.save=function(){
 		var data = {}
 		$scope.progr_am.fn.calcEditDoc_CRC32()
@@ -64,6 +70,7 @@ init_am_directive.init_hrm_cards3 = function($scope, $http, $filter, $route) {
 		})
 	}
 	var personCols = ['last_name','first_name', 'second_name', 'email', 'birth_date'];
+	 * */
 
 	$scope.progr_am.hrm_cards = {}
 	$scope.progr_am.hrm_cards.include_table_menu 

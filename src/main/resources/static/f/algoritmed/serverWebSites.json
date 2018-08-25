@@ -156,6 +156,13 @@
     "title": "відділ кадрів",
     "parent": "home"
 },
+"create_tables2":{
+    "th_template": "template5",
+    "ng_template":"'/f/am-dev/1c-db-tables2/1c-db-tables2.html'",
+    "script":"/f/am-dev/1c-db-tables2/create_tables2.js",
+    "title": "відділ кадрів",
+    "parent": "home"
+},
 "hrm_new_hr":{
     "th_template": "template5",
     "ng_template": "'/f/eh2/hrm_cards/hrm_new_hr.html'",

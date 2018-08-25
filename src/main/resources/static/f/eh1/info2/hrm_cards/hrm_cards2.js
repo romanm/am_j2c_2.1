@@ -5,28 +5,8 @@ init_am_directive.init_hrm_cards2 = function($scope, $http){
 	console.log(123)
 
 	var personCols = ['last_name','first_name', 'second_name', 'email', 'birth_date'];
-	$scope.progr_am.fn.saveAddData=function(data){
-		var partyObj = $scope.editDoc.party
-		console.log(partyObj)
-		personCols.forEach(function(k){
-			console.log(k)
-			data[k]=partyObj[k]
-			if($scope.progr_am.fn.date_names.indexOf(k)>=0){
-				var d = new Date(partyObj[k])
-				console.log(d)
-				data[k] = d.toISOString().split('T')[0]
-			}
-			if(!data[k]) data[k]=''
-		})
-		data.sql=sql2.sql2_docbodyPerson_updateById()
-		data.dataAfterSave = function(response){
-			var e = response.data.list2[0],
-			r = $scope.patient_lists.selectedCell.row
-			console.log(e)
-			r.pip_patient	= e.pip_patient
-			r.birth_date	= partyObj.birth_date
-			r.email			= partyObj.email
-		}
+	$scope.progr_am.fn.saveAddData = function(data){
+		$scope.progr_am.fn.saveAddParty(data)
 	}
 
 	$scope.progr_am.fn.init_principal = function(){

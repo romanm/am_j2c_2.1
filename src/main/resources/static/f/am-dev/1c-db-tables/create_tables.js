@@ -75,6 +75,9 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 			}
 		},
 		folders:{
+			addFolder:function(){
+				console.log(123)
+			},
 			programFile:{
 				commonArgs:{scopeObj:'folders'},
 				TablesJ2C:{param:{sql:'folders'},

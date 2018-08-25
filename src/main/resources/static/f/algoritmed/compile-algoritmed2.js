@@ -365,7 +365,7 @@ app.directive('amdRun', function ($compile, $http) {
 		scope: false,
 		link: function (scope, ele, attrs) {
 			scope.$watch(attrs['amdRun'], function(program_init) {
-				//console.log(program_init);
+				console.log(program_init);
 				if(program_init.amProgramPath){
 					//read a program 1 - to run program
 					read_am_json_source(scope, ele, program_init.amProgramPath, $compile, $http);
@@ -424,7 +424,7 @@ function read_am_html_source(scope, ele, v, k, $compile, $http){
 		if(!v.source_path)
 			amdRun_pr_uri = '/f/algoritmed/lib/'+k1+'.html';
 		ele.append('<div>'+amdRun_pr_uri+'</div>');
-//		console.log(amdRun_pr_uri)
+		console.log(amdRun_pr_uri)
 		var eleAdd = angular.element(ele[0].children[-1+ele[0].childElementCount]);
 		//console.log(amdRun_pr_uri);
 		//read a program 2 - from library level 1 in run program
@@ -525,6 +525,10 @@ init_am_directive.ele_v.html_form_type01 = function(ele, v){
 
 init_am_directive.ele_v.tableJ2C = function(ele, v){
 	var lastChildEle = ele[0].children[1-ele[0].children.length];
+	console.log(v);
+	console.log(v.parent);
+	console.log(v.commonArgs);
+	console.log(v.commonArgs.folders);
 	var scopeObj = v.commonArgs[lastChildEle.getAttribute('am-obj')];
 	lastChildEle.setAttribute('ng-repeat','o in ['+scopeObj+']')
 }

@@ -322,6 +322,36 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 			return dictionarieValues[editDocObject[k]]
 	},
 
+	$scope.progr_am.fn.saveAddParty = function(data, partyObj){
+		console.log(partyObj)
+		console.log(partyObj.birth_date)
+		var personCols = ['last_name', 'first_name', 'second_name', 'email', 'birth_date'];
+		personCols.forEach(function(k){
+			console.log(k)
+			data[k] = partyObj[k]
+			if($scope.progr_am.fn.date_names.indexOf(k)>=0){
+				var d = new Date(partyObj[k])
+				if(!partyObj[k]){
+					d = new Date()
+				}
+				console.log(d)
+				data[k] = d.toISOString().split('T')[0]
+			}
+			if(!data[k]) data[k] = ''
+		})
+		console.log(data)
+		data.sql = sql2.sql2_docbodyPerson_updateById()
+		data.dataAfterSave = function(response){
+			var e = response.data.list2[0],
+			r = $scope.patient_lists.selectedCell.row
+			console.log(e)
+			r.pip_patient	= e.pip_patient
+			r.birth_date	= partyObj.birth_date
+			r.email			= partyObj.email
+		}
+	}
+
+	
 	$scope.progr_am.fn.save=function(){
 		console.log('-----save------79-------')
 		$scope.progr_am.fn.calcEditDoc_CRC32()
@@ -467,6 +497,13 @@ init_am_directive.ehealth_declaration = function($scope, $http, $filter){
 			then_fn : then_fn,
 		}
 	}
+	exe_fn.httpGet_j2c_table_db1_params_then_fn = function(params, then_fn){
+		return {
+			url : '/r/url_sql_read_db1',
+			params : params,
+			then_fn : then_fn,
+		}
+	}
 
 	exe_fn.Init_j2ct_fn_selectCell = function($scope, $http){
 		this.selectedCell = {}
@@ -602,7 +639,9 @@ init_am_directive.ehealth_declaration_pageGroup($scope, $http, $filter);
 adaptTemplateToData = function(data, template){
 	if(template){
 		angular.forEach(data, function(v, k){
-			if(v.isObject()){
+			console.log(v)
+			console.log(k)
+			if(v && v.isObject()){
 				var v_template = template[k]
 				if(v.isArray()){
 					/*duplicate the template  array element 

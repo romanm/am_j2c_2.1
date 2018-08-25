@@ -89,7 +89,16 @@ init_am_directive.patient_doc = function($scope, $http, $filter){
 		}
 	});
 
+	$scope.progr_am.fn.saveAddData = function(data){
+		console.log('---------------93----------------------')
+		console.log($scope.editDoc)
+		console.log($scope.editDoc.party_request)
+		$scope.progr_am.fn.saveAddParty(data, $scope.editDoc)
+	}
+
 }
+
+var personCols = ['last_name','first_name', 'second_name', 'email', 'birth_date'];
 
 init_am_directive.ehealth_declaration_pageGroup = function($scope, $http, $filter){
 	console.log('---read_abk.js---ehealth_declaration_pageGroup---')
