@@ -1,9 +1,13 @@
 <table ng-repeat="o in [oo]">
 	<tr class="w3-tiny w3-gray">
 		<th class="w3-dropdown-hover">☰
-			<div class="w3-dropdown-content w3-bar-block w3-border">
-				<a href="#" class="w3-bar-item w3-button">+ Запис</a>
-				<div class="w3-code">a234</div>
+			<div class="w3-dropdown-content w3-bar-block w3-border"
+				style="left: -5px">
+				<a href="#" class="w3-bar-item w3-button"
+					ng-click="pageVar.openEditRow(o)"><i
+					class="fa fa-pencil-square-o"></i> Змінити</a> <a href="#"
+					class="w3-bar-item w3-button"><i class="fa fa-plus"></i> Додати
+					запис</a>
 			</div>
 		</th>
 		<th ng-repeat="(ck,cv) in o.col_keys">{{cv}}</th>
@@ -11,11 +15,9 @@
 	<tr ng-repeat="tr in o.list">
 		<td></td>
 		<td ng-repeat="(ck,cv) in o.col_keys" ng-init="cl=o.col_links[ck]"
+			ng-class="{'w3-green':tr[ck]==request.parameters[cl.k]}"
 			class="w3-border w3-border-white w3-hover-border-gray"><span
 			ng-if="!cl"> {{tr[ck]}} </span> <a href="?{{cl.k}}={{tr[cl.vk]}}"
 			ng-if="cl"> {{tr[ck]}} </a></td>
-		<!-- 
-		<td title="{{tr}}">a1</td>
-			 -->
 	</tr>
 </table>

@@ -1,8 +1,33 @@
 init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route) {
 	init_am_directive.ehealth_declaration($scope, $http, $filter);
 	console.log(123)
+	console.log($scope.request.parameters)
+
+	$scope.pageVar = {
+		open_modal:false,
+		rowKey:null,
+		rowKeyObj:null,
+		rowObj:null,
+		ngStyleModal:{},
+		openEditRow:function(o){
+			this.o = o
+			this.ngStyleModal = {display:'block'}
+			this.rowKeyObj = o.col_links[Object.keys(o.col_links)[0]]
+			this.rowKey =
+				$scope.request.parameters[this.rowKeyObj.k]
+			if(this.rowKey){
+				angular.forEach(o.list,function(v){
+					if($scope.pageVar.rowKey == v[$scope.pageVar.rowKeyObj.vk]){
+						$scope.pageVar.rowObj  = v
+					}
+				})
+				console.log(this)
+			}
+		}
+	}
 
 	$scope.folders = {
+		id:'folders',
 		col_keys:{
 			folderName:'Папка',
 			folderId:'ІН',
@@ -13,6 +38,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	}
 	
 	$scope.tables = {
+		id:'tables',
 		col_keys:{
 			value:'Назва таблиці',
 			doc_id:'ІН',
@@ -23,6 +49,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	}
 
 	$scope.create_tables = {
+		id:'create_tables',
 		col_keys:{
 			tablename:'Таблиця',
 			fieldname:'Колонка',

@@ -14,6 +14,22 @@
 				ng-include="'/f/am-dev/1c-db-tables2/tableJ2C.html'"></div>
 		</div>
 	</div>
+	<div ng-style="pageVar.ngStyleModal" class="w3-modal">
+		<div class="w3-modal-content">
+			<div class="w3-container">
+				<span ng-click="pageVar.ngStyleModal={display:'none'}"
+					class="w3-button w3-display-topright">&times;</span>
+				<p ng-if="true">Не вибрані дані для редагування.</p>
+				<div ng-repeat="(ck,cv) in pageVar.o.col_keys">
+					<b class="w3-small">{{cv}}:</b>
+					<div>
+						<input style="width: 100%;" ng-model="pageVar.rowObj[ck]"
+							class="w3-border">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	123 123
 	<div class="w3-code">{{tables}}</div>
 </div>
