@@ -27,7 +27,7 @@ public class EhCommonRest  extends Db2Common{
 		Map<String, Object> map = sqlParamToMap(request);
 		List<Map<String, Object>> list = db2ParamJdbcTemplate.queryForList(sql, map);
 		map.put("list", list);
-		logger.info("\n\n--24-- --begin-- /url_sql_read2"
+		logger.info("\n\n--30-- --begin-- /url_sql_read2"
 				+ "\n" + sql
 				+ "\n\n map = " + map
 				);

@@ -4,14 +4,22 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	console.log($scope.request.parameters)
 
 	$scope.pageVar = {
-		open_modal:false,
 		rowKey:null,
 		rowKeyObj:null,
 		rowObj:null,
 		ngStyleModal:{},
-		openEditRow:function(o){
+		addRow:function(o){
+			console.log(o)
+			this.openModal(o)
+		},
+		openModal:function(o){
 			this.o = o
 			this.ngStyleModal = {display:'block'}
+			this.rowKey = -1
+			$scope.pageVar.rowObj  = {}
+		},
+		openEditRow:function(o){
+			this.openModal(o)
 			this.rowKeyObj = o.col_links[Object.keys(o.col_links)[0]]
 			this.rowKey =
 				$scope.request.parameters[this.rowKeyObj.k]
@@ -21,15 +29,43 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 						$scope.pageVar.rowObj  = v
 					}
 				})
-				console.log(this)
 			}
+			console.log(this)
 		}
 	}
 
 	$scope.folders = {
-		id:'folders',
+		afterRead:function(){
+			$scope.folders.selectedObj = $scope.folders.list[0]
+			if($scope.request.parameters.folderId){
+				angular.forEach($scope.folders.list, function(v){
+					console.log(v)
+					if($scope.request.parameters.folderId == v.folderId){
+						$scope.folders.selectedObj = v
+					}
+				})
+			}
+		},
+		saveUpdate:function(){
+			console.log($scope.pageVar.rowObj)
+			if($scope.pageVar.rowKey == -1){
+				var data = {
+					sql : sql_1c.folder_insert(),
+					value : $scope.pageVar.rowObj.value,
+				}
+			}else{
+				var data = {
+					sql : sql_1c.table_update(),
+					string_id : $scope.pageVar.rowObj.string_id,
+					value : $scope.pageVar.rowObj.value,
+				}
+			}
+			console.log(data)
+			writeSql(data)
+		},
+		no_edit:['folderId'],
 		col_keys:{
-			folderName:'Папка',
+			value:'Папка',
 			folderId:'ІН',
 		},
 		col_links:{
@@ -38,7 +74,24 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	}
 	
 	$scope.tables = {
-		id:'tables',
+		saveUpdate:function(){
+			console.log($scope.pageVar.rowObj)
+			if($scope.pageVar.rowKey == -1){
+				var data = {
+					sql : sql_1c.table_insert(),
+					folderId : $scope.folders.selectedObj.folderId,
+				}
+			}else{
+				var data = {
+					sql : sql_1c.table_update(),
+					string_id : $scope.pageVar.rowObj.string_id,
+				}
+			}
+			data.value = $scope.pageVar.rowObj.value
+			console.log(data)
+			writeSql(data)
+		},
+		no_edit:['doc_id'],
 		col_keys:{
 			value:'Назва таблиці',
 			doc_id:'ІН',
@@ -57,19 +110,48 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		},
 	}
 
-	readSql({ sql:sql_1c.create_tables() }, $scope.create_tables)
+	var params_create_tables = { sql:sql_1c.create_tables() }
+	if($scope.request.parameters.tableId){
+		params_create_tables.sql = sql_1c.create_table()
+		params_create_tables.table_id = $scope.request.parameters.tableId
+	}
+	var params_tables = { sql:sql_1c.tables() }
+	if($scope.request.parameters.folderId){
+		params_tables.sql = sql_1c.tables_of_folder()
+		params_tables.folderId = $scope.request.parameters.folderId
+	}
+	console.log(params_tables)
+	readSql(params_create_tables, $scope.create_tables)
 	readSql({ sql:sql_1c.folders() }, $scope.folders)
-	readSql({ sql:sql_1c.tables() }, $scope.tables)
+	readSql(params_tables, $scope.tables)
 	
+}
+var writeSql = function(data){
+	exe_fn.httpPost
+	({	url:'/r/url_sql_read_db1',
+		then_fn:function(response) {
+//			console.log(response.data)
+			if(data.dataAfterSave)
+			data.dataAfterSave(response)
+		},
+		data:data,
+	})
 }
 var readSql = function(params, obj){
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
 	params,
 	function(response) {
 		obj.list = response.data.list
+		if(obj.afterRead)
+			obj.afterRead(response)
 	}))
 }
 var sql_1c = {
+	create_table:function(){
+		return "SELECT * FROM (" +
+				this.create_tables() +
+				") WHERE table_id=:table_id"
+	},
 	create_tables:function(){
 		return "SELECT d1.doc_id table_id, d2.doc_id column_id, s1.value tablename ,s2.value fieldname ,rs2.value fieldtype " +
 				"FROM doc d1, doc d2, doc r2, string rs2, string s1, string s2 " +
@@ -79,8 +161,17 @@ var sql_1c = {
 				"AND d2.reference=r2.doc_id " +
 				"AND rs2.string_id=r2.doc_id"
 	},
+	table_insert:function(){
+		return "INSERT INTO doc (parent, doc_id, doctype) VALUES (:folderId, :nextDbId1, 1);" +
+			"INSERT INTO string (value,string_id) VALUES (:value, :nextDbId1);"
+	},
+	table_update:function(){
+		return "UPDATE string SET value =:value WHERE string_id=:string_id "
+	},
 	tables_of_folder:function(){
-		
+		return "SELECT * FROM (" +
+				this.tables() +
+				") WHERE parent=:folderId"
 	},
 	tables:function(){
 		return "SELECT d.*, s.* FROM doc d, string s, ( \n" +
@@ -88,6 +179,10 @@ var sql_1c = {
 				") d2 WHERE d2.doc_id=d.parent \n" +
 				"AND s.string_id=d.doc_id \n" +
 				"AND d.doctype=1 "
+	},
+	folder_insert:function(){
+		return "INSERT INTO doc (doc_id, doctype) VALUES (:nextDbId1, 14);" +
+				"INSERT INTO string (value,string_id) VALUES (:value, :nextDbId1);"
 	},
 	folders:function(){
 		return "SELECT string_id folderId, value folderName, * " +
