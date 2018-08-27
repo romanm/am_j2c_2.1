@@ -19,6 +19,8 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			$scope.pageVar.rowObj  = {}
 		},
 		openEditRow:function(o){
+			console.log(o)
+			console.log(this)
 			this.openModal(o)
 			this.rowKeyObj = o.col_links[Object.keys(o.col_links)[0]]
 			this.rowKey =
@@ -30,7 +32,6 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 					}
 				})
 			}
-			console.log(this)
 		}
 	}
 
@@ -102,15 +103,53 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	}
 
 	$scope.create_tables = {
-		id:'create_tables',
+		saveUpdate:function(){
+			console.log($scope.pageVar.rowObj)
+			if($scope.pageVar.rowKey == -1){
+				return
+				var data = {
+					sql : sql_1c.table_insert(),
+					folderId : $scope.folders.selectedObj.folderId,
+				}
+			}else{
+				var data = {
+					sql : sql_1c.table_update(),
+					string_id : $scope.pageVar.rowObj.column_id,
+				}
+			}
+			data.value = $scope.pageVar.rowObj.fieldname
+			console.log(data)
+			writeSql(data)
+		},
+		afterRead:function(){
+			if($scope.request.parameters.column_id){
+				console.log($scope.request.parameters.column_id)
+				angular.forEach($scope.create_tables.list, function(v){
+					if($scope.request.parameters.column_id == v.column_id){
+						$scope.create_tables.selectedObj = v
+						$scope.request.parameters.tableId = v.table_id
+						console.log($scope.create_tables.selectedObj)
+					}
+				})
+			}
+		},
+		col_links:{
+			column_id:{k:'column_id',vk:'column_id'},
+		},
+		no_edit:['column_id','tablename'],
 		col_keys:{
 			tablename:'Таблиця',
 			fieldname:'Колонка',
 			fieldtype:'Тип даних',
+			column_id:'ІН',
 		},
 	}
 
 	var params_create_tables = { sql:sql_1c.create_tables() }
+	if($scope.request.parameters.column_id){
+		params_create_tables.sql = sql_1c.create_table_column()
+		params_create_tables.column_id = $scope.request.parameters.column_id
+	}else
 	if($scope.request.parameters.tableId){
 		params_create_tables.sql = sql_1c.create_table()
 		params_create_tables.table_id = $scope.request.parameters.tableId
@@ -120,37 +159,23 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		params_tables.sql = sql_1c.tables_of_folder()
 		params_tables.folderId = $scope.request.parameters.folderId
 	}
-	console.log(params_tables)
-	readSql(params_create_tables, $scope.create_tables)
+	
 	readSql({ sql:sql_1c.folders() }, $scope.folders)
 	readSql(params_tables, $scope.tables)
+	console.log(params_create_tables)
+	readSql(params_create_tables, $scope.create_tables)
 	
-}
-var writeSql = function(data){
-	exe_fn.httpPost
-	({	url:'/r/url_sql_read_db1',
-		then_fn:function(response) {
-//			console.log(response.data)
-			if(data.dataAfterSave)
-			data.dataAfterSave(response)
-		},
-		data:data,
-	})
-}
-var readSql = function(params, obj){
-	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
-	params,
-	function(response) {
-		obj.list = response.data.list
-		if(obj.afterRead)
-			obj.afterRead(response)
-	}))
 }
 var sql_1c = {
 	create_table:function(){
 		return "SELECT * FROM (" +
 				this.create_tables() +
 				") WHERE table_id=:table_id"
+	},
+	create_table_column:function(){
+		return "SELECT * FROM (" +
+			this.create_tables() +
+			") WHERE table_id in (SELECT parent FROM doc where doc_id=:column_id)"
 	},
 	create_tables:function(){
 		return "SELECT d1.doc_id table_id, d2.doc_id column_id, s1.value tablename ,s2.value fieldname ,rs2.value fieldtype " +
@@ -188,4 +213,24 @@ var sql_1c = {
 		return "SELECT string_id folderId, value folderName, * " +
 				"FROM string s, doc WHERE doc_id=string_id and doctype=14"
 	},
+}
+var writeSql = function(data){
+	exe_fn.httpPost
+	({	url:'/r/url_sql_read_db1',
+		then_fn:function(response) {
+//			console.log(response.data)
+			if(data.dataAfterSave)
+			data.dataAfterSave(response)
+		},
+		data:data,
+	})
+}
+var readSql = function(params, obj){
+	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
+	params,
+	function(response) {
+		obj.list = response.data.list
+		if(obj.afterRead)
+			obj.afterRead(response)
+	}))
 }
