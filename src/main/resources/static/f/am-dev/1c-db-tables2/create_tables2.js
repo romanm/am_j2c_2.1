@@ -20,6 +20,11 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		},
 		openEditRow:function(o){
 			console.log(o)
+			if(o.selectedObj.column_id){
+				$scope.table_types = {}
+				readSql({ sql:sql_1c.table_types() }, $scope.table_types)
+				console.log($scope.table_types)
+			}
 			console.log(this)
 			this.openModal(o)
 			this.rowKeyObj = o.col_links[Object.keys(o.col_links)[0]]
@@ -106,15 +111,18 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		saveUpdate:function(){
 			console.log($scope.pageVar.rowObj)
 			if($scope.pageVar.rowKey == -1){
-				return
 				var data = {
-					sql : sql_1c.table_insert(),
+					sql : sql_1c.create_table_insert(),
 					folderId : $scope.folders.selectedObj.folderId,
 				}
+				console.log(data)
+				return
 			}else{
 				var data = {
-					sql : sql_1c.table_update(),
+					sql : sql_1c.create_table_update(),
 					string_id : $scope.pageVar.rowObj.column_id,
+					column_id : $scope.pageVar.rowObj.column_id,
+					fieldtype_id : $scope.pageVar.rowObj.fieldtype_id,
 				}
 			}
 			data.value = $scope.pageVar.rowObj.fieldname
@@ -167,6 +175,10 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	
 }
 var sql_1c = {
+	table_types:function(){
+		return "SELECT doc_id fieldtype_id, * FROM doc, string " +
+				"WHERE doc_id=string_id and reference is null and doctype=8"
+	},
 	create_table:function(){
 		return "SELECT * FROM (" +
 				this.create_tables() +
@@ -178,20 +190,21 @@ var sql_1c = {
 			") WHERE table_id in (SELECT parent FROM doc where doc_id=:column_id)"
 	},
 	create_tables:function(){
-		return "SELECT d1.doc_id table_id, d2.doc_id column_id, s1.value tablename ,s2.value fieldname ,rs2.value fieldtype " +
-				"FROM doc d1, doc d2, doc r2, string rs2, string s1, string s2 " +
-				"WHERE d1.doc_id=d2.parent AND d1.doctype=1 " +
-				"AND s1.string_id=d1.doc_id " +
-				"AND s2.string_id=d2.doc_id " +
-				"AND d2.reference=r2.doc_id " +
-				"AND rs2.string_id=r2.doc_id"
+		return "SELECT d2.parent table_id, d2.doc_id column_id, s1.value tablename ,s2.value fieldname \n" +
+				",rs2.value fieldtype ,d2.reference fieldtype_id \n" +
+				" FROM  doc d2, string rs2, string s1, string s2 WHERE d2.doctype=8 \n" +
+				" AND s1.string_id=d2.parent AND s2.string_id=d2.doc_id AND  rs2.string_id=d2.reference "
 	},
 	table_insert:function(){
-		return "INSERT INTO doc (parent, doc_id, doctype) VALUES (:folderId, :nextDbId1, 1);" +
-			"INSERT INTO string (value,string_id) VALUES (:value, :nextDbId1);"
+		return "INSERT INTO doc (parent, doc_id, doctype) VALUES (:folderId, :nextDbId1, 1) ;" +
+			"INSERT INTO string (value,string_id) VALUES (:value, :nextDbId1) ;"
+	},
+	create_table_update:function(){
+		return "UPDATE doc SET reference =:fieldtype_id WHERE doc_id=:column_id ;" +
+			this.table_update()
 	},
 	table_update:function(){
-		return "UPDATE string SET value =:value WHERE string_id=:string_id "
+		return "UPDATE string SET value =:value WHERE string_id=:string_id ;"
 	},
 	tables_of_folder:function(){
 		return "SELECT * FROM (" +

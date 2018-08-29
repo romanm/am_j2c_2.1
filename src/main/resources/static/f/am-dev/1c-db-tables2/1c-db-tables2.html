@@ -29,13 +29,29 @@
 						<span ng-if="folders.selectedObj"> Папка:
 							{{folders.selectedObj.folderName}} </span>
 					</div>
+					<!-- 
+					<div class="w3-code">{{pageVar.rowObj}}</div>
+					<div class="w3-code">{{create_tables}}</div>
+					<div class="w3-code">{{table_types}}</div>
+					 -->
 					<div ng-repeat="(ck,cv) in pageVar.o.col_keys">
-						<b class="w3-small">{{cv}}:</b> <span
+						<b class="w3-small" title="{{ck}}">{{cv}}:</b> <span
 							ng-if="pageVar.o.no_edit.indexOf(ck)>=0">
 							{{pageVar.rowObj[ck]}} </span>
-						<div>
-							<input style="width: 100%;" ng-model="pageVar.rowObj[ck]"
-								ng-if="pageVar.o.no_edit.indexOf(ck)<0" class="w3-border">
+						<div ng-switch="ck">
+							<div ng-switch-when="fieldtype">
+								{{pageVar.rowObj[ck]}} <select
+									ng-model="pageVar.rowObj[ck+'_id']" style="width: 100%;"
+									class="w3-border">
+									<option value="{{v1.string_id}}"
+										ng-selected="pageVar.rowObj[ck+'_id']==v1[ck+'_id']"
+										ng-repeat="v1 in table_types.list">{{v1.value}}</option>
+								</select>
+							</div>
+							<div ng-switch-default>
+								<input style="width: 100%;" ng-model="pageVar.rowObj[ck]"
+									ng-if="pageVar.o.no_edit.indexOf(ck)<0" class="w3-border">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -43,7 +59,4 @@
 		</div>
 	</div>
 
-<!-- 
-	<div class="w3-code">{{tables}}</div>
- -->
 </div>
