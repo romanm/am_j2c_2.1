@@ -9,22 +9,19 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		rowObj:null,
 		ngStyleModal:{},
 		addRow:function(o){
-			console.log(o)
 			this.openModal(o)
 		},
 		openModal:function(o){
+			console.log(o)
 			this.o = o
 			this.ngStyleModal = {display:'block'}
 			this.rowKey = -1
 			$scope.pageVar.rowObj  = {}
+			$scope.table_types = {}
+			readSql({ sql:sql_1c.table_types() }, $scope.table_types)
+			console.log($scope.table_types)
 		},
 		openEditRow:function(o){
-			console.log(o)
-			if(o.selectedObj.column_id){
-				$scope.table_types = {}
-				readSql({ sql:sql_1c.table_types() }, $scope.table_types)
-				console.log($scope.table_types)
-			}
 			console.log(this)
 			this.openModal(o)
 			this.rowKeyObj = o.col_links[Object.keys(o.col_links)[0]]
@@ -109,14 +106,17 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 
 	$scope.create_tables = {
 		saveUpdate:function(){
+			console.log($scope.tables)
+			console.log($scope.pageVar)
 			console.log($scope.pageVar.rowObj)
 			if($scope.pageVar.rowKey == -1){
 				var data = {
 					sql : sql_1c.create_table_insert(),
-					folderId : $scope.folders.selectedObj.folderId,
+					tableId : $scope.request.parameters.tableId, 
+					fieldtypeId : $scope.pageVar.rowObj.fieldtype_id, 
+					value : $scope.pageVar.rowObj.fieldname, 
 				}
 				console.log(data)
-				return
 			}else{
 				var data = {
 					sql : sql_1c.create_table_update(),
@@ -197,6 +197,11 @@ var sql_1c = {
 	},
 	table_insert:function(){
 		return "INSERT INTO doc (parent, doc_id, doctype) VALUES (:folderId, :nextDbId1, 1) ;" +
+			"INSERT INTO string (value,string_id) VALUES (:value, :nextDbId1) ;"
+	},
+	create_table_insert:function(){
+		return "INSERT INTO doc (parent, reference, doc_id, doctype) \n" +
+				"VALUES (:tableId, :fieldtypeId, :nextDbId1, 8) ;" +
 			"INSERT INTO string (value,string_id) VALUES (:value, :nextDbId1) ;"
 	},
 	create_table_update:function(){
