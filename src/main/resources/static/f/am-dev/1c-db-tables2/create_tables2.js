@@ -8,6 +8,20 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		rowKeyObj:null,
 		rowObj:null,
 		ngStyleModal:{},
+		minusRow:function(o){
+			var doc_id = 0
+			/*
+			console.log(o)
+			 * */
+			console.log(o.selectedObj)
+			if(o.selectedObj.column_id)
+				doc_id = o.selectedObj.column_id
+			var data = {
+				sql : sql_1c.remove_row(),
+				doc_id : doc_id,
+			}
+			writeSql(data)
+		},
 		addRow:function(o){
 			this.openModal(o)
 		},
@@ -175,6 +189,10 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	
 }
 var sql_1c = {
+	remove_row : function(){
+		return "DELETE FROM string WHERE string_id = :doc_id ;" +
+				"DELETE FROM doc WHERE doc_id = :doc_id"
+	},
 	table_types:function(){
 		return "SELECT doc_id fieldtype_id, * FROM doc, string " +
 				"WHERE doc_id=string_id and reference is null and doctype=8"

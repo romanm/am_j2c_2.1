@@ -9,6 +9,10 @@
 					ng-click="pageVar.addRow(o)"
 					class="w3-bar-item w3-button"><i class="fa fa-plus"></i> Додати
 					запис</a>
+					<a href="#"
+					ng-click="pageVar.minusRow(o)"
+					class="w3-bar-item w3-button"><i class="fa fa-minus"></i> Видалити
+					запис</a>
 			</div>
 		</th>
 		<th ng-repeat="(ck,cv) in o.col_keys">{{cv}}</th>
