@@ -82,14 +82,14 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		},
 		no_edit:['folderId'],
 		col_keys:{
-			value:'Папка',
 			folderId:'ІН',
+			value:'Папка',
 		},
 		col_links:{
 			folderId:{k:'folderId',vk:'folderId'},
 		},
 	}
-	
+
 	$scope.tables = {
 		saveUpdate:function(){
 			console.log($scope.pageVar.rowObj)
@@ -110,8 +110,8 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		},
 		no_edit:['doc_id'],
 		col_keys:{
-			value:'Назва таблиці',
 			doc_id:'ІН',
+			value:'Назва таблиці',
 		},
 		col_links:{
 			doc_id:{k:'tableId',vk:'doc_id'},
@@ -160,13 +160,19 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		},
 		no_edit:['column_id','tablename'],
 		col_keys:{
+			column_id:'ІН',
 			tablename:'Таблиця',
 			fieldname:'Колонка',
 			fieldtype:'Тип даних',
-			column_id:'ІН',
 		},
 	}
-
+	
+	$scope.table_data = {
+	}
+	
+	$scope.table_data_columns = {
+	}
+	
 	var params_create_tables = { sql:sql_1c.create_tables() }
 	if($scope.request.parameters.column_id){
 		params_create_tables.sql = sql_1c.create_table_column()
@@ -183,15 +189,64 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	}
 	
 	readSql({ sql:sql_1c.folders() }, $scope.folders)
-	readSql(params_tables, $scope.tables)
-	console.log(params_create_tables)
 	readSql(params_create_tables, $scope.create_tables)
-	
+
+	$scope.$watch('request.parameters.tableId',function(newValue){
+		readSql(params_tables, $scope.tables)
+		var params_table_column = { sql:sql_1c.table_data_columns() }
+		params_table_column.table_id = $scope.request.parameters.tableId
+		readSql(params_table_column, $scope.table_data_columns)
+	})
+
+	$scope.$watch('table_data_columns.list',function(newValue){
+		var add_sql = {add_joins:'', add_columns:''}
+//		console.log(newValue)
+		angular.forEach(newValue, function(v){
+			add_sql.add_joins += v.add_joins + ' \n'
+			add_sql.add_columns += v.add_columns
+		})
+		var sql = sql_1c.table_data_read()
+		.replace(':add_columns', add_sql.add_columns)
+		.replace(':add_joins', add_sql.add_joins)
+		var params_table_data = {
+			sql : sql,
+			table_id : $scope.request.parameters.tableId,
+		}
+//		console.log(params_table_data)
+//		console.log(sql)
+		readSql(params_table_data, $scope.table_data)
+		console.log($scope.table_data)
+	})
 }
 var sql_1c = {
 	remove_row : function(){
 		return "DELETE FROM string WHERE string_id = :doc_id ;" +
-				"DELETE FROM doc WHERE doc_id = :doc_id"
+				"DELETE FROM doc WHERE doc_id = :doc_id "
+	},
+	table_data_read:function(){
+		return "SELECT rws.parent tbl_id, rws.doc_id row_id \n" +
+				":add_columns \n" +
+				"FROM doc tbl, doc rws \n" +
+				":add_joins " +
+				"WHERE tbl.doc_id=:table_id AND tbl.doc_id=rws.parent AND rws.doctype=4"
+	},
+	table_data_columns:function(){
+		return "SELECT '" +
+				"LEFT JOIN ('||x.joins_select||') '||col_key||' " +
+				"ON column_'||cln_id||'_id='||cln_id||' AND '||col_key||'_row=rws.doc_id ' add_joins, " +
+				" ', '||col_key||'_id, '||col_key add_columns " +
+				", x.* FROM ( " +
+				"SELECT 'SELECT doc_id '||col_key||'_id, value '||col_key||', parent '||col_key||'_row, reference column_'||cln_id||'_id ' " +
+				"||' FROM doc cd, '||col_table_name||' cv ' ||' " +
+				" WHERE cd.doc_id=cv.'||col_table_name||'_id AND doctype=5' joins_select " +
+				", value col_alias " +
+				", x.* FROM ( " +
+				"SELECT tbl.doc_id table_id, cln.doc_id cln_id, 'col_'||cln.doc_id col_key " +
+				", CASEWHEN(clntype.doc_id=2, 'string' , typevalue.value) col_table_name " +
+				"FROM doc tbl, doc cln , doc clntype, string typevalue " +
+				"WHERE tbl.doc_id=:table_id AND tbl.doc_id=cln.parent AND cln.doctype=8 " +
+				"AND clntype.doc_id=cln.reference AND typevalue.string_id=clntype.doc_id " +
+				") x, string WHERE cln_id=string_id) x "
 	},
 	table_types:function(){
 		return "SELECT doc_id fieldtype_id, * FROM doc, string " +

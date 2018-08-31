@@ -25,7 +25,7 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 		create_tables:{
 			programFile:{
 				fn_init_param:function(){
-					console.log($scope.page.request.parameters.table_id)
+					//console.log($scope.page.request.parameters.table_id)
 					if($scope.page.request.parameters.table_id){
 						$scope.programRun.create_tables.programFile.TablesJ2C.param.table_id
 							= $scope.page.request.parameters.table_id;
@@ -76,7 +76,7 @@ init_am_directive.init_onload.create_tables=function($scope, $http){
 		},
 		folders:{
 			addFolder:function(){
-				console.log(123)
+				//console.log(123)
 			},
 			programFile:{
 				commonArgs:{scopeObj:'folders'},

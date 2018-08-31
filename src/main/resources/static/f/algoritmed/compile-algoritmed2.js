@@ -424,7 +424,7 @@ function read_am_html_source(scope, ele, v, k, $compile, $http){
 		if(!v.source_path)
 			amdRun_pr_uri = '/f/algoritmed/lib/'+k1+'.html';
 		ele.append('<div>'+amdRun_pr_uri+'</div>');
-		console.log(amdRun_pr_uri)
+		//console.log(amdRun_pr_uri)
 		var eleAdd = angular.element(ele[0].children[-1+ele[0].childElementCount]);
 		//console.log(amdRun_pr_uri);
 		//read a program 2 - from library level 1 in run program
@@ -525,10 +525,12 @@ init_am_directive.ele_v.html_form_type01 = function(ele, v){
 
 init_am_directive.ele_v.tableJ2C = function(ele, v){
 	var lastChildEle = ele[0].children[1-ele[0].children.length];
+	/*
 	console.log(v);
 	console.log(v.parent);
 	console.log(v.commonArgs);
 	console.log(v.commonArgs.folders);
+	 * */
 	var scopeObj = v.commonArgs[lastChildEle.getAttribute('am-obj')];
 	lastChildEle.setAttribute('ng-repeat','o in ['+scopeObj+']')
 }
@@ -594,6 +596,7 @@ this.j2c_tables = {
 			}else{
 	// :NEW_SPACE for -- init_am_directive.tablesJ2C_init
 				var scopeData = tablesJ2C.$scope[scopeObj];
+console.log(response.data)
 				scopeData.list = response.data.list;
 				if(param.col_links)
 					scopeData.col_links = param.col_links;
@@ -638,8 +641,8 @@ fn_lib.addProgram = function(programRun, programList){
 // url_read_sql_with_param -- is rewritable in Controller file by demand 
 var url_read_sql_with_param = '/r/read_sql_with_param';
 var read_sql_with_param = function($http, params,fn, fn_error){
-	console.log(url_read_sql_with_param)
-	console.log(params)
+	//console.log(url_read_sql_with_param)
+	//console.log(params)
 	var url = params.url?params.url:url_read_sql_with_param;
 	if(!fn_error)
 		$http.get(url, {params:params}).then(fn);
