@@ -8,6 +8,13 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		rowKeyObj:null,
 		rowObj:null,
 		ngStyleModal:{},
+		colLink:function(cl,tr){
+			var l = '?'+cl.k+'='+tr[cl.vk]
+			angular.forEach(cl.add,function(v){
+				l += '&'+v.k+'='+tr[v.vk]
+			})
+			return l
+		},
 		minusRow:function(o){
 			var doc_id = 0
 			/*
@@ -171,7 +178,11 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		columns:{},
 		no_edit:['row_id'],
 		col_links:{
-			row_id:{k:'row_id',vk:'row_id'},
+			row_id:{k:'row_id',vk:'row_id',
+				add:[
+					{k:'tableId',vk:'tbl_id',}
+					],
+			},
 		},
 		col_keys:{
 			row_id:'ІН',
