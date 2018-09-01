@@ -175,7 +175,39 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	}
 	
 	$scope.table_data = {
-		columns:{},
+		saveUpdate:function(){
+			var col_data = {}
+			angular.forEach($scope.create_tables.list, function(v){
+				col_data[v.column_id] = v
+			})
+			var sql_row = ''
+			angular.forEach($scope.pageVar.rowObj, function(v,k){
+				var n = k.split('col_')[1]
+				if(!isNaN(n)){
+					var cellId_k = 'col_'+n+'_id'
+					var cellId_v = $scope.pageVar.rowObj[cellId_k]
+					console.log(k+'/'+v+'/'+cellId_v)
+					var fieldtype = col_data[n].fieldtype
+					var cell_v = v
+					if('string'==fieldtype)
+						cell_v = "'"+v+"'"
+					var sql
+					if(cellId_v){
+						sql = sql_1c.table_data_cell_update()
+						sql = sql.replace(':cell_id', cellId_v)
+					}else{
+						sql = sql_1c.table_data_cell_insert()
+						sql = sql.replace(':column_id', n)
+					}
+					sql = sql.replace(':value', cell_v)
+					sql = sql
+					.replace(':fieldtype',fieldtype)
+					.replace(':fieldtype',fieldtype)
+					sql_row += sql
+				}
+			})
+			console.log(sql_row)
+		},
 		no_edit:['row_id'],
 		col_links:{
 			row_id:{k:'row_id',vk:'row_id',
@@ -187,6 +219,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		col_keys:{
 			row_id:'ІН',
 		},
+		columns:{},
 	}
 	
 	$scope.$watch('table_data.columns.list',function(newValue){
@@ -243,6 +276,13 @@ var sql_1c = {
 	remove_row : function(){
 		return "DELETE FROM string WHERE string_id = :doc_id ;" +
 				"DELETE FROM doc WHERE doc_id = :doc_id "
+	},
+	table_data_cell_update:function(){
+		return "UPDATE :fieldtype SET value =:value WHERE :fieldtype_id=:cell_id ;"
+	},
+	table_data_cell_insert:function(){
+		return "INSERT INTO doc (parent, reference, doc_id, doctype) VALUES (:row_id, :column_id, :nextDbId1, 5) ;" +
+			"INSERT INTO :fieldtype (value,:fieldtype_id) VALUES (:value, :nextDbId1) ;"
 	},
 	table_data_read:function(){
 		return "SELECT rws.parent tbl_id, rws.doc_id row_id \n" +
