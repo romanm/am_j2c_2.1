@@ -168,11 +168,47 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	}
 	
 	$scope.table_data = {
+		columns:{},
+		no_edit:['row_id'],
+		col_links:{
+			row_id:{k:'row_id',vk:'row_id'},
+		},
+		col_keys:{
+			row_id:'ІН',
+		},
 	}
 	
-	$scope.table_data_columns = {
-	}
+	$scope.$watch('table_data.columns.list',function(newValue){
+		if(newValue){
+			var add_sql = {add_joins:'', add_columns:''}
+			angular.forEach(newValue, function(v){
+				add_sql.add_joins += v.add_joins + ' \n'
+				add_sql.add_columns += v.add_columns
+				$scope.table_data.col_keys[v.col_key] = v.col_alias
+			})
+
+			var sql = sql_1c.table_data_read()
+			.replace(':add_columns', add_sql.add_columns)
+			.replace(':add_joins', add_sql.add_joins)
+
+			var params_table_data = {
+				sql : sql,
+				table_id : $scope.request.parameters.tableId,
+			}
+//			console.log(params_table_data)
+//			console.log(sql)
+			readSql(params_table_data, $scope.table_data)
+			console.log($scope.table_data)
+		}
+	})
 	
+	$scope.$watch('request.parameters.tableId',function(newValue){
+		readSql(params_tables, $scope.tables)
+		var params_table_column = { sql:sql_1c.table_data_columns() }
+		params_table_column.table_id = $scope.request.parameters.tableId
+		readSql(params_table_column, $scope.table_data.columns)
+	})
+
 	var params_create_tables = { sql:sql_1c.create_tables() }
 	if($scope.request.parameters.column_id){
 		params_create_tables.sql = sql_1c.create_table_column()
@@ -191,32 +227,6 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	readSql({ sql:sql_1c.folders() }, $scope.folders)
 	readSql(params_create_tables, $scope.create_tables)
 
-	$scope.$watch('request.parameters.tableId',function(newValue){
-		readSql(params_tables, $scope.tables)
-		var params_table_column = { sql:sql_1c.table_data_columns() }
-		params_table_column.table_id = $scope.request.parameters.tableId
-		readSql(params_table_column, $scope.table_data_columns)
-	})
-
-	$scope.$watch('table_data_columns.list',function(newValue){
-		var add_sql = {add_joins:'', add_columns:''}
-//		console.log(newValue)
-		angular.forEach(newValue, function(v){
-			add_sql.add_joins += v.add_joins + ' \n'
-			add_sql.add_columns += v.add_columns
-		})
-		var sql = sql_1c.table_data_read()
-		.replace(':add_columns', add_sql.add_columns)
-		.replace(':add_joins', add_sql.add_joins)
-		var params_table_data = {
-			sql : sql,
-			table_id : $scope.request.parameters.tableId,
-		}
-//		console.log(params_table_data)
-//		console.log(sql)
-		readSql(params_table_data, $scope.table_data)
-		console.log($scope.table_data)
-	})
 }
 var sql_1c = {
 	remove_row : function(){
