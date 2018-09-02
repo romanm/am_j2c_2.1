@@ -174,52 +174,63 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		},
 	}
 	
+	var build_cell_sql = function(col_data,fn){
+		angular.forEach($scope.pageVar.rowObj, function(v,k){
+			var n = k.split('col_')[1]
+			if(!isNaN(n))
+				fn(v,k,n,col_data)
+		})
+	}
+	var build_cell_sql_insert = function(v,k,n,col_data){
+		var cellId_v = $scope.pageVar.rowObj[k+'_id']
+		console.log(k+'/'+v+'/'+cellId_v)
+		if(cellId_v){
+			col_data.sql = sql_1c.table_data_cell_update()
+			col_data.sql = col_data.sql.replace(':cell_id', cellId_v)
+		}else{
+			col_data.sql = sql_1c.table_data_cell_insert()
+			col_data.sql = col_data.sql.replace(':column_id', n)
+			while(col_data.sql.indexOf(':nextDbId2')>0){
+				col_data.sql = col_data.sql.replace(':nextDbId2', ':nextDbId'+col_data.nextDbIdCounter)
+			}
+			col_data.nextDbIdCounter++
+		}
+		var cell_v = ('string'==col_data[n].fieldtype)? "'"+v+"'":v
+		col_data.sql = col_data.sql.replace(':value', cell_v)
+		col_data.sql = col_data.sql.replace(':fieldtype', col_data[n].fieldtype)
+			.replace(':fieldtype', col_data[n].fieldtype)
+		col_data.sql_row += col_data.sql
+	}
+	
 	$scope.table_data = {
 		saveUpdate:function(){
-			var col_data = {}
+			var col_data = {nextDbIdCounter : 3, sql_row : '',}
 			angular.forEach($scope.create_tables.list, function(v){
 				col_data[v.column_id] = v
 			})
-			var sql_row = ''
-			angular.forEach($scope.pageVar.rowObj, function(v,k){
-				var n = k.split('col_')[1]
-				if(!isNaN(n)){
-					var cellId_v = $scope.pageVar.rowObj[k+'_id']
-					console.log(k+'/'+v+'/'+cellId_v)
-					var fieldtype = col_data[n].fieldtype
-					var cell_v = v
-					if('string'==fieldtype)
-						cell_v = "'"+v+"'"
-					var sql
-					if(cellId_v){
-						sql = sql_1c.table_data_cell_update()
-						sql = sql.replace(':cell_id', cellId_v)
-					}else{
-						sql = sql_1c.table_data_cell_insert()
-						sql = sql.replace(':column_id', n)
-					}
-					sql = sql.replace(':value', cell_v)
-					sql = sql
-					.replace(':fieldtype',fieldtype)
-					.replace(':fieldtype',fieldtype)
-					sql_row += sql
+			if($scope.pageVar.rowKey == -1){
+				col_data.sql_row = sql_1c.table_data_row_insert()
+				build_cell_sql(col_data,function(v,k,n){
+					build_cell_sql_insert(v,k,n,col_data)
+				})
+				while(col_data.sql_row.indexOf(':row_id')>0){
+					col_data.sql_row = col_data.sql_row.replace(':row_id', ':nextDbId1')
 				}
-			})
-			console.log(sql_row)
-			var data = {
-				row_id : $scope.pageVar.rowObj.row_id
+				var data = { table_id : $scope.request.parameters.tableId }
+			}else{
+				build_cell_sql(col_data,function(v,k,n){
+					build_cell_sql_insert(v,k,n,col_data)
+				})
+				var data = { row_id : $scope.pageVar.rowObj.row_id }
 			}
-			data.sql = sql_row
+			console.log(col_data.sql_row)
+			data.sql = col_data.sql_row
 			console.log(data)
 			writeSql(data)
 		},
 		no_edit:['row_id'],
 		col_links:{
-			row_id:{k:'row_id',vk:'row_id',
-				add:[
-					{k:'tableId',vk:'tbl_id',}
-					],
-			},
+			row_id:{k:'row_id',vk:'row_id', add:[ {k:'tableId',vk:'tbl_id',} ], },
 		},
 		col_keys:{
 			row_id:'ІН',
@@ -285,9 +296,12 @@ var sql_1c = {
 	table_data_cell_update:function(){
 		return "UPDATE :fieldtype SET value =:value WHERE :fieldtype_id=:cell_id ;"
 	},
+	table_data_row_insert:function(){
+		return "INSERT INTO doc (doc_id, parent, doctype) VALUES (:nextDbId1 , :table_id , 4) ;"
+	},
 	table_data_cell_insert:function(){
-		return "INSERT INTO doc (parent, reference, doc_id, doctype) VALUES (:row_id, :column_id, :nextDbId1, 5) ;" +
-			"INSERT INTO :fieldtype (value,:fieldtype_id) VALUES (:value, :nextDbId1) ;"
+		return "INSERT INTO doc (doc_id, parent, reference, doctype) VALUES (:nextDbId2, :row_id , :column_id,  5) ;" +
+			"INSERT INTO :fieldtype (value,:fieldtype_id) VALUES (:value, :nextDbId2 ) ;"
 	},
 	table_data_read:function(){
 		return "SELECT rws.parent tbl_id, rws.doc_id row_id \n" +
