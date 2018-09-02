@@ -184,8 +184,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			angular.forEach($scope.pageVar.rowObj, function(v,k){
 				var n = k.split('col_')[1]
 				if(!isNaN(n)){
-					var cellId_k = 'col_'+n+'_id'
-					var cellId_v = $scope.pageVar.rowObj[cellId_k]
+					var cellId_v = $scope.pageVar.rowObj[k+'_id']
 					console.log(k+'/'+v+'/'+cellId_v)
 					var fieldtype = col_data[n].fieldtype
 					var cell_v = v
@@ -207,6 +206,12 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 				}
 			})
 			console.log(sql_row)
+			var data = {
+				row_id : $scope.pageVar.rowObj.row_id
+			}
+			data.sql = sql_row
+			console.log(data)
+			writeSql(data)
 		},
 		no_edit:['row_id'],
 		col_links:{
