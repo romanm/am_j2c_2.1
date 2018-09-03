@@ -156,6 +156,13 @@
     "title": "відділ кадрів",
     "parent": "home"
 },
+"dialise_1":{
+    "th_template": "template5",
+    "ng_template":"'/f/am-dev/dialise_1/dialise_1.html'",
+    "script":"/f/am-dev/dialise_1/dialise_1.js",
+    "title": "Гемодіаліз 1",
+    "parent": "home"
+},
 "create_tables2":{
     "th_template": "template5",
     "ng_template":"'/f/am-dev/1c-db-tables2/1c-db-tables2.html'",

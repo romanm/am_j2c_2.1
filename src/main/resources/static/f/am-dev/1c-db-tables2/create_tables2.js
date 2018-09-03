@@ -412,12 +412,4 @@ var writeSql = function(data){
 		data:data,
 	})
 }
-var readSql = function(params, obj){
-	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
-	params,
-	function(response) {
-		obj.list = response.data.list
-		if(obj.afterRead)
-			obj.afterRead(response)
-	}))
-}
+

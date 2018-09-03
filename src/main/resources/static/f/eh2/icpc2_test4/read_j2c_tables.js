@@ -1,3 +1,12 @@
+var readSql = function(params, obj){
+	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
+	params,
+	function(response) {
+		obj.list = response.data.list
+		if(obj.afterRead)
+			obj.afterRead(response)
+	}))
+}
 init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	console.log(icpc2_nakaz74)
 	$scope.$watch('progr_am.icpc2_nakaz74.selectedCell.col_k',function(col_k){if(col_k){
