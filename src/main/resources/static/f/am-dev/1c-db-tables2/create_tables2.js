@@ -21,6 +21,9 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			console.log(o)
 			 * */
 			console.log(o.selectedObj)
+			if(o.selectedObj.row_id)
+				doc_id = o.selectedObj.row_id
+			else
 			if(o.selectedObj.column_id)
 				doc_id = o.selectedObj.column_id
 			var data = {
@@ -203,6 +206,18 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	}
 	
 	$scope.table_data = {
+		afterRead:function(){
+			if($scope.request.parameters.row_id){
+				console.log($scope.request.parameters.row_id)
+				angular.forEach($scope.table_data.list, function(v){
+					if($scope.request.parameters.row_id == v.row_id){
+						$scope.table_data.selectedObj = v
+						$scope.request.parameters.tableId = v.tbl_id
+						console.log($scope.table_data.selectedObj)
+					}
+				})
+			}
+		},
 		saveUpdate:function(){
 			var col_data = {nextDbIdCounter : 3, sql_row : '',}
 			angular.forEach($scope.create_tables.list, function(v){
@@ -291,6 +306,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 var sql_1c = {
 	remove_row : function(){
 		return "DELETE FROM string WHERE string_id = :doc_id ;" +
+				"DELETE FROM doc WHERE parent = :doc_id ;" +
 				"DELETE FROM doc WHERE doc_id = :doc_id "
 	},
 	table_data_cell_update:function(){
