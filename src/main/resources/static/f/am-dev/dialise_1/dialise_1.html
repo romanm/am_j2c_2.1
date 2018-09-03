@@ -1,0 +1,16 @@
+<h3>
+	<a href="/">/</a> Гемодіаліз
+</h3>
+<hr/>
+
+<table class="w3-table-all">
+	<tr class="w3-small">
+		<th class="w3-border" ng-repeat="(ck,cv) in dialise_card.col_keys">{{cv}}</th>
+	</tr>
+	<tr ng-repeat="(rk,rv) in dialise_card.row_keys">
+		<td class="w3-border" ng-repeat="(ck,cv) in dialise_card.col_keys">
+			<div ng-if="0==$index">{{rv}}</div>
+		</td>
+	</tr>
+</table>
+<h4>K*t/V</h4>
