@@ -140,14 +140,15 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 					fieldtypeId : $scope.pageVar.rowObj.fieldtype_id, 
 					value : $scope.pageVar.rowObj.fieldname, 
 				}
-				console.log(data)
 			}else{
 				var data = {
 					sql : sql_1c.create_table_update(),
 					string_id : $scope.pageVar.rowObj.column_id,
 					column_id : $scope.pageVar.rowObj.column_id,
 					fieldtype_id : $scope.pageVar.rowObj.fieldtype_id,
+					reference2 : $scope.pageVar.rowObj.reference2,
 				}
+				console.log($scope.pageVar.rowObj)
 			}
 			data.value = $scope.pageVar.rowObj.fieldname
 			console.log(data)
@@ -294,6 +295,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		params_create_tables.table_id = $scope.request.parameters.tableId
 	}
 	var params_tables = { sql:sql_1c.tables() }
+	console.log(sql_1c.create_table())
 	if($scope.request.parameters.folderId){
 		params_tables.sql = sql_1c.tables_of_folder()
 		params_tables.folderId = $scope.request.parameters.folderId
@@ -360,7 +362,7 @@ var sql_1c = {
 	},
 	create_tables:function(){
 		return "SELECT d2.parent table_id, d2.doc_id column_id, s1.value tablename ,s2.value fieldname \n" +
-				",rs2.value fieldtype ,d2.reference fieldtype_id \n" +
+				",rs2.value fieldtype, d2.reference2 ,d2.reference fieldtype_id \n" +
 				" FROM  doc d2, string rs2, string s1, string s2 WHERE d2.doctype=8 \n" +
 				" AND s1.string_id=d2.parent AND s2.string_id=d2.doc_id AND  rs2.string_id=d2.reference "
 	},
@@ -374,7 +376,10 @@ var sql_1c = {
 			"INSERT INTO string (value,string_id) VALUES (:value, :nextDbId1) ;"
 	},
 	create_table_update:function(){
-		return "UPDATE doc SET reference =:fieldtype_id WHERE doc_id=:column_id ;" +
+		return "UPDATE doc SET " +
+				"reference =:fieldtype_id, " +
+				"reference2 =:reference2 " +
+				"WHERE doc_id=:column_id ;" +
 			this.table_update()
 	},
 	table_update:function(){

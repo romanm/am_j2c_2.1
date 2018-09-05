@@ -21,8 +21,9 @@
 		<td ng-repeat="(ck,cv) in o.col_keys" ng-init="cl=o.col_links[ck]"
 			ng-class="{'w3-green':tr[ck]&&tr[ck]==request.parameters[cl.k]}"
 			class="w3-border w3-border-white w3-hover-border-gray"><span
-			ng-if="!cl"> {{tr[ck]}} </span> <a
-			ng-href="{{pageVar.colLink(cl,tr)}}" h1ref="?{{cl.k}}={{tr[cl.vk]}}"
-			ng-if="cl"> {{tr[ck]}} </a></td>
+			ng-if="!cl"> {{tr[ck]}} <span ng-if="tr[ck]=='constraint'">
+					({{tr.reference2}})
+					 </span>
+		</span> <a ng-href="{{pageVar.colLink(cl,tr)}}" ng-if="cl"> {{tr[ck]}} </a></td>
 	</tr>
 </table>
