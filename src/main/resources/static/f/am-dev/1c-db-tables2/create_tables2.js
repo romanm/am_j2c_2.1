@@ -1,6 +1,5 @@
 init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route) {
 	init_am_directive.ehealth_declaration($scope, $http, $filter);
-	console.log(123)
 	console.log($scope.request.parameters)
 
 	$scope.pageVar = {
@@ -129,6 +128,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	}
 
 	$scope.create_tables = {
+		interpretation:{},
 		saveUpdate:function(){
 			console.log($scope.tables)
 			console.log($scope.pageVar)
@@ -253,37 +253,78 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		},
 		columns:{},
 	}
-	
-	$scope.$watch('table_data.columns.list',function(newValue){
-		if(newValue){
-			var add_sql = {add_joins:'', add_columns:''}
-			angular.forEach(newValue, function(v){
-				add_sql.add_joins += v.add_joins + ' \n'
-				add_sql.add_columns += v.add_columns
-				$scope.table_data.col_keys[v.col_key] = v.col_alias
-			})
 
-			var sql = sql_1c.table_data_read()
-			.replace(':add_columns', add_sql.add_columns)
-			.replace(':add_joins', add_sql.add_joins)
-
-			var params_table_data = {
-				sql : sql,
-				table_id : $scope.request.parameters.tableId,
+	$scope.$watchGroup([
+		'create_tables.list'
+		, 'create_tables.interpretation.list'
+		, 'create_tables.interpretation.tables.columns.list'
+	],
+	function(newValue){
+		if(newValue[2]){
+			console.log(newValue[2])
+			var tableId = newValue[1][0].reference
+			$scope.create_tables.interpretation.tables.table_data = {}
+			readTableData(newValue[2], tableId, $scope.create_tables.interpretation.tables.table_data)
+			console.log($scope.create_tables.interpretation.tables.table_data)
+		}else
+		if(newValue[1]){
+			console.log($scope.create_tables)
+			console.log(newValue[1])
+			$scope.create_tables.col_keys.interpretation = 'Інтерпретація'
+			$scope.create_tables.interpretation.tables = {columns:{},}
+			var tableId = newValue[1][0].reference
+			$scope.create_tables.interpretation.tables[tableId] = {}
+			console.log($scope.create_tables.interpretation)
+			readTableColumns(tableId, $scope.create_tables.interpretation.tables.columns)
+		}else
+		if(newValue[0]){
+			var table_id = $scope.create_tables.list[0].table_id
+			console.log(table_id)
+			var table_data_columns_interpretation = {
+				tableId:table_id,
+				sql:sql_1c.table_data_columns_interpretation(),
 			}
-//			console.log(params_table_data)
-//			console.log(sql)
-			readSql(params_table_data, $scope.table_data)
-			console.log($scope.table_data)
+			console.log(table_data_columns_interpretation)
+			readSql(table_data_columns_interpretation, $scope.create_tables.interpretation)
 		}
 	})
 	
-	$scope.$watch('request.parameters.tableId',function(newValue){
-		readSql(params_tables, $scope.tables)
+	var readTableData = function(listSqlJoin, table_id, o){
+		var add_sql = {add_joins:'', add_columns:''}
+		angular.forEach(listSqlJoin, function(v){
+			add_sql.add_joins += v.add_joins + ' \n'
+			add_sql.add_columns += v.add_columns
+			$scope.table_data.col_keys[v.col_key] = v.col_alias
+		})
+
+		var sql = sql_1c.table_data_read()
+		.replace(':add_columns', add_sql.add_columns)
+		.replace(':add_joins', add_sql.add_joins)
+//console.log(sql)
+		var params_table_data = {
+			sql : sql,
+			table_id : table_id,
+		}
+		readSql(params_table_data, o)
+//			console.log(params_table_data)
+//			console.log(sql)
+	}
+	
+	$scope.$watch('table_data.columns.list',function(newValue){ if(newValue){
+		readTableData(newValue, $scope.request.parameters.tableId, $scope.table_data)
+			console.log($scope.table_data)
+	}})
+
+	var readTableColumns = function(table_id, o){
 		var params_table_column = { sql:sql_1c.table_data_columns() }
-		params_table_column.table_id = $scope.request.parameters.tableId
-		readSql(params_table_column, $scope.table_data.columns)
-	})
+		params_table_column.table_id = table_id
+		//console.log(params_table_column)
+		readSql(params_table_column, o)
+	}
+	$scope.$watch('request.parameters.tableId',function(newValue){if(newValue){
+		readSql(params_tables, $scope.tables)
+		readTableColumns(newValue, $scope.table_data.columns)
+	}})
 
 	var params_create_tables = { sql:sql_1c.create_tables() }
 	if($scope.request.parameters.column_id){
@@ -295,7 +336,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		params_create_tables.table_id = $scope.request.parameters.tableId
 	}
 	var params_tables = { sql:sql_1c.tables() }
-	console.log(sql_1c.create_table())
+	//console.log(sql_1c.create_table())
 	if($scope.request.parameters.folderId){
 		params_tables.sql = sql_1c.tables_of_folder()
 		params_tables.folderId = $scope.request.parameters.folderId
@@ -328,6 +369,17 @@ var sql_1c = {
 				":add_joins " +
 				"WHERE tbl.doc_id=:table_id AND tbl.doc_id=rws.parent AND rws.doctype=4"
 	},
+	table_data_columntyps:function(){
+		return "SELECT tbl.doc_id table_id, cln.doc_id cln_id, 'col_'||cln.doc_id col_key " +
+		", typevalue.value col_table_name, clntype.doc_id clntype_id " +
+		"FROM doc tbl, doc cln , doc clntype, string typevalue " +
+		"WHERE tbl.doc_id=:table_id AND tbl.doc_id=cln.parent AND cln.doctype=8 " +
+		"AND clntype.doc_id=cln.reference AND typevalue.string_id=clntype.doc_id "
+	},
+	table_data_columns_interpretation:function(){
+		return "SELECT * FROM doc dc, doc dci " +
+				"WHERE dci.doctype=16 AND dci.parent=dc.doc_id AND dc.parent=:tableId"
+	},
 	table_data_columns:function(){
 		return "SELECT '" +
 				"LEFT JOIN ('||x.joins_select||') '||col_key||' " +
@@ -339,11 +391,7 @@ var sql_1c = {
 				" WHERE cd.doc_id=cv.'||col_table_name||'_id AND doctype=5' joins_select " +
 				", value col_alias " +
 				", x.* FROM ( " +
-				"SELECT tbl.doc_id table_id, cln.doc_id cln_id, 'col_'||cln.doc_id col_key " +
-				", CASEWHEN(clntype.doc_id=2, 'string' , typevalue.value) col_table_name " +
-				"FROM doc tbl, doc cln , doc clntype, string typevalue " +
-				"WHERE tbl.doc_id=:table_id AND tbl.doc_id=cln.parent AND cln.doctype=8 " +
-				"AND clntype.doc_id=cln.reference AND typevalue.string_id=clntype.doc_id " +
+				this.table_data_columntyps() +
 				") x, string WHERE cln_id=string_id) x "
 	},
 	table_types:function(){

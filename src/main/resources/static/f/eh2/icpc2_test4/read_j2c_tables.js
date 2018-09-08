@@ -7,6 +7,7 @@ var readSql = function(params, obj){
 			obj.afterRead(response)
 	}))
 }
+
 init_f74_ngClick = function(icpc2_nakaz74, $scope, $http){
 	console.log(icpc2_nakaz74)
 	$scope.$watch('progr_am.icpc2_nakaz74.selectedCell.col_k',function(col_k){if(col_k){

@@ -63,12 +63,12 @@ public class EhDb1Rest extends DbCommon{
 			,HttpServletRequest request
 			) {
 		Map<String, Object> map = sqlParamToMap(request);
-		List<Map<String, Object>> list = dbParamJdbcTemplate.queryForList(sql, map);
-		map.put("list", list);
-		logger.info("\n\n--32-- --begin-- /url_sql_read2"
+		logger.info("\n\n--66-- --begin-- /url_sql_read_db1"
 				+ "\n" + sql
 				+ "\n\n map = " + map
 				);
+		List<Map<String, Object>> list = dbParamJdbcTemplate.queryForList(sql, map);
+		map.put("list", list);
 		return map;
 	}
 	protected @Autowired @Qualifier("db1JdbcTemplate")		JdbcTemplate dbJdbcTemplate;
