@@ -18,12 +18,27 @@
 		</th>
 	</tr>
 	<tr ng-repeat="tr in o.list">
-		<td ng-repeat="(ck,cv) in o.col_keys" ng-init="cl=o.col_links[ck]"
+		<td ng-repeat="(ck,cv) in o.col_keys"
+			ng-init="cl=o.col_links[ck];col_id=ck.replace('col_','');
+		interpretation=create_tables.interpretationRows[col_id];
+		"
 			ng-class="{'w3-green':tr[ck]&&tr[ck]==request.parameters[cl.k]}"
 			class="w3-border w3-border-white w3-hover-border-gray"><span
 			ng-if="!cl"> {{tr[ck]}} <span ng-if="tr[ck]=='constraint'">
-					({{tr.reference2}})
-					 </span>
-		</span> <a ng-href="{{pageVar.colLink(cl,tr)}}" ng-if="cl"> {{tr[ck]}} </a></td>
+					({{tr.reference2}}) </span> <span
+					class="w3-tiny"
+					 ng-if="interpretation.o">
+					<span ng-if="interpretation.o['col_190']>tr[ck]"> < N </span> <span
+					ng-if="tr[ck]>interpretation.o['col_191']"> > N <span
+					class="w3-red"
+						ng-if="tr[ck]/interpretation.o['col_191']>2"> в
+							{{(''+tr[ck]/interpretation.o['col_191']).substring(0,3)}} раза </span>
+
+				</span>
+			</span>
+		</span> <a ng-href="{{pageVar.colLink(cl,tr)}}" ng-if="cl"> {{tr[ck]}} </a> <span
+			ng-if="ck=='interpretation'">
+				{{create_tables.interpretationRows[tr.column_id].o['col_190']}} -
+				{{create_tables.interpretationRows[tr.column_id].o['col_191']}} </span></td>
 	</tr>
 </table>

@@ -209,12 +209,10 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	$scope.table_data = {
 		afterRead:function(){
 			if($scope.request.parameters.row_id){
-				console.log($scope.request.parameters.row_id)
 				angular.forEach($scope.table_data.list, function(v){
 					if($scope.request.parameters.row_id == v.row_id){
 						$scope.table_data.selectedObj = v
 						$scope.request.parameters.tableId = v.tbl_id
-						console.log($scope.table_data.selectedObj)
 					}
 				})
 			}
@@ -259,33 +257,47 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		, 'create_tables.interpretation.list'
 		, 'create_tables.interpretation.tables.columns.list'
 	],
-	function(newValue){
+	function(newValue, oldValue){
 		if(newValue[2]){
 			console.log(newValue[2])
 			var tableId = newValue[1][0].reference
-			$scope.create_tables.interpretation.tables.table_data = {}
+			$scope.create_tables.interpretation.tables.table_data = {
+				afterRead:function(){
+					angular.forEach(this.list, function(v){
+						$scope.create_tables.interpretationRows[v.row_id].o = v
+					})
+					console.log($scope.create_tables.interpretationRows)
+				},
+				col_keys:{},
+			}
 			readTableData(newValue[2], tableId, $scope.create_tables.interpretation.tables.table_data)
-			console.log($scope.create_tables.interpretation.tables.table_data)
 		}else
 		if(newValue[1]){
-			console.log($scope.create_tables)
-			console.log(newValue[1])
-			$scope.create_tables.col_keys.interpretation = 'Інтерпретація'
-			$scope.create_tables.interpretation.tables = {columns:{},}
-			var tableId = newValue[1][0].reference
-			$scope.create_tables.interpretation.tables[tableId] = {}
-			console.log($scope.create_tables.interpretation)
-			readTableColumns(tableId, $scope.create_tables.interpretation.tables.columns)
+			if(newValue[1][0]){
+				$scope.create_tables.col_keys.interpretation = 'Інтерпретація'
+					$scope.create_tables.interpretation.tables = {columns:{},}
+				var tableId = newValue[1][0].reference
+				$scope.create_tables.interpretation.tables[tableId] = {}
+				if($scope.create_tables.interpretation.list[0]){
+					$scope.create_tables.interpretationRows = {}
+					angular.forEach($scope.create_tables.interpretation.list, function(v){
+						$scope.create_tables.interpretationRows[v.parent] = v
+						$scope.create_tables.interpretationRows[v.reference2] = v
+					})
+				}
+				readTableColumns(tableId, $scope.create_tables.interpretation.tables.columns)
+			}
 		}else
 		if(newValue[0]){
-			var table_id = $scope.create_tables.list[0].table_id
-			console.log(table_id)
-			var table_data_columns_interpretation = {
-				tableId:table_id,
-				sql:sql_1c.table_data_columns_interpretation(),
+			if(newValue[0]!=oldValue[0]){
+				console.log($scope.create_tables)
+				var table_id = $scope.create_tables.list[0].table_id
+				var table_data_columns_interpretation = {
+					tableId:table_id,
+					sql:sql_1c.table_data_columns_interpretation(),
+				}
+				readSql(table_data_columns_interpretation, $scope.create_tables.interpretation)
 			}
-			console.log(table_data_columns_interpretation)
-			readSql(table_data_columns_interpretation, $scope.create_tables.interpretation)
 		}
 	})
 	
@@ -294,7 +306,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		angular.forEach(listSqlJoin, function(v){
 			add_sql.add_joins += v.add_joins + ' \n'
 			add_sql.add_columns += v.add_columns
-			$scope.table_data.col_keys[v.col_key] = v.col_alias
+			o.col_keys[v.col_key] = v.col_alias
 		})
 
 		var sql = sql_1c.table_data_read()

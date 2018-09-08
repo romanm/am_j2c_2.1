@@ -48,7 +48,7 @@
 					<div ng-repeat="(ck,cv) in pageVar.o.col_keys" ng-switch="ck">
 						<b class="w3-small" title="{{ck}}">{{cv}}:</b> <span
 							ng-if="pageVar.o.no_edit.indexOf(ck)>=0">
-							{{pageVar.rowObj[ck]}} </span> {{ck}}--
+							{{pageVar.rowObj[ck]}} </span>
 						<div ng-switch-when="fieldtype">
 							{{pageVar.rowObj[ck]}} <select
 								ng-model="pageVar.rowObj[ck+'_id']" style="width: 100%;"
