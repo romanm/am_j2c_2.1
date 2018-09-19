@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.4.RELEASE'
+		springBootVersion = '2.0.5.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -51,5 +51,4 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.apache.poi/poi
   compile 'org.apache.poi:poi:3.17'
   compile 'org.apache.poi:poi-ooxml:3.17'
-	
 }

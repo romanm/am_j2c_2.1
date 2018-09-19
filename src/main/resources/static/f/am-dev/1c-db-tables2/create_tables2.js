@@ -251,7 +251,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		},
 		columns:{},
 	}
-
+console.log($scope.table_data.col_keys)
 	$scope.$watchGroup([
 		'create_tables.list'
 		, 'create_tables.interpretation.list'
