@@ -1,0 +1,40 @@
+<div>
+
+	<table ng-repeat="o in [table_data]">
+		<tr class="w3-tiny am-b">
+			<th>Назва</th>
+			<th>Значеня</th>
+			<th>Інтерпретація</th>
+			<th>Норма</th>
+		</tr>
+		<tr ng-repeat="(ck,cv) in table_data.selectedObj"
+			ng-if="ck.indexOf('_id')<0"
+			ng-init="
+		col_id=ck.split('col_')[1];
+		interpretationO = create_tables.interpretationRows[col_id];
+		">
+			<td title="{{col_id}}-{{table_data.col_keys[ck]}}">
+				{{(!interpretationO.o.col_189)?table_data.col_keys[ck]
+				:interpretationO.o.col_189 }} {{}}</td>
+			<td>{{cv}}</td>
+			<td>
+			<span class="w3-tiny" ng-if="interpretationO.o">
+			 <span
+					ng-if="interpretationO.o['col_190']>cv"> < N </span> <span
+					ng-if="cv>interpretationO.o['col_191']"> > N <span
+						class="w3-red" ng-if="cv/interpretationO.o['col_191']>2">
+							в {{(''+cv/interpretationO.o['col_191']).substring(0,3)}} раза
+					</span>
+				</span>
+			</span></td>
+			<td><span ng-if="interpretationO">
+					{{interpretationO.o['col_190']}} - {{interpretationO.o['col_191']}} </span></td>
+		</tr>
+	</table>
+
+	<div class="w3-code">{{oo.selectedObj}}</div>
+	create_tables.interpretationRows =
+	<div class="w3-code">{{create_tables.interpretationRows}}</div>
+	table_data =
+	<div class="w3-code">{{table_data}}</div>
+</div>
