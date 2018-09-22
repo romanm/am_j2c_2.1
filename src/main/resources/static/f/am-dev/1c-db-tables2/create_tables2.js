@@ -322,12 +322,14 @@ console.log($scope.table_data.col_keys)
 		if(newValue[0]){
 			if(newValue[0]!=oldValue[0]){
 				console.log($scope.create_tables)
-				var table_id = $scope.create_tables.list[0].table_id
-				var table_data_columns_interpretation = {
-					tableId:table_id,
-					sql:sql_1c.table_data_columns_interpretation(),
+				if($scope.create_tables.list[0]){
+					var table_id = $scope.create_tables.list[0].table_id
+					var table_data_columns_interpretation = {
+							tableId:table_id,
+							sql:sql_1c.table_data_columns_interpretation(),
+					}
+					readSql(table_data_columns_interpretation, $scope.create_tables.interpretation)
 				}
-				readSql(table_data_columns_interpretation, $scope.create_tables.interpretation)
 			}
 		}
 	})
@@ -361,13 +363,9 @@ console.log($scope.table_data.col_keys)
 	var readTableColumns = function(table_id, o){
 		var params_table_column = { sql:sql_1c.table_data_columns() }
 		params_table_column.table_id = table_id
-		console.log(params_table_column)
+//		console.log(params_table_column)
 		readSql(params_table_column, o)
 	}
-	$scope.$watch('request.parameters.tableId',function(newValue){if(newValue){
-		readSql(params_tables, $scope.tables)
-		readTableColumns(newValue, $scope.table_data.columns)
-	}})
 
 	var params_create_tables = { sql:sql_1c.create_tables() }
 	if($scope.request.parameters.column_id){
@@ -378,12 +376,25 @@ console.log($scope.table_data.col_keys)
 		params_create_tables.sql = sql_1c.create_table()
 		params_create_tables.table_id = $scope.request.parameters.tableId
 	}
-	var params_tables = { sql:sql_1c.tables() }
+	var params_tables = { sql:sql_1c.read_tables() }
+//	console.log(params_tables)
+	console.log($scope.tables)
 	//console.log(sql_1c.create_table())
 	if($scope.request.parameters.folderId){
 		params_tables.sql = sql_1c.tables_of_folder()
 		params_tables.folderId = $scope.request.parameters.folderId
 	}
+	$scope.$watch('request.parameters.tableId',function(newValue){if(newValue){
+		console.log(params_tables.sql)
+		console.log(newValue)
+		params_tables.tableId = newValue
+		params_tables.sql = sql_1c.read_tables_with_tableId()
+		console.log(sql_1c.read_tables_with_tableId())
+		readSql(params_tables, $scope.tables)
+		readTableColumns(newValue, $scope.table_data.columns)
+	}else{
+		readSql(params_tables, $scope.tables)
+	}})
 	
 	readSql({ sql:sql_1c.folders() }, $scope.folders)
 	readSql(params_create_tables, $scope.create_tables)
@@ -478,13 +489,26 @@ var sql_1c = {
 	},
 	tables_of_folder:function(){
 		return "SELECT * FROM (" +
-				this.tables() +
+				this.read_tables() +
 				") WHERE parent=:folderId"
 	},
-	tables:function(){
+	read_tables_with_tableId:function(){
+		return "SELECT * FROM ( \n" +
+				"SELECT 1 sort, * FROM ( \n" +
+				this.read_tables()+
+				" \n) x \n" +
+				"WHERE doc_id = :tableId \n" +
+				"UNION \n" +
+				"SELECT 2 sort, * FROM ( \n" +
+				this.read_tables()+
+				" \n) x \n" +
+				"WHERE doc_id != :tableId \n" +
+				") x ORDER BY sort"
+	},
+	read_tables:function(){
 		return "SELECT d.*, s.* FROM doc d, string s, ( \n" +
 				this.folders()+
-				") d2 WHERE d2.doc_id=d.parent \n" +
+				"\n) d2 WHERE d2.doc_id=d.parent \n" +
 				"AND s.string_id=d.doc_id \n" +
 				"AND d.doctype in (1,17) "
 	},
