@@ -1,6 +1,6 @@
 <table ng-repeat="o in [oo]">
 	<tr class="w3-tiny w3-gray">
-		<th ng-repeat="(ck,cv) in o.col_keys" ng-switch="cv">
+		<th ng-repeat="(ck,cv) in o.col_keys" title="{{ck}}" ng-switch="cv">
 			<div ng-switch-when="ІН" class="w3-dropdown-hover">
 				☰ &nbsp; <sub class="w3-tiny">{{cv}}</sub>
 				<div class="w3-dropdown-content w3-bar-block w3-border"
@@ -19,6 +19,7 @@
 	</tr>
 	<tr ng-repeat="tr in o.list">
 		<td ng-repeat="(ck,cv) in o.col_keys"
+title="{{tr[ck+'_id']}}"
 			ng-init="cl=o.col_links[ck];col_id=ck.replace('col_','');
 		interpretation=create_tables.interpretationRows[col_id];
 		"

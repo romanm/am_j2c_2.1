@@ -43,6 +43,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			$scope.table_types = {}
 			readSql({ sql:sql_1c.table_types() }, $scope.table_types)
 			console.log($scope.table_types)
+			console.log($scope.create_tables.interpretationRows)
 		},
 		openEditRow:function(o){
 			console.log(this)
@@ -100,6 +101,31 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	}
 
 	$scope.tables = {
+		ngIncludes:{
+			modalBottonPanel:'/f/am-dev/1c-db-tables2/tables_modalBottonPanel.html',
+		},
+		addFolderObjectType:function(folderObjectType){
+			console.log(folderObjectType)
+			this.folderObjectType=folderObjectType
+			console.log(this.folderObjectData[this.folderObjectType])
+			console.log(this.col_keys)
+			this.col_keys.value = 
+				this.folderObjectData[this.folderObjectType].col_keys.value
+		},
+		folderObjectData:{
+			table:{
+				doctype : 1,
+				col_keys:{
+					value:'Назва таблиці',
+				},
+			},
+			doc:{
+				doctype : 17,
+				col_keys:{
+					value:'Назва документу',
+				},
+			},
+		},
 		saveUpdate:function(){
 			console.log($scope.pageVar.rowObj)
 			if($scope.pageVar.rowKey == -1){
@@ -107,6 +133,10 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 					sql : sql_1c.table_insert(),
 					folderId : $scope.folders.selectedObj.folderId,
 				}
+				data.doctype = 1
+				if(this.folderObjectType)
+					data.doctype = 
+						this.folderObjectData[this.folderObjectType].doctype
 			}else{
 				var data = {
 					sql : sql_1c.table_update(),
@@ -116,11 +146,13 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			data.value = $scope.pageVar.rowObj.value
 			console.log(data)
 			writeSql(data)
+			return
 		},
-		no_edit:['doc_id'],
+		no_edit:['doc_id','doctype'],
 		col_keys:{
 			doc_id:'ІН',
-			value:'Назва таблиці',
+			value:'Назва таблиці/документу',
+			doctype:'T',
 		},
 		col_links:{
 			doc_id:{k:'tableId',vk:'doc_id'},
@@ -266,7 +298,6 @@ console.log($scope.table_data.col_keys)
 					angular.forEach(this.list, function(v){
 						$scope.create_tables.interpretationRows[v.row_id].o = v
 					})
-					console.log($scope.create_tables.interpretationRows)
 				},
 				col_keys:{},
 			}
@@ -330,7 +361,7 @@ console.log($scope.table_data.col_keys)
 	var readTableColumns = function(table_id, o){
 		var params_table_column = { sql:sql_1c.table_data_columns() }
 		params_table_column.table_id = table_id
-		//console.log(params_table_column)
+		console.log(params_table_column)
 		readSql(params_table_column, o)
 	}
 	$scope.$watch('request.parameters.tableId',function(newValue){if(newValue){
@@ -427,7 +458,7 @@ var sql_1c = {
 				" AND s1.string_id=d2.parent AND s2.string_id=d2.doc_id AND  rs2.string_id=d2.reference "
 	},
 	table_insert:function(){
-		return "INSERT INTO doc (parent, doc_id, doctype) VALUES (:folderId, :nextDbId1, 1) ;" +
+		return "INSERT INTO doc (parent, doc_id, doctype) VALUES (:folderId, :nextDbId1, :doctype) ;" +
 			"INSERT INTO string (value,string_id) VALUES (:value, :nextDbId1) ;"
 	},
 	create_table_insert:function(){
@@ -455,7 +486,7 @@ var sql_1c = {
 				this.folders()+
 				") d2 WHERE d2.doc_id=d.parent \n" +
 				"AND s.string_id=d.doc_id \n" +
-				"AND d.doctype=1 "
+				"AND d.doctype in (1,17) "
 	},
 	folder_insert:function(){
 		return "INSERT INTO doc (doc_id, doctype) VALUES (:nextDbId1, 14);" +

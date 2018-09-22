@@ -167,7 +167,7 @@
     "th_template": "template5",
     "ng_template":"'/f/am-dev/1c-db-tables2/1c-db-tables2.html'",
     "script":"/f/am-dev/1c-db-tables2/create_tables2.js",
-    "title": "відділ кадрів",
+    "title": "Таблиці1C - конфігуратор БД",
     "parent": "home"
 },
 "hrm_new_hr":{
@@ -395,7 +395,7 @@
   ,"ng_template":"'/f/am-dev/1c-db-tables/1c-db-tables.html'"
   ,"script":"/f/am-dev/1c-db-tables/create_tables.js"
   ,"shortName":"Інформація"
-  ,"alias":"Таблиці1C"
+  ,"alias":"Таблиці1C - конфігуратор БД"
   ,"parent":"home"
 }
 
