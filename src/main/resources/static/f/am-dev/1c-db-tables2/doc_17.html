@@ -1,0 +1,23 @@
+<div>
+	<div class="w3-dropdown-hover w3-white w3-hover-shadow">
+		<span class="w3-tiny ">☰ &nbsp; </span> {{oo.tableRoot.value}}
+		<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
+			style="left: -5px">
+			<a href="#" class="w3-bar-item w3-button"
+				ng-click="oo.openEditElement(oo.tableRoot)"><i
+				class="fa fa-pencil-square-o"></i> Змінити</a> <a href="#"
+				ng-click="oo.addElement(oo.tableRoot.docRoot)"
+				class="w3-bar-item w3-button"><i class="fa fa-plus"></i> Додати
+				запис</a> <a href="#" ng-click="oo.minusElement(o)"
+				class="w3-bar-item w3-button"><i class="fa fa-minus"></i>
+				Видалити запис</a>
+		</div>
+	</div>
+	<div ng-repeat="elParent in [oo.tableRoot.docRoot]"
+		ng-include="'/f/am-dev/1c-db-tables2/doc_element.html'"></div>
+	<!-- 
+	<div ng-repeat="el in oo.tableRoot.docRoot.children"
+		ng-include="'/f/am-dev/1c-db-tables2/doc_element.html'"></div>
+	<div class="w3-code">{{oo}}</div>
+	 -->
+</div>

@@ -11,6 +11,7 @@ pre {
   tab-size: 2; /* Set tab size to 2 spaces */
   -moz-tab-size:2;
 }
+ul.am-ul{margin-top: 2px; padding-left: 20px;}
 a.am-j2c:link{ text-decoration: none; }
 .am-width-100pr{ width: 100%; }
 table.am-table-va th{ vertical-align: bottom;	}
