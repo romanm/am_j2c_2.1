@@ -255,12 +255,13 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			}
 			writeSql(data)
 		},
-		upElement:function(o){
-			console.log(this)
+		downElement:function(o){this.upDowntElement(o, 1)},
+		upElement:function(o){this.upDowntElement(o, -1)},
+		upDowntElement:function(o, direction){
 			var oParent = this.elementsMap[o.parent]
 			var position = oParent.children.indexOf(o)
 			var x = oParent.children.splice(position, 1)
-			oParent.children.splice(position-1, 0, x[0])
+			oParent.children.splice(position + direction, 0, x[0])
 			angular.forEach(oParent.children, function(v,k){
 				var data = {
 					sort:k,
