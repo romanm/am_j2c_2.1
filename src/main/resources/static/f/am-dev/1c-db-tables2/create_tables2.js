@@ -228,19 +228,26 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		if(cellId_v){
 			col_data.sql = sql_1c.table_data_cell_update()
 			col_data.sql = col_data.sql.replace(':cell_id', cellId_v)
-		}else{
+			var cell_v = ('string'==col_data[n].fieldtype)? "'"+v+"'":v
+			var cell_v = ('timestamp'==col_data[n].fieldtype)? "'"+v+"'":v
+			col_data.sql = col_data.sql.replace(':value', cell_v)
+			col_data.sql = col_data.sql.replace(':fieldtype', col_data[n].fieldtype)
+			.replace(':fieldtype', col_data[n].fieldtype)
+			col_data.sql_row += col_data.sql
+		}else if(v){
 			col_data.sql = sql_1c.table_data_cell_insert()
 			col_data.sql = col_data.sql.replace(':column_id', n)
 			while(col_data.sql.indexOf(':nextDbId2')>0){
 				col_data.sql = col_data.sql.replace(':nextDbId2', ':nextDbId'+col_data.nextDbIdCounter)
 			}
 			col_data.nextDbIdCounter++
-		}
-		var cell_v = ('string'==col_data[n].fieldtype)? "'"+v+"'":v
-		col_data.sql = col_data.sql.replace(':value', cell_v)
-		col_data.sql = col_data.sql.replace(':fieldtype', col_data[n].fieldtype)
+			var cell_v = ('string'==col_data[n].fieldtype)? "'"+v+"'":v
+			var cell_v = ('timestamp'==col_data[n].fieldtype)? "'"+v+"'":v
+			col_data.sql = col_data.sql.replace(':value', cell_v)
+			col_data.sql = col_data.sql.replace(':fieldtype', col_data[n].fieldtype)
 			.replace(':fieldtype', col_data[n].fieldtype)
-		col_data.sql_row += col_data.sql
+			col_data.sql_row += col_data.sql
+		}
 	}
 	
 	$scope.doc_data = {
