@@ -3,6 +3,31 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	console.log($scope.request.parameters)
 
 	$scope.pageVar = {
+		validate_change:{
+			rowObj:null,
+			timestamp:function(key){
+				if(!$scope.pageVar.validate_change.rowObj){
+					$scope.pageVar.validate_change.rowObj = {}
+				}
+				var dateString = $scope.pageVar.rowObj[key];
+				var noTimestampSymbol = dateString.replace(/\d|\.|-| |:/g, '')
+				if(noTimestampSymbol){
+					console.log(noTimestampSymbol)
+					$scope.pageVar.validate_change.rowObj[key] = 'Недопустимі символи: '+ noTimestampSymbol
+				}else{
+					delete $scope.pageVar.validate_change.rowObj[key]
+				}
+				var m = dateString.match(/([1-9]|1\d|2\d|3[01])([-|,|.| |\/]+)([1-9]|1[012]|0[1-9])([-|,|.| |\/]+)(19|20)(\d{2})/)
+				console.log(m)
+				if(m){
+//					y = m[5]*100+m[6]*1;
+				}else{
+					m = dateString.match(/([1-9]|1\d|2\d|3[01])([-|,|.| |\/]+)([1-9]|1[012]|0[1-9])([-|,|.| |\/]+)(\d{1,2})/)
+					console.log(m)
+				}
+				
+			},
+		},
 		rowKey:null,
 		rowKeyObj:null,
 		rowObj:null,
@@ -54,7 +79,21 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			if(this.rowKey){
 				angular.forEach(o.list,function(v){
 					if($scope.pageVar.rowKey == v[$scope.pageVar.rowKeyObj.vk]){
-						$scope.pageVar.rowObj  = v
+						$scope.pageVar.rowObj = v
+					}
+				})
+				console.log($scope.pageVar.rowObj)
+				angular.forEach($scope.create_tables.colMap,function(v,k){
+					if('timestamp' == v.fieldtype){
+						var fieldName = 'col_'+v.column_id
+						var ds = $scope.pageVar.rowObj[fieldName]
+						console.log(ds)
+						$scope.pageVar.rowObj[fieldName+'_ed']
+						= $filter('date')(ds, 'shortDate') 
+						+ ' '
+						+ $filter('date')(ds, 'hh:mm') 
+						console.log(k)
+						console.log(v)
 					}
 				})
 			}
@@ -193,7 +232,6 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			writeSql(data)
 		},
 		afterRead:function(){
-			console.log($scope.create_tables)
 			$scope.create_tables.colMap = {}
 			console.log($scope.request.parameters.column_id)
 			angular.forEach($scope.create_tables.list, function(v){
@@ -233,7 +271,10 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			col_data.sql = sql_1c.table_data_cell_update()
 			col_data.sql = col_data.sql.replace(':cell_id', cellId_v)
 			var cell_v = ('string'==col_data[n].fieldtype)? "'"+v+"'":v
-			var cell_v = ('timestamp'==col_data[n].fieldtype)? "'"+v+"'":v
+			if('timestamp'==col_data[n].fieldtype){
+				var cell_v = "'"+v+":00.0'"
+				console.log(cell_v)
+			}
 			col_data.sql = col_data.sql.replace(':value', cell_v)
 			col_data.sql = col_data.sql.replace(':fieldtype', col_data[n].fieldtype)
 			.replace(':fieldtype', col_data[n].fieldtype)
@@ -361,14 +402,15 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	
 	$scope.table_data = {
 		afterRead:function(){
-			if($scope.request.parameters.row_id){
-				angular.forEach($scope.table_data.list, function(v){
+			console.log($scope.create_tables)
+			angular.forEach($scope.table_data.list, function(v){
+				if($scope.request.parameters.row_id){
 					if($scope.request.parameters.row_id == v.row_id){
 						$scope.table_data.selectedObj = v
 						$scope.request.parameters.tableId = v.tbl_id
 					}
-				})
-			}
+				}
+			})
 		},
 		saveUpdate:function(){
 			var col_data = {nextDbIdCounter : 3, sql_row : '',}
@@ -455,9 +497,20 @@ console.log($scope.table_data.col_keys)
 		}
 	})
 	
+	$scope.$watch('table_data.columns.list',function(newValue){ if(newValue){
+		readTableData(newValue, $scope.request.parameters.tableId, $scope.table_data)
+	}})
+
 	var readTableData = function(listSqlJoin, table_id, o){
 		var add_sql = {add_joins:'', add_columns:''}
 		angular.forEach(listSqlJoin, function(v){
+			if(v.add_joins.indexOf('timestamp')>0){
+				/*
+				v.add_joins = v.add_joins.replace('value col_',
+				"FORMATDATETIME(value, 'yyyy-MM-dd hh:mm') col_"		
+				)
+				 */
+			}
 			add_sql.add_joins += v.add_joins + ' \n'
 			add_sql.add_columns += v.add_columns
 			o.col_keys[v.col_key] = v.col_alias
@@ -476,11 +529,6 @@ console.log($scope.table_data.col_keys)
 //			console.log(sql)
 	}
 	
-	$scope.$watch('table_data.columns.list',function(newValue){ if(newValue){
-		readTableData(newValue, $scope.request.parameters.tableId, $scope.table_data)
-			console.log($scope.table_data)
-	}})
-
 	var readTableColumns = function(table_id, o){
 		var params_table_column = { sql:sql_1c.table_data_columns() }
 		params_table_column.table_id = table_id
