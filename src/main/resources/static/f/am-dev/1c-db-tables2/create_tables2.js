@@ -164,6 +164,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		},
 	}
 
+	console.log($scope.create_tables)
 	$scope.create_tables = {
 		interpretation:{},
 		saveUpdate:function(){
@@ -192,16 +193,19 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			writeSql(data)
 		},
 		afterRead:function(){
-			if($scope.request.parameters.column_id){
-				console.log($scope.request.parameters.column_id)
-				angular.forEach($scope.create_tables.list, function(v){
-					if($scope.request.parameters.column_id == v.column_id){
-						$scope.create_tables.selectedObj = v
-						$scope.request.parameters.tableId = v.table_id
-						console.log($scope.create_tables.selectedObj)
-					}
-				})
-			}
+			console.log($scope.create_tables)
+			$scope.create_tables.colMap = {}
+			console.log($scope.request.parameters.column_id)
+			angular.forEach($scope.create_tables.list, function(v){
+				$scope.create_tables.colMap[v.column_id] = v
+				if($scope.request.parameters.column_id){
+				if($scope.request.parameters.column_id == v.column_id){
+					$scope.create_tables.selectedObj = v
+					$scope.request.parameters.tableId = v.table_id
+					console.log($scope.create_tables.selectedObj)
+				}
+				}
+			})
 		},
 		col_links:{
 			column_id:{k:'column_id',vk:'column_id'},
