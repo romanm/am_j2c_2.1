@@ -1,0 +1,9 @@
+<div class="w3-tiny">
+	{{table_data.params_table_data.table_id}} sql <a href="#"
+		ng-click="pageVar.saveSql()" class="w3-btn w3-border">save</a>
+	<div class="w13-code w3-tiny">
+		<textarea rows="10" class="am-width-100pr">
+{{table_data.params_table_data.sql.replace(':table_id',table_data.params_table_data.table_id)}}
+</textarea>
+	</div>
+</div>
