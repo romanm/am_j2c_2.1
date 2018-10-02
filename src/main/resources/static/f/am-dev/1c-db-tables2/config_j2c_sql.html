@@ -1,8 +1,20 @@
 <div class="w3-tiny">
-	{{table_data.params_table_data.table_id}} sql <a href="#"
-		ng-click="pageVar.saveSql()" class="w3-btn w3-border">save</a>
+	{{table_data.params_table_data.table_id}} | <a href="#"
+		class="w3-hover-shadow"
+		ng-click="pageVar.config.viewConfigPart='sql_read_table_data'">
+		sql_read_table_data</a> | <a href="#" class="w3-hover-shadow"
+		ng-click="pageVar.config.viewConfigPart='json_create_table'">
+		json_create_table</a> | <a href="#" ng-click="pageVar.saveSql()"
+		class="w3-btn w3-border">save</a>
 	<div class="w13-code w3-tiny">
-		<textarea rows="10" class="am-width-100pr">
+		<textarea rows="10" class="am-width-100pr"
+			ng-if="pageVar.config.viewConfigPart=='json_create_table'">
+{{pageVar.config.viewJson(create_tables.colMap)}}
+		</textarea>
+		<textarea rows="10" class="am-width-100pr"
+			ng-if="
+			!pageVar.config.viewConfigPart
+			|| pageVar.config.viewConfigPart=='sql_read_table_data'">
 {{table_data.params_table_data.sql.replace(':table_id',table_data.params_table_data.table_id)}}
 </textarea>
 	</div>

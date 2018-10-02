@@ -3,6 +3,12 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	console.log($scope.request.parameters)
 
 	$scope.pageVar = {
+		config:{//config page part
+			viewJson:function(o){
+				return JSON.stringify(o, null, 2)
+			},
+			viewConfigPart:null,//sql or json
+		},
 		saveSql:function(){
 			var sql = $scope.table_data.params_table_data.sql.replace(
 					':table_id'
@@ -296,9 +302,12 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 				fn(v,k,n,col_data)
 		})
 	}
+
 	var build_cell_sql_insert = function(v,k,n,col_data){
+		console.log(col_data)
+		console.log(col_data[n])
 		var cellId_v = $scope.pageVar.rowObj[k+'_id']
-		console.log(k+'/'+v+'/'+cellId_v)
+		console.log(k+'/'+v+'/'+cellId_v+'/'+n)
 		if(cellId_v){
 			col_data.sql = sql_1c.table_data_cell_update()
 			col_data.sql = col_data.sql.replace(':cell_id', cellId_v)
@@ -467,7 +476,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			console.log(col_data.sql_row)
 			data.sql = col_data.sql_row
 			console.log(data)
-			writeSql(data)
+			//writeSql(data)
 		},
 		no_edit:['row_id'],
 		col_links:{

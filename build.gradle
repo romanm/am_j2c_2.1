@@ -37,6 +37,7 @@ dependencies {
 	runtime('com.h2database:h2')
 	compile 'org.webjars:font-awesome:5.0.6'
 	compile 'org.webjars:font-awesome:4.7.0'
+
 	compile 'org.webjars:angularjs:1.7.4'
 	//compile 'org.webjars:angularjs:1.7.2'
 	 //compile 'org.webjars:angularjs:1.7.0'
