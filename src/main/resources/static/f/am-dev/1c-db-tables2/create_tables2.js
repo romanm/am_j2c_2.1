@@ -9,26 +9,30 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			},
 			viewConfigPart:null,//sql or json
 		},
-		saveSql:function(){
-			var sql = $scope.table_data.params_table_data.sql.replace(
-					':table_id'
-					,$scope.table_data.params_table_data.table_id)
-			//console.log(sql)
-			var data = {
-				tableId: $scope.create_tables.list[0].table_id,
-				value: sql,
-			}
-			if($scope.create_tables.table_data_readSql.sql){
-				if(false && sql==$scope.create_tables.table_data_readSql.sql){
+		saveSqlConfig1:function(tableId, doctype, newValue, oldValue){
+			var data = { tableId:tableId, value:newValue, doctype:doctype, }
+			if(oldValue){
+				if(newValue == oldValue){
 					console.log('Змін не відбулось перезапис непотрібен')
 				}else{
-					data.sql = sql_1c.create_table_update_sql(),
+					data.sql = sql_1c.create_table_update_sql()
 					writeSql(data)
 				}
 			}else{
-				data.sql = sql_1c.create_table_insert_sql(),
+				data.sql = sql_1c.create_table_insert_sql()
 				writeSql(data)
 			}
+			console.log(data)
+		},
+		saveSqlConfig:function(){
+			var tableId = $scope.create_tables.list[0].table_id
+			var sql = $scope.table_data.params_table_data.sql
+					.replace( ':table_id' ,tableId)
+			//console.log(sql)
+			console.log($scope.create_tables.table_data_readSql)
+			this.saveSqlConfig1(tableId, 19, sql, $scope.create_tables.table_data_readSql.sql)
+			this.saveSqlConfig1(tableId, 20, this.config.viewJson($scope.create_tables.colMap)
+				, $scope.create_tables.table_data_readSql.json_create_table)
 		},
 		validate_change:{
 			rowObj:null,
@@ -272,13 +276,22 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			})
 			if($scope.create_tables.list[0]){
 			if($scope.create_tables.list[0].table_id){
+				console.log(sql_1c.table_data_readSql())
+
 				$scope.create_tables.table_data_readSql = { 
-						sql:sql_1c.table_data_readSql(),
-						table_id : $scope.create_tables.list[0].table_id,
-						afterRead : function(){
-							if(this.list[0])
-								this.sql = this.list[0].docbody
-						},
+					sql:sql_1c.table_data_readSql(),
+					table_id : $scope.create_tables.list[0].table_id,
+					afterRead : function(){
+						var thisObj=this
+						angular.forEach(this.list, function(v){
+							if(v.doctype==19){
+								thisObj.sql = v.docbody
+							}else
+							if(v.doctype==20){
+								thisObj.json_create_table = v.docbody
+							}
+						})
+					},
 				}
 				readSql($scope.create_tables.table_data_readSql)
 			}}
@@ -668,7 +681,8 @@ var sql_1c = {
 			"INSERT INTO :fieldtype (value,:fieldtype_id) VALUES (:value, :nextDbId2 ) ;"
 	},
 	table_data_readSql:function(){
-return "SELECT * FROM doc d, docbody s where s.docbody_id=d.doc_id and parent = :table_id and doctype!=4"
+		return "SELECT * FROM doc d, docbody s \n" +
+				"WHERE parent = :table_id AND s.docbody_id=d.doc_id AND doctype!=4"
 	},
 	table_data_read:function(){
 		return "SELECT rws.parent tbl_id, rws.doc_id row_id \n" +
@@ -733,11 +747,11 @@ return "SELECT * FROM doc d, docbody s where s.docbody_id=d.doc_id and parent = 
 	},
 	create_table_update_sql:function(){
 		return "UPDATE docbody SET docbody = :value WHERE docbody_id IN ( \n" +
-				"SELECT doc_id FROM doc where doctype=19 and parent = :tableId)"
+				"SELECT doc_id FROM doc where doctype=:doctype and parent = :tableId)"
 	},
 	create_table_insert_sql:function(){
 		return "INSERT INTO doc (parent, doc_id, doctype) \n" +
-			"VALUES (:tableId, :nextDbId1, 19) ;" +
+			"VALUES (:tableId, :nextDbId1, :doctype) ;" +
 			"INSERT INTO docbody (docbody,docbody_id) VALUES (:value, :nextDbId1) ;"
 	},
 	create_table_update:function(){
