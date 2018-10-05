@@ -49,7 +49,7 @@ public class EhDb1Rest extends DbCommon{
 				data.put("list"+i, list);
 			}else {
 				int update = dbParamJdbcTemplate.update(sql2, data);
-				data.put("update_"+ i, update);			
+				data.put("update_"+ i, update);
 			}
 			i++;
 			
