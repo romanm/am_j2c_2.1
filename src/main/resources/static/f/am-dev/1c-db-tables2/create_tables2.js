@@ -416,7 +416,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	
 	$scope.table_data = {
 		afterRead:function(){
-			console.log($scope.create_tables)
+			console.log($scope.table_data)
 			angular.forEach($scope.table_data.list, function(v){
 				if($scope.request.parameters.row_id){
 					if($scope.request.parameters.row_id == v.row_id){
