@@ -120,9 +120,9 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 						var ds = $scope.pageVar.rowObj[fieldName]
 						console.log(ds)
 						$scope.pageVar.rowObj[fieldName+'_ed']
-						= $filter('date')(ds, 'shortDate') 
+						= $filter('date')(ds, 'shortDate')
 						+ ' '
-						+ $filter('date')(ds, 'hh:mm') 
+						+ $filter('date')(ds, 'HH:mm')
 						console.log(k)
 						console.log(v)
 					}
@@ -433,6 +433,18 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 //				col_data[v.column_id] = v
 //			})
 //			console.log($scope.create_tables.colMap)
+			angular.forEach($scope.create_tables.colMap, function(v,k){
+				if('timestamp'==v.fieldtype){
+					var edTs = $scope.pageVar.rowObj['col_'+k+'_ed']
+					console.log(edTs)
+					var d = str2UaTimestamp(edTs)
+					console.log(d)
+					var s = $filter('date')(d, 'yyyy-MM-ddTHH:mm:ss')
+					console.log(s)
+					$scope.pageVar.rowObj['col_'+k] = s
+					console.log($scope.pageVar.rowObj)
+				}
+			})
 			var col_data = $scope.create_tables.colMap
 			col_data.nextDbIdCounter = 3
 			col_data.sql_row = ''
@@ -448,7 +460,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			console.log(col_data.sql_row)
 			col_data.sql = col_data.sql_row
 			console.log(col_data)
-			//writeSql(col_data)
+			writeSql(col_data)
 		},
 		no_edit:['row_id'],
 		col_links:{
@@ -608,7 +620,13 @@ function build_sqlJ2c_cell_write_parameters(col_data, v, n){
 		cell_v = "'"+v+"'"
 	}else
 	if('timestamp'==col_data[n].fieldtype){
-		cell_v = "'"+v+":00.0'"
+		console.log(v)
+		var vd = new Date(v)
+		console.log(vd)
+		//var vd2 = $filter('date')(vd, 'yyyy-MM-ddTHH:mm')
+		//console.log(vd2)
+		cell_v = "'"+v+"'"
+		console.log(cell_v)
 	}else{
 		cell_v = v
 	}
@@ -826,3 +844,17 @@ var writeSql = function(data){
 	})
 }
 
+function str2UaTimestamp(edTs){
+	var edTsa = edTs.match(/(\d+)/g)
+	var d = new Date()
+	var year = edTsa[2]*1
+	var addCentury = (year>d.getFullYear()-2000)?1900:2000
+	edTsa[2] = year > 1000 ? year : (year + addCentury)
+	d.setFullYear(edTsa[2])
+	d.setMonth(edTsa[1]*1-1)
+	d.setDate(edTsa[0])
+	d.setHours(edTsa[3])
+//	d.setUTCHours(edTsa[3])
+	d.setMinutes(edTsa[4])
+	return d
+}

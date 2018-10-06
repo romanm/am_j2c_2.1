@@ -27,7 +27,7 @@
 			title="{{tr[ck+'_id']}}"
 			ng-class="{'w3-green':tr[ck]&&tr[ck]==request.parameters[cl.k]}"
 			class="w3-border w3-border-white w3-hover-border-gray"> 
-			<span ng-if="ct_timestamp"> {{tr[ck] | date : 'shortDate' }}  {{tr[ck] | date : 'hh:mm'}} </span> <span
+			<span ng-if="ct_timestamp"> {{tr[ck] | date : 'shortDate' }}  {{tr[ck] | date : 'HH:mm'}} </span> <span
 			ng-if="!cl && !ct_timestamp"> {{tr[ck]}}
 			 <span ng-if="tr[ck]=='constraint'">
 					({{tr.reference2}}) </span> <span class="w3-tiny" ng-if="interpretation.o">
