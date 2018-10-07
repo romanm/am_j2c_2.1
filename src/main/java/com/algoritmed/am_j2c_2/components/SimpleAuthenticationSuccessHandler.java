@@ -38,6 +38,7 @@ implements AuthenticationSuccessHandler, LogoutSuccessHandler{
 		redirectStrategy.sendRedirect(request, response, redirectUrl);
 		
 	}
+
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	//	http://www.devglan.com/spring-security/spring-boot-security-redirect-after-login
 }
