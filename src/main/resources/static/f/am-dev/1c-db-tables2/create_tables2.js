@@ -277,7 +277,6 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			if($scope.create_tables.list[0]){
 			if($scope.create_tables.list[0].table_id){
 				console.log(sql_1c.table_data_readSql())
-
 				$scope.create_tables.table_data_readSql = { 
 					sql:sql_1c.table_data_readSql(),
 					table_id : $scope.create_tables.list[0].table_id,
@@ -307,8 +306,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			fieldtype:'Тип даних',
 		},
 	}
-	
-	
+
 	$scope.doc_data = {
 		addElement:function(o){
 			var parentId = o.doc_id
@@ -556,10 +554,14 @@ console.log($scope.table_data.col_keys)
 	}
 	
 	var readTableColumns = function(table_id, o){
-		var params_table_column = { sql:sql_1c.table_data_columns() }
+		var params_table_column = { 
+			sql:sql_1c.table_data_columns(),
+		}
 		params_table_column.table_id = table_id
+		console.log(params_table_column.sql)
 //		console.log(params_table_column)
 		readSql(params_table_column, o)
+		console.log(o)
 	}
 
 	var params_create_tables = { sql:sql_1c.create_tables() }
@@ -572,6 +574,7 @@ console.log($scope.table_data.col_keys)
 		params_create_tables.table_id = $scope.request.parameters.tableId
 	}
 	var params_tables = { sql:sql_1c.read_tables() }
+//	console.log(params_tables.sql)
 //	console.log(params_tables)
 	console.log($scope.tables)
 	//console.log(sql_1c.create_table())
