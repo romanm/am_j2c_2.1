@@ -164,7 +164,7 @@
     "parent": "home"
 },
 "create_tables2":{
-    "th_template": "template5",
+    "th_template": "template6",
     "ng_template":"'/f/am-dev/1c-db-tables2/1c-db-tables2.html'",
     "script":"/f/am-dev/1c-db-tables2/create_tables2.js",
     "title": "Таблиці1C - конфігуратор БД",

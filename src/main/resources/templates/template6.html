@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<meta charset="utf-8" />
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title th:text="${title}"></title>
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"  type="image/x-icon"/>
+<script src="/webjars/angularjs/1.7.4/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.4/angular-route.js"></script>
+<script src="/webjars/angularjs/1.7.4/i18n/angular-locale_uk.js"></script>
+<script src="/webjars/angularjs/1.7.4/angular-sanitize.min.js"></script>
+<script src="/f/algoritmed/compile-algoritmed3.js"></script>
+<script src="/f/eh2/icpc2_test4/read_j2c_tables.js"></script>
+<script src="/f/eh2/abk1/read_abk.js"></script>
+<script src="/f/eh1/info2/ehealth_declaration.js"></script>
+<script src="/f/c4/init_j2c_json_editor.js"></script>
+<script th:attr="src=${script}"></script>
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/algoritmed.css">
+<link rel="stylesheet"
+	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="w3-container w3-light-gray" ng-controller="ControllerApp1">
+	<div class="w13-container w3-white w3-border-bottom">
+		<div th:attr="ng-include=${ng_template}"></div>
+		<span class="w3-tiny"> > 
+		<span ng-include="include.copyright"></span>
+		</span>
+	</div>
+</body>
+</html>

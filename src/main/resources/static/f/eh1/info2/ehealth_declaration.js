@@ -1,5 +1,7 @@
 //console.log('----ehealth_declaration.js------------')
+sql_1c = {}
 init_am_directive.ehealth_declaration = function($scope, $http, $filter){
+
 //	console.log('----init_am_directive.ehealth_declaration------------')
 	
 //	$scope.data.jsonTemplate={x:'y'}
