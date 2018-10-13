@@ -1,13 +1,34 @@
 var init_j2c_json_editor = function($scope, $http){
+
+$scope.changeElement = {}
+$scope.changeElement.saveUpdate = function(){
+	console.log(this.o)
+	console.log(this)
+	var data = {
+		value:this.name,
+		string_id:this.o.doc_id,
+		sql:sql_1c.doc_insert_string(),
+	}
+	console.log(data)
+	writeSql(data)
+}
+
+$scope.changeElement.openDialog = function(o){
+	this.ngStyleModal = {display:'block'}
+	console.log(o)
+	this.o = o
+	this.name = o.value
+}
+
 $scope.doc_data = {
 	addElement:function(o){
 		var parentId = o.doc_id
 		var data = {
-				sql : sql_1c.doc_insert_elements(),
-				parentId : parentId,
-				dataAfterSave:function(){
-					console.log(123)
-				}
+			sql : sql_1c.doc_insert_elements(),
+			parentId : parentId,
+			dataAfterSave:function(){
+				console.log(123)
+			}
 		}
 		writeSql(data)
 	},
@@ -138,9 +159,13 @@ sql_1c.doc_read_elements_0 = function(){
 sql_1c.doc_read_elements = function(){
 		return "SELECT * FROM doc " +
 				"LEFT JOIN string ON string_id=doc_id " +
+				"LEFT JOIN docbody ON docbody_id=doc_id " +
 				"LEFT JOIN sort ON sort_id=doc_id " +
 		"WHERE doc_id IN "
 	}
+sql_1c.doc_insert_string = function(){
+	return "INSERT INTO string (value,string_id) VALUES (:value,:string_id)"
+}
 sql_1c.doc_insert_sort = function(){
 	return "INSERT INTO sort (sort,sort_id) VALUES (:sort,:sort_id)"
 }

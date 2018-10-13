@@ -1,7 +1,9 @@
 <ul class="am-ul">
 	<li ng-repeat="el in elParent.children">
 		<div class="w3-dropdown-hover w3-white w3-hover-shadow">
-			<span class="w3-tiny ">☰ &nbsp; </span> col_{{el.doc_id}}
+			<span class="w3-tiny ">☰ &nbsp; </span><span ng-if="!el.value">
+				col_{{el.doc_id}} </span> <span title=" col_{{el.doc_id}}" ng-if="el.value">
+				{{el.value}} </span>
 			<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
 				style="left: -5px; width: 180px">
 				<div>
@@ -16,16 +18,16 @@
 						class="fa fa-minus"></i></a>
 				</div>
 				<a href="#" class="w3-bar-item w3-button"
-					ng-click="oo.openEditElement(el)"><i
+					ng-click="changeElement.openDialog(el)"><i
 					class="fa fa-pencil-square-o"></i> Змінити</a>
-					<div>
+				<div>
 					<a href="#" ng-click="doc_data.upElement(el)" title="копія"
-						class="w13-bar-item w3-button"><i class="fa fa-copy"></i></a>
-					<a href="#" ng-click="doc_data.cutElement(el)" title="вирізка"
-						class="w13-bar-item w3-button"><i class="fa fa-cut"></i></a>
-					<a href="#" ng-click="doc_data.pasteElement(el)" title="вставка"
+						class="w13-bar-item w3-button"><i class="fa fa-copy"></i></a> <a
+						href="#" ng-click="doc_data.cutElement(el)" title="вирізка"
+						class="w13-bar-item w3-button"><i class="fa fa-cut"></i></a> <a
+						href="#" ng-click="doc_data.pasteElement(el)" title="вставка"
 						class="w13-bar-item w3-button"><i class="fa fa-paste"></i></a>
-					</div>
+				</div>
 			</div>
 		</div>
 		<div ng-if="el.children">
