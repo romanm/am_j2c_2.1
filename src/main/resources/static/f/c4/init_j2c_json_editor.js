@@ -1,4 +1,7 @@
 var init_j2c_json_editor = function($scope, $http){
+	$scope.pageVar.config.viewJson = function(o){
+		return JSON.stringify(o, null, 2)
+	}
 
 $scope.changeElement = {}
 $scope.changeElement.changeJSON = function(){
@@ -30,6 +33,7 @@ $scope.changeElement.openDialog = function(o){
 
 $scope.doc_data = {
 	addElement:function(o){
+		console.log(o)
 		var parentId = o.doc_id
 		var data = {
 			sql : sql_1c.doc_insert_elements(),
@@ -90,6 +94,7 @@ $scope.doc_data = {
 				this.tableRoot = $scope.tables.list[0]
 			this.elementsMap = {}
 		}
+		console.log(this.readChildLevel)
 		if(sql_1c['doc_read_elements_'+this.readChildLevel]){
 			var sql = sql_1c['doc_read_elements_'+this.readChildLevel]()
 			sql += ' ORDER BY sort'
@@ -111,10 +116,11 @@ $scope.doc_data = {
 		}
 	},
 	afterRead:function(){
-//				console.log($scope.doc_data.tableRoot.docRoot)
-//				console.log(this.list)
+//		console.log($scope.doc_data.tableRoot)
+		console.log(this.list)
+		//console.log($scope.tables)
 		if(0==this.readChildLevel){
-			if(!this.list[0]){
+			if(!this.list[0] && $scope.tables){
 				this.addElement($scope.tables.list[0])
 			}
 		}
@@ -136,12 +142,58 @@ $scope.doc_data = {
 			this.readChildLevel++
 //					console.log(this)
 			this.readData()
+		}else{
+			if(this.readChildLevel > 0){
+				console.log(this.readChildLevel)
+				readSql({
+					sql:sql_1c.doc_read_docName(),
+					doc_id : $scope.request.parameters.jsonId,
+					afterRead:function(response){
+						console.log(response.data)
+						$scope.doc_data.tableRoot.value = response.data.list[0].value
+						$scope.doc_data.tableRoot.doctype = response.data.list[0].doctype
+					}
+				})
+			}
 		}
 
 	},
 }
-	console.log($scope.doc_data)
+//	console.log($scope.doc_data)
 
+}
+sql_1c.doc_read_docName = function(){
+	return "SELECT * FROM doc, string where doc_id=string_id and doc_id=:doc_id"
+}
+sql_1c.doc_read_elements_5 = function(){
+	return this.doc_read_elements() +
+	"(SELECT d5.doc_id FROM doc d, doc d0, doc d1, doc d2, doc d3, doc d4, doc d5 " +
+	"WHERE d.doc_id=:docId AND d0.parent=d.doc_id " +
+	"AND d1.parent=d0.doc_id " +
+	"AND d2.parent=d1.doc_id " +
+	"AND d3.parent=d2.doc_id " +
+	"AND d4.parent=d3.doc_id " +
+	"AND d5.parent=d4.doc_id " +
+	")"
+}
+sql_1c.doc_read_elements_4 = function(){
+	return this.doc_read_elements() +
+	"(SELECT d4.doc_id FROM doc d, doc d0, doc d1, doc d2, doc d3, doc d4 " +
+	"WHERE d.doc_id=:docId AND d0.parent=d.doc_id " +
+	"AND d1.parent=d0.doc_id " +
+	"AND d2.parent=d1.doc_id " +
+	"AND d3.parent=d2.doc_id " +
+	"AND d4.parent=d3.doc_id " +
+	")"
+}
+sql_1c.doc_read_elements_3 = function(){
+	return this.doc_read_elements() +
+	"(SELECT d3.doc_id FROM doc d, doc d0, doc d1, doc d2, doc d3 " +
+	"WHERE d.doc_id=:docId AND d0.parent=d.doc_id " +
+	"AND d1.parent=d0.doc_id " +
+	"AND d2.parent=d1.doc_id " +
+	"AND d3.parent=d2.doc_id " +
+	")"
 }
 sql_1c.doc_read_elements_2 = function(){
 	return this.doc_read_elements() +

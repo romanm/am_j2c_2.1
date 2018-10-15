@@ -3,12 +3,6 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	console.log($scope.request.parameters)
 
 	$scope.pageVar = {
-		config:{//config page part
-			viewJson:function(o){
-				return JSON.stringify(o, null, 2)
-			},
-			viewConfigPart:null,//sql or json
-		},
 		saveSqlConfig1:function(tableId, doctype, newValue, oldValue){
 			var data = { tableId:tableId, value:newValue, doctype:doctype, }
 			if(oldValue){
@@ -131,6 +125,9 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			}
 		}
 	}
+	$scope.pageVar.config = {}
+	$scope.pageVar.config.viewConfigPart = null
+	init_j2c_json_editor($scope, $http)
 
 	$scope.folders = {
 		afterRead:function(){
@@ -176,7 +173,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			modalBottonPanel:'/f/am-dev/1c-db-tables2/tables_modalBottonPanel.html',
 		},
 		afterRead:function(){
-			if(17==this.list[0].doctype){
+			if(17==this.list[0].doctype||6==this.list[0].doctype){
 				$scope.doc_data.readData()
 			}
 		},
@@ -314,11 +311,10 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		},
 	}
 
-	init_j2c_json_editor($scope, $http)
 	
 	$scope.table_data = {
 		afterRead:function(){
-			console.log($scope.table_data)
+//			console.log($scope.table_data)
 			angular.forEach($scope.table_data.list, function(v){
 				if($scope.request.parameters.row_id){
 					if($scope.request.parameters.row_id == v.row_id){
@@ -373,7 +369,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 		},
 		columns:{},
 	}
-console.log($scope.table_data.col_keys)
+//	console.log($scope.table_data.col_keys)
 	$scope.$watchGroup([
 		'create_tables.list'
 		, 'create_tables.interpretation.list'
@@ -411,7 +407,7 @@ console.log($scope.table_data.col_keys)
 		}else
 		if(newValue[0]){
 			if(newValue[0]!=oldValue[0]){
-				console.log($scope.create_tables)
+//				console.log($scope.create_tables)
 				if($scope.create_tables.list[0]){
 					var table_id = $scope.create_tables.list[0].table_id
 					var table_data_columns_interpretation = {

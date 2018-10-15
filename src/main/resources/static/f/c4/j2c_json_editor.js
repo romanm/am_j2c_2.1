@@ -1,8 +1,5 @@
 app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	initApp($scope, $http)
-	init_j2c_json_editor($scope, $http)
-	
-	$scope.doc_data.readData()
 	
 	$scope.pageVar.pageName = 'j2c JSON Editor'
 	$scope.pageVar.pageParent = {}
@@ -11,5 +8,9 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		return "?tableId=" +
 				$scope.request.parameters.jsonId +
 				""
-	} 
+	}
+	$scope.pageVar.config = {}
+	init_j2c_json_editor($scope, $http)
+
+	$scope.doc_data.readData()
 })
