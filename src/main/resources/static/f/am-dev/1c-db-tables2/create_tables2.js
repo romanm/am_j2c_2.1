@@ -28,6 +28,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			var tableId = $scope.create_tables.list[0].table_id
 			var sql = $scope.table_data.params_table_data.sql
 					.replace( ':table_id' ,tableId)
+					.replace( 'LIMIT 50' ,'')
 			//console.log(sql)
 			console.log($scope.create_tables.table_data_readSql)
 			this.saveSqlConfig1(tableId, 19, sql, $scope.create_tables.table_data_readSql.sql)
@@ -192,6 +193,12 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 				doctype : 1,
 				col_keys:{
 					value:'Назва таблиці',
+				},
+			},
+			datadictionary:{
+				doctype : 6,
+				col_keys:{
+					value:'Назва словника даних',
 				},
 			},
 			doc:{
@@ -427,7 +434,7 @@ console.log($scope.table_data.col_keys)
 			if(v.add_joins.indexOf('timestamp')>0){
 				/*
 				v.add_joins = v.add_joins.replace('value col_',
-				"FORMATDATETIME(value, 'yyyy-MM-dd hh:mm') col_"		
+				"FORMATDATETIME(value, 'yyyy-MM-dd hh:mm') col_"
 				)
 				 */
 			}
@@ -442,7 +449,7 @@ console.log($scope.table_data.col_keys)
 		.replace(':add_joins', add_sql.add_joins)
 //console.log(sql.replace(':table_id',table_id))
 		var params_table_data = {
-			sql : sql,
+			sql : sql+' LIMIT 50',
 			table_id : table_id,
 		}
 		o.params_table_data = params_table_data
@@ -456,7 +463,7 @@ console.log($scope.table_data.col_keys)
 			sql:sql_1c.table_data_columns(),
 		}
 		params_table_column.table_id = table_id
-		console.log(params_table_column.sql)
+//		console.log(params_table_column.sql)
 //		console.log(params_table_column)
 		readSql(params_table_column, o)
 		console.log(o)
@@ -581,8 +588,8 @@ sql_1c.table_data_readSql = function(){
 	}
 sql_1c.table_data_read_limit = function(){
 		return "" +
-				this.table_data_read() +
-				" LIMIT 50"
+				this.table_data_read()
+//				+"LIMIT 50"
 	}
 sql_1c.table_data_read = function(){
 		return "SELECT rws.parent tbl_id, rws.doc_id row_id \n" +
@@ -687,7 +694,7 @@ sql_1c.read_tables = function(){
 				this.folders()+
 				"\n) d2 WHERE d2.doc_id=d.parent \n" +
 				"AND s.string_id=d.doc_id \n" +
-				"AND d.doctype in (1,17) "
+				"AND d.doctype in (1,6,17) "
 	}
 sql_1c.folder_insert = function(){
 		return "INSERT INTO doc (doc_id, doctype) VALUES (:nextDbId1, 14);" +

@@ -15,7 +15,10 @@
 			ng-if="
 			!pageVar.config.viewConfigPart
 			|| pageVar.config.viewConfigPart=='sql_read_table_data'">
-{{table_data.params_table_data.sql.replace(':table_id',table_data.params_table_data.table_id)}}
+{{table_data.params_table_data.sql
+.replace(':table_id',table_data.params_table_data.table_id)
+.replace('LIMIT 50','')
+}}
 </textarea>
 	</div>
 </div>

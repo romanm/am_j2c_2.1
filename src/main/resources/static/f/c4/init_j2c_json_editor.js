@@ -1,6 +1,11 @@
 var init_j2c_json_editor = function($scope, $http){
 
 $scope.changeElement = {}
+$scope.changeElement.changeJSON = function(){
+	console.log(this.docbody)
+	this.docbodyJSON = JSON.parse(this.docbody)
+	console.log(this.docbodyJSON)
+}
 $scope.changeElement.saveUpdate = function(){
 	console.log(this.o)
 	console.log(this)
@@ -8,6 +13,9 @@ $scope.changeElement.saveUpdate = function(){
 		value:this.name,
 		string_id:this.o.doc_id,
 		sql:sql_1c.doc_insert_string(),
+	}
+	if(this.o.string_id){
+		data.sql = sql_1c.doc_update_string()
 	}
 	console.log(data)
 	writeSql(data)
@@ -165,6 +173,9 @@ sql_1c.doc_read_elements = function(){
 	}
 sql_1c.doc_insert_string = function(){
 	return "INSERT INTO string (value,string_id) VALUES (:value,:string_id)"
+}
+sql_1c.doc_update_string = function(){
+	return "UPDATE string SET value=:value WHERE string_id=:string_id"
 }
 sql_1c.doc_insert_sort = function(){
 	return "INSERT INTO sort (sort,sort_id) VALUES (:sort,:sort_id)"
