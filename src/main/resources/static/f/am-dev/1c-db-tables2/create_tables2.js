@@ -93,6 +93,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 			$scope.pageVar.rowObj  = {}
 			$scope.table_types = {}
 			readSql({ sql:sql_1c.table_types() }, $scope.table_types)
+			console.log(sql_1c.table_types())
 			console.log($scope.table_types)
 			console.log($scope.create_tables.interpretationRows)
 		},
@@ -521,6 +522,9 @@ function build_sqlJ2c_row_write(rowObj,col_data,fn){
 function build_sqlJ2c_cell_write_parameters(col_data, v, n){
 	var cell_v 
 	if('string'==col_data[n].fieldtype){
+		cell_v = "'"+v+"'"
+	}else
+	if('date'==col_data[n].fieldtype){
 		cell_v = "'"+v+"'"
 	}else
 	if('timestamp'==col_data[n].fieldtype){
