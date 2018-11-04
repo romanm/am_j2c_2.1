@@ -18,25 +18,6 @@ import com.algoritmed.am_j2c_2.components.MapUtil;
 @Controller
 public class PrincipalRest extends Db2Common{
 	private static final Logger logger = LoggerFactory.getLogger(PrincipalRest.class);
-	@Autowired protected MapUtil mapUtil;
-
-	@GetMapping(value = "/r/principal/{user_id}")
-	public @ResponseBody Map<String, Object>  usersFromUserId(@PathVariable Integer user_id) {
-		Map<String, Object> mapPrincipal = new HashMap<String, Object>(),
-							map = new HashMap<String, Object>();
-		map.put("user_id", user_id);
-		List<Map<String, Object>> authorities = db2ParamJdbcTemplate.queryForList(env.getProperty("sql.db1.user.authorities"), map);
-		map.put("authorities", authorities);
-		Map<String, Object> user = db2ParamJdbcTemplate.queryForMap(env.getProperty("sql.db1.users.fromUserId"), map);
-		addUser(map, user);
-		String name = (String) user.get("username");
-		map.put("username", name);
-
-		addUserMsp(map, user_id, name);
-
-		mapPrincipal.put("principal", map);
-		return mapPrincipal;
-	}
 	
 	@GetMapping("/r/principal")
 	public @ResponseBody Map<String, Object> principal(Principal principal) {
@@ -44,6 +25,7 @@ public class PrincipalRest extends Db2Common{
 				principal2(principal);
 		return map;
 	}
+	
 	public Map<String, Object> principal2(Principal principal) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("principal", principal);
@@ -75,6 +57,27 @@ public class PrincipalRest extends Db2Common{
 		map.put("uri", uriMap);
 		logger.info("--65-- msp_id = "+map.get("msp_id"));
 		return map;
+	}
+	
+	
+	@Autowired protected MapUtil mapUtil;
+
+	@GetMapping(value = "/r/principal/{user_id}")
+	public @ResponseBody Map<String, Object>  usersFromUserId(@PathVariable Integer user_id) {
+		Map<String, Object> mapPrincipal = new HashMap<String, Object>(),
+							map = new HashMap<String, Object>();
+		map.put("user_id", user_id);
+		List<Map<String, Object>> authorities = db2ParamJdbcTemplate.queryForList(env.getProperty("sql.db1.user.authorities"), map);
+		map.put("authorities", authorities);
+		Map<String, Object> user = db2ParamJdbcTemplate.queryForMap(env.getProperty("sql.db1.users.fromUserId"), map);
+		addUser(map, user);
+		String name = (String) user.get("username");
+		map.put("username", name);
+
+		addUserMsp(map, user_id, name);
+
+		mapPrincipal.put("principal", map);
+		return mapPrincipal;
 	}
 
 	private List<?> addUserMsp(Map<String, Object> map, Integer user_id, String name) {

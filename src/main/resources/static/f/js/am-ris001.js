@@ -4,6 +4,10 @@ var initApp = function($scope, $http){
 	console.log('initApp')
 	build_request($scope)
 	$scope.pageVar = {}
+	$scope.pageVar.config = {}
+	$scope.pageVar.config.viewJson = function(o){
+		return JSON.stringify(o, null, 2)
+	}
 	exe_fn = new Exe_fn($scope, $http);
 	exe_fn.httpGet_j2c_table_db1_params_then_fn = function(params, then_fn){
 		return {

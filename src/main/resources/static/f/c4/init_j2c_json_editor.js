@@ -1,7 +1,4 @@
 var init_j2c_json_editor = function($scope, $http){
-	$scope.pageVar.config.viewJson = function(o){
-		return JSON.stringify(o, null, 2)
-	}
 
 $scope.changeElement = {}
 $scope.changeElement.changeJSON = function(){

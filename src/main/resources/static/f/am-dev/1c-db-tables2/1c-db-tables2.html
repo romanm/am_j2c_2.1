@@ -13,18 +13,22 @@
 			<div ng-repeat="oo in [create_tables]" class="w3-card"
 				style="height: 250px; overflow: auto;"
 				ng-include="'/f/am-dev/1c-db-tables2/tableJ2C.html'"></div>
+		{{create_tables.col_keys}}
 		</div>
 	</div>
 	<div class="w3-row-padding w3-border-bottom">
 		<div class="w3-col m6 l6 s6">
 			<div ng-if="17==tables.list[0].doctype||6==tables.list[0].doctype">
-				<a href="/f/c4/j2c_json_editor.html?jsonId={{request.parameters.tableId}}">документ</a>:
+				<a
+					href="/f/c4/j2c_json_editor.html?jsonId={{request.parameters.tableId}}">документ</a>:
 				{{tables.list[0].value}}
 				<div ng-repeat="oo in [doc_data]" class="w3-card"
 					ng-include="'/f/am-dev/1c-db-tables2/doc_17.html'"></div>
 			</div>
 			<div ng-if="1==tables.list[0].doctype">
-				данні таблиці
+				<a
+					href="/f/c4/j2c_table_editor.html?tableId={{request.parameters.tableId}}">данні
+					таблиці: </a>
 				<div ng-repeat="oo in [table_data]" class="w3-card"
 					ng-include="'/f/am-dev/1c-db-tables2/tableJ2C.html'"></div>
 			</div>
