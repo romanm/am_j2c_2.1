@@ -1,32 +1,38 @@
 <div class=" w3-container">
-
 	<div class="w3-row">
 		<div class="w3-half w13-container">
-
-			<div class="w3-dropdown-hover w3-white w3-hover-shadow">
-				<span class="w3-tiny ">☰ &nbsp; </span> {{oo.tableRoot.value}}
-				<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
-					style="left: -5px">
-					<a href="#" class="w3-bar-item w3-button"
-						ng-click="oo.openEditElement(oo.tableRoot.docRoot)"><i
-						class="fa fa-pencil-square-o"></i> Змінити</a> <a href="#"
-						ng-click="oo.addElement(oo.tableRoot.docRoot)"
-						class="w3-bar-item w3-button"><i class="fa fa-plus"></i>
-						Додати запис</a> <a href="#"
-						ng-click="oo.minusElement(oo.tableRoot.docRoot)"
-						class="w3-bar-item w3-button"><i class="fa fa-minus"></i>
-						Видалити запис</a>
-				</div>
+			<div class="">
+				<span class="w3-tiny w3-dropdown-hover w3-white w3-hover-shadow">☰
+					&nbsp; 
+					<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
+						style="left: -5px">
+						<a href="#" class="w3-bar-item w3-button"
+							ng-click="oo.openEditElement(oo.tableRoot.docRoot)"><i
+							class="fa fa-pencil-square-o"></i> Змінити</a> <a href="#"
+							ng-click="doc_data.addElement(oo.tableRoot.docRoot)"
+							class="w3-bar-item w3-button"><i class="fa fa-plus"></i>
+							Додати запис</a> <a href="#"
+							ng-click="oo.minusElement(oo.tableRoot.docRoot)"
+							class="w3-bar-item w3-button"><i class="fa fa-minus"></i>
+							Видалити запис</a>
+					</div>
+				</span>{{oo.tableRoot.value}}
 			</div>
-
 			<div ng-repeat="elParent in [oo.tableRoot.docRoot]"
 				ng-include="'/f/am-dev/1c-db-tables2/doc_element.html'"></div>
-
 		</div>
-		<div class="w3-half w3-card w3-tiny">
-			<textarea s1tyle="width: 100%" rows="10"
-			class="am-width-100pr"
-			>
+		<div class="w3-half w3-card">
+			<div class="w3-tiny">
+				☰ <a href="#" class="w3-btn"
+					data-ng-click="pageVar.config.openDatadictionary()">
+					datadictionary</a> <a href="#" class="w3-btn"
+					ng-click="pageVar.config.viewConfigPart='json_view'">
+					json_create_table</a>
+			</div>
+			<div data-ng-if="pageVar.config.viewConfigPart=='datadictionary'"
+				ng-include="'/f/am-dev/1c-db-tables2/doc_17_datadictionary.html'"></div>
+			<textarea data-ng-if="pageVar.config.viewConfigPart=='json_view'"
+				rows="30" class="am-width-100pr w3-tiny">
 {{pageVar.config.viewJson(oo.tableRoot)}}
 			</textarea>
 		</div>

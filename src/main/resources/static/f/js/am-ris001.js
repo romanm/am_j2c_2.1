@@ -33,6 +33,16 @@ var writeSql = function(data){
 	})
 }
 
+function readSqlToObjData(param, objProgram, objData){
+	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
+	param,
+	function(response) {
+//		params.list = response.data.list
+		if(objProgram.afterRead)
+			objProgram.afterRead(response, param, objData)
+	}))
+}
+
 function readSql(params, obj){
 	if(!obj) obj = params
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(

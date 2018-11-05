@@ -1,0 +1,10 @@
+<div>
+	<span class="w3-tiny"> Словник даних </span>
+	<div data-ng-repeat="c in datadictionary.tableRoot.docRoot.children">
+		<span class="w3-hover-shadow" data-ng-copy="cp.copy(c)">{{!c.value?
+			('el_'+c.doc_id):''}}{{c.value}}</span>: <span
+			data-ng-include="'/f/am-dev/1c-db-tables2/doc_17_dd_el_values.html'"
+			data-ng-repeat="dd_el in [c]"></span>
+	</div>
+
+</div>
