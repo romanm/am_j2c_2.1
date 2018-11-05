@@ -705,6 +705,16 @@ sql_1c.folders = function(){
 				"FROM string s, doc WHERE doc_id=string_id and doctype=14"
 	}
 
+function readSqlToObjData(param, objProgram, objData){
+	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
+	param,
+	function(response) {
+//		params.list = response.data.list
+		if(objProgram.afterRead)
+			objProgram.afterRead(response, param, objData)
+	}))
+}
+
 
 var writeSql = function(data){
 	exe_fn.httpPost
