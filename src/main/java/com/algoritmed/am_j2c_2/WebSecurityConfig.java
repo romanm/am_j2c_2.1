@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.algoritmed.am_j2c_2.components.SimpleAuthenticationSuccessHandler;
 
@@ -18,6 +19,7 @@ import com.algoritmed.am_j2c_2.components.SimpleAuthenticationSuccessHandler;
  */
 @Configuration
 @EnableWebSecurity
+@EnableTransactionManagement
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override

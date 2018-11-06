@@ -18,14 +18,28 @@
 	<div ng-include="'/f/c4/page_top_button_bar.html'"></div>
 	<div class="w3-container">
 		<span class="am-b w3-tiny" data-ng-switch="doc_data.tableRoot.doctype">
-			<span data-ng-switch-when="6">словник</span>
-			<span data-ng-switch-when="17">шаблон</span>
-		</span> JSON-editor
+			<span data-ng-switch-when="6">словник</span> <span
+			data-ng-switch-when="17">шаблон</span>
+		</span> <span class="w3-tiny"> JSON-editor </span> <a href="#" class="w3-btn"
+		ng-class="{'w3-border-top':pageVar.config.viewDocPart=='edit'}"
+			ng-click="pageVar.config.viewDocPart='edit'"> <i
+			class="fa fa-file-text-o" aria-hidden="true"></i> edit
+		</a> <a href="#" class="w3-btn"
+		ng-class="{'w3-border-top':pageVar.config.viewDocPart=='test'}"
+			ng-click="pageVar.config.viewDocPart='test'"> <i
+			class="fa fa-wrench" aria-hidden="true"></i> test
+		</a>
+
 	</div>
 	<!-- 
 	<div ng-repeat="oo in [doc_data]" class="w3-card"
 	 -->
-	<div ng-repeat="oo in [doc_data_workdata]" class="w3-card"
-		ng-include="'/f/am-dev/1c-db-tables2/doc_17.html'"></div>
+	<div class="w3-card" ng-repeat="oo in [doc_data_workdata]">
+		<div data-ng-if="pageVar.config.viewDocPart=='test'"
+			class="w3-container" ng-include="'/f/c4/doc_220_view001.html'"></div>
+		<div
+			data-ng-if="pageVar.config.viewDocPart=='edit'||!pageVar.config.viewDocPart"
+			ng-include="'/f/am-dev/1c-db-tables2/doc_17.html'"></div>
+	</div>
 </body>
 </html>

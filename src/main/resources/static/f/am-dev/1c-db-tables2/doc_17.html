@@ -23,13 +23,16 @@
 		</div>
 		<div class="w3-half w3-card">
 			<div class="w3-tiny">
-				☰ <a href="#" class="w3-btn"
-					data-ng-click="pageVar.config.openDatadictionary()">
-					datadictionary</a> <a href="#" class="w3-btn"
-					ng-click="pageVar.config.viewConfigPart='json_view'">
-					json_create_table</a>
+				<!-- ☰ -->
+				<a href="#" class="w3-btn"
+					data-ng-click="pageVar.config.openDatadictionary()"> <i
+					class="fa fa-th-list" aria-hidden="true"></i> Словник даних
+				</a> <a href="#" class="w3-btn"
+					ng-click="pageVar.config.viewConfigPart='json_view'"> <i
+					class="fa fa-wrench" aria-hidden="true"></i> json_create_table
+				</a>
 			</div>
-			<div data-ng-if="pageVar.config.viewConfigPart=='datadictionary'"
+			<div data-ng-if="pageVar.config.viewConfigPart=='datadictionary' || !pageVar.config.viewConfigPart"
 				ng-include="'/f/am-dev/1c-db-tables2/doc_17_datadictionary.html'"></div>
 			<textarea data-ng-if="pageVar.config.viewConfigPart=='json_view'"
 				rows="30" class="am-width-100pr w3-tiny">

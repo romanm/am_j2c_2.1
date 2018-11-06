@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ import com.algoritmed.nosql.ExecuteSqlBlock;
 public class EhDb1Rest extends DbCommon{
 	protected static final Logger logger = LoggerFactory.getLogger(EhDb1Rest.class);
 
+	@Transactional
 	@PostMapping("/r/url_sql_read_db1")
 	public @ResponseBody Map<String, Object> url_sql_read_db1(
 			@RequestBody Map<String, Object> data
