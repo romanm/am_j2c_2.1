@@ -157,3 +157,13 @@ function build_sqlJ2c_cell_write(v,k,n,col_data, rowObj){
 		build_sqlJ2c_cell_write_parameters(col_data, v, n)
 	}
 }
+sql_1c.table_data_row_insert = function(){
+	return "INSERT INTO doc (doc_id, parent, doctype) VALUES (:nextDbId1 , :table_id , 4) ;"
+}
+sql_1c.table_data_cell_insert = function(){
+	return "INSERT INTO doc (doc_id, parent, reference, doctype) VALUES (:nextDbId2, :row_id , :column_id,  5) ;" +
+	"INSERT INTO :fieldtype (value,:fieldtype_id) VALUES (:value, :nextDbId2 ) ;"
+}
+sql_1c.table_data_cell_update = function(){
+	return "UPDATE :fieldtype SET value =:value WHERE :fieldtype_id=:cell_id ;"
+}

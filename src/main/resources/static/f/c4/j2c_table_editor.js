@@ -113,6 +113,42 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 
 //	$scope.doc_data.readData()
 	$scope.table_data = {}
+	$scope.table_data.saveUpdate=function(){
+		var rowObj = $scope.pageVar.rowObj
+//		var col_data = {nextDbIdCounter : 3, sql_row : '',}
+//		angular.forEach($scope.create_tables.list, function(v){
+//		col_data[v.column_id] = v
+//		})
+//		console.log($scope.create_tables.colMap)
+		angular.forEach($scope.create_tables.colMap, function(v,k){
+			if('timestamp'==v.fieldtype){
+				var edTs = $scope.pageVar.rowObj['col_'+k+'_ed']
+				console.log(edTs)
+				var d = str2UaTimestamp(edTs)
+				console.log(d)
+				var s = $filter('date')(d, 'yyyy-MM-ddTHH:mm:ss')
+				console.log(s)
+				$scope.pageVar.rowObj['col_'+k] = s
+				console.log($scope.pageVar.rowObj)
+			}
+		})
+		var col_data = $scope.create_tables.colMap
+		col_data.nextDbIdCounter = 3
+		col_data.sql_row = ''
+			console.log(col_data)
+			if($scope.pageVar.rowKey == -1){
+				build_sqlJ2c_row_insert(rowObj, col_data)
+			}else{
+				build_sqlJ2c_row_write(rowObj, col_data, function(v,k,n){
+					build_sqlJ2c_cell_write(v,k,n,col_data,rowObj)
+				})
+				col_data.row_id = $scope.pageVar.rowObj.row_id
+			}
+		console.log(col_data.sql_row)
+		col_data.sql = col_data.sql_row
+		console.log(col_data)
+		writeSql(col_data)
+	}
 	$scope.table_data.no_edit=['row_id'],
 	$scope.table_data.col_links={
 		row_id:{k:'row_id',vk:'row_id', add:[
