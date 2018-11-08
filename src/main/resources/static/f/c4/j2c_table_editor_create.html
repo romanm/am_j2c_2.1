@@ -1,0 +1,33 @@
+<div class="w3-container">
+	<div class="w3-row-padding">
+		<div class="w3-half">
+			<div ng-repeat="oo in [create_tables]" class="w3-card"
+				s1tyle="height: 250px; overflow: auto;"
+				ng-include="'/f/am-dev/1c-db-tables2/tableJ2C.html'"></div>
+		</div>
+		<div class="w3-half">
+			<div class="w3-tiny">
+				☰ <a href="#" class="w3-btn  w3-padding-small"
+					data-ng-click="pageVar.config.viewConfigPart='sql_read_table_data'">
+					sql_read_table_data</a> <a href="#" class="w3-btn  w3-padding-small"
+					ng-click="pageVar.config.viewConfigPart='json_create_table'">
+					json_create_table</a> <a href="#" ng-click="pageVar.saveSqlConfig()"
+					class="w3-btn w3-border  w3-padding-small">save</a>
+			</div>
+			<div class="w13-code w3-tiny">
+				<textarea rows="25" class="am-width-100pr"
+					ng-if="pageVar.config.viewConfigPart=='json_create_table'">
+{{pageVar.config.viewJson(create_tables.colMap)}}
+		</textarea>
+				<textarea rows="25" class="am-width-100pr"
+					ng-if="!pageVar.config.viewConfigPart
+			|| pageVar.config.viewConfigPart=='sql_read_table_data'">
+{{table_data.params_table_data.sql
+.replace(':table_id',table_data.params_table_data.table_id)
+.replace('LIMIT 50','')
+}}
+</textarea>
+			</div>
+		</div>
+	</div>
+</div>

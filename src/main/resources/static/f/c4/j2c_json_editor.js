@@ -11,10 +11,6 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	}
 	init_j2c_json_editor($scope, $http)
 
-	if($scope.request.parameters.tab1){
-		$scope.pageVar.config.viewDocPart=$scope.request.parameters.tab1
-	}
-
 	if($scope.request.parameters.jsonId)
 		var docId = $scope.request.parameters.jsonId
 	else if($scope.tables.list[0].doc_id)

@@ -17,41 +17,31 @@
 	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
 <body>
 	<div ng-include="'/f/c4/page_top_button_bar.html'"></div>
-	<div class="w3-container">
-	<span class="w3-tiny">Hello J2C_TABLE:</span>
-		 create | data
-		<div class="w3-row-padding">
-			<div class="w3-half">
-				<div ng-repeat="oo in [create_tables]" class="w3-card"
-					s1tyle="height: 250px; overflow: auto;"
-					ng-include="'/f/am-dev/1c-db-tables2/tableJ2C.html'"></div>
-			</div>
-			<div class="w3-half">
-				<div class="w3-tiny">
-					☰ <a href="#" class="w3-btn"
-						data-ng-click="pageVar.config.viewConfigPart='sql_read_table_data'">
-						sql_read_table_data</a> <a href="#" class="w3-btn"
-						ng-click="pageVar.config.viewConfigPart='json_create_table'">
-						json_create_table</a> <a href="#" ng-click="pageVar.saveSqlConfig()"
-						class="w3-btn w3-border">save</a>
-				</div>
-				<div class="w13-code w3-tiny">
-					<textarea rows="25" class="am-width-100pr"
-						ng-if="pageVar.config.viewConfigPart=='json_create_table'">
-{{pageVar.config.viewJson(create_tables.colMap)}}
-		</textarea>
-					<textarea rows="25" class="am-width-100pr"
-						ng-if="!pageVar.config.viewConfigPart
-			|| pageVar.config.viewConfigPart=='sql_read_table_data'">
-{{table_data.params_table_data.sql
-.replace(':table_id',table_data.params_table_data.table_id)
-.replace('LIMIT 50','')
-}}
-</textarea>
-				</div>
-			</div>
+	<div class="w3-card" style="margin-bottom: 10px">
+		<div class="w3-container">
+			<span class="w3-tiny"> <a class="am-b"
+				href="?tableId={{table.data.doc_id}}"> <i class="fa fa-table"
+					aria-hidden="true"></i> {{table.data.value }}
+			</a>&nbsp; J2C_TABLE: <a href="#" class="w3-btn w3-padding-small"
+				ng-class="{'w3-border-top':pageVar.config.viewDocPart=='create'}"
+				data-ng-click="pageVar.config.viewDocPart='create'"> <i
+					class="fa fa-wrench" aria-hidden="true"></i> create
+			</a> <a href="#" class="w3-btn w3-padding-small"
+				data-ng-class="{'w3-border-top':pageVar.config.viewDocPart=='data'}"
+				data-ng-click="pageVar.config.viewDocPart='data'"> <i
+					class="fa fa-th-list" aria-hidden="true"></i> data
+			</a>
+			</span>
 		</div>
-
 	</div>
+	<div data-ng-include="'/f/c4/j2c_table_editor_'+pageVar.config.viewDocPart+'.html'"></div>
+	<div data-ng-if="!pageVar.config.viewDocPart"
+		data-ng-include="'/f/c4/j2c_table_editor_create.html'"></div>
+	<div ng-style="pageVar.ngStyleModal" class="w3-modal">
+		<div class="w3-modal-content"
+			ng-include="'/f/am-dev/1c-db-tables2/tableJ2C_edit_row.html'">
+		</div>
+	</div>
+	
 </body>
 </html>

@@ -4,10 +4,26 @@ var initApp = function($scope, $http){
 	console.log('initApp')
 	build_request($scope)
 	$scope.pageVar = {}
+	console.log($scope.pageVar)
+	$scope.pageVar.colLink=function(cl,tr){
+		var l = '?'+cl.k+'='+tr[cl.vk]
+		angular.forEach(cl.add,function(v){
+			var vk = tr[v.vk]
+			if(v.fn){
+				vk = v.fn()
+			}
+			l += '&'+v.k+'='+vk
+		})
+		return l
+	}
 	$scope.pageVar.config = {}
+	if($scope.request.parameters.tab1){
+		$scope.pageVar.config.viewDocPart=$scope.request.parameters.tab1
+	}
 	$scope.pageVar.config.viewJson = function(o){
 		return JSON.stringify(o, null, 2)
 	}
+
 	exe_fn = new Exe_fn($scope, $http);
 	exe_fn.httpGet_j2c_table_db1_params_then_fn = function(params, then_fn){
 		return {
@@ -34,6 +50,8 @@ var writeSql = function(data){
 }
 
 function readSqlToObjData(param, objProgram, objData){
+	if(!objProgram)
+		objProgram = param
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
 	param,
 	function(response) {

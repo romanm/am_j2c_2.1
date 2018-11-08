@@ -412,8 +412,8 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 				if($scope.create_tables.list[0]){
 					var table_id = $scope.create_tables.list[0].table_id
 					var table_data_columns_interpretation = {
-							tableId:table_id,
-							sql:sql_1c.table_data_columns_interpretation(),
+						tableId:table_id,
+						sql:sql_1c.table_data_columns_interpretation(),
 					}
 					readSql(table_data_columns_interpretation, $scope.create_tables.interpretation)
 				}
@@ -496,6 +496,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	
 	readSql({ sql:sql_1c.folders() }, $scope.folders)
 	readSql(params_create_tables, $scope.create_tables)
+console.log($scope.create_tables)
 
 }
 
@@ -610,18 +611,18 @@ sql_1c.table_data_columns_interpretation = function(){
 				"WHERE dci.doctype=16 AND dci.parent=dc.doc_id AND dc.parent=:tableId"
 	}
 sql_1c.table_data_columns = function(){
-		return "SELECT '" +
-				"LEFT JOIN ('||x.joins_select||') '||col_key||' " +
-				"ON column_'||cln_id||'_id='||cln_id||' AND '||col_key||'_row=rws.doc_id ' add_joins, " +
-				" ', '||col_key||'_id, '||col_key add_columns " +
-				", x.* FROM ( " +
-				"SELECT 'SELECT doc_id '||col_key||'_id, value '||col_key||', parent '||col_key||'_row, reference column_'||cln_id||'_id ' " +
-				"||' FROM doc cd, '||col_table_name||' cv ' ||' " +
-				" WHERE cd.doc_id=cv.'||col_table_name||'_id AND doctype=5' joins_select " +
-				", value col_alias " +
-				", x.* FROM ( " +
-				this.table_data_columntyps() +
-				") x, string WHERE cln_id=string_id) x "
+	return "SELECT '" +
+			"LEFT JOIN ('||x.joins_select||') '||col_key||' " +
+			"ON column_'||cln_id||'_id='||cln_id||' AND '||col_key||'_row=rws.doc_id ' add_joins, " +
+			" ', '||col_key||'_id, '||col_key add_columns " +
+			", x.* FROM ( " +
+			"SELECT 'SELECT doc_id '||col_key||'_id, value '||col_key||', parent '||col_key||'_row, reference column_'||cln_id||'_id ' " +
+			"||' FROM doc cd, '||col_table_name||' cv ' ||' " +
+			" WHERE cd.doc_id=cv.'||col_table_name||'_id AND doctype=5' joins_select " +
+			", value col_alias " +
+			", x.* FROM ( " +
+			this.table_data_columntyps() +
+			") x, string WHERE cln_id=string_id) x "
 	}
 sql_1c.table_types = function(){
 		return "SELECT doc_id fieldtype_id, * FROM doc, string " +

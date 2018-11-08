@@ -18,17 +18,11 @@
 			<span ng-if="folders.selectedObj"> Папка:
 				{{folders.selectedObj.folderName}} </span>
 		</div>
-		<!-- 
-					<div class="w3-code">{{pageVar.rowObj}}</div>
-					<div class="w3-code">{{create_tables}}</div>
-					<div class="w3-code">{{table_types}}</div>
-					 -->
 		<div ng-repeat="(ck,cv) in pageVar.o.col_keys" ng-switch="ck"
-		ng-init="
+			ng-init="
 		colTypeO = create_tables.colMap[ck.split('col_')[1]];
 		ct_timestamp = colTypeO.fieldtype_id==4;
-		"
-		>
+		">
 			<b class="w3-small" title="{{ck}}">{{cv}}:</b> <span
 				ng-if="pageVar.o.no_edit.indexOf(ck)>=0">
 				{{pageVar.rowObj[ck]}} </span>
@@ -47,12 +41,14 @@
 			<div ng-switch-default>
 				<input style="width: 100%;" ng-model="pageVar.rowObj[ck]"
 					ng-change="pageVar.validate_change[colTypeO.fieldtype](ck)"
-					ng-if="pageVar.o.no_edit.indexOf(ck)<0 && !ct_timestamp" class="w3-border">
-				<input style="width: 100%;" ng-model="pageVar.rowObj[ck+'_ed']"
+					ng-if="pageVar.o.no_edit.indexOf(ck)<0 && !ct_timestamp"
+					class="w3-border"> 
+				<input style="width: 100%;"
+					ng-model="pageVar.rowObj[ck+'_ed']"
 					ng-change="pageVar.validate_change[colTypeO.fieldtype](ck+'_ed')"
-					ng-if="pageVar.o.no_edit.indexOf(ck)<0 && ct_timestamp" class="w3-border">
-				<div class="w3-red w3-tiny"
-				title="{{pageVar.rowObj[ck]}}"
+					ng-if="pageVar.o.no_edit.indexOf(ck)<0 && ct_timestamp"
+					class="w3-border">
+				<div class="w3-red w3-tiny" title="{{pageVar.rowObj[ck]}}"
 					ng-if="pageVar.validate_change.rowObj[ck+'_ed']">
 					{{pageVar.validate_change.rowObj[ck+'_ed']}}</div>
 			</div>
@@ -63,5 +59,6 @@
 			{{create_tables.interpretationRows[pageVar.rowObj.column_id]}}</div>
 		<div class="w3-code">{{pageVar.o.col_keys}}</div>
 		 -->
+&nbsp;
 	</div>
 </div>
