@@ -1,55 +1,16 @@
 app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	initApp($scope, $http)
-	
+	init_j2c_table_editor($scope, $http)
+
 	$scope.pageVar.pageName = 'j2c TABLE Editor'
 	$scope.pageVar.pageParent = {}
 	$scope.pageVar.pageParent.url = '/v/create_tables2'
 	$scope.pageVar.pageParent.params = function(){
 		return "?tableId=" +
-				$scope.request.parameters.tableId +
-				""
+			$scope.request.parameters.tableId +
+			""
 	}
-	$scope.pageVar.openEditRow=function(o){
-		console.log(this)
-		this.openModal(o)
-		this.rowKeyObj = o.col_links[Object.keys(o.col_links)[0]]
-		this.rowKey =
-			$scope.request.parameters[this.rowKeyObj.k]
-		if(this.rowKey){
-			angular.forEach(o.list,function(v){
-				if($scope.pageVar.rowKey == v[$scope.pageVar.rowKeyObj.vk]){
-					$scope.pageVar.rowObj = v
-				}
-			})
-			console.log($scope.pageVar.rowObj)
-			angular.forEach($scope.create_tables.colMap,function(v,k){
-				if('timestamp' == v.fieldtype){
-					var fieldName = 'col_'+v.column_id
-					var ds = $scope.pageVar.rowObj[fieldName]
-					console.log(ds)
-					$scope.pageVar.rowObj[fieldName+'_ed']
-					= $filter('date')(ds, 'shortDate')
-					+ ' '
-					+ $filter('date')(ds, 'HH:mm')
-					console.log(k)
-					console.log(v)
-				}
-			})
-		}
-	}
-	$scope.pageVar.addRow=function(o){
-		this.openModal(o)
-	}
-	$scope.pageVar.openModal=function(o){
-		console.log(o)
-		this.o = o
-		this.ngStyleModal = {display:'block'}
-		this.rowKey = -1
-		$scope.table_types = {}
-		readSql({ sql:sql_1c.table_types() }, $scope.table_types)
-		console.log(sql_1c.table_types())
-		console.log($scope.table_types)
-	}
+
 	var params_create_tables = { sql:sql_1c.create_tables() }
 	if($scope.request.parameters.column_id){
 		params_create_tables.sql = sql_1c.create_table_column()
@@ -59,12 +20,11 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		params_create_tables.sql = sql_1c.create_table()
 		params_create_tables.table_id = $scope.request.parameters.tableId
 	}
-	console.log(params_create_tables)
-	console.log(params_create_tables.sql.replace(':column_id',params_create_tables.column_id))
+//	console.log(params_create_tables)
+//	console.log(params_create_tables.sql.replace(':column_id',params_create_tables.column_id))
 	$scope.create_tables = {}
 	console.log($scope.create_tables)
 	$scope.create_tables.saveUpdate=function(){
-		console.log($scope.tables)
 		console.log($scope.pageVar)
 		console.log($scope.pageVar.rowObj)
 		if($scope.pageVar.rowKey == -1){
@@ -212,10 +172,6 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 })
 
 sql_1c.column_id_table_id = 'SELECT parent FROM doc where doc_id=:column_id'
-sql_1c.table_types = function(){
-		return "SELECT doc_id fieldtype_id, * FROM doc, string " +
-				"WHERE doc_id=string_id and reference is null and doctype=8"
-	}
 sql_1c.table_data_read = function(){
 		return "SELECT rws.parent tbl_id, rws.doc_id row_id \n" +
 				":add_columns \n" +
@@ -271,7 +227,4 @@ sql_1c.create_table_update = function(){
 				"reference2 =:reference2 " +
 				"WHERE doc_id=:column_id ;" +
 			this.table_update()
-	}
-sql_1c.table_update = function(){
-		return "UPDATE string SET value =:value WHERE string_id=:string_id ;"
 	}

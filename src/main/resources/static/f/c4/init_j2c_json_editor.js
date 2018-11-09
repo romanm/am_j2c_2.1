@@ -1,4 +1,53 @@
+var init_j2c_table_editor = function($scope, $http){
+	
+	console.log($scope.pageVar)
+	$scope.pageVar.openEditRow=function(o){
+		console.log(this)
+		this.openModal(o)
+		this.rowKeyObj = o.col_links[Object.keys(o.col_links)[0]]
+		this.rowKey =
+			$scope.request.parameters[this.rowKeyObj.k]
+		if(this.rowKey){
+			angular.forEach(o.list,function(v){
+				if($scope.pageVar.rowKey == v[$scope.pageVar.rowKeyObj.vk]){
+					$scope.pageVar.rowObj = v
+				}
+			})
+			console.log($scope.pageVar.rowObj)
+//			angular.forEach($scope.create_tables.colMap,function(v,k){
+			angular.forEach($scope.pageVar.o.colMap,function(v,k){
+				if('timestamp' == v.fieldtype){
+					var fieldName = 'col_'+v.column_id
+					var ds = $scope.pageVar.rowObj[fieldName]
+					console.log(ds)
+					$scope.pageVar.rowObj[fieldName+'_ed']
+					= $filter('date')(ds, 'shortDate')
+					+ ' '
+					+ $filter('date')(ds, 'HH:mm')
+					console.log(k)
+					console.log(v)
+				}
+			})
+		}
+	}
+	$scope.pageVar.addRow=function(o){
+		this.openModal(o)
+	}
+	$scope.pageVar.openModal=function(o){
+		console.log(o)
+		this.o = o
+		this.ngStyleModal = {display:'block'}
+		this.rowKey = -1
+		$scope.table_types = {}
+		readSql({ sql:sql_1c.table_types() }, $scope.table_types)
+		console.log(sql_1c.table_types())
+		console.log($scope.table_types)
+	}
+
+
+}
 var init_j2c_json_editor = function($scope, $http){
+	init_j2c_table_editor($scope, $http)
 
 
 $scope.pageVar.config.openDatadictionary = function(){
@@ -272,4 +321,11 @@ sql_1c.doc_cutPaste_elements = function(){
 }
 sql_1c.remove_doc_record = function(){
 	return "DELETE FROM doc WHERE doc_id = :doc_id "
+}
+sql_1c.table_types = function(){
+	return "SELECT doc_id fieldtype_id, * FROM doc, string " +
+			"WHERE doc_id=string_id and reference is null and doctype=8"
+}
+sql_1c.table_update = function(){
+	return "UPDATE string SET value =:value WHERE string_id=:string_id ;"
 }
