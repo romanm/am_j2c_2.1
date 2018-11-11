@@ -10,6 +10,21 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		$scope.request.parameters.tableId +
 		""
 	}
+	$scope.tables = {}
+	$scope.tables.no_edit=['doc_id','doctype']
+	$scope.tables.col_keys={
+		doc_id:'ІН',
+		value:'Назва таблиці/документу',
+		doctype:'T',
+	}
+	$scope.tables.col_links={
+		doc_id:{k:'tableId',vk:'doc_id',path:'/f/c4/j2c_table_editor.html'},
+	}
+	console.log($scope.tables)
+	var params_tables = { sql:sql_1c.read_tables() }
+	console.log(params_tables.sql)
+	readSql(params_tables, $scope.tables)
+
 	$scope.folders = {}
 	$scope.folders.saveUpdate=function(){
 		console.log($scope.pageVar.rowObj)
@@ -47,3 +62,14 @@ sql_1c.folder_insert = function(){
 	return "INSERT INTO doc (doc_id, doctype) VALUES (:nextDbId1, 14);" +
 			"INSERT INTO string (value,string_id) VALUES (:value, :nextDbId1);"
 }
+sql_1c.read_tables = function(){
+		return "SELECT d.*, s.* FROM doc d, string s, ( \n" +
+				this.folders()+
+				"\n) d2 WHERE d2.doc_id=d.parent \n" +
+				"AND s.string_id=d.doc_id \n" +
+				"AND d.doctype in (1,6,17) "
+	}
+sql_1c.folders = function(){
+		return "SELECT string_id folderId, value folderName, * " +
+				"FROM string s, doc WHERE doc_id=string_id and doctype=14"
+	}

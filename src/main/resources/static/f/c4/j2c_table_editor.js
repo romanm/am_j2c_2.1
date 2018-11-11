@@ -4,7 +4,8 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 
 	$scope.pageVar.pageName = 'j2c TABLE Editor'
 	$scope.pageVar.pageParent = {}
-	$scope.pageVar.pageParent.url = '/v/create_tables2'
+//	$scope.pageVar.pageParent.url = '/v/create_tables2'
+	$scope.pageVar.pageParent.url = '/f/c4/dm/doc_manager.html'
 	$scope.pageVar.pageParent.params = function(){
 		return "?tableId=" +
 			$scope.request.parameters.tableId +

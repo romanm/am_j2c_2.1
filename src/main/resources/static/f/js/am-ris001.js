@@ -6,7 +6,10 @@ var initApp = function($scope, $http){
 	$scope.pageVar = {}
 	console.log($scope.pageVar)
 	$scope.pageVar.colLink=function(cl,tr){
-		var l = '?'+cl.k+'='+tr[cl.vk]
+		var path = '?'
+		if(cl.path)
+			path = cl.path+'?'
+		var l = path+cl.k+'='+tr[cl.vk]
 		angular.forEach(cl.add,function(v){
 			var vk = tr[v.vk]
 			if(v.fn){
