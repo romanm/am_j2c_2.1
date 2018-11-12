@@ -1,6 +1,41 @@
 var init_j2c_table_editor = function($scope, $http){
-	
+	$scope.cp = {}
+	$scope.cp.copy = function(el){
+		this.copyEl = el
+		console.log(this)
+	}
+	$scope.cp.cut = function(el){
+		this.cutEl = el
+		console.log(this)
+	}
+	$scope.cp.paste = function(el){
+		console.log(this)
+		this.pasteEl = el
+		var data = {}
+		if(this.pasteEl){
+			if(this.pasteEl.folderId){
+				console.log(this)
+				if(this.cutEl){
+					if(true||this.cutEl.folderId){
+						data.doc_id = this.cutEl.doc_id,
+						data.parent = this.pasteEl.folderId,
+						data.sql = sql_1c.doc_cutPaste_elements(),
+						console.log(data)
+						writeSql(data)
+					}
+				}
+			}
+		}
+	}
+	console.log($scope.cp)
+
 	console.log($scope.pageVar)
+
+	$scope.pageVar.openEditRow2=function(o, rowObj){
+		this.rowObj = rowObj
+		this.openEditRow(o)
+	}
+
 	$scope.pageVar.openEditRow=function(o){
 		console.log(this)
 		this.openModal(o)
@@ -8,6 +43,7 @@ var init_j2c_table_editor = function($scope, $http){
 		this.rowKey =
 			$scope.request.parameters[this.rowKeyObj.k]
 		if(this.rowKey){
+			if(!this.rowObj)
 			angular.forEach(o.list,function(v){
 				if($scope.pageVar.rowKey == v[$scope.pageVar.rowKeyObj.vk]){
 					$scope.pageVar.rowObj = v
@@ -30,6 +66,7 @@ var init_j2c_table_editor = function($scope, $http){
 			})
 		}
 	}
+
 	$scope.pageVar.addRow=function(o){
 		this.openModal(o)
 	}
@@ -55,7 +92,6 @@ $scope.pageVar.config.openDatadictionary = function(){
 	console.log($scope.datadictionary)
 }
 
-$scope.cp = {}
 $scope.cp.paste = function(el){
 	this.pel = el
 	console.log(this)
@@ -68,10 +104,6 @@ $scope.cp.paste = function(el){
 		console.log(data)
 		writeSql(data)
 	}
-}
-$scope.cp.copy = function(el){
-	this.cel = el
-	console.log(this)
 }
 
 $scope.changeElement = {}
@@ -138,9 +170,9 @@ $scope.doc_data.upDowntElement=function(o, direction){
 $scope.doc_data.pasteElement=function(o){
 		if(this.cutObject){
 			var data = {
-					sql : sql_1c.doc_cutPaste_elements(),
-					parentId : o.parent,
-					doc_id : this.cutObject.doc_id,
+				sql : sql_1c.doc_cutPaste_elements(),
+				parent : o.parent,
+				doc_id : this.cutObject.doc_id,
 			}
 			writeSql(data)
 			console.log(data)
@@ -190,6 +222,7 @@ $scope.doc_data.afterRead=function(response, param, readDocData){
 		readDocData.list = response.data.list
 		//console.log(readDocData.list)
 		if(0==param.readChildLevel){
+//			console.log(readDocData)
 			if(!readDocData.list[0] && $scope.tables){
 				this.addElement($scope.tables.list[0])
 			}
@@ -222,6 +255,7 @@ $scope.doc_data.afterRead=function(response, param, readDocData){
 						console.log(response.data)
 						readDocData.tableRoot.value = response.data.list[0].value
 						readDocData.tableRoot.doctype = response.data.list[0].doctype
+						readDocData.tableRoot.folderId = response.data.list[0].parent
 						console.log(readDocData.tableRoot)
 					}
 				})
@@ -301,7 +335,12 @@ sql_1c.doc_insert_string = function(){
 	return "INSERT INTO string (value,string_id) VALUES (:value,:string_id)"
 }
 sql_1c.doc_update_doc_reference = function(){
-	return "UPDATE doc SET reference=:reference WHERE doc_id=:doc_id"
+	return "UPDATE doc SET reference=:reference " +
+	"WHERE doc_id=:doc_id"
+}
+sql_1c.doc_cutPaste_elements = function(){
+	return "UPDATE doc SET parent = :parent " +
+	"WHERE doc_id=:doc_id"
 }
 sql_1c.doc_update_string = function(){
 	return "UPDATE string SET value=:value WHERE string_id=:string_id"
@@ -314,10 +353,6 @@ sql_1c.doc_update_sort = function(){
 }
 sql_1c.doc_insert_elements = function(){
 	return "INSERT INTO doc (parent, doctype) VALUES (:parentId, 18)"
-}
-sql_1c.doc_cutPaste_elements = function(){
-	return "UPDATE doc SET parent = :parentId " +
-			"WHERE doc_id=:doc_id"
 }
 sql_1c.remove_doc_record = function(){
 	return "DELETE FROM doc WHERE doc_id = :doc_id "

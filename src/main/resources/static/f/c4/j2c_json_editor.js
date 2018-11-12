@@ -3,11 +3,15 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	
 	$scope.pageVar.pageName = 'j2c JSON Editor'
 	$scope.pageVar.pageParent = {}
-	$scope.pageVar.pageParent.url = '/v/create_tables2'
+	$scope.pageVar.pageParent.url = '/f/c4/dm/doc_manager.html'
+//		$scope.pageVar.pageParent.url = '/v/create_tables2'
 	$scope.pageVar.pageParent.params = function(){
-		return "?tableId=" +
-				$scope.request.parameters.jsonId +
+		return "?folderId=" +
+		$scope.doc_data_workdata.tableRoot.folderId +
 				""
+//				return "?tableId=" +
+//				$scope.request.parameters.jsonId +
+//				""
 	}
 	init_j2c_json_editor($scope, $http)
 
@@ -18,6 +22,7 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	$scope.doc_data_workdata = {docId : docId,}
 	console.log($scope.doc_data_workdata)
 	$scope.doc_data.docId = docId
+	console.log(docId)
 	$scope.doc_data.readData({docId:docId}, $scope.doc_data_workdata)
 	//$scope.doc_data.readData({docId:docId}, $scope.doc_data)
 })
