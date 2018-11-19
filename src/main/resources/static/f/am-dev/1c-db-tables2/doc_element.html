@@ -28,10 +28,13 @@
 							class="w13-bar-item w3-button"><i class="fa fa-paste"></i></a>
 					</div>
 				</div>
-			</span> <span class=""> <span ng-if="!el.value && !el.reference">
-					col_{{el.doc_id}} </span> <span title=" col_{{el.doc_id}}"
-				ng-if="el.value"> {{el.value}} </span> <span
-				data-ng-if="el.reference">
+			</span> <span class=""> <span
+				ng-if="!el.value && !el.reference"> col_{{el.doc_id}} </span> <span
+				title=" col_{{el.doc_id}}" ng-if="el.value"> {{el.value}} </span> <sub
+				class="w3-tiny"
+				title="{{doctypes_level2.map[el.doctype].p1_doctype
+				}}.{{doctypes_level2.map[el.doctype].doctype}}">[{{el.doctype}}]
+			</sub> <span data-ng-if="el.reference">
 					{{datadictionary.elementsMap[el.reference].value}} <span
 					data-ng-include="'/f/am-dev/1c-db-tables2/doc_17_dd_el_values.html'"
 					data-ng-repeat="dd_el in [datadictionary.elementsMap[el.reference]]"></span>

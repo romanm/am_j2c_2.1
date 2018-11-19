@@ -1,4 +1,4 @@
-var init_j2c_table_editor = function($scope, $http){
+var init_j2c_table_editor = function($scope, $http, $filter){
 	$scope.cp = {}
 	$scope.cp.copy = function(el){
 		this.copyEl = el
@@ -27,10 +27,6 @@ var init_j2c_table_editor = function($scope, $http){
 			}
 		}
 	}
-	console.log($scope.cp)
-
-	console.log($scope.pageVar)
-
 	$scope.pageVar.openEditRow2=function(o, rowObj){
 		this.rowObj = rowObj
 		this.openEditRow(o)
@@ -49,9 +45,10 @@ var init_j2c_table_editor = function($scope, $http){
 					$scope.pageVar.rowObj = v
 				}
 			})
+			console.log($scope.pageVar)
 			console.log($scope.pageVar.rowObj)
-//			angular.forEach($scope.create_tables.colMap,function(v,k){
-			angular.forEach($scope.pageVar.o.colMap,function(v,k){
+			angular.forEach($scope.create_tables.colMap,function(v,k){
+//			angular.forEach($scope.pageVar.o.colMap,function(v,k){
 				if('timestamp' == v.fieldtype){
 					var fieldName = 'col_'+v.column_id
 					var ds = $scope.pageVar.rowObj[fieldName]
@@ -83,8 +80,8 @@ var init_j2c_table_editor = function($scope, $http){
 
 
 }
-var init_j2c_json_editor = function($scope, $http){
-	init_j2c_table_editor($scope, $http)
+var init_j2c_json_editor = function($scope, $http, $filter){
+	init_j2c_table_editor($scope, $http, $filter)
 
 
 $scope.pageVar.config.openDatadictionary = function(){
@@ -92,19 +89,33 @@ $scope.pageVar.config.openDatadictionary = function(){
 	console.log($scope.datadictionary)
 }
 
-$scope.cp.paste = function(el){
-	this.pel = el
-	console.log(this)
-	if(this.cel){
-		var data = {
-			doc_id : this.pel.doc_id,
-			reference : this.cel.doc_id,
-			sql : sql_1c.doc_update_doc_reference(),
+	$scope.cp.paste = function(el){
+		this.pasteEl = el
+		console.log(this)
+		if(this.copyEl){
+			if(this.copyEl.doctype_id){
+				console.log(this)
+				var doctype = this.copyEl.doctype_id
+				if(this.copyEl.doctype2_id)
+					doctype = this.copyEl.doctype2_id
+				var data = {
+					doc_id : this.pasteEl.doc_id,
+					doctype : doctype,
+					sql : sql_1c.doc_update_doctype(),
+				}
+				console.log(data)
+				writeSql(data)
+			}else{
+				var data = {
+					doc_id : this.pasteEl.doc_id,
+					reference : this.copyEl.doc_id,
+					sql : sql_1c.doc_update_doc_reference(),
+				}
+				console.log(data)
+				writeSql(data)
+			}
 		}
-		console.log(data)
-		writeSql(data)
 	}
-}
 
 $scope.changeElement = {}
 $scope.changeElement.changeJSON = function(){
@@ -215,6 +226,7 @@ $scope.doc_data.readData=function(param, readDocData){
 		readSqlToObjData(param, $scope.doc_data, readDocData)
 	}
 }
+
 $scope.doc_data.afterRead=function(response, param, readDocData){
 //		console.log($scope.doc_data.tableRoot)
 //		console.log(param)
@@ -333,6 +345,10 @@ sql_1c.doc_read_elements = function(){
 	}
 sql_1c.doc_insert_string = function(){
 	return "INSERT INTO string (value,string_id) VALUES (:value,:string_id)"
+}
+sql_1c.doc_update_doctype = function(){
+	return "UPDATE doc SET doctype=:doctype " +
+	"WHERE doc_id=:doc_id"
 }
 sql_1c.doc_update_doc_reference = function(){
 	return "UPDATE doc SET reference=:reference " +

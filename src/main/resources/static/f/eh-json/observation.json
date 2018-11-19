@@ -1,0 +1,1282 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"meta": {
+			"type": "object",
+			"properties": {
+				"code": {
+					"type": "number",
+					"description": "HTTP response code."
+				},
+				"url": {
+					"type": "string",
+					"description": "URL to requested resource."
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"object",
+						"list"
+					],
+					"description": "Type of data that is located in `data` attribute."
+				},
+				"request_id": {
+					"type": "string",
+					"description": "[Request ID](http://docs.apimanifest.apiary.io/#introduction/interacting-with-api/request-id). Send it with `X-Request-ID` header."
+				}
+			},
+			"required": [
+				"code",
+				"url",
+				"type",
+				"request_id"
+			],
+			"additionalProperties": false
+		},
+		"data": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"status": {
+					"type": "string"
+				},
+				"context": {
+					"type": "object",
+					"properties": {
+						"identifier": {
+							"type": "object",
+							"properties": {
+								"type": {
+									"type": "object",
+									"properties": {
+										"coding": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"system": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string",
+														"description": "Symbol in syntax defined by the system"
+													}
+												},
+												"required": [
+													"code"
+												]
+											}
+										},
+										"text": {
+											"type": "string"
+										}
+									},
+									"description": "Description of identifier"
+								},
+								"value": {
+									"type": "string",
+									"description": "The value that is unique"
+								}
+							},
+							"required": [
+								"type",
+								"value"
+							]
+						}
+					}
+				},
+				"based_on": {
+					"type": "array"
+				},
+				"categories": {
+					"type": "array"
+				},
+				"code": {
+					"type": "object",
+					"properties": {
+						"coding": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"system": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string",
+										"description": "Symbol in syntax defined by the system"
+									}
+								},
+								"required": [
+									"code"
+								]
+							}
+						},
+						"text": {
+							"type": "string"
+						}
+					}
+				},
+				"issued": {
+					"type": "string"
+				},
+				"primary_source": {
+					"type": "boolean"
+				},
+				"interpretation": {
+					"type": "object",
+					"properties": {
+						"coding": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"system": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string",
+										"description": "Symbol in syntax defined by the system"
+									}
+								},
+								"required": [
+									"code"
+								]
+							}
+						},
+						"text": {
+							"type": "string"
+						}
+					}
+				},
+				"comment": {
+					"type": "string"
+				},
+				"body_site": {
+					"type": "object",
+					"properties": {
+						"coding": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"system": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string",
+										"description": "Symbol in syntax defined by the system"
+									}
+								},
+								"required": [
+									"code"
+								]
+							}
+						},
+						"text": {
+							"type": "string"
+						}
+					}
+				},
+				"method": {
+					"type": "object",
+					"properties": {
+						"coding": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"system": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string",
+										"description": "Symbol in syntax defined by the system"
+									}
+								},
+								"required": [
+									"code"
+								]
+							}
+						},
+						"text": {
+							"type": "string"
+						}
+					}
+				},
+				"reference_ranges": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"low": {
+								"type": "object",
+								"properties": {
+									"value": {
+										"type": "number"
+									},
+									"comparator": {
+										"type": "string"
+									},
+									"unit": {
+										"type": "string"
+									},
+									"system": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"value",
+									"unit"
+								]
+							},
+							"high": {
+								"type": "object",
+								"properties": {
+									"value": {
+										"type": "number"
+									},
+									"comparator": {
+										"type": "string"
+									},
+									"unit": {
+										"type": "string"
+									},
+									"system": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"value",
+									"comparator",
+									"unit"
+								]
+							},
+							"type": {
+								"type": "object",
+								"properties": {
+									"coding": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"system": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string",
+													"description": "Symbol in syntax defined by the system"
+												}
+											},
+											"required": [
+												"code"
+											]
+										}
+									},
+									"text": {
+										"type": "string"
+									}
+								}
+							},
+							"applies_to": {
+								"type": "array"
+							},
+							"age": {
+								"type": "object",
+								"properties": {
+									"low": {
+										"type": "object",
+										"properties": {
+											"value": {
+												"type": "number"
+											},
+											"comparator": {
+												"type": "string"
+											},
+											"unit": {
+												"type": "string"
+											},
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"value",
+											"unit"
+										]
+									},
+									"high": {
+										"type": "object",
+										"properties": {
+											"value": {
+												"type": "number"
+											},
+											"comparator": {
+												"type": "string"
+											},
+											"unit": {
+												"type": "string"
+											},
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"value",
+											"unit"
+										]
+									}
+								}
+							},
+							"text": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"components": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"code": {
+								"type": "object",
+								"properties": {
+									"coding": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"system": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string",
+													"description": "Symbol in syntax defined by the system"
+												}
+											},
+											"required": [
+												"code"
+											]
+										}
+									},
+									"text": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"coding"
+								]
+							},
+							"interpretation": {
+								"type": "object",
+								"properties": {
+									"coding": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"system": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string",
+													"description": "Symbol in syntax defined by the system"
+												}
+											},
+											"required": [
+												"code"
+											]
+										}
+									},
+									"text": {
+										"type": "string"
+									}
+								}
+							},
+							"reference_ranges": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"low": {
+											"type": "object",
+											"properties": {
+												"value": {
+													"type": "number"
+												},
+												"comparator": {
+													"type": "string"
+												},
+												"unit": {
+													"type": "string"
+												},
+												"system": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"value",
+												"unit"
+											]
+										},
+										"high": {
+											"type": "object",
+											"properties": {
+												"value": {
+													"type": "number"
+												},
+												"comparator": {
+													"type": "string"
+												},
+												"unit": {
+													"type": "string"
+												},
+												"system": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string"
+												},
+												"type": {
+													"type": "object",
+													"properties": {
+														"coding": {
+															"type": "array",
+															"items": {
+																"type": "object",
+																"properties": {
+																	"system": {
+																		"type": "string"
+																	},
+																	"code": {
+																		"type": "string",
+																		"description": "Symbol in syntax defined by the system"
+																	}
+																},
+																"required": [
+																	"code"
+																]
+															}
+														},
+														"text": {
+															"type": "string"
+														}
+													}
+												}
+											},
+											"required": [
+												"value",
+												"comparator",
+												"unit"
+											]
+										},
+										"applies_to": {
+											"type": "array"
+										},
+										"age": {
+											"type": "object",
+											"properties": {
+												"low": {
+													"type": "object",
+													"properties": {
+														"value": {
+															"type": "number"
+														},
+														"comparator": {
+															"type": "string"
+														},
+														"unit": {
+															"type": "string"
+														},
+														"system": {
+															"type": "string"
+														},
+														"code": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"value",
+														"unit"
+													]
+												},
+												"high": {
+													"type": "object",
+													"properties": {
+														"value": {
+															"type": "number"
+														},
+														"comparator": {
+															"type": "string"
+														},
+														"unit": {
+															"type": "string"
+														},
+														"system": {
+															"type": "string"
+														},
+														"code": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"value",
+														"unit"
+													]
+												}
+											}
+										},
+										"text": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						},
+						"required": [
+							"code"
+						],
+						"oneOf": [
+							{
+								"properties": {
+									"value_quantity": {
+										"type": "object",
+										"properties": {
+											"value": {
+												"type": "number"
+											},
+											"comparator": {
+												"type": "string"
+											},
+											"unit": {
+												"type": "string"
+											},
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"value",
+											"unit"
+										]
+									}
+								},
+								"required": [
+									"value_quantity"
+								]
+							},
+							{
+								"properties": {
+									"value_codeable_concept": {
+										"type": "object",
+										"properties": {
+											"coding": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"system": {
+															"type": "string"
+														},
+														"code": {
+															"type": "string",
+															"description": "Symbol in syntax defined by the system"
+														}
+													},
+													"required": [
+														"code"
+													]
+												}
+											},
+											"text": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"coding"
+										]
+									}
+								},
+								"required": [
+									"value_codeable_concept"
+								]
+							},
+							{
+								"properties": {
+									"value_sampled_data": {
+										"type": "object",
+										"properties": {
+											"origin": {
+												"type": "number"
+											},
+											"period": {
+												"type": "number"
+											},
+											"factor": {
+												"type": "number"
+											},
+											"lowerLimit": {
+												"type": "number"
+											},
+											"upperLimit": {
+												"type": "number"
+											},
+											"dimensions": {
+												"type": "number"
+											},
+											"data": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"data"
+										]
+									}
+								},
+								"required": [
+									"value_sampled_data"
+								]
+							},
+							{
+								"properties": {
+									"value_string": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"value_string"
+								]
+							},
+							{
+								"properties": {
+									"value_boolean": {
+										"type": "boolean"
+									}
+								},
+								"required": [
+									"value_boolean"
+								]
+							},
+							{
+								"properties": {
+									"value_range": {
+										"type": "object",
+										"properties": {
+											"low": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"comparator": {
+														"type": "string"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"system": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string"
+													}
+												},
+												"required": [
+													"value",
+													"unit"
+												]
+											},
+											"high": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"comparator": {
+														"type": "string"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"system": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string"
+													}
+												},
+												"required": [
+													"value",
+													"unit"
+												]
+											}
+										},
+										"required": [
+											"low",
+											"high"
+										],
+										"additionalProperties": false
+									}
+								},
+								"required": [
+									"value_range"
+								]
+							},
+							{
+								"properties": {
+									"value_ratio": {
+										"type": "object",
+										"properties": {
+											"numerator": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"comparator": {
+														"type": "string"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"system": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string"
+													}
+												},
+												"required": [
+													"value",
+													"unit"
+												]
+											},
+											"denominator": {
+												"type": "object",
+												"properties": {
+													"value": {
+														"type": "number"
+													},
+													"comparator": {
+														"type": "string"
+													},
+													"unit": {
+														"type": "string"
+													},
+													"system": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string"
+													}
+												},
+												"required": [
+													"value",
+													"unit"
+												]
+											}
+										},
+										"required": [
+											"numerator",
+											"denominator"
+										]
+									}
+								},
+								"required": [
+									"value_ratio"
+								]
+							},
+							{
+								"properties": {
+									"value_time": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"value_time"
+								]
+							},
+							{
+								"properties": {
+									"value_date_time": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"value_date_time"
+								]
+							},
+							{
+								"properties": {
+									"value_period": {
+										"type": "object",
+										"properties": {
+											"start": {
+												"type": "string",
+												"description": "C? Starting time with inclusive boundary"
+											},
+											"end": {
+												"type": "string",
+												"description": "C? End time with inclusive boundary, if not ongoing"
+											}
+										},
+										"required": [
+											"start"
+										]
+									}
+								},
+								"required": [
+									"value_period"
+								]
+							}
+						]
+					}
+				}
+			},
+			"required": [
+				"id",
+				"status",
+				"context",
+				"categories",
+				"code",
+				"issued",
+				"primary_source"
+			],
+			"oneOf": [
+				{
+					"properties": {
+						"effective_date_time": {
+							"type": "string"
+						}
+					}
+				},
+				{
+					"properties": {
+						"effective_period": {
+							"type": "object",
+							"properties": {
+								"start": {
+									"type": "string",
+									"description": "C? Starting time with inclusive boundary"
+								},
+								"end": {
+									"type": "string",
+									"description": "C? End time with inclusive boundary, if not ongoing"
+								}
+							},
+							"required": [
+								"start"
+							]
+						}
+					}
+				},
+				{
+					"properties": {
+						"performer": {
+							"type": "object",
+							"properties": {
+								"identifier": {
+									"type": "object",
+									"properties": {
+										"type": {
+											"type": "object",
+											"properties": {
+												"coding": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"system": {
+																"type": "string"
+															},
+															"code": {
+																"type": "string",
+																"description": "Symbol in syntax defined by the system"
+															}
+														},
+														"required": [
+															"code"
+														]
+													}
+												},
+												"text": {
+													"type": "string"
+												}
+											},
+											"description": "Description of identifier"
+										},
+										"value": {
+											"type": "string",
+											"description": "The value that is unique"
+										}
+									},
+									"required": [
+										"type",
+										"value"
+									]
+								},
+								"display": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"display"
+							]
+						}
+					},
+					"required": [
+						"performer"
+					]
+				},
+				{
+					"properties": {
+						"report_origin": {
+							"type": "object",
+							"properties": {
+								"coding": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string",
+												"description": "Symbol in syntax defined by the system"
+											}
+										},
+										"required": [
+											"code"
+										]
+									}
+								},
+								"text": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				{
+					"properties": {
+						"value_quantity": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number"
+								},
+								"comparator": {
+									"type": "string"
+								},
+								"unit": {
+									"type": "string"
+								},
+								"system": {
+									"type": "string"
+								},
+								"code": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"value",
+								"unit"
+							]
+						}
+					},
+					"required": [
+						"value_quantity"
+					]
+				},
+				{
+					"properties": {
+						"value_codeable_concept": {
+							"type": "object",
+							"properties": {
+								"coding": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string",
+												"description": "Symbol in syntax defined by the system"
+											}
+										},
+										"required": [
+											"code"
+										]
+									}
+								},
+								"text": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"coding"
+							]
+						}
+					},
+					"required": [
+						"value_codeable_concept"
+					]
+				},
+				{
+					"properties": {
+						"value_sampled_data": {
+							"type": "object",
+							"properties": {
+								"origin": {
+									"type": "number"
+								},
+								"period": {
+									"type": "number"
+								},
+								"factor": {
+									"type": "number"
+								},
+								"lowerLimit": {
+									"type": "number"
+								},
+								"upperLimit": {
+									"type": "number"
+								},
+								"dimensions": {
+									"type": "number"
+								},
+								"data": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"data"
+							]
+						}
+					},
+					"required": [
+						"value_sampled_data"
+					]
+				},
+				{
+					"properties": {
+						"value_string": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"value_string"
+					]
+				},
+				{
+					"properties": {
+						"value_boolean": {
+							"type": "boolean"
+						}
+					},
+					"required": [
+						"value_boolean"
+					]
+				},
+				{
+					"properties": {
+						"value_range": {
+							"type": "object",
+							"properties": {
+								"low": {
+									"type": "object",
+									"properties": {
+										"value": {
+											"type": "number"
+										},
+										"comparator": {
+											"type": "string"
+										},
+										"unit": {
+											"type": "string"
+										},
+										"system": {
+											"type": "string"
+										},
+										"code": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"value",
+										"unit"
+									]
+								},
+								"high": {
+									"type": "object",
+									"properties": {
+										"value": {
+											"type": "number"
+										},
+										"comparator": {
+											"type": "string"
+										},
+										"unit": {
+											"type": "string"
+										},
+										"system": {
+											"type": "string"
+										},
+										"code": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"value",
+										"unit"
+									]
+								}
+							},
+							"required": [
+								"low",
+								"high"
+							],
+							"additionalProperties": false
+						}
+					},
+					"required": [
+						"value_range"
+					]
+				},
+				{
+					"properties": {
+						"value_ratio": {
+							"type": "object",
+							"properties": {
+								"numerator": {
+									"type": "object",
+									"properties": {
+										"value": {
+											"type": "number"
+										},
+										"comparator": {
+											"type": "string"
+										},
+										"unit": {
+											"type": "string"
+										},
+										"system": {
+											"type": "string"
+										},
+										"code": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"value",
+										"unit"
+									]
+								},
+								"denominator": {
+									"type": "object",
+									"properties": {
+										"value": {
+											"type": "number"
+										},
+										"comparator": {
+											"type": "string"
+										},
+										"unit": {
+											"type": "string"
+										},
+										"system": {
+											"type": "string"
+										},
+										"code": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"value",
+										"unit"
+									]
+								}
+							},
+							"required": [
+								"numerator",
+								"denominator"
+							]
+						}
+					},
+					"required": [
+						"value_ratio"
+					]
+				},
+				{
+					"properties": {
+						"value_time": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"value_time"
+					]
+				},
+				{
+					"properties": {
+						"value_date_time": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"value_date_time"
+					]
+				},
+				{
+					"properties": {
+						"value_period": {
+							"type": "object",
+							"properties": {
+								"start": {
+									"type": "string",
+									"description": "C? Starting time with inclusive boundary"
+								},
+								"end": {
+									"type": "string",
+									"description": "C? End time with inclusive boundary, if not ongoing"
+								}
+							},
+							"required": [
+								"start"
+							]
+						}
+					},
+					"required": [
+						"value_period"
+					]
+				}
+			],
+			"additionalProperties": false
+		}
+	}
+}

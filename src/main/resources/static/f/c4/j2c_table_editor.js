@@ -1,18 +1,39 @@
 app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	initApp($scope, $http)
-	init_j2c_table_editor($scope, $http)
+	init_j2c_table_editor($scope, $http, $filter)
 
 	$scope.pageVar.pageName = 'j2c TABLE Editor'
 	$scope.pageVar.pageParent = {}
-//	$scope.pageVar.pageParent.url = '/v/create_tables2'
 	$scope.pageVar.pageParent.url = '/f/c4/dm/doc_manager.html'
 	$scope.pageVar.pageParent.params = function(){
+		if($scope.table.data)
 		return "?folderId=" +
 		$scope.table.data.parent +
 			""
-//			return "?tableId=" +
-//			$scope.request.parameters.tableId +
-//			""
+	}
+	
+	$scope.pageVar.saveSqlConfig1=function(tableId, doctype, newValue, oldValue){
+		var data = { tableId:tableId, value:newValue, doctype:doctype, }
+		if(oldValue){
+			if(newValue == oldValue){
+				console.log('Змін не відбулось перезапис непотрібен')
+			}else{
+				data.sql = sql_1c.create_table_update_sql()
+				writeSql(data)
+			}
+		}else{
+			data.sql = sql_1c.create_table_insert_sql()
+			writeSql(data)
+		}
+	}
+	$scope.pageVar.saveSqlConfig=function(){
+		var tableId = $scope.create_tables.list[0].table_id
+		var sql = $scope.table_data.params_table_data.sql
+				.replace( ':table_id' ,tableId)
+				.replace( 'LIMIT 50' ,'')
+		this.saveSqlConfig1(tableId, 19, sql, $scope.create_tables.table_data_readSql.sql2)
+		this.saveSqlConfig1(tableId, 20, this.config.viewJson($scope.create_tables.colMap)
+			, $scope.create_tables.table_data_readSql.json_create_table)
 	}
 
 	var params_create_tables = { sql:sql_1c.create_tables() }
@@ -24,13 +45,9 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		params_create_tables.sql = sql_1c.create_table()
 		params_create_tables.table_id = $scope.request.parameters.tableId
 	}
-//	console.log(params_create_tables)
-//	console.log(params_create_tables.sql.replace(':column_id',params_create_tables.column_id))
 	$scope.create_tables = {}
 	console.log($scope.create_tables)
 	$scope.create_tables.saveUpdate=function(){
-		console.log($scope.pageVar)
-		console.log($scope.pageVar.rowObj)
 		if($scope.pageVar.rowKey == -1){
 			var data = {
 				sql : sql_1c.create_table_insert(),
@@ -46,10 +63,8 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 				fieldtype_id : $scope.pageVar.rowObj.fieldtype_id,
 				reference2 : $scope.pageVar.rowObj.reference2,
 			}
-			console.log($scope.pageVar.rowObj)
 		}
 		data.value = $scope.pageVar.rowObj.fieldname
-		console.log(data)
 		writeSql(data)
 	}
 	$scope.create_tables.no_edit=['column_id','tablename']
@@ -73,6 +88,23 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 					console.log($scope.create_tables.selectedObj)
 				}}
 		})
+		if($scope.create_tables.list[0]){
+			if($scope.create_tables.list[0].table_id){
+				$scope.create_tables.table_data_readSql = { 
+					sql:sql_1c.table_data_readSql(),
+					table_id : $scope.create_tables.list[0].table_id,
+					afterRead : function(response){
+						angular.forEach(response.data.list, function(v){
+							if(v.doctype==19){
+								$scope.create_tables.table_data_readSql.sql2 = v.docbody
+							}else if(v.doctype==20){
+								$scope.create_tables.table_data_readSql.json_create_table = v.docbody
+							}
+						})
+					},
+				}
+				readSql($scope.create_tables.table_data_readSql)
+			}}
 	}
 
 //	$scope.doc_data.readData()
@@ -84,16 +116,22 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 //		col_data[v.column_id] = v
 //		})
 //		console.log($scope.create_tables.colMap)
+		console.log($scope.pageVar.rowObj)
 		angular.forEach($scope.create_tables.colMap, function(v,k){
 			if('timestamp'==v.fieldtype){
+				console.log(k)
+				var edTs1 = $scope.pageVar.rowObj['col_'+k]
+				console.log(edTs1)
 				var edTs = $scope.pageVar.rowObj['col_'+k+'_ed']
 				console.log(edTs)
-				var d = str2UaTimestamp(edTs)
-				console.log(d)
-				var s = $filter('date')(d, 'yyyy-MM-ddTHH:mm:ss')
-				console.log(s)
-				$scope.pageVar.rowObj['col_'+k] = s
-				console.log($scope.pageVar.rowObj)
+				$scope.pageVar.rowObj['col_'+k] = edTs
+				if(false&&edTs){
+					var d = str2UaTimestamp(edTs)
+					console.log(d)
+					var s = $filter('date')(d, 'yyyy-MM-ddTHH:mm:ss')
+					console.log(s)
+					$scope.pageVar.rowObj['col_'+k] = s
+				}
 			}
 		})
 		var col_data = $scope.create_tables.colMap
@@ -122,7 +160,6 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	}
 	$scope.table_data.col_keys = {}
 	$scope.table_data.col_keys.row_id='ІН'
-	console.log($scope.table_data)
 	$scope.$watch('table_data.columns.list',function(newValue){ if(newValue){
 		readTableData(newValue, $scope.request.parameters.tableId, $scope.table_data)
 	}})
@@ -162,7 +199,6 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		tableId:$scope.request.parameters.tableId,
 		afterRead:function(responce){
 			$scope.table.data = responce.data.list[0]
-			console.log($scope.table.data)
 			$scope.request.parameters.tableId=$scope.table.data.doc_id
 		}
 	}
@@ -171,8 +207,6 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		param.sql = param.sql.replace(':tableId', sql_1c.column_id_table_id)
 	}
 	readSqlToObjData(param)
-	console.log($scope.table)
-
 })
 
 sql_1c.column_id_table_id = 'SELECT parent FROM doc where doc_id=:column_id'
@@ -232,3 +266,16 @@ sql_1c.create_table_update = function(){
 				"WHERE doc_id=:column_id ;" +
 			this.table_update()
 	}
+sql_1c.create_table_update_sql = function(){
+	return "UPDATE docbody SET docbody = :value WHERE docbody_id IN ( \n" +
+	"SELECT doc_id FROM doc where doctype=:doctype and parent = :tableId)"
+}
+sql_1c.table_data_readSql = function(){
+	return "SELECT * FROM doc d, docbody s \n" +
+	"WHERE parent = :table_id AND s.docbody_id=d.doc_id AND doctype!=4"
+}
+sql_1c.create_table_insert_sql = function(){
+	return "INSERT INTO doc (parent, doc_id, doctype) \n" +
+	"VALUES (:tableId, :nextDbId1, :doctype) ;" +
+	"INSERT INTO docbody (docbody,docbody_id) VALUES (:value, :nextDbId1) ;"
+}

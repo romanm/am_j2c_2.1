@@ -1,0 +1,13 @@
+<div>
+	<span class="w3-tiny">Тип даних</span>
+	<table>
+		<tr class="w3-hover-shadow" data-ng-copy="cp.copy(element_type)"
+			data-ng-repeat="element_type in element_types.list">
+			<td>{{element_type.doctype }}{{element_type.doctype2?'.':''
+				}}{{element_type.doctype2}}</td>
+			<td>{{element_type.doctype_id }}{{element_type.doctype2_id?'.':''
+				}}{{element_type.doctype2_id}}</td>
+			<td>{{element_type.parent_id}}</td>
+		</tr>
+	</table>
+</div>

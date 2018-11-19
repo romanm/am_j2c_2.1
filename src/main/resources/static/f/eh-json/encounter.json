@@ -1,0 +1,80 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"meta": {
+			"type": "object",
+			"properties": {
+				"code": {
+					"type": "number",
+					"description": "HTTP response code."
+				},
+				"url": {
+					"type": "string",
+					"description": "URL to requested resource."
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"object",
+						"list"
+					],
+					"description": "Type of data that is located in `data` attribute."
+				},
+				"request_id": {
+					"type": "string",
+					"description": "[Request ID](http://docs.apimanifest.apiary.io/#introduction/interacting-with-api/request-id). Send it with `X-Request-ID` header."
+				}
+			},
+			"required": [
+				"code",
+				"url",
+				"type",
+				"request_id"
+			],
+			"additionalProperties": false
+		},
+		"data": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "string",
+					"description": "status of request processing."
+				},
+				"eta": {
+					"type": "string",
+					"description": "estimated time of arrival"
+				},
+				"status_code": {
+					"type": "string",
+					"description": "processing result. Is relevant only for the processed jobs"
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"entity": {
+								"type": "string",
+								"description": "name of the entity that link follows to"
+							},
+							"href": {
+								"type": "string",
+								"description": "link to entity"
+							}
+						},
+						"required": [
+							"entity",
+							"href"
+						]
+					}
+				}
+			},
+			"required": [
+				"status",
+				"links"
+			],
+			"additionalProperties": false
+		}
+	}
+}

@@ -16,7 +16,10 @@
 							class="w3-bar-item w3-button"><i class="fa fa-minus"></i>
 							Видалити запис</a>
 					</div>
-				</span>{{oo.tableRoot.value}}
+				</span>
+				{{oo.tableRoot.value}}
+				a1
+				{{oo.tableRoot.doc_id}}
 			</div>
 			<div ng-repeat="elParent in [oo.tableRoot.docRoot]"
 				ng-include="'/f/am-dev/1c-db-tables2/doc_element.html'"></div>
@@ -31,9 +34,14 @@
 					ng-click="pageVar.config.viewConfigPart='json_view'"> <i
 					class="fa fa-wrench" aria-hidden="true"></i> json_create_table
 				</a>
+				<a href="#" class="w3-btn  w3-padding-small"
+					ng-click="pageVar.config.viewConfigPart='element_type'"> <i
+					class="fa fa-wrench" aria-hidden="true"></i> element_type
+				</a>
 			</div>
-			<div data-ng-if="pageVar.config.viewConfigPart=='datadictionary' || !pageVar.config.viewConfigPart"
-				ng-include="'/f/am-dev/1c-db-tables2/doc_17_datadictionary.html'"></div>
+			<div
+				data-ng-include="'/f/am-dev/1c-db-tables2/doc_17_'+pageVar.config.viewConfigPart+'.html'"></div>
+
 			<textarea data-ng-if="pageVar.config.viewConfigPart=='json_view'"
 				rows="30" class="am-width-100pr w3-tiny">
 {{pageVar.config.viewJson(oo.tableRoot)}}
@@ -46,7 +54,6 @@
 			<div class="w3-container">
 				<span data-ng-click="changeElement.ngStyleModal={display:'none'}"
 					class="w3-button w3-display-topright">&times;</span>
-
 				<div class="w3-row-padding w3-border-bottom">
 					<div class="w3-col m4 l4 s4 ">
 						<button class="w3-border" data-ng-click="changeElement.saveUpdate()">OK

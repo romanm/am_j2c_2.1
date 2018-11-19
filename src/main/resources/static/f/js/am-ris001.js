@@ -73,6 +73,7 @@ function readSql(params, obj){
 		if(obj.afterRead)
 			obj.afterRead(response)
 	}))
+	return obj
 }
 
 function Exe_fn($scope, $http){
@@ -132,7 +133,8 @@ function build_sqlJ2c_cell_write_parameters(col_data, v, n){
 		cell_v = "'"+v+"'"
 	}else
 	if('timestamp'==col_data[n].fieldtype){
-		cell_v = "'"+v+":00.0'"
+		cell_v = "'"+v+"'"
+//		cell_v = "'"+v+":00.0'"
 	}else{
 		cell_v = v
 	}
@@ -160,6 +162,22 @@ function build_sqlJ2c_cell_write(v,k,n,col_data, rowObj){
 		build_sqlJ2c_cell_write_parameters(col_data, v, n)
 	}
 }
+
+function str2UaTimestamp(edTs){
+	var edTsa = edTs.match(/(\d+)/g)
+	var d = new Date()
+	var year = edTsa[2]*1
+	var addCentury = (year>d.getFullYear()-2000)?1900:2000
+	edTsa[2] = year > 1000 ? year : (year + addCentury)
+	d.setFullYear(edTsa[2])
+	d.setMonth(edTsa[1]*1-1)
+	d.setDate(edTsa[0])
+	d.setHours(edTsa[3])
+//	d.setUTCHours(edTsa[3])
+	d.setMinutes(edTsa[4])
+	return d
+}
+
 sql_1c.table_data_row_insert = function(){
 	return "INSERT INTO doc (doc_id, parent, doctype) VALUES (:nextDbId1 , :table_id , 4) ;"
 }
