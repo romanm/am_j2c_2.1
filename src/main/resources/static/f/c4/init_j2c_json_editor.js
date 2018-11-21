@@ -218,6 +218,7 @@ $scope.doc_data.readData=function(param, readDocData){
 		sql += ' ORDER BY sort'
 		param.sql=sql
 		/*
+	console.log(param.sql)
 	console.log($scope.tables.list[0])
 	console.log(param_readDoc)
 	console.log(param_readDoc.doc_id)
@@ -236,7 +237,7 @@ $scope.doc_data.afterRead=function(response, param, readDocData){
 		if(0==param.readChildLevel){
 //			console.log(readDocData)
 			if(!readDocData.list[0] && $scope.tables){
-				this.addElement($scope.tables.list[0])
+//				this.addElement($scope.tables.list[0])
 			}
 		}
 		if(readDocData.list[0]){
@@ -259,16 +260,21 @@ $scope.doc_data.afterRead=function(response, param, readDocData){
 			this.readData(param, readDocData)
 		}else{
 			if(param.readChildLevel > 0){
-				console.log(param.readChildLevel)
+//				console.log(param.readChildLevel)
 				readSql({
 					sql:sql_1c.doc_read_docName(),
 					doc_id : $scope.request.parameters.jsonId,
 					afterRead:function(response){
-						console.log(response.data)
+//						console.log(response.data)
+						$scope.doc_data_workdata.docHead.value = response.data.list[0].value
+						$scope.doc_data_workdata.docHead.doctype = response.data.list[0].doctype
+						$scope.doc_data_workdata.docHead.folderId = response.data.list[0].parent
+/*
 						readDocData.tableRoot.value = response.data.list[0].value
 						readDocData.tableRoot.doctype = response.data.list[0].doctype
 						readDocData.tableRoot.folderId = response.data.list[0].parent
 						console.log(readDocData.tableRoot)
+*/
 					}
 				})
 			}
