@@ -8,5 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReadExtraHtmlRest extends ReadExtraFileRest{
 	ReadExtraHtmlRest(){
 		fileType = ".html";
+//		headContentType = "text/plain;";
+		headContentType = "text/html;";
 	}
 }

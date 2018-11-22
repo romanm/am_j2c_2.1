@@ -4,8 +4,10 @@ var init_j2c_table_editor = function($scope, $http, $filter){
 		this.copyEl = el
 		console.log(this)
 	}
-	$scope.cp.cut = function(el){
+	$scope.cp.cut = function(el, copy_type){
 		this.cutEl = el
+		if(copy_type)
+			this.cutEl.copy_type = copy_type
 		console.log(this)
 	}
 	$scope.cp.paste = function(el){
@@ -93,6 +95,9 @@ $scope.pageVar.config.openDatadictionary = function(){
 		this.pasteEl = el
 		console.log(this)
 		if(this.copyEl){
+			if(this.copyEl.copy_type=='this_document'){
+				console.log(123)
+			}else
 			if(this.copyEl.doctype_id){
 				console.log(this)
 				var doctype = this.copyEl.doctype_id
@@ -242,6 +247,7 @@ $scope.doc_data.afterRead=function(response, param, readDocData){
 		}
 		if(readDocData.list[0]){
 			angular.forEach(readDocData.list, function(v){
+				cleanNull(v)
 				readDocData.elementsMap[v.doc_id] = v
 				if(readDocData.elementsMap[v.parent]){
 					if(!readDocData.elementsMap[v.parent].children)

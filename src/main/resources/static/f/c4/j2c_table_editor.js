@@ -1,7 +1,7 @@
 app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	initApp($scope, $http)
 	init_j2c_table_editor($scope, $http, $filter)
-
+	
 	$scope.pageVar.pageName = 'j2c TABLE Editor'
 	$scope.pageVar.pageParent = {}
 	$scope.pageVar.pageParent.url = '/f/c4/dm/doc_manager.html'

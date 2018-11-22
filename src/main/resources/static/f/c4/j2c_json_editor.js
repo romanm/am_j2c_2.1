@@ -1,6 +1,7 @@
 app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	initApp($scope, $http)
-	
+	init_j2c_json2table($scope, $http, $filter)
+
 	$scope.pageVar.pageName = 'j2c JSON Editor'
 	$scope.pageVar.pageParent = {}
 	$scope.pageVar.pageParent.url = '/f/c4/dm/doc_manager.html'

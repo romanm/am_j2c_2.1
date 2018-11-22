@@ -24,6 +24,10 @@ var initApp = function($scope, $http){
 		$scope.pageVar.config.viewDocPart=$scope.request.parameters.tab1
 	}
 	$scope.pageVar.config.viewJson = function(o){
+		console.log('----27---------------')
+		var o2c = o.docRoot
+		//cleanNull(o2c)
+		console.log(Object.keys(o.docRoot))
 		return JSON.stringify(o, null, 2)
 	}
 
@@ -39,6 +43,23 @@ var initApp = function($scope, $http){
 		if (!search) return text;
 		return (''+text).replace(new RegExp(search, 'gi'), '<span class="w3-yellow">$&</span>');
 }	}
+
+var cleanNull = function(o2c){
+	angular.forEach(o2c, function(v,k){
+		if(v==null) delete o2c[k]
+		else if(typeof v === 'string'){}
+		else if(v instanceof String){}
+		else if('$$hashKey'==k){}
+		else if('children'==k){
+			angular.forEach(v, function(v1,k1){
+				cleanNull(v1)
+			})
+		} else if(Object.keys(v).length>0){
+			console.log(k)
+			console.log(v)
+		}
+	})
+}
 
 var writeSql = function(data){
 	exe_fn.httpPost
