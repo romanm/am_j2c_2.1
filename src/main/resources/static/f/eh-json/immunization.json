@@ -1,0 +1,391 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"meta": {
+			"type": "object",
+			"properties": {
+				"code": {
+					"type": "number",
+					"description": "HTTP response code."
+				},
+				"url": {
+					"type": "string",
+					"description": "URL to requested resource."
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"object",
+						"list"
+					],
+					"description": "Type of data that is located in `data` attribute."
+				},
+				"request_id": {
+					"type": "string",
+					"description": "[Request ID](http://docs.apimanifest.apiary.io/#introduction/interacting-with-api/request-id). Send it with `X-Request-ID` header."
+				}
+			},
+			"required": [
+				"code",
+				"url",
+				"type",
+				"request_id"
+			],
+			"additionalProperties": false
+		},
+		"data": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"inserted_at": {
+					"type": "string"
+				},
+				"status": {
+					"type": "string"
+				},
+				"not_given": {
+					"type": "boolean"
+				},
+				"vaccine_code": {
+					"type": "object",
+					"properties": {
+						"coding": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"system": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string",
+										"description": "`dictionary - eHealth/vaccine_code`"
+									}
+								},
+								"required": [
+									"code"
+								]
+							}
+						},
+						"text": {
+							"type": "string"
+						}
+					}
+				},
+				"context": {
+					"type": "object",
+					"properties": {
+						"identifier": {
+							"type": "object",
+							"properties": {
+								"type": {
+									"type": "object",
+									"properties": {
+										"coding": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"system": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string",
+														"description": "Symbol in syntax defined by the system"
+													}
+												},
+												"required": [
+													"code"
+												]
+											}
+										},
+										"text": {
+											"type": "string"
+										}
+									},
+									"description": "Description of identifier"
+								},
+								"value": {
+									"type": "string",
+									"description": "The value that is unique"
+								}
+							},
+							"required": [
+								"type",
+								"value"
+							]
+						}
+					}
+				},
+				"date": {
+					"type": "string"
+				},
+				"primary_source": {
+					"type": "boolean"
+				},
+				"legal_entity": {
+					"type": "object",
+					"properties": {
+						"identifier": {
+							"type": "object",
+							"properties": {
+								"type": {
+									"type": "object",
+									"properties": {
+										"coding": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"system": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string",
+														"description": "Symbol in syntax defined by the system"
+													}
+												},
+												"required": [
+													"code"
+												]
+											}
+										},
+										"text": {
+											"type": "string"
+										}
+									},
+									"description": "Description of identifier"
+								},
+								"value": {
+									"type": "string",
+									"description": "The value that is unique"
+								}
+							},
+							"required": [
+								"type",
+								"value"
+							]
+						}
+					}
+				},
+				"manufacturer": {
+					"type": "string"
+				},
+				"lot_number": {
+					"type": "string"
+				},
+				"expiration_date": {
+					"type": "string"
+				},
+				"site": {
+					"type": "object",
+					"properties": {
+						"coding": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"system": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string",
+										"description": "Symbol in syntax defined by the system"
+									}
+								},
+								"required": [
+									"code"
+								]
+							}
+						},
+						"text": {
+							"type": "string"
+						}
+					}
+				},
+				"route": {
+					"type": "object",
+					"properties": {
+						"coding": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"system": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string",
+										"description": "Symbol in syntax defined by the system"
+									}
+								},
+								"required": [
+									"code"
+								]
+							}
+						},
+						"text": {
+							"type": "string"
+						}
+					}
+				},
+				"dose_quantity": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "number"
+						},
+						"comparator": {
+							"type": "string"
+						},
+						"unit": {
+							"type": "string"
+						},
+						"system": {
+							"type": "string"
+						},
+						"code": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"value",
+						"unit"
+					]
+				},
+				"explanation": {
+					"type": "object",
+					"properties": {
+						
+					},
+					"oneOf": [
+						{
+							"properties": {
+								"reasons": {
+									"type": "array"
+								}
+							}
+						},
+						{
+							"properties": {
+								"reasons_not_given": {
+									"type": "array"
+								}
+							}
+						}
+					]
+				},
+				"reactions": {
+					"type": "array"
+				},
+				"vaccination_protocols": {
+					"type": "array"
+				}
+			},
+			"required": [
+				"id",
+				"inserted_at",
+				"status",
+				"not_given",
+				"vaccine_code",
+				"context",
+				"date",
+				"primary_source"
+			],
+			"oneOf": [
+				{
+					"properties": {
+						"performer": {
+							"type": "object",
+							"properties": {
+								"identifier": {
+									"type": "object",
+									"properties": {
+										"type": {
+											"type": "object",
+											"properties": {
+												"coding": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"system": {
+																"type": "string"
+															},
+															"code": {
+																"type": "string",
+																"description": "Symbol in syntax defined by the system"
+															}
+														},
+														"required": [
+															"code"
+														]
+													}
+												},
+												"text": {
+													"type": "string"
+												}
+											},
+											"description": "Description of identifier"
+										},
+										"value": {
+											"type": "string",
+											"description": "The value that is unique"
+										}
+									},
+									"required": [
+										"type",
+										"value"
+									]
+								},
+								"display": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"display"
+							]
+						}
+					},
+					"required": [
+						"performer"
+					]
+				},
+				{
+					"properties": {
+						"report_origin": {
+							"type": "object",
+							"properties": {
+								"coding": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string",
+												"description": "Symbol in syntax defined by the system"
+											}
+										},
+										"required": [
+											"code"
+										]
+									}
+								},
+								"text": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			],
+			"additionalProperties": false
+		}
+	}
+}

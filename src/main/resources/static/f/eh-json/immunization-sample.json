@@ -1,0 +1,161 @@
+{
+	"meta": {
+		"code": 200,
+		"url": "http://example.com/resource",
+		"type": "object",
+		"request_id": "req-adasdoijasdojsda"
+	},
+	"data": {
+		"id": "90a9e15b-b71b-4caf-8f2e-ff247e8a5600",
+		"inserted_at": "2018-08-02T10:45:16.000Z",
+		"status": "completed",
+		"not_given": false,
+		"vaccine_code": {
+			"coding": [
+				{
+					"system": "http://snomed.info/sct",
+					"code": "FLUVAX"
+				}
+			]
+		},
+		"context": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "encounter"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"date": "2018-10-08T09:46:37.694Z",
+		"primary_source": false,
+		"performer": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "employee"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			},
+			"display": "Шевченко Тетяна Вікторівна"
+		},
+		"legal_entity": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "legal_entity"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"manufacturer": "VacinePro Manufacturer",
+		"lot_number": "AAJN11K",
+		"expiration_date": "2018-10-08T09:46:37.694Z",
+		"site": {
+			"coding": [
+				{
+					"system": "eHealth/body_sites",
+					"code": "LA"
+				}
+			]
+		},
+		"route": {
+			"coding": [
+				{
+					"system": "eHealth/vaccination_routes",
+					"code": "IM"
+				}
+			]
+		},
+		"dose_quantity": {
+			"value": 18,
+			"unit": "mg",
+			"system": "eHealth/dose_quantities"
+		},
+		"explanation": {
+			"reasons": [
+				{
+					"coding": [
+						{
+							"system": "eHealth/reason_explanations",
+							"code": "429060002"
+						}
+					]
+				}
+			]
+		},
+		"reactions": [
+			{
+				"date": "2018-10-08T09:46:37.694Z",
+				"detail": {
+					"identifier": {
+						"type": {
+							"coding": [
+								{
+									"system": "eHealth/resources",
+									"code": "observation"
+								}
+							]
+						},
+						"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+					}
+				},
+				"reported": true
+			}
+		],
+		"vaccination_protocols": [
+			{
+				"dose_sequence": 1,
+				"description": "Vaccination Protocol Sequence 1",
+				"authority": {
+					"coding": [
+						{
+							"system": "eHealth/vaccination_authorities",
+							"code": "WVO"
+						}
+					]
+				},
+				"series": "Vaccination Series 1",
+				"series_doses": 2,
+				"target_diseases": [
+					{
+						"coding": [
+							{
+								"system": "eHealth/vaccination_target_diseases",
+								"code": "1857005"
+							}
+						]
+					}
+				],
+				"dose_status": {
+					"coding": [
+						{
+							"system": "eHealth/vaccination_dose_statuses",
+							"code": "count"
+						}
+					]
+				},
+				"dose_status_reason": {
+					"coding": [
+						{
+							"system": "eHealth/vaccination_dose_statuse_reasons",
+							"code": "coldchbrk"
+						}
+					]
+				}
+			}
+		]
+	}
+}
