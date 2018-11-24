@@ -13,7 +13,10 @@
 		</p>
 	</div>
 	<div class="w3-col  w3-center" style="width: 60%">
-		<p>{{pageVar.pageName}}</p>
+		<p>
+			<span class="w3-small"> {{pageVar.pageName}} </span>
+			{{doc_data_workdata.docHead.value}}
+		</p>
 	</div>
 	<div class="w3-col w3-container w3-right-align" style="width: 20%">
 		<span ng-include="'/f/login-link.html'"> </span>
