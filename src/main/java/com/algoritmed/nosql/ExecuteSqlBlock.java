@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -148,7 +149,11 @@ public class ExecuteSqlBlock {
 
 			if(data.containsKey("uuid")&&data.get("uuid").equals("uuid"))
 				data.put("uuid", UUID.randomUUID());
-			System.err.println(data);
+			System.err.println(data.keySet());
+			for (String key : data.keySet()) {
+				System.err.println(key+" = ");
+				System.err.println(data.get(key));
+			}
 		}
 	}
 
