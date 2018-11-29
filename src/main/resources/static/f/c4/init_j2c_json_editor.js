@@ -288,7 +288,7 @@ $scope.doc_data.afterRead=function(response, param, readDocData){
 	}
 
 $scope.datadictionary = {}
-console.log($scope.datadictionary)
+//console.log($scope.datadictionary)
 var ddocId = 5036
 $scope.doc_data.readData({docId:ddocId}, $scope.datadictionary)
 //	console.log($scope.doc_data)

@@ -68,7 +68,7 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 			})
 		}
 	})
-	console.log($scope.complex_types)
+//	console.log($scope.complex_types)
 
 	$scope.pageVar.config.viewConfigPart='element_type'
 })

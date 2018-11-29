@@ -4,7 +4,7 @@ var initApp = function($scope, $http){
 	console.log('initApp')
 	build_request($scope)
 	$scope.pageVar = {}
-	console.log($scope.pageVar)
+//	console.log($scope.pageVar)
 	$scope.pageVar.colLink=function(cl,tr){
 		var path = '?'
 		if(cl.path)
@@ -117,7 +117,7 @@ function getRandomInt(max) {
 
 function build_request($scope){
 	$scope.request={};
-	console.log($scope.request)
+//	console.log($scope.request)
 	$scope.request.pathNameValue = window.location.pathname.split('.html')[0].split('/').reverse()[0]
 	console.log($scope.request.pathNameValue)
 	$scope.request.parameters={};
