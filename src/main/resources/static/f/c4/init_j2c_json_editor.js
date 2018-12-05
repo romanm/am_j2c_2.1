@@ -3,6 +3,12 @@ var init_j2c_table_editor = function($scope, $http, $filter){
 	$scope.cp.copy = function(el){
 		this.copyEl = el
 		console.log(this)
+		exe_fn.httpPost({url:'/copy',
+			data:$scope.cp.copyEl,
+			then_fn:function(response) {
+				console.log(response.data)
+			},
+		})
 	}
 	$scope.cp.cut = function(el, copy_type){
 		this.cutEl = el
@@ -94,6 +100,17 @@ $scope.pageVar.config.openDatadictionary = function(){
 	$scope.cp.paste = function(el){
 		this.pasteEl = el
 		console.log(this)
+
+		exe_fn.httpGet({url:'/copy',
+			then_fn:function(response){
+				console.log(response.data)
+			},
+			error_fn:function(response){
+				console.error('-----error-----------')
+				console.error(response.data)
+			},
+		})
+
 		if(this.copyEl){
 			if(this.copyEl.copy_type=='this_document'){
 				console.log(123)
@@ -207,8 +224,8 @@ $scope.doc_data.minusElement=function(o){
 	}
 
 $scope.doc_data.readData=function(param, readDocData){
-	//console.log(param)
-	//console.log(readDocData)
+//	console.log(param)
+//	console.log(readDocData)
 	if(!param.readChildLevel){
 		param.readChildLevel = 0
 		readDocData.tableRoot = {}

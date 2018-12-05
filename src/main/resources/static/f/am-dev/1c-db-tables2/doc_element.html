@@ -38,9 +38,7 @@
 				title="{{doctypes_level2.map[el.doctype].p1_doctype
 				}}.{{doctypes_level2.map[el.doctype].doctype}} {{el.doc_id}}">[{{el.doctype}}]
 			</sub> <span data-ng-if="el.reference"> 
-			<span
-			class="am-b"
-					data-ng-if="complex_types.map[el.reference]">
+			<span class="am-b" data-ng-if="complex_types.map[el.reference]">
 						{{complex_types.map[el.reference].complex_type_name}}:</span>
 					{{datadictionary.elementsMap[el.reference].value}} <span
 					data-ng-include="'/f/am-dev/1c-db-tables2/doc_17_dd_el_values.html'"

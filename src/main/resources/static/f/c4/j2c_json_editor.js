@@ -48,6 +48,7 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		sql:sql_1c.read_doc_links(),
 		jsonId:$scope.request.parameters.jsonId,
 	})
+	console.log(sql_1c.read_complex_types())
 	$scope.complex_types = readSql({
 		sql:sql_1c.read_complex_types(),
 		afterRead:function(){
