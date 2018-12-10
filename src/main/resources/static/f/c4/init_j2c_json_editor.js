@@ -185,20 +185,35 @@ $scope.doc_data.upElement=function(o){this.upDowntElement(o, -1)}
 $scope.doc_data.upDowntElement=function(o, direction){
 //	var oParent = this.elementsMap[o.parent]
 		var oParent = $scope.doc_data_workdata.elementsMap[o.parent]
+		console.log(oParent.children)
+		console.log(oParent.children.length)
 		var position = oParent.children.indexOf(o)
-		var x = oParent.children.splice(position, 1)
-		oParent.children.splice(position + direction, 0, x[0])
-		angular.forEach(oParent.children, function(v,k){
-		var data = {
-			sort:k,
-			sort_id:v.doc_id,
+		console.log(position)
+		console.log(direction)
+		if((position +1 == oParent.children.length) && direction == 1){// зробити першим
+			var x = oParent.children.splice(position, 1)
+			console.log(x)
+			oParent.children.splice(0, 0, x[0])
+		}else if((position == 0) && direction == -1){// зробити останнім
+			console.log('зробити останнім')
+			var x = oParent.children.splice(position, 1)
+			oParent.children.push(x[0])
+		}else{
+			var x = oParent.children.splice(position, 1)
+			oParent.children.splice(position + direction, 0, x[0])
 		}
-		if(v.sort_id)
-			data.sql = sql_1c.doc_update_sort()
-		else
-			data.sql = sql_1c.doc_insert_sort()
+		angular.forEach(oParent.children, function(v,k){
+			var data = {
+				sort:k,
+				sort_id:v.doc_id,
+			}
+			if(v.sort_id)
+				data.sql = sql_1c.doc_update_sort()
+			else
+				data.sql = sql_1c.doc_insert_sort()
 			writeSql(data)
-		})
+			}
+		)
 	}
 $scope.doc_data.pasteElement=function(o){
 		if(this.cutObject){
