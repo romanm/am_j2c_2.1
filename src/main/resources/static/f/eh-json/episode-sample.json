@@ -1,0 +1,38 @@
+{
+	"id": "90a9e15b-b71b-4caf-8f2e-ff247e8a5600",
+	"type": {
+		"system": "eHealth/episode_types",
+		"code": "primary_care"
+	},
+	"status": "active",
+	"name": "Діабет 2018",
+	"managing_organization": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "legal_entity"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"period": {
+		"start": "2018-08-02T10:45:16.000Z"
+	},
+	"care_manager": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "employee"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	}
+}

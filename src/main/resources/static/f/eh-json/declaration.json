@@ -1,0 +1,470 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"meta": {
+			"type": "object",
+			"properties": {
+				"code": {
+					"type": "number",
+					"description": "HTTP response code."
+				},
+				"url": {
+					"type": "string",
+					"description": "URL to requested resource."
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"object",
+						"list"
+					],
+					"description": "Type of data that is located in `data` attribute."
+				},
+				"request_id": {
+					"type": "string",
+					"description": "[Request ID](http://docs.apimanifest.apiary.io/#introduction/interacting-with-api/request-id). Send it with `X-Request-ID` header."
+				}
+			},
+			"required": [
+				"code",
+				"url",
+				"type",
+				"request_id"
+			],
+			"additionalProperties": false
+		},
+		"data": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "string",
+					"enum": [
+						"NEW",
+						"APPROVED",
+						"SIGNED",
+						"CANCELLED"
+					]
+				},
+				"id": {
+					"type": "string"
+				},
+				"start_date": {
+					"type": "string",
+					"description": "Should be defined on the client side."
+				},
+				"end_date": {
+					"type": "string",
+					"description": "Will be defined on eHealth side if it's not set."
+				},
+				"person": {
+					"type": "object",
+					"properties": {
+						"first_name": {
+							"type": "string"
+						},
+						"last_name": {
+							"type": "string"
+						},
+						"second_name": {
+							"type": "string"
+						},
+						"birth_date": {
+							"type": "string"
+						},
+						"birth_country": {
+							"type": "string"
+						},
+						"birth_settlement": {
+							"type": "string"
+						},
+						"gender": {
+							"type": "string",
+							"enum": [
+								"MALE",
+								"FEMALE"
+							]
+						},
+						"email": {
+							"type": "string"
+						},
+						"tax_id": {
+							"type": "string"
+						},
+						"secret": {
+							"type": "string"
+						},
+						"documents": {
+							"type": "array"
+						},
+						"addresses": {
+							"type": "array"
+						},
+						"phones": {
+							"type": "array"
+						},
+						"authentication_methods": {
+							"type": "array"
+						},
+						"preferred_way_communication": {
+							"type": "string",
+							"enum": [
+								"email",
+								"phone"
+							],
+							"description": "the way how a patient wants to be reached"
+						},
+						"emergency_contact": {
+							"type": "object",
+							"properties": {
+								"first_name": {
+									"type": "string"
+								},
+								"last_name": {
+									"type": "string"
+								},
+								"second_name": {
+									"type": "string"
+								},
+								"phones": {
+									"type": "array"
+								}
+							},
+							"required": [
+								"first_name",
+								"last_name",
+								"phones"
+							]
+						},
+						"confidant_person": {
+							"type": "array",
+							"description": "Should be set if this Person is disabled, underage, etc."
+						},
+						"patient_signed": {
+							"type": "boolean",
+							"description": "Факт подписания заявки на декларацию."
+						},
+						"process_disclosure_data_consent": {
+							"type": "boolean",
+							"description": "Согласие на раскрытие персональных данных"
+						}
+					},
+					"required": [
+						"first_name",
+						"last_name",
+						"birth_date",
+						"birth_country",
+						"birth_settlement",
+						"gender",
+						"secret",
+						"documents",
+						"addresses",
+						"authentication_methods",
+						"emergency_contact",
+						"patient_signed",
+						"process_disclosure_data_consent"
+					],
+					"description": "Object that described a Patient. Confidant person should be set for disabled persons, underage persons, etc."
+				},
+				"scope": {
+					"type": "string",
+					"enum": [
+						"family doctor"
+					]
+				},
+				"declaration_number": {
+					"type": "string",
+					"description": "unique number of declaration."
+				},
+				"declaration_id": {
+					"type": "string",
+					"description": "presetted id for future declaration"
+				},
+				"employee": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string"
+						},
+						"position": {
+							"type": "string",
+							"description": "`Dictionary POSITION`"
+						},
+						"party": {
+							"type": "object",
+							"properties": {
+								"id": {
+									"type": "string"
+								},
+								"no_tax_id": {
+									"type": "boolean"
+								},
+								"first_name": {
+									"type": "string"
+								},
+								"last_name": {
+									"type": "string"
+								},
+								"second_name": {
+									"type": "string"
+								},
+								"email": {
+									"type": "string"
+								},
+								"phones": {
+									"type": "array"
+								}
+							},
+							"required": [
+								"id",
+								"no_tax_id",
+								"first_name",
+								"last_name"
+							]
+						}
+					},
+					"required": [
+						"id",
+						"position"
+					]
+				},
+				"legal_entity": {
+					"type": "object",
+					"properties": {
+						"name": {
+							"type": "string"
+						},
+						"short_name": {
+							"type": "string"
+						},
+						"legal_form": {
+							"type": "string",
+							"description": "`Dictionary LEGAL_FORM`"
+						},
+						"public_name": {
+							"type": "string"
+						},
+						"edrpou": {
+							"type": "string"
+						},
+						"licenses": {
+							"type": "array"
+						},
+						"accreditation": {
+							"type": "object",
+							"properties": {
+								"category": {
+									"type": "string",
+									"enum": [
+										"друга",
+										"перша",
+										"не акредитований"
+									]
+								},
+								"issued_date": {
+									"type": "string",
+									"description": "дата видачі"
+								},
+								"expiry_date": {
+									"type": "string"
+								},
+								"order_no": {
+									"type": "string",
+									"description": "номер наказу МОЗ"
+								},
+								"order_date": {
+									"type": "string",
+									"description": "дата наказу МОЗ"
+								}
+							},
+							"required": [
+								"category",
+								"order_no",
+								"order_date"
+							]
+						},
+						"addresses": {
+							"type": "array"
+						},
+						"phones": {
+							"type": "array"
+						},
+						"email": {
+							"type": "string"
+						},
+						"id": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"name",
+						"short_name",
+						"legal_form",
+						"edrpou",
+						"licenses",
+						"addresses",
+						"phones",
+						"email",
+						"id"
+					]
+				},
+				"division": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string"
+						},
+						"legal_entity_id": {
+							"type": "string"
+						},
+						"name": {
+							"type": "string",
+							"description": "the full name of division"
+						},
+						"addresses": {
+							"type": "array"
+						},
+						"phones": {
+							"type": "array"
+						},
+						"email": {
+							"type": "string",
+							"description": "division's email"
+						},
+						"working_hours": {
+							"type": "object",
+							"properties": {
+								"mon": {
+									"type": "array"
+								},
+								"tue": {
+									"type": "array"
+								},
+								"wed": {
+									"type": "array"
+								},
+								"thu": {
+									"type": "array"
+								},
+								"fri": {
+									"type": "array"
+								},
+								"sat": {
+									
+								},
+								"sun": {
+									
+								}
+							},
+							"description": "optional field, business hours by each day weekly, doesn't make any influence on business process and will be shown on portal and map."
+						},
+						"type": {
+							"type": "string",
+							"enum": [
+								"CLINIC",
+								"AMBULANT_CLINIC",
+								"FAP"
+							],
+							"description": "division type"
+						},
+						"external_id": {
+							"type": "string"
+						},
+						"location": {
+							"type": "object",
+							"properties": {
+								"latitude": {
+									"type": "number"
+								},
+								"longitude": {
+									"type": "number"
+								}
+							},
+							"required": [
+								"latitude",
+								"longitude"
+							],
+							"description": "optional field. geographical location, if it's empty, division won't be shown on a map."
+						}
+					},
+					"required": [
+						"id",
+						"legal_entity_id",
+						"name",
+						"addresses",
+						"phones",
+						"email",
+						"type"
+					]
+				},
+				"content": {
+					"type": "string",
+					"description": "HTML document that MUST be shown to a  - Should be defined on the client side.end-user and signed by hes key."
+				},
+				"seed": {
+					"type": "string",
+					"description": "Hash of previous block in declarations chain or other random component that should be signed with declaration."
+				},
+				"channel": {
+					"type": "string",
+					"enum": [
+						"MIS",
+						"CABINET"
+					],
+					"description": "channel that invoke declaration create service"
+				}
+			},
+			"required": [
+				"id",
+				"declaration_number",
+				"start_date",
+				"end_date",
+				"person",
+				"scope",
+				"declaration_number",
+				"declaration_id",
+				"employee",
+				"legal_entity",
+				"division",
+				"content",
+				"seed",
+				"channel"
+			],
+			"additionalProperties": false
+		},
+		"urgent": {
+			"type": "object",
+			"properties": {
+				"authentication_method_current": {
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": [
+								"OTP",
+								"OFFLINE",
+								"NA"
+							]
+						},
+						"number": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"type",
+						"number"
+					]
+				},
+				"documents": {
+					"type": "array"
+				}
+			},
+			"required": [
+				"authentication_method_current"
+			]
+		}
+	},
+	"required": [
+		"urgent"
+	]
+}

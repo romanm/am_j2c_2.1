@@ -37,42 +37,484 @@
 		"data": {
 			"type": "object",
 			"properties": {
+				"id": {
+					"type": "string"
+				},
 				"status": {
 					"type": "string",
-					"description": "status of request processing."
+					"description": "`dictionary eHealth/encounter_statuses`"
 				},
-				"eta": {
-					"type": "string",
-					"description": "estimated time of arrival"
+				"date": {
+					"type": "string"
 				},
-				"status_code": {
-					"type": "string",
-					"description": "processing result. Is relevant only for the processed jobs"
+				"inserted_at": {
+					"type": "string"
 				},
-				"links": {
+				"updated_at": {
+					"type": "string"
+				},
+				"visit": {
+					"type": "object",
+					"properties": {
+						"identifier": {
+							"type": "object",
+							"properties": {
+								"type": {
+									"type": "object",
+									"properties": {
+										"coding": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"system": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string",
+														"description": "Symbol in syntax defined by the system"
+													}
+												},
+												"required": [
+													"code"
+												]
+											}
+										},
+										"text": {
+											"type": "string"
+										}
+									},
+									"description": "Description of identifier"
+								},
+								"value": {
+									"type": "string",
+									"description": "The value that is unique"
+								}
+							},
+							"required": [
+								"type",
+								"value"
+							]
+						}
+					},
+					"required": [
+						"identifier"
+					],
+					"additionalProperties": false
+				},
+				"episode": {
+					"type": "object",
+					"properties": {
+						"identifier": {
+							"type": "object",
+							"properties": {
+								"type": {
+									"type": "object",
+									"properties": {
+										"coding": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"system": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string",
+														"description": "Symbol in syntax defined by the system"
+													}
+												},
+												"required": [
+													"code"
+												]
+											}
+										},
+										"text": {
+											"type": "string"
+										}
+									},
+									"description": "Description of identifier"
+								},
+								"value": {
+									"type": "string",
+									"description": "The value that is unique"
+								}
+							},
+							"required": [
+								"type",
+								"value"
+							]
+						}
+					},
+					"required": [
+						"identifier"
+					],
+					"additionalProperties": false
+				},
+				"class": {
+					"type": "object",
+					"properties": {
+						"system": {
+							"type": "string"
+						},
+						"code": {
+							"type": "string",
+							"description": "`dictionary eHealth/encounter_classes`"
+						}
+					},
+					"required": [
+						"code"
+					]
+				},
+				"type": {
+					"type": "object",
+					"properties": {
+						"coding": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"system": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string",
+										"description": "`dictionary eHealth/encounter_types`"
+									}
+								},
+								"required": [
+									"code"
+								]
+							}
+						},
+						"text": {
+							"type": "string"
+						}
+					}
+				},
+				"performer": {
+					"type": "object",
+					"properties": {
+						"identifier": {
+							"type": "object",
+							"properties": {
+								"type": {
+									"type": "object",
+									"properties": {
+										"coding": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"system": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string",
+														"description": "Symbol in syntax defined by the system"
+													}
+												},
+												"required": [
+													"code"
+												]
+											}
+										},
+										"text": {
+											"type": "string"
+										}
+									},
+									"description": "Description of identifier"
+								},
+								"value": {
+									"type": "string",
+									"description": "The value that is unique"
+								}
+							},
+							"required": [
+								"type",
+								"value"
+							]
+						},
+						"display": {
+							"type": "string",
+							"description": "This field is filled on creating and never updated after"
+						}
+					},
+					"required": [
+						"display"
+					]
+				},
+				"reasons": {
+					"type": "array"
+				},
+				"diagnoses": {
 					"type": "array",
 					"items": {
 						"type": "object",
 						"properties": {
-							"entity": {
-								"type": "string",
-								"description": "name of the entity that link follows to"
+							"condition": {
+								"type": "object",
+								"properties": {
+									"identifier": {
+										"type": "object",
+										"properties": {
+											"type": {
+												"type": "object",
+												"properties": {
+													"coding": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"system": {
+																	"type": "string"
+																},
+																"code": {
+																	"type": "string",
+																	"description": "Symbol in syntax defined by the system"
+																}
+															},
+															"required": [
+																"code"
+															]
+														}
+													},
+													"text": {
+														"type": "string"
+													}
+												},
+												"description": "Description of identifier"
+											},
+											"value": {
+												"type": "string",
+												"description": "The value that is unique"
+											}
+										},
+										"required": [
+											"type",
+											"value"
+										]
+									}
+								}
 							},
-							"href": {
-								"type": "string",
-								"description": "link to entity"
+							"code": {
+								"type": "object",
+								"properties": {
+									"coding": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"system": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string",
+													"description": "`dictionary eHealth/ICPC2/condition_codes or eHealth/ICD10/condition_codes`"
+												}
+											},
+											"required": [
+												"code"
+											]
+										}
+									},
+									"text": {
+										"type": "string"
+									}
+								}
+							},
+							"role": {
+								"type": "object",
+								"properties": {
+									"coding": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"system": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string",
+													"description": "Symbol in syntax defined by the system"
+												}
+											},
+											"required": [
+												"code"
+											]
+										}
+									},
+									"text": {
+										"type": "string"
+									}
+								},
+								"description": "Role that this diagnosis has within the episode of care"
+							},
+							"rank": {
+								"type": "number",
+								"description": "Ranking of the diagnosis (for each role type)"
 							}
 						},
 						"required": [
-							"entity",
-							"href"
+							"condition",
+							"code",
+							"role"
 						]
 					}
+				},
+				"actions": {
+					"type": "array",
+					"items": [
+						{
+							"type": "object",
+							"properties": {
+								"coding": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string",
+												"description": "`dictionary eHealth/ICPC2/actions`"
+											}
+										},
+										"required": [
+											"code"
+										]
+									}
+								},
+								"text": {
+									"type": "string"
+								}
+							}
+						},
+						{
+							"type": "object",
+							"properties": {
+								"coding": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"system": {
+												"type": "string"
+											},
+											"code": {
+												"type": "string",
+												"description": "`dictionary eHealth/ICPC2/actions`"
+											}
+										},
+										"required": [
+											"code"
+										]
+									}
+								},
+								"text": {
+									"type": "string"
+								}
+							}
+						}
+					]
+				},
+				"division": {
+					"type": "object",
+					"properties": {
+						"identifier": {
+							"type": "object",
+							"properties": {
+								"type": {
+									"type": "object",
+									"properties": {
+										"coding": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"system": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string",
+														"description": "Symbol in syntax defined by the system"
+													}
+												},
+												"required": [
+													"code"
+												]
+											}
+										},
+										"text": {
+											"type": "string"
+										}
+									},
+									"description": "Description of identifier"
+								},
+								"value": {
+									"type": "string",
+									"description": "The value that is unique"
+								}
+							},
+							"required": [
+								"type",
+								"value"
+							]
+						}
+					},
+					"required": [
+						"identifier"
+					],
+					"additionalProperties": false
+				},
+				"prescriptions": {
+					"type": "string"
+				},
+				"cancellation_reason": {
+					"type": "object",
+					"properties": {
+						"coding": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"system": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string",
+										"description": "wrong_patient, misspelling"
+									}
+								},
+								"required": [
+									"code"
+								]
+							}
+						},
+						"text": {
+							"type": "string"
+						}
+					}
+				},
+				"explanatory_letter": {
+					"type": "string"
 				}
 			},
 			"required": [
+				"id",
 				"status",
-				"links"
+				"date",
+				"inserted_at",
+				"updated_at",
+				"visit",
+				"episode",
+				"class",
+				"type",
+				"performer",
+				"reasons",
+				"diagnoses",
+				"actions"
 			],
 			"additionalProperties": false
 		}
