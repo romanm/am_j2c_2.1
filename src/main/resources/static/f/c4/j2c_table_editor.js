@@ -1,6 +1,20 @@
 app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	initApp($scope, $http)
 	init_j2c_table_editor($scope, $http, $filter)
+
+//	console.log('----------calc ФОП------')
+//	$scope.calcFOP = 0
+//	exe_fn.httpGet({url:'https://api.ehealth-ukraine.org/reports/stats/divisions?page_size=5000&page='+11,
+//		then_fn:function(response) {
+//			console.log(response.data.data)
+//			angular.forEach(response.data.data, function(v) {
+//				if(910 == v.legal_entity.legal_form){
+//					$scope.calcFOP++
+//				}
+//			})
+//			console.log($scope.calcFOP)
+//		}
+//	})
 	
 	$scope.pageVar.pageName = 'j2c TABLE Editor'
 	$scope.pageVar.pageParent = {}

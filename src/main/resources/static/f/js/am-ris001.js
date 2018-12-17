@@ -24,11 +24,14 @@ var initApp = function($scope, $http){
 		$scope.pageVar.config.viewDocPart=$scope.request.parameters.tab1
 	}
 	$scope.pageVar.config.viewJson = function(o){
-		console.log('----27---------------')
-		var o2c = o.docRoot
+//		console.log('----27---------------')
+//		var o2c = o.docRoot
 		//cleanNull(o2c)
-		console.log(Object.keys(o.docRoot))
-		return JSON.stringify(o, null, 2)
+//		console.log(Object.keys(o.docRoot))
+		if(!o.stringify){
+			o.stringify = JSON.stringify(o, null, 2)
+		}
+		return o.stringify
 	}
 
 	exe_fn = new Exe_fn($scope, $http);

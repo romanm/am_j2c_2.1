@@ -1,0 +1,9 @@
+<a href="#" ng-click="edit_table.saveDoctype17ReadData()"
+	class="w3-btn w3-border w3-padding-small w3-tiny">save</a>
+<a class="w3-tiny"
+	href="/r/url_sql_read_db1?jsonId={{request.parameters.jsonId}}&sql=SELECT * FROM doc d2, doc d1,docbody where d1.doc_id=docbody_id and d2.doc_id=d1.parent and d2.doctype=17 and d1.reference=:jsonId">
+	DB saved JSON </a>
+
+<textarea rows="30" class="am-width-100pr w3-tiny">
+{{pageVar.config.viewJson(oo.tableRoot)}}
+</textarea>

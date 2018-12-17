@@ -35,7 +35,6 @@ app_config.programRun = {
 	}
 }
 
-
 app_config.fn.pages = function($scope){
 	console.log('--------app_config.fn.pages--------')
 	this.head=function(){
