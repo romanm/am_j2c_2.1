@@ -32,6 +32,7 @@
 		<property name="jdbcUrl" value="${config.dataSourceDb1.url}" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
+		<property name="maximumPoolSize" value="30" />
 	</bean>
 	<bean id="db1ExecuteSqlBlock"
 		class="com.algoritmed.nosql.ExecuteSqlBlock">
