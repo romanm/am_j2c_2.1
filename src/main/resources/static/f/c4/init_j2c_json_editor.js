@@ -238,15 +238,22 @@ $scope.doc_data.minusElement=function(o){
 		writeSql(data)
 	}
 
-$scope.doc_data.readData=function(param, readDocData){
+$scope.doc_data.readData = function(param, readDocData){
 //	console.log(param)
 //	console.log(readDocData)
 	if(!param.readChildLevel){
 		param.readChildLevel = 0
 		readDocData.tableRoot = {}
 		if($scope.tables)
-		if($scope.tables.list[0])
+		if($scope.tables.list[0]){
 			readDocData.tableRoot = $scope.tables.list[0]
+			readSql({ 
+				sql:"SELECT * FROM doc WHERE doctype=47 AND parent="+readDocData.tableRoot.parent,
+				afterRead:function(response){
+					console.log(response.data)
+				}
+			})
+		}
 		readDocData.elementsMap = {}
 	}
 //	console.log(param.readChildLevel)
