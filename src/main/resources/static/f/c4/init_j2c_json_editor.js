@@ -3,6 +3,7 @@ var init_j2c_table_editor = function($scope, $http, $filter){
 	$scope.cp.copy = function(el){
 		this.copyEl = el
 		console.log(this)
+		if(true) return
 		exe_fn.httpPost({url:'/copy',
 			data:$scope.cp.copyEl,
 			then_fn:function(response) {
@@ -29,6 +30,7 @@ var init_j2c_table_editor = function($scope, $http, $filter){
 						data.parent = this.pasteEl.folderId,
 						data.sql = sql_1c.doc_cutPaste_elements(),
 						console.log(data)
+						if(true) return
 						writeSql(data)
 					}
 				}
@@ -101,6 +103,7 @@ $scope.pageVar.config.openDatadictionary = function(){
 		this.pasteEl = el
 		console.log(this)
 
+		if(false)
 		exe_fn.httpGet({url:'/copy',
 			then_fn:function(response){
 				console.log(response.data)
@@ -111,32 +114,61 @@ $scope.pageVar.config.openDatadictionary = function(){
 			},
 		})
 
+		var copyElement = function(copyEl, parent){
+			console.log(copyEl)
+			var data = {
+				parent : parent,
+				doctype : copyEl.doctype,
+				sql:"INSERT INTO doc (doc_id,parent,doctype) VALUES (:nextDbId1, :parent, :doctype); ",
+				dataAfterSave:function(response){
+					console.log(response.data)
+					angular.forEach(copyEl.children, function(v){
+						copyElement(v, response.data.nextDbId1)
+					})
+				}
+			}
+			console.log(copyEl.sort+'/'+copyEl.doc_id)
+			if(copyEl.sort_id){
+				data.sort = copyEl.sort
+				data.sql += "INSERT INTO sort (sort_id, sort) VALUES (:nextDbId1, :sort); "
+			}
+			if(copyEl.string_id){
+				data.value = copyEl.value
+				data.sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, :value); "
+			}
+			console.log(data)
+			writeSql(data)
+		}
+
 		if(this.copyEl){
-			if(this.copyEl.copy_type=='this_document'){
-				console.log(123)
-			}else
-			if(this.copyEl.doctype_id){
+			if(this.copyEl.complex_type_name){
+				if(this.copyEl.copy_type=='this_document'){
+					console.log(123)
+				}else{
+					var data = {
+						doc_id : this.pasteEl.doc_id,
+					}
+				}
+				if(this.copyEl.doctype_id){
+					var doctype = this.copyEl.doctype_id
+					if(this.copyEl.doctype2_id)
+						doctype = this.copyEl.doctype2_id
+						data.doctype = doctype
+						data.sql = sql_1c.doc_update_doctype()
+				}else{
+					data.reference = this.copyEl.doc_id
+					data.sql = sql_1c.doc_update_doc_reference()
+				}
+				console.log(data)
+//				if(true) return
+				writeSql(data)
+			}else{// INSERT ELEMENT
 				console.log(this)
-				var doctype = this.copyEl.doctype_id
-				if(this.copyEl.doctype2_id)
-					doctype = this.copyEl.doctype2_id
-				var data = {
-					doc_id : this.pasteEl.doc_id,
-					doctype : doctype,
-					sql : sql_1c.doc_update_doctype(),
-				}
-				console.log(data)
-				writeSql(data)
-			}else{
-				var data = {
-					doc_id : this.pasteEl.doc_id,
-					reference : this.copyEl.doc_id,
-					sql : sql_1c.doc_update_doc_reference(),
-				}
-				console.log(data)
-				writeSql(data)
+				copyElement(this.copyEl, this.pasteEl.doc_id)
 			}
 		}
+		
+		
 	}
 
 $scope.changeElement = {}
