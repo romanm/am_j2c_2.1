@@ -77,6 +77,7 @@ var writeSql = function(data){
 }
 
 function readSqlToObjData(param, objProgram, objData){
+	replaceParams(param)
 	if(!objProgram)
 		objProgram = param
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
@@ -90,7 +91,22 @@ function readSqlToObjData(param, objProgram, objData){
 	}))
 }
 
+function replaceParams(params){
+	angular.forEach(params.sql.split(':'), function(v,k){
+		if(k>0){
+			var p = v.split(' ')[0].replace(')','')
+			var pv = params[p]
+//			console.log(p+' = '+pv)
+			params.sql = params.sql.replace(':'+p,pv)
+		}
+	})
+//	console.log(params)
+//	params.sql = params.sql.replace('\n','')
+//	console.log(params.sql)
+}
+
 function readSql(params, obj){
+	replaceParams(params)
 	if(!obj) obj = params
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
 	params,

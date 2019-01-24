@@ -1,8 +1,6 @@
 app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	initApp($scope, $http)
-	console.log(123)
 	init_j2c_table_editor($scope, $http)
-	console.log(123)
 
 	$scope.pageVar.pageName = 'Конфігуратор БД'
 	$scope.pageVar.pageParent = {}
@@ -94,9 +92,6 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	}
 	console.log($scope.tables)
 	var params_tables = {}
-	if($scope.request.parameters.tableId){
-		
-	}
 	if($scope.request.parameters.folderId){
 		params_tables.folderId = $scope.request.parameters.folderId
 		params_tables.sql = sql_1c.tables_of_folder()
@@ -145,7 +140,6 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	$scope.folders.col_links.folderId={k:'folderId',vk:'folderId'},
 	readSql({ sql:sql_1c.folders() }, $scope.folders)
 	console.log(sql_1c.folders())
-	console.log(123)
 })
 sql_1c.table_insert = function(){
 	return "INSERT INTO doc (parent, doc_id, doctype) VALUES (:folderId, :nextDbId1, :doctype) ;" +
@@ -177,5 +171,5 @@ sql_1c.read_tables = function(){
 sql_1c.tables_of_folder = function(){
 	return "SELECT * FROM (" +
 	this.read_tables() +
-	") WHERE parent=:folderId"
+	") x WHERE parent=:folderId"
 }

@@ -493,7 +493,7 @@ init_am_directive.init_create_tables2 = function($scope, $http, $filter, $route)
 	}else{
 		readSql(params_tables, $scope.tables)
 	}})
-	
+	console.log('-------496--------------------')
 	readSql({ sql:sql_1c.folders() }, $scope.folders)
 	readSql(params_create_tables, $scope.create_tables)
 console.log($scope.create_tables)
@@ -707,6 +707,7 @@ sql_1c.folders = function(){
 	}
 
 function readSqlToObjData(param, objProgram, objData){
+	replaceParams(param)
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
 	param,
 	function(response) {

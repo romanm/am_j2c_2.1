@@ -25,16 +25,20 @@
         <property name="dataSource" ref="dataSourceDb2" />
         <property name="rollbackOnCommitFailure" value="true" />
     </bean>
-	 -->
 	<bean id="dataSourceDb1" class="com.zaxxer.hikari.HikariDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="org.h2.Driver" />
 		<property name="jdbcUrl" value="${config.dataSourceDb1.url}" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
-		<!-- 
-		<property name="maximumPoolSize" value="30" />
-		 -->
+	</bean>
+	 -->
+	<bean id="dataSourceDb1"
+		class="com.zaxxer.hikari.HikariDataSource">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="jdbcUrl" value="${config.dataSourceDb1.url}" />
+		<property name="username" value="am2pg1" />
+		<property name="password" value="am2pg1" />
 	</bean>
 	<bean id="db1ExecuteSqlBlock"
 		class="com.algoritmed.nosql.ExecuteSqlBlock">

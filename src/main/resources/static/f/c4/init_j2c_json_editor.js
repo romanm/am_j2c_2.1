@@ -1,6 +1,7 @@
 var init_j2c_table_editor = function($scope, $http, $filter){
 	$scope.cp = {}
-	$scope.cp.copy = function(el){
+	$scope.cp.copy = function(el, data_type){
+		el.data_type = data_type
 		this.copyEl = el
 		console.log(this)
 		if(true) return
@@ -140,8 +141,18 @@ $scope.pageVar.config.openDatadictionary = function(){
 			writeSql(data)
 		}
 
+		if(this.cutEl){
+			var data = {
+				doc_id : this.cutEl.doc_id,
+				parent : this.pasteEl.doc_id,
+			}
+			data.sql = "UPDATE doc SET parent = :parent WHERE doc_id = :doc_id"
+			console.log(data)
+			writeSql(data)
+		}else
 		if(this.copyEl){
-			if(this.copyEl.complex_type_name){
+			console.log(this.copyEl)
+			if(this.copyEl.data_type){
 				if(this.copyEl.copy_type=='this_document'){
 					console.log(123)
 				}else{
@@ -327,7 +338,6 @@ $scope.doc_data.afterRead=function(response, param, readDocData){
 				}
 				//console.log($scope.doc_data.tableRoot.docRoot)
 				if(0==param.readChildLevel){
-					console.log('--------------292---------------------------')
 					if(v.doctype==18)
 						readDocData.tableRoot.docRoot = v
 				}
@@ -343,15 +353,18 @@ $scope.doc_data.afterRead=function(response, param, readDocData){
 					doc_id : $scope.request.parameters.jsonId,
 					afterRead:function(response){
 //						console.log(response.data)
-						$scope.doc_data_workdata.docHead.value = response.data.list[0].value
-						$scope.doc_data_workdata.docHead.doctype = response.data.list[0].doctype
-						$scope.doc_data_workdata.docHead.folderId = response.data.list[0].parent
-/*
+						if(response.data.list[0]){
+							$scope.doc_data_workdata.docHead.value = response.data.list[0].value
+							$scope.doc_data_workdata.docHead.doctype = response.data.list[0].doctype
+							$scope.doc_data_workdata.docHead.folderId = response.data.list[0].parent
+							/*
 						readDocData.tableRoot.value = response.data.list[0].value
 						readDocData.tableRoot.doctype = response.data.list[0].doctype
 						readDocData.tableRoot.folderId = response.data.list[0].parent
 						console.log(readDocData.tableRoot)
+						}
 */
+					}
 					}
 				})
 			}
@@ -367,6 +380,18 @@ $scope.doc_data.readData({docId:ddocId}, $scope.datadictionary)
 }
 sql_1c.doc_read_docName = function(){
 	return "SELECT * FROM doc, string where doc_id=string_id and doc_id=:doc_id"
+}
+sql_1c.doc_read_elements_6 = function(){
+	return this.doc_read_elements() +
+	"(SELECT d6.doc_id FROM doc d, doc d0, doc d1, doc d2, doc d3, doc d4, doc d5, doc d6 " +
+	"WHERE d.doc_id=:docId AND d0.parent=d.doc_id " +
+	"AND d1.parent=d0.doc_id " +
+	"AND d2.parent=d1.doc_id " +
+	"AND d3.parent=d2.doc_id " +
+	"AND d4.parent=d3.doc_id " +
+	"AND d5.parent=d4.doc_id " +
+	"AND d6.parent=d5.doc_id " +
+	")"
 }
 sql_1c.doc_read_elements_5 = function(){
 	return this.doc_read_elements() +

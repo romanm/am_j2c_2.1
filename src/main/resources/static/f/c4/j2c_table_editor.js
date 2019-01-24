@@ -220,6 +220,7 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		param.column_id = $scope.request.parameters.column_id
 		param.sql = param.sql.replace(':tableId', sql_1c.column_id_table_id)
 	}
+//	console.log(param)
 	readSqlToObjData(param)
 })
 
@@ -234,7 +235,7 @@ sql_1c.table_data_read = function(){
 sql_1c.create_table = function(){
 		return "SELECT * FROM (" +
 				this.create_tables() +
-				") WHERE table_id=:table_id"
+				") x WHERE table_id=:table_id"
 	}
 sql_1c.create_table_column = function(){
 		return "SELECT * FROM (" +

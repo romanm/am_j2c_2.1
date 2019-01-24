@@ -21,7 +21,7 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		var docId = $scope.request.parameters.jsonId
 	else if($scope.tables.list[0].doc_id)
 		var docId = $scope.tables.list[0].doc_id
-	$scope.doc_data_workdata = {docId : docId,docHead:{}}
+	$scope.doc_data_workdata = {docId : docId, docHead:{}}
 	console.log($scope.doc_data_workdata)
 	$scope.doc_data.docId = docId
 	console.log(docId)
@@ -73,6 +73,7 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 
 	$scope.pageVar.config.viewConfigPart='element_type'
 })
+
 sql_1c.read_complex_types = function(){
 	return "SELECT value complex_type_name, y.* FROM ( \n" +
 	"SELECT * FROM doc, string WHERE string_id=doc_id AND parent = 57405 \n" +

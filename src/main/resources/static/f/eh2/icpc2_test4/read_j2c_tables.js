@@ -1,4 +1,5 @@
 var readSql = function(params, obj){
+	replaceParams(params)
 	if(!obj) obj = params
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
 	params,
