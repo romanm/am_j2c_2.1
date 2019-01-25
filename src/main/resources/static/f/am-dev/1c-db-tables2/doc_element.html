@@ -3,10 +3,19 @@
 		<div class="w3-hover-shadow" 
 		data-ng-paste="cp.paste(el)"
 		data-ng-cut="cp.cut(el)"
+		data-ng-click="cp.clickTree(el)"
 		data-ng-copy="cp.copy(el, 'this_document')"
 		>
-			<span class="w3-tiny w3-dropdown-hover w3-white w3-hover-shadow">☰
-				&nbsp;
+			<span class="w3-tiny w3-dropdown-hover w3-white w3-hover-shadow">
+				<span> <span data-ng-if="!el.children"> ☰ </span> <span
+						data-ng-if="el.children"> &nbsp;
+						<i class="fa fa-ellipsis-v" data-ng-if="el.isClosedTree"
+						aria-hidden="true"></i>
+						<i class="fa fa-ellipsis-h" data-ng-if="!el.isClosedTree"
+						aria-hidden="true"></i>
+						 &nbsp;
+					</span>
+				</span>
 				<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
 					style="left: -5px; width: 180px">
 					<div>
@@ -47,7 +56,7 @@
 			</span>
 			</span>
 		</div>
-		<div ng-if="el.children">
+		<div ng-if="!el.isClosedTree && el.children">
 			<div ng-repeat="elParent in [el]"
 				ng-include="'/f/am-dev/1c-db-tables2/doc_element.html'"></div>
 		</div>

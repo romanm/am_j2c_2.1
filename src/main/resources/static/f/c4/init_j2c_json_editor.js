@@ -1,5 +1,9 @@
 var init_j2c_table_editor = function($scope, $http, $filter){
 	$scope.cp = {}
+	$scope.cp.clickTree = function(el){
+		console.log(el)
+		el.isClosedTree = !el.isClosedTree
+	}
 	$scope.cp.copy = function(el, data_type){
 		el.data_type = data_type
 		this.copyEl = el
