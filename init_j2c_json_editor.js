@@ -1,13 +1,22 @@
 var init_j2c_table_editor = function($scope, $http, $filter){
 	$scope.cp = {}
 	$scope.cp.clickTree = function(el){
-		console.log(el)
 		el.isClosedTree = !el.isClosedTree
 	}
 	$scope.cp.copy = function(el, data_type){
 		el.data_type = data_type
 		this.copyEl = el
-		console.log(this)
+		console.log(this, this.copyEl)
+		var i=0, parentEl = $scope.doc_data_workdata.elementsMap[this.copyEl.parent]
+		while(parentEl){
+			if(++i>5) break
+			if('DataDictionary'==parentEl.value){
+				el.data_type = 'DataDictionary'
+				break
+			}
+			parentEl = $scope.doc_data_workdata.elementsMap[parentEl.parent]
+		}
+		console.log(parentEl)
 		if(true) return
 		exe_fn.httpPost({url:'/copy',
 			data:$scope.cp.copyEl,
@@ -107,7 +116,6 @@ $scope.pageVar.config.openDatadictionary = function(){
 	$scope.cp.paste = function(el){
 		this.pasteEl = el
 		console.log(this)
-
 		if(false)
 		exe_fn.httpGet({url:'/copy',
 			then_fn:function(response){
@@ -135,11 +143,15 @@ $scope.pageVar.config.openDatadictionary = function(){
 			console.log(copyEl.sort+'/'+copyEl.doc_id)
 			if(copyEl.sort_id){
 				data.sort = copyEl.sort
-				data.sql += "INSERT INTO sort (sort_id, sort) VALUES (:nextDbId1, :sort); "
+				data.sql += "\n INSERT INTO sort (sort_id, sort) VALUES (:nextDbId1, :sort); "
 			}
 			if(copyEl.string_id){
 				data.value = copyEl.value
-				data.sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, :value); "
+				data.sql += "\n INSERT INTO string (string_id, value) VALUES (:nextDbId1, :value); "
+			}
+			if(copyEl.reference){
+				data.reference = copyEl.reference
+				data.sql += "\n UPDATE doc SET reference = :reference WHERE doc_id=:nextDbId1; "
 			}
 			console.log(data)
 			writeSql(data)
@@ -156,9 +168,12 @@ $scope.pageVar.config.openDatadictionary = function(){
 		}else
 		if(this.copyEl){
 			console.log(this.copyEl)
-			if(this.copyEl.data_type){
-				if(this.copyEl.copy_type=='this_document'){
-					console.log(123)
+			if(this.copyEl.data_type=='this_document'){
+				console.log(123)
+				copyElement(this.copyEl, this.pasteEl.doc_id)
+			}else if(this.copyEl.data_type){
+				if(this.copyEl.data_type=='DataDictionary'){
+					console.log('reference', 123)
 				}else{
 					var data = {
 						doc_id : this.pasteEl.doc_id,
@@ -176,7 +191,7 @@ $scope.pageVar.config.openDatadictionary = function(){
 				}
 				console.log(data)
 //				if(true) return
-				writeSql(data)
+//				writeSql(data)
 			}else{// INSERT ELEMENT
 				console.log(this)
 				copyElement(this.copyEl, this.pasteEl.doc_id)
@@ -449,11 +464,12 @@ sql_1c.doc_read_elements_0 = function(){
 }
 
 sql_1c.doc_read_elements = function(){
-		return "SELECT * FROM doc " +
-				"LEFT JOIN string ON string_id=doc_id " +
-				"LEFT JOIN docbody ON docbody_id=doc_id " +
-				"LEFT JOIN sort ON sort_id=doc_id " +
-		"WHERE doc_id IN "
+	return "SELECT * FROM doc d1 \n" +
+	"LEFT JOIN string ON string_id=d1.doc_id \n" +
+	"LEFT JOIN docbody ON docbody_id=d1.doc_id \n" +
+	"LEFT JOIN sort ON sort_id=d1.doc_id \n" +
+	"LEFT JOIN (SELECT doc_id, s.value string_reference FROM doc LEFT JOIN string s ON string_id=doc_id ) d2 ON d2.doc_id=d1.reference \n" +
+	"WHERE d1.doc_id IN "
 	}
 sql_1c.doc_insert_string = function(){
 	return "INSERT INTO string (value,string_id) VALUES (:value,:string_id)"
