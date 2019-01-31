@@ -45,6 +45,7 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		this.col_keys.value = 
 			this.folderObjectData[this.folderObjectType].col_keys.value
 	}
+
 	$scope.tables.saveUpdate=function(){
 		console.log($scope.pageVar.rowObj)
 		var folderId
@@ -59,7 +60,7 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		if($scope.pageVar.rowKey == -1){
 			var data = {
 				sql : sql_1c.table_insert(),
-				folderId : folderId,
+				folderId : folderId*1,
 			}
 			data.doctype = 1
 			if(this.folderObjectType)

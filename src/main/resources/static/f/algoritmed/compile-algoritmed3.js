@@ -15,6 +15,8 @@ app.controller('ControllerApp1', function($scope, $http, $filter, $route) {
 init_am_directive.init_programRuns=function($scope, $http, $filter, $route){
 	exe_fn = new Exe_fn($scope, $http)
 	onLoadPage($scope);
+	console.log(request.viewKey)
+	console.log(init_am_directive)
 	if(init_am_directive['init_'+request.viewKey])
 		init_am_directive['init_'+request.viewKey]($scope, $http, $filter, $route);
 	$http.get('/r/principal').then(function(response) {

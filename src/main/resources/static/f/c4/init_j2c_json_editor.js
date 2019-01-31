@@ -171,13 +171,17 @@ $scope.pageVar.config.openDatadictionary = function(){
 			if(this.copyEl.data_type=='this_document'){
 				console.log(123)
 				copyElement(this.copyEl, this.pasteEl.doc_id)
+			}else if(this.copyEl.data_type=='DataDictionary'){
+				var data = {
+					reference : this.copyEl.doc_id,
+					doc_id : this.pasteEl.doc_id,
+				}
+				data.sql = "UPDATE doc SET reference = :reference WHERE doc_id = :doc_id"
+				console.log('reference', data)
+				writeSql(data)
 			}else if(this.copyEl.data_type){
-				if(this.copyEl.data_type=='DataDictionary'){
-					console.log('reference', 123)
-				}else{
-					var data = {
+				var data = {
 						doc_id : this.pasteEl.doc_id,
-					}
 				}
 				if(this.copyEl.doctype_id){
 					var doctype = this.copyEl.doctype_id
@@ -399,6 +403,19 @@ $scope.doc_data.readData({docId:ddocId}, $scope.datadictionary)
 }
 sql_1c.doc_read_docName = function(){
 	return "SELECT * FROM doc, string where doc_id=string_id and doc_id=:doc_id"
+}
+sql_1c.doc_read_elements_7 = function(){
+	return this.doc_read_elements() +
+	"(SELECT d7.doc_id FROM doc d, doc d0, doc d1, doc d2, doc d3, doc d4, doc d5, doc d6, doc d7 " +
+	"WHERE d.doc_id=:docId AND d0.parent=d.doc_id " +
+	"AND d1.parent=d0.doc_id " +
+	"AND d2.parent=d1.doc_id " +
+	"AND d3.parent=d2.doc_id " +
+	"AND d4.parent=d3.doc_id " +
+	"AND d5.parent=d4.doc_id " +
+	"AND d6.parent=d5.doc_id " +
+	"AND d7.parent=d6.doc_id " +
+	")"
 }
 sql_1c.doc_read_elements_6 = function(){
 	return this.doc_read_elements() +

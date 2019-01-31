@@ -716,7 +716,22 @@ function readSqlToObjData(param, objProgram, objData){
 			objProgram.afterRead(response, param, objData)
 	}))
 }
-
+function replaceParams(params){
+//	console.log(params.sql)
+	angular.forEach(params.sql.split(':'), function(v,k){
+		if(k>0){
+			var p = v.split(' ')[0].replace(')','').replace(',','').replace(';','').trim()
+			var pv = params[p]
+//			console.log(p+' = '+pv)
+			if(pv){
+				params.sql = params.sql.replace(':'+p, "'"+pv+"'")
+			}
+		}
+	})
+//	console.log(params.ts_value)
+//	console.log(params)
+//	console.log(params.sql)
+}
 
 var writeSql = function(data){
 	exe_fn.httpPost
