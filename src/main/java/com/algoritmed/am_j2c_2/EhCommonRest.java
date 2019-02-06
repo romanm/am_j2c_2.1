@@ -99,7 +99,7 @@ public class EhCommonRest  extends Db2Common{
 		logger.info("\n\n-- 29 -- /r/update2_sql_with_param \n"
 				+ sql
 				+ "\n"
-				+ data
+//				+ data
 				);
 		executeSqlBlock.update_sql_script(data, sql, env);
 		return data;

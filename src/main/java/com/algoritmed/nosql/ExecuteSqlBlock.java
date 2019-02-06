@@ -1,10 +1,12 @@
 package com.algoritmed.nosql;
 
+import static org.hamcrest.CoreMatchers.containsString;
+
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -46,7 +48,7 @@ public class ExecuteSqlBlock {
 		String sql_from_env = env.getProperty(sql);
 		logger.info("\n\n-- 62 -- update_sql_script-- "
 				+ "\n" + sql_from_env
-				+ "\n" + data
+//				+ "\n" + data
 				);
 //		data.put(sql, sql_from_env);
 		System.err.println("-------47-------");
@@ -151,6 +153,8 @@ public class ExecuteSqlBlock {
 				data.put("uuid", UUID.randomUUID());
 			System.err.println(data.keySet());
 			for (String key : data.keySet()) {
+				if(Arrays.asList("tableRoot").contains(key))
+					continue;
 				System.err.println(key+" = ");
 				System.err.println(data.get(key));
 			}

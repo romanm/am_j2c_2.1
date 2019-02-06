@@ -36,7 +36,7 @@ public class EhDb1Rest extends DbCommon{
 		) {
 		logger.info("\n\n--35----- "
 				+ "/r/url_sql_read_db1"
-				+ "\n" + data
+				+ "\n" + data.get("sql")
 				);
 		String sql = (String) data.get("sql");
 		executeSqlBlock.updateNewIds(sql, data, env);
