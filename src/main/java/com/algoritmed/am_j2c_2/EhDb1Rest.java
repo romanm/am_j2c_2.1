@@ -69,6 +69,11 @@ public class EhDb1Rest extends DbCommon{
 				+ "\n" + sql
 				+ "\n\n map = " + map
 				);
+		if(map.containsKey("jsonId")) {
+			Object object = map.get("jsonId");
+			int parseInt = Integer.parseInt(object.toString());
+			map.put("jsonId", parseInt);
+		}
 		List<Map<String, Object>> list = dbParamJdbcTemplate.queryForList(sql, map);
 		map.put("list", list);
 		return map;
