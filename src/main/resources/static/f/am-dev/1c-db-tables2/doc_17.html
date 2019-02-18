@@ -50,8 +50,8 @@
 					class="w3-button w3-display-topright">&times;</span>
 				<div class="w3-row-padding w3-border-bottom">
 					<div class="w3-col m4 l4 s4 ">
-						<button class="w3-border" data-ng-click="changeElement.saveUpdate()">OK
-							запис</button>
+						<button class="w3-border"
+							data-ng-click="changeElement.saveUpdate()">OK запис</button>
 						<button class="w3-border"
 							ng-click="changeElement.ngStyleModal={display:'none'}">Cancel</button>
 					</div>
@@ -61,6 +61,9 @@
 				</div>
 				Назва: <input data-ng-model="changeElement.name"
 					class="w3-border w13-right">
+				<div class="w3-tiny w3-code">
+				a1 {{changeElement}} a1
+				</div>
 				<div>
 					JSON Element:
 					<div>
