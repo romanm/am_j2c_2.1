@@ -40,7 +40,7 @@ dependencies {
 	compile 'org.webjars:font-awesome:5.0.6'
 	compile 'org.webjars:font-awesome:4.7.0'
 
-	compile 'org.webjars:angularjs:1.7.6'
+	compile 'org.webjars:angularjs:1.7.7'
 //	compile 'org.webjars.npm:angular2:2.0.0-beta.21'
 //	compile 'org.xerial:sqlite-jdbc'
 	//compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.21.0.1'
