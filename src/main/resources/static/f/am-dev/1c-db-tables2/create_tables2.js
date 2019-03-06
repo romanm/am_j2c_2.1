@@ -712,6 +712,7 @@ function readSqlToObjData(param, objProgram, objData){
 	param,
 	function(response) {
 //		params.list = response.data.list
+		console.log(response.data.list.length)
 		if(objProgram.afterRead)
 			objProgram.afterRead(response, param, objData)
 	}))

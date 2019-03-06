@@ -51,6 +51,7 @@ var init_j2c_table_editor = function($scope, $http, $filter){
 			}
 		}
 	}
+
 	$scope.pageVar.openEditRow2=function(o, rowObj){
 		this.rowObj = rowObj
 		this.openEditRow(o)
@@ -327,14 +328,15 @@ $scope.doc_data.readData = function(param, readDocData){
 		var sql = sql_1c['doc_read_elements_'+param.readChildLevel]()
 		sql += ' ORDER BY sort'
 		param.sql=sql
+		if($scope.request.parameters.jsonId == readDocData.docId)
+			console.log(param.readChildLevel, $scope.request.parameters.jsonId, readDocData.docId, readDocData.doc_id, readDocData)
 		/*
-	console.log(param.sql)
 	console.log($scope.tables.list[0])
 	console.log(param_readDoc)
 	console.log(param_readDoc.doc_id)
 		readSql(param_readDoc, o)
 		 */
-		readSqlToObjData(param, $scope.doc_data, readDocData)
+		readSqlToObjData(param, $scope.doc_data, readDocData, $scope)
 	}
 }
 
@@ -488,6 +490,7 @@ sql_1c.doc_read_elements = function(){
 	"LEFT JOIN (SELECT double_id, value vreal FROM double) r ON double_id=d1.doc_id \n" +
 	"LEFT JOIN (SELECT doc_id, s.value string_reference FROM doc LEFT JOIN string s ON string_id=doc_id ) d2 ON d2.doc_id=d1.reference \n" +
 	"LEFT JOIN (SELECT doc_id, s.value string_reference2 FROM doc LEFT JOIN string s ON string_id=doc_id ) d3 ON d3.doc_id=d1.reference2 \n" +
+	"LEFT JOIN (SELECT inn_id, inn inn_reference2 FROM inn ) n2 ON n2.inn_id=d1.reference2 \n" +
 	"WHERE d1.doc_id IN "
 	}
 sql_1c.doc_insert_string = function(){

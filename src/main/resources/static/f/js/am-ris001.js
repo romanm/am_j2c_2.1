@@ -76,13 +76,22 @@ var writeSql = function(data){
 	})
 }
 
-function readSqlToObjData(param, objProgram, objData){
+function readSqlToObjData(param, objProgram, objData, $scope){
+	if(objProgram.stopDeepRead)
+		return
+	console.log(12345)
 	replaceParams(param)
 	if(!objProgram)
 		objProgram = param
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
 	param,
 	function(response) {
+		if(response.data.list.length > 100){
+			objProgram.stopDeepRead = true
+//			if($scope.request.parameters.jsonId == objData.docId)
+//				console.log(response.data.list.length, param)
+		}else{
+		}
 //		params.list = response.data.list
 		if(param.afterRead)
 			param.afterRead(response)
