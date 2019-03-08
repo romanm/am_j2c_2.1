@@ -90,8 +90,10 @@ function readSqlToObjData(param, objProgram, objData, $scope){
 			objProgram.stopDeepRead = true
 //			if($scope.request.parameters.jsonId == objData.docId)
 //				console.log(response.data.list.length, param)
-		}else{
 		}
+		angular.forEach(response.data.list, function(v){
+			$scope.datadictionary.elementsMap[v.doc_id] = v
+		})
 //		params.list = response.data.list
 		if(param.afterRead)
 			param.afterRead(response)

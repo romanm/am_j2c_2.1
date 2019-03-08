@@ -1,5 +1,5 @@
 <ul class="am-ul">
-	<li ng-repeat="el in elParent.children">
+	<li ng-repeat="el in elParent.children | filter : elParent.seekInChildren">
 		<div class="w3-hover-shadow" 
 		data-ng-paste="cp.paste(el)"
 		data-ng-cut="cp.cut(el)"
@@ -48,8 +48,9 @@
 			</span> 
 				{{el.vreal}} 
 			<span data-ng-if="el.string_reference">- {{el.string_reference}} </span>
-			<span data-ng-if="el.inn_reference2">- {{el.inn_reference2}} </span>
-			<span data-ng-if="el.string_reference2">-- {{el.string_reference2}} </span>
+			<span data-ng-if="el.inn_reference2"
+				data-ng-bind-html="highlight(el.inn_reference2, elParent.seekInChildren)"></span>
+				<span data-ng-if="el.string_reference2">-- {{el.string_reference2}} </span>
 			<sub
 				class="w3-tiny"
 				title="{{doctypes_level2.map[el.doctype].p1_doctype
@@ -82,6 +83,10 @@
 			</span>
 		</div>
 		<div ng-if="!el.isClosedTree && el.children">
+			<input class="w3-border" 
+			data-ng-model="el.seekInChildren"
+			data-ng-if="el.children.length>100">
+			{{el.seekInChildren}}
 			<div ng-repeat="elParent in [el]"
 				ng-include="'/f/am-dev/1c-db-tables2/doc_element.html'"></div>
 		</div>

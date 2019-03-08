@@ -1,8 +1,25 @@
 var init_j2c_table_editor = function($scope, $http, $filter){
 	$scope.cp = {}
+
 	$scope.cp.clickTree = function(el){
 		el.isClosedTree = !el.isClosedTree
+		console.log(el.parent, el, el.children)
+//		console.log(el.parent, el, $scope.datadictionary.elementsMap[el.parent])
+		if(!el.children){
+			var sql = sql_1c.doc_read_elements_0() + ' ORDER BY sort'
+			sql = sql.replace(':docId', el.doc_id)
+			readSql({ 
+				sql:sql,
+				afterRead:function(response){
+					console.log(response.data.list.length, response.data.list, el)
+					if(response.data.list.length>0){
+						el.children = response.data.list
+					}
+				}
+			})
+		}
 	}
+
 	$scope.cp.copy = function(el, data_type){
 		el.data_type = data_type
 		this.copyEl = el
@@ -25,12 +42,14 @@ var init_j2c_table_editor = function($scope, $http, $filter){
 			},
 		})
 	}
+
 	$scope.cp.cut = function(el, copy_type){
 		this.cutEl = el
 		if(copy_type)
 			this.cutEl.copy_type = copy_type
 		console.log(this)
 	}
+
 	$scope.cp.paste = function(el){
 		console.log(this)
 		this.pasteEl = el
