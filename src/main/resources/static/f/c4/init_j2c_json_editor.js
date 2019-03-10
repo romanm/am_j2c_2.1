@@ -3,7 +3,7 @@ var init_j2c_table_editor = function($scope, $http, $filter){
 
 	$scope.cp.clickTree = function(el){
 		el.isClosedTree = !el.isClosedTree
-		console.log(el.parent, el, el.children)
+		console.log(el.parent, el.doc_id, el, el.children)
 //		console.log(el.parent, el, $scope.datadictionary.elementsMap[el.parent])
 		if(!el.children){
 			var sql = sql_1c.doc_read_elements_0() + ' ORDER BY sort'
@@ -14,6 +14,7 @@ var init_j2c_table_editor = function($scope, $http, $filter){
 					console.log(response.data.list.length, response.data.list, el)
 					if(response.data.list.length>0){
 						el.children = response.data.list
+						el.isClosedTree = false
 					}
 				}
 			})
