@@ -348,9 +348,9 @@ $scope.doc_data.readData = function(param, readDocData){
 		var sql = sql_1c['doc_read_elements_'+param.readChildLevel]()
 		sql += ' ORDER BY sort'
 		param.sql=sql
+		/*
 		if($scope.request.parameters.jsonId == readDocData.docId)
 			console.log(param.readChildLevel, $scope.request.parameters.jsonId, readDocData.docId, readDocData.doc_id, readDocData)
-		/*
 	console.log($scope.tables.list[0])
 	console.log(param_readDoc)
 	console.log(param_readDoc.doc_id)

@@ -707,6 +707,7 @@ sql_1c.folders = function(){
 	}
 
 function readSqlToObjData(param, objProgram, objData){
+	console.log(111222333)
 	replaceParams(param)
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
 	param,

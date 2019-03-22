@@ -79,13 +79,11 @@ var writeSql = function(data){
 function readSqlToObjData(param, objProgram, objData, $scope){
 	if(objProgram.stopDeepRead)
 		return
-	console.log(12345)
 	replaceParams(param)
 	if(!objProgram)
 		objProgram = param
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
-	param,
-	function(response) {
+	param, function(response) {
 		if(response.data.list.length > 100){
 			objProgram.stopDeepRead = true
 //			if($scope.request.parameters.jsonId == objData.docId)
@@ -93,6 +91,9 @@ function readSqlToObjData(param, objProgram, objData, $scope){
 		}
 		angular.forEach(response.data.list, function(v){
 			$scope.datadictionary.elementsMap[v.doc_id] = v
+			if(v.reference == 122593){// bigdata
+				objProgram.stopDeepRead = true
+			}
 		})
 //		params.list = response.data.list
 		if(param.afterRead)
