@@ -15,6 +15,7 @@
 						aria-hidden="true"></i>
 						 &nbsp;
 					</span>
+					<span class="w3-tiny">{{el.doc_id}}</span>
 				</span>
 				<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
 					style="left: -5px; width: 180px">
@@ -41,13 +42,12 @@
 							class="w13-bar-item w3-button"><i class="fa fa-paste"></i></a>
 					</div>
 				</div>
-			</span> <span class=""> <span ng-if="!el.value"
-				class="w3-tiny"> <span data-ng-if="!el.reference">el_</span>{{el.doc_id}}
-			</span> <span title=" col_{{el.doc_id}}" ng-if="el.value">
-					{{el.value}} </span> {{el.vreal}} <span data-ng-if="el.string_reference">-
-					{{el.string_reference}} </span> <span data-ng-if="el.inn_reference2"
+			</span> <span class=""> {{el.value}} {{el.vreal}} <span
+				data-ng-if="el.string_reference"> - <span class="w3-tiny">{{el.reference}}</span>
+					{{el.string_reference}}
+			</span> <span data-ng-if="el.inn_reference2"
 				data-ng-bind-html="highlight(el.inn_reference2, elParent.seekInChildren)"></span>
-				<span data-ng-if="el.string_reference2">--
+				<span data-ng-if="el.string_reference2"> --
 					{{el.string_reference2}} </span> <sub class="w3-tiny"
 				title="{{doctypes_level2.map[el.doctype].p1_doctype
 				}}.{{doctypes_level2.map[el.doctype].doctype}} {{el.doc_id}}">[{{el.doctype}}]
