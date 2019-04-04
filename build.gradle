@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.1.3.RELEASE'
+		springBootVersion = '2.1.4.RELEASE'
 		//springBootVersion = '2.1.0.RELEASE'
 	}
 	repositories {
@@ -35,7 +35,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile 'org.springframework.boot:spring-boot-starter-mail'
 	compile('org.springframework.boot:spring-boot-starter-web')
-	runtime('com.h2database:h2')
+	runtime('com.h2database:h2:1.4.199')
 	runtimeOnly('org.postgresql:postgresql')
 	compile 'org.webjars:font-awesome:5.0.6'
 	compile 'org.webjars:font-awesome:4.7.0'

@@ -267,9 +267,9 @@ $scope.doc_data.addElement=function(o){
 	}
 	writeSql(data)
 }
-$scope.doc_data.downElement=function(o){this.upDowntElement(o, 1)}
-$scope.doc_data.upElement=function(o){this.upDowntElement(o, -1)}
-$scope.doc_data.upDowntElement=function(o, direction){
+$scope.doc_data.downElement = function(o){this.upDowntElement(o, 1)}
+$scope.doc_data.upElement = function(o){this.upDowntElement(o, -1)}
+$scope.doc_data.upDowntElement = function(o, direction){
 //	var oParent = this.elementsMap[o.parent]
 		var oParent = $scope.doc_data_workdata.elementsMap[o.parent]
 		console.log(oParent.children)

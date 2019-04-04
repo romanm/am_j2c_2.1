@@ -47,8 +47,9 @@
 					{{el.string_reference}}
 			</span> <span data-ng-if="el.inn_reference2"
 				data-ng-bind-html="highlight(el.inn_reference2, elParent.seekInChildren)"></span>
-				<span data-ng-if="el.string_reference2"> --
-					{{el.string_reference2}} </span> <sub class="w3-tiny"
+				<span data-ng-if="el.string_reference2"> -- <span
+					class="w3-tiny"> {{el.reference2}} </span> {{el.string_reference2}}
+			</span> <sub class="w3-tiny"
 				title="{{doctypes_level2.map[el.doctype].p1_doctype
 				}}.{{doctypes_level2.map[el.doctype].doctype}} {{el.doc_id}}">[{{el.doctype}}]
 			</sub> <span data-ng-if="el.reference"> <span class="am-b"
