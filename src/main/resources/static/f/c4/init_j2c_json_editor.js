@@ -21,6 +21,9 @@ var init_j2c_table_editor = function($scope, $http, $filter){
 		}
 	}
 
+	$scope.saveJsonDocBody = function(){
+		console.log($scope.doc_data_workdata.tableRoot.docRoot)
+	}
 	$scope.cp.copy = function(el, data_type){
 		el.data_type = data_type
 		this.copyEl = el
@@ -361,8 +364,8 @@ $scope.doc_data.readData = function(param, readDocData){
 }
 
 $scope.doc_data.afterRead=function(response, param, readDocData){
-//		console.log($scope.doc_data.tableRoot)
 //		console.log(param)
+//		console.log($scope.doc_data.tableRoot)
 		//console.log($scope.tables)
 		readDocData.list = response.data.list
 		//console.log(readDocData.list)
