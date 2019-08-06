@@ -50,12 +50,11 @@
 		</span> <span class="w3-small"
 			data-ng-if="(o.list[$index].parent>0 && o.list[$index+1].parent==o.list[$index].parent) 
 			&& !(o.list[$index].parent>0 && o.list[$index-1].parent==o.list[$index].parent)">
-			<span
+				<span
 				data-ng-class="{
 			'w3-green':tr.parent==request.parameters.folderId,
 			}">-</span>
-				<a href="?folderId={{tr.parent}}">
-					{{o.list[$index].parent}}</a>&nbsp;
+				<a href="?folderId={{tr.parent}}"> {{o.list[$index].parent}}</a>&nbsp;
 		</span> <span class="w3-small"
 			data-ng-if="o.list[$index].parent>0 && o.list[$index-1].parent==o.list[$index].parent">
 				<span
@@ -64,9 +63,8 @@
 			}">+</span>
 				<a href="?folderId={{o.list[$index].parent}}">
 					{{o.list[$index].parent}}</a>&nbsp;
-		</span> <a title="{{tr.parent}}" href="?folderId={{tr.doc_id}}"> <span
-				class="w3-tiny">{{tr.doc_id}}</span> {{tr.value}}
-		</a>
+		</span> <span class="w3-tiny">{{tr.doc_id}}</span>&nbsp;<a title="{{tr.parent}}"
+			href="?folderId={{tr.doc_id}}">{{tr.value}}</a>
 			<div class="w3-panel w3-leftbar" data-ng-if="tr.openSubFolder">
 				<a href="?folderId={{tr.parent}}" class="w3-hover-shadow"><i
 					class="fa fa-arrow-up" aria-hidden="true"></i></a> | <span
