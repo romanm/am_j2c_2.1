@@ -6,7 +6,7 @@ var init_j2c_table_editor = function($scope, $http, $filter){
 		console.log(el.parent, el.doc_id, el, el.children)
 //		console.log(el.parent, el, $scope.datadictionary.elementsMap[el.parent])
 		if(!el.children){
-			var sql = sql_1c.doc_read_elements_0() + ' ORDER BY sort'
+			var sql = sql_1c.doc_read_elements_0() + ' ORDER BY sort LIMIT 200'
 			sql = sql.replace(':docId', el.doc_id)
 			readSql({ 
 				sql:sql,
@@ -508,10 +508,12 @@ sql_1c.doc_read_elements_0 = function(){
 sql_1c.doc_read_elements = function(){
 	return "SELECT * FROM doc d1 \n" +
 	"LEFT JOIN string ON string_id=d1.doc_id \n" +
+	"LEFT JOIN (SELECT *, value s_u FROM string_u) string_u ON string_u_id=d1.doc_id \n" +
 	"LEFT JOIN docbody ON docbody_id=d1.doc_id \n" +
 	"LEFT JOIN sort ON sort_id=d1.doc_id \n" +
 	"LEFT JOIN (SELECT double_id, value vreal FROM double) r ON double_id=d1.doc_id \n" +
 	"LEFT JOIN (SELECT doc_id, s.value string_reference FROM doc LEFT JOIN string s ON string_id=doc_id ) d2 ON d2.doc_id=d1.reference \n" +
+	"LEFT JOIN (SELECT doc_id, s.value s_u_reference FROM doc LEFT JOIN string_u s ON string_u_id=doc_id ) d2u ON d2u.doc_id=d1.reference \n" +
 	"LEFT JOIN (SELECT doc_id, s.value string_reference2 FROM doc LEFT JOIN string s ON string_id=doc_id ) d3 ON d3.doc_id=d1.reference2 \n" +
 	"LEFT JOIN (SELECT inn_id, inn inn_reference2 FROM inn ) n2 ON n2.inn_id=d1.reference2 \n" +
 	"WHERE d1.doc_id IN "
