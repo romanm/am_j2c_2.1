@@ -115,6 +115,7 @@ function replaceParams(params){
 //	console.log(params)
 //	params.sql = params.sql.replace('\n','')
 //	console.log(params.sql)
+	return params
 }
 
 function readSql(params, obj){
