@@ -8,22 +8,23 @@ var init_j2c_table_editor = function($scope, $http, $filter){
 		if(!el.children){
 			var sql = sql_1c.doc_read_elements_0() + ' ORDER BY sort LIMIT 200'
 			sql = sql.replace(':docId', el.doc_id)
-			readSql({ 
-				sql:sql,
-				afterRead:function(response){
-					console.log(response.data.list.length, response.data.list, el)
-					if(response.data.list.length>0){
-						el.children = response.data.list
-						el.isClosedTree = false
-					}
+			readSql({ sql:sql, afterRead:function(response){
+				console.log(response.data.list.length, response.data.list, el)
+				if(response.data.list.length>0){
+					angular.forEach(response.data.list, function(v){
+						$scope.doc_data_workdata.elementsMap[v.doc_id] = v
+					})
+					el.children = response.data.list
+					el.isClosedTree = false
 				}
-			})
+			}})
 		}
 	}
 
 	$scope.saveJsonDocBody = function(){
 		console.log($scope.doc_data_workdata.tableRoot.docRoot)
 	}
+
 	$scope.cp.copy = function(el, data_type){
 		el.data_type = data_type
 		this.copyEl = el
@@ -275,8 +276,7 @@ $scope.doc_data.upElement = function(o){this.upDowntElement(o, -1)}
 $scope.doc_data.upDowntElement = function(o, direction){
 //	var oParent = this.elementsMap[o.parent]
 		var oParent = $scope.doc_data_workdata.elementsMap[o.parent]
-		console.log(oParent.children)
-		console.log(oParent.children.length)
+		console.log(o, oParent, $scope.doc_data_workdata.elementsMap)
 		var position = oParent.children.indexOf(o)
 		console.log(position)
 		console.log(direction)
