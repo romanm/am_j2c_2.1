@@ -5,7 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-
 <!-- 
 <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"/>
 	<bean id ="passwordEncoder" class = "org.springframework.security.crypto.NoOpPasswordEncoder" factory-method = "getInstance" />
@@ -13,14 +12,14 @@
  -->
 	<!-- БД основна -->
 	<bean id="dataSourceDb2" class="com.zaxxer.hikari.HikariDataSource"
-		destroy-method="close"  primary="true">
+		destroy-method="close" primary="true">
 		<property name="driverClassName" value="org.h2.Driver" />
 		<property name="jdbcUrl" value="${config.dataSourceDb2.url}" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 	</bean>
 	<!-- 
-	 <bean id="transactionManager2"
+	<bean id="transactionManager2"
         class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSourceDb2" />
         <property name="rollbackOnCommitFailure" value="true" />
@@ -46,19 +45,18 @@
 		<constructor-arg ref="db1ParamJdbcTemplate" />
 	</bean>
 	<bean id="db2ExecuteSqlBlock"
-  	class="com.algoritmed.nosql.ExecuteSqlBlock">
-    <constructor-arg ref="db2JdbcTemplate" />
-    <constructor-arg ref="db2ParamJdbcTemplate" />
-  </bean>
+		class="com.algoritmed.nosql.ExecuteSqlBlock">
+		<constructor-arg ref="db2JdbcTemplate" />
+		<constructor-arg ref="db2ParamJdbcTemplate" />
+	</bean>
 
-  <bean id="db1ParamJdbcTemplate"
+	<bean id="db1ParamJdbcTemplate"
 		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-arg ref="dataSourceDb1" />
 	</bean>
 	<bean id="db1JdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg ref="dataSourceDb1" />
 	</bean>
-	
 
 	<bean id="db2ParamJdbcTemplate"
 		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
